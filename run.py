@@ -18,7 +18,7 @@ def authenticate():
 
 
 def run():
-	app = Flask('Judge93', static_folder='project/statics', 
+	app = Flask('ElmosJudge93', static_folder='project/statics', 
 			template_folder='project/templates')
 	app.register_blueprint(user)
 	app.secret_key = '.g2He35T9TQhTxth3IPj75KP5zQDAmXaZWiVz1FwCKAWs3Oi'
