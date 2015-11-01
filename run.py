@@ -8,12 +8,13 @@ from flask import Flask, session, request
 
 #project import
 from project.apps.user import user
+from project.utils.access import logged_in_user
 
 
 def authenticate():
 	without_login_url_list = ('static', 'user.login', 'user.signup')
 	if request.endpoint not in without_login_url_list:
-		if not 'username' in session:
+		if not logged_in_user():
 			return "please login first"
 
 
