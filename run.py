@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'AminHP'
 
+#mongo import
+from mongoengine import connect
 
 # flask import
 from flask import Flask, session, request
@@ -19,6 +21,7 @@ def authenticate():
 
 
 def run():
+	connect('judge93')
 	app = Flask('ElmosJudge93', static_folder='project/statics', 
 			template_folder='project/templates')
 	app.register_blueprint(user)
