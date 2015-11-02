@@ -2,7 +2,7 @@
 __author__ = 'AminHP'
 
 # python imports
-from mongoengine import Document, StringField, IntField, ReferenceField, ListField, EmbeddedDocument, EmbeddedDocumentField
+from mongoengine import Document, StringField, IntField, DateTimeField, ReferenceField, ListField, EmbeddedDocument, EmbeddedDocumentField
 
 
 class TeamInfo(EmbeddedDocument):
@@ -13,4 +13,6 @@ class TeamInfo(EmbeddedDocument):
 class Contest(Document):
 	owner = ReferenceField('User', required=True)
 	name = StringField(required=True)
+	start_time = DateTimeField(required=True)
+	duration = IntField(required=True)
 	teams = ListField(EmbeddedDocumentField(TeamInfo))
