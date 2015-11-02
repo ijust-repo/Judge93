@@ -10,7 +10,3 @@ class Team(Document):
 	name = StringField(required=True)
 	members = ListField(ReferenceField('User'))
 	contests = ListField(ReferenceField('Contest'))
-
-
-	def __init__(self):
-		self.members = []
