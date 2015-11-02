@@ -1,0 +1,15 @@
+<html>
+<head>
+</head>
+
+<body>
+
+	<form method="POST" action="/user/signup/">
+		{{ form.csrf_token }}
+		<p>username: {{ form.username }} </p>
+		<p>password: {{ form.password }} </p>
+		<input type="submit" value="Signup">
+	</form>
+
+</body>
+</html>

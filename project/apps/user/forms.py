@@ -10,3 +10,7 @@ class Login(Form):
     username = StringField(validators=[validators.DataRequired()])
     password = PasswordField(validators=[validators.DataRequired()])
 
+
+class Signup(Form):
+    username = StringField(validators=[validators.DataRequired()])
+    password = PasswordField(validators=[validators.DataRequired()])
