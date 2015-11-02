@@ -7,6 +7,6 @@ from mongoengine import Document, StringField, ReferenceField, ListField
 
 class Team(Document):
 	owner = ReferenceField('User', required=True)
-	name = StringField(required=True)
+	name = StringField(required=True, unique=True)
 	members = ListField(ReferenceField('User'))
 	contests = ListField(ReferenceField('Contest'))
