@@ -10,6 +10,8 @@ from flask import Flask, session, request
 
 #project import
 from project.apps.user import user
+from project.apps.team import team
+from project.apps.contest import contest
 from project.utils.access import logged_in_user
 
 
@@ -25,6 +27,8 @@ def run():
 	app = Flask('ElmosJudge93', static_folder='project/statics', 
 			template_folder='project/templates')
 	app.register_blueprint(user)
+	app.register_blueprint(team)
+	app.register_blueprint(contest)
 	app.secret_key = '.g2He35T9TQhTxth3IPj75KP5zQDAmXaZWiVz1FwCKAWs3Oi'
 	app.before_request(authenticate)
 	app.run(host='0.0.0.0')
