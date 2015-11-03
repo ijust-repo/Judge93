@@ -3,7 +3,7 @@ __author__ = 'AminHP'
 
 
 #flask import
-from flask import request, render_template
+from flask import jsonify, request, render_template
 
 #project import
 from project.apps.user import user
@@ -18,29 +18,50 @@ from mongoengine import DoesNotExist, NotUniqueError
 
 
 
-@user.route('login/', methods=['GET', 'POST'])
+@user.route('login/', methods=['GET'])
 def login():
-	form = Login()
-	if request.method == 'POST':
+	return render_template('login.html')
+
+
+@user.route('exists/<string:username>/', methods=['GET'])
+def exists(username):
+	try:
+		User.objects().get(username=username)
+	except DoesNotExist:
+		return "", 404
+	return "", 200
+
+
+@user.route('do_login/', methods=['POST'])
+def do_login():
+	form = Login.from_json(request.json)
+	if form.validate():
 		username = form.data['username']
 		password = form.data['password']
-		if form.validate_on_submit():
-			try:
-				obj = User.objects().get(username=username)
-				if obj.verify_password(password):
-					login_user(username)
-					return "success"
-				else:
-					return "wrong password"
-			except DoesNotExist:
-				return "user not found"
-	return render_template('login.html', form=form)
+		try:
+			obj = User.objects().get(username=username)
+			if obj.verify_password(password):
+				login_user(username)
+				return "", 200
+			else:
+				form.password.errors.append(form.password.gettext('Wrong password.'))
+				return jsonify(errors=form.errors), 401
+		except DoesNotExist:
+			form.username.errors.append(form.username.gettext('Username does not exists.'))
+			return jsonify(errors=form.errors), 401
+	return "", 406
 
 
-@user.route('signup/', methods=['GET', 'POST'])
+
+@user.route('signup/', methods=['GET'])
 def signup():
-	form = Signup()
-	if request.method == 'POST':
+	return render_template('signup.html')
+
+
+@user.route('do_signup/', methods=['POST'])
+def do_signup():
+	form = Signup.from_json(request.json)
+	if form.validate():
 		username = form.data['username']
 		password = form.data['password']
 		if form.validate_on_submit():
@@ -49,12 +70,13 @@ def signup():
 				obj.set_password(password)
 				obj.save()
 			except NotUniqueError:
-				return "user already exists"
-			return "success"
-	return render_template('signup.html', form=form)
+				form.username.errors.append(form.username.gettext('Username already exists.'))
+				return jsonify(errors=form.errors), 409
+			return "", 201
+	return "", 406
 
 
 @user.route('logout/', methods=['GET'])
 def logout():
 	logout_user()
-	return render_template('logout.html')
+	return "", 200

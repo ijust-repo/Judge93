@@ -7,6 +7,7 @@ from mongoengine import connect
 
 # flask import
 from flask import Flask, session, request
+import wtforms_json
 
 #project import
 from project.apps.user import user
@@ -16,13 +17,14 @@ from project.utils.access import logged_in_user
 
 
 def authenticate():
-	without_login_url_list = ('static', 'user.login', 'user.signup')
+	without_login_url_list = ('static', 'user.login', 'user.exists', 'user.do_login', 'user.signup', 'user.do_signup')
 	if request.endpoint not in without_login_url_list:
 		if not logged_in_user():
-			return "please login first"
+			return "please login first", 405
 
 
 def run():
+	wtforms_json.init()
 	connect('judge93')
 	app = Flask('ElmosJudge93', static_folder='project/statics', 
 			template_folder='project/templates')
@@ -30,6 +32,7 @@ def run():
 	app.register_blueprint(team)
 	app.register_blueprint(contest)
 	app.secret_key = '.g2He35T9TQhTxth3IPj75KP5zQDAmXaZWiVz1FwCKAWs3Oi'
+	app.config["WTF_CSRF_ENABLED"] = False
 	app.before_request(authenticate)
 	app.run(host='0.0.0.0')
 
