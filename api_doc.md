@@ -5,10 +5,12 @@
 > In all resources if response status code is **405** then you must login to use that resource.
 
 
-##User API
+User API
+========
 
 
-###View login page
+View login page
+===============
 
 Resource URL
 >GET
@@ -26,7 +28,8 @@ Resource Information
 
 -------
 
-###Checking user existance
+Checking user existance
+=======================
 
 Resource URL
 >GET
@@ -48,7 +51,8 @@ url: /user/exists/admin/
 
 -------
 
-###Login
+Login
+=====
 
 Resource URL
 >POST
@@ -72,7 +76,8 @@ Example Request
 
 --------
 
-###View signup page
+View signup page
+================
 
 Resource URL
 >GET
@@ -90,7 +95,8 @@ Resource Information
 
 -------
 
-###Signup
+Signup
+======
 
 Resource URL
 >POST
@@ -114,7 +120,8 @@ Example Request
 
 --------
 
-###Logout
+Logout
+======
 
 Resource URL
 >GET
