@@ -5,7 +5,7 @@ __author__ = 'AminHP'
 from flask import Blueprint
 
 
-user = Blueprint('contest', __name__,
+contest = Blueprint('contest', __name__,
                  url_prefix='/contest/')
 
 from . import controller
