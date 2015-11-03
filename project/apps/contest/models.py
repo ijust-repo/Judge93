@@ -14,6 +14,8 @@ class Testcase(EmbeddedDocument):
 class Problem(EmbeddedDocument):
 	order = IntField(required=True, unique=True)
 	title = StringField(required=True)
+	time_limit = IntField(required=True)
+	space_limit = IntField(required=True)
 	header = StringField()
 	body = StringField(required=True)
 	testcases = ListField(EmbeddedDocumentField(Testcase))
@@ -35,9 +37,9 @@ class TeamInfo(EmbeddedDocument):
 
 
 class Contest(Document):
+	name = StringField(required=True, unique=True)
 	owner = ReferenceField('User', required=True)
-	name = StringField(required=True)
 	starts_on = DateTimeField(required=True)
 	duration = IntField(required=True)
-	teams = ListField(EmbeddedDocumentField(TeamInfo))
 	problems = ListField(EmbeddedDocumentField(Problem))
+	teams = ListField(EmbeddedDocumentField(TeamInfo))
