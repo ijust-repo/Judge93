@@ -5,7 +5,7 @@ __author__ = 'AminHP'
 from flask import Blueprint
 
 
-user = Blueprint('team', __name__,
+team = Blueprint('team', __name__,
                  url_prefix='/team/')
 
 from . import controller
