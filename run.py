@@ -2,12 +2,9 @@
 # -*- coding: utf-8 -*-
 __author__ = 'AminHP'
 
-#mongo import
-from mongoengine import connect
-
-# flask import
-from flask import Flask, session, request
-import wtforms_json
+#python import
+import sys
+import subprocess
 
 #project import
 from project.apps.user import user
@@ -24,6 +21,12 @@ def authenticate():
 
 
 def run():
+	# mongo import
+	from mongoengine import connect
+	# flask import
+	from flask import Flask, session, request
+	import wtforms_json
+
 	wtforms_json.init()
 	connect('judge93')
 	app = Flask('ElmosJudge93', static_folder='project/statics', 
@@ -38,4 +41,9 @@ def run():
 
 
 if __name__ == '__main__':
-	run()
+	if len(sys.argv) > 1:
+		arg = (sys.argv[1])
+		if arg == 'update_packages':
+			subprocess.call(['pip', 'install', '-r', 'requirements'])
+	else:
+		run()
