@@ -33,7 +33,7 @@ Checking user existance
 
 Resource URL
 >GET
-**/user/exists/```string:username```**
+**/user/exists/```string:username```/*
 
 Resource Information
 >|Response formats|Requires authentication?|
