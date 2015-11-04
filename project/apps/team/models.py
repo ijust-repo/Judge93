@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AminHP & Kia'
+__author__ = 'AminHP'
 
 # python imports
 from mongoengine import Document, StringField, ReferenceField, ListField
@@ -11,5 +11,3 @@ class Team(Document):
 	members = ListField(ReferenceField('User'))
 	contests = ListField(ReferenceField('Contest'))
 
-	def set_name(self, name):
-		self.name = name
