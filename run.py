@@ -13,14 +13,6 @@ from project.apps.contest import contest
 from project.utils.access import logged_in_user
 
 
-def authenticate():
-	# flask import
-	from flask import Flask, session, request
-	without_login_url_list = ('static', 'user.login', 'user.exists', 'user.do_login', 'user.signup', 'user.do_signup')
-	if request.endpoint not in without_login_url_list:
-		if not logged_in_user():
-			return "please login first", 405
-
 
 def run_test():
 	# mongo import
@@ -28,6 +20,12 @@ def run_test():
 	# flask import
 	from flask import Flask, session, request
 	import wtforms_json
+
+	def authenticate():
+		without_login_url_list = ('static', 'user.login', 'user.exists', 'user.do_login', 'user.signup', 'user.do_signup')
+		if request.endpoint not in without_login_url_list:
+			if not logged_in_user():
+				return "please login first", 405
 
 	wtforms_json.init()
 	connect('judge93')
