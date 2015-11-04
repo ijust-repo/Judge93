@@ -8,8 +8,8 @@ from flask import jsonify, request, render_template
 #project import
 from project.apps.user import user
 from project.apps.team import team
-from project.apps.team.forms import AddTeam
-from project.utils.access import login_user, logout_user
+from project.apps.team.forms import CreateTeam
+from project.utils.access import login_user, logout_user, logged_in_user
 
 from project.apps.user.models import User
 from project.apps.team.models import Team
@@ -19,25 +19,49 @@ from mongoengine import DoesNotExist, NotUniqueError
 
 
 
-@team.route('add/', methods=['GET'])
-def add():
-	return render_template('add_team.html')
+@team.route('/', methods=['GET'])
+def team_page():
+	return render_template('team.html')
 
 
-@user.route('add_request/<string:name>/', methods=['GET'])
-def add_request(name):
-	form = AddTeam.from_json(request.json)
+@team.route('create/', methods=['POST'])
+def create():
+	form = CreateTeam.from_json(request.json)
 	if form.validate():
+
+		
 		name = form.data['name']
-	if form.validate_on_submit():
+		members = form.data ['members']
+		
+		if (len(members) > 2) :
+			form.members.errors.append(form.members.gettext('Number of members must be under three!'))
+			return jsonify(errors=form.errors), 401
+			#return "", 401
 		try:
-			#Team.objects().get(name=name)
-			obj = team(name=name)
-			obj.set_name(name)
-			obj.save()
-			return "", 200
+			user_obj = User.objects().get(username=logged_in_user())
+			team_obj = Team(name=name)
+			team_obj.owner = user_obj
+			members_list = [user_obj]
+			for i in members:
+				if (i == logged_in_user()):
+					form.members.errors.append(form.members.gettext('Owner is one of members by default!'))
+					return jsonify(errors=form.errors), 401
+				if (User.objects().get(username=i) not in members_list):
+					members_list.append (User.objects().get(username=i))
+				else:
+					form.members.errors.append(form.members.gettext('No one can be added twice!'))
+					return jsonify(errors=form.errors), 401
+			team_obj.members = members_list
+			team_obj.save()
+			return "", 201
+		except DoesNotExist:
+			form.members.errors.append(form.members.gettext('User dose not exist!'))
+			return jsonify(errors=form.errors), 401
+			#return "", 410
 		except NotUniqueError:
 			return "", 409
-		
+
+	return "", 406
+			
 
 
