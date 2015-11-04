@@ -20,7 +20,7 @@ def authenticate():
 			return "please login first", 405
 
 
-def run():
+def run_test():
 	# mongo import
 	from mongoengine import connect
 	# flask import
@@ -40,10 +40,29 @@ def run():
 	app.run(host='0.0.0.0', debug=True)
 
 
+def help():
+    print('''
+Judge93 Project
+python run.py [COMMAND]
+COMMAND:
+    test
+        run judge93 app in test and debug mode.
+
+    update_packages
+        update project packages using python pip.
+
+        '''
+          )
+
+
 if __name__ == '__main__':
 	if len(sys.argv) > 1:
 		arg = (sys.argv[1])
-		if arg == 'update_packages':
+		if arg == 'test':
+			run_test()
+		elif arg == 'update_packages':
 			subprocess.call(['pip', 'install', '-r', 'requirements'])
+		else:
+			help()
 	else:
-		run()
+		help()
