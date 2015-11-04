@@ -34,7 +34,7 @@ def run():
 	app.secret_key = '.g2He35T9TQhTxth3IPj75KP5zQDAmXaZWiVz1FwCKAWs3Oi'
 	app.config["WTF_CSRF_ENABLED"] = False
 	app.before_request(authenticate)
-	app.run(host='0.0.0.0')
+	app.run(host='0.0.0.0', debug=True)
 
 
 if __name__ == '__main__':
