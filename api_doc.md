@@ -1,6 +1,8 @@
-#ElmosJudge93 v0.1 API DOC
+ElmosJudge93 v0.1 API DOC
+=========================
 
-# APIs Usage
+APIs Usage
+==========
 
 > In all resources if response status code is **405** then you must login to use that resource.
 
@@ -33,7 +35,7 @@ Checking user existance
 
 Resource URL
 >GET
-**/user/exists/```string:username```**
+**/user/exists/```string:username```/*
 
 Resource Information
 >|Response formats|Requires authentication?|
