@@ -3,8 +3,9 @@ __author__ = 'Kia'
 
 # flask imports
 from flask.ext.wtf import Form
-from wtforms import StringField, validators
+from wtforms import StringField,SelectMultipleField, validators, FieldList
 
 
-class AddTeam(Form):
-    name = StringField(validators=[validators.DataRequired()])
+class CreateTeam(Form):
+	name = StringField(validators=[validators.DataRequired()])
+	members = FieldList(StringField())
