@@ -14,6 +14,8 @@ from project.utils.access import logged_in_user
 
 
 def authenticate():
+	# flask import
+	from flask import Flask, session, request
 	without_login_url_list = ('static', 'user.login', 'user.exists', 'user.do_login', 'user.signup', 'user.do_signup')
 	if request.endpoint not in without_login_url_list:
 		if not logged_in_user():
