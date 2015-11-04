@@ -1,6 +1,8 @@
-#ElmosJudge93 v0.1 API DOC
+ElmosJudge93 v0.1 API DOC
+=========================
 
-# APIs Usage
+APIs Usage
+==========
 
 > In all resources if response status code is **405** then you must login to use that resource.
 
