@@ -7,8 +7,8 @@ from flask import jsonify, request, render_template
 
 #project import
 from project.apps.user import user
-from project.apps.user.forms import Login, Signup
-from project.utils.access import login_user, logout_user
+from project.apps.user.forms import Login, Signup, ChangeUser
+from project.utils.access import login_user, logout_user, logged_in_user
 
 from project.apps.user.models import User
 from project.apps.team.models import Team
@@ -80,3 +80,33 @@ def do_signup():
 def logout():
 	logout_user()
 	return "", 200
+
+
+########## change user profile ##########
+__author__ = 'Aref'
+
+@user.route('change_user/', methods=['POST'])
+def change_user():
+        form = ChangeUser.from_json(request.json)
+        if form.validate():
+                pastUsername = logged_in_user()
+                newUsername = form.data['username']
+                newEmail = form.data['email']
+                obj = User.objects().get(username=pastUsername)
+                if pastUsername == newUsername and obj.email == newEmail :
+                        form.username.errors.append(form.username.gettext('Nothing to change.'))
+                        return jsonify(errors=form.errors), 401
+                else:
+                        try:
+                                newObj = User.objects().get(username=newUsername)
+                                form.username.errors.append(form.username.gettext('Repetitive username.'))
+                                return jsonify(errors=form.errors), 401
+                        
+                        except DoesNotExist:
+                                obj = User.objects().get(username=pastUsername)
+                                obj.username = newUsername
+                                obj.email = newEmail
+                                obj.save()
+                                return "", 200        
+                                
+        return "lol", 406
