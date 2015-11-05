@@ -19,7 +19,7 @@ from mongoengine import DoesNotExist, NotUniqueError
 
 
 @user.route('/', methods=['GET'])
-def user():
+def user_page():
 	return render_template('user.html')
 
 
