@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AminHP'
+__author__ = 'AminHP and Kia'
 
 # python imports
 from mongoengine import Document, StringField, IntField, BooleanField, DateTimeField, ReferenceField, ListField, EmbeddedDocument, EmbeddedDocumentField
 
 
 class Testcase(EmbeddedDocument):
-	order = IntField(required=True, unique=True)
+	order = IntField(required=True, unique=True, sparse=True)
 	input = StringField(required=True)
 	output = StringField(required=True)
 
 
 class Problem(EmbeddedDocument):
-	order = IntField(required=True, unique=True)
+	order = IntField(required=True, unique=True, sparse=True)
 	title = StringField(required=True)
 	time_limit = IntField(required=True)
 	space_limit = IntField(required=True)
@@ -24,14 +24,14 @@ class Problem(EmbeddedDocument):
 
 
 class Result(EmbeddedDocument):
-	problem = ReferenceField('Problem', required=True, unique=True)
+	problem = ReferenceField('Problem', required=True, unique=True, sparse=True)
 	status = StringField()
 	penalty = IntField()
 	solved = BooleanField()
 
 
 class TeamInfo(EmbeddedDocument):
-	team = ReferenceField('Team', required=True, unique=True)
+	team = ReferenceField('Team', required=True, unique=True, sparse=True)
 	problem_results = ListField(EmbeddedDocumentField(Result))
 
 
