@@ -113,6 +113,6 @@ def addMemberToTeam():
         team_obj.save()
         return "members added successfully!",201
     else:
-        return "dont left all forms empty!",406
+        return "don't left all forms empty!",406
 
 
