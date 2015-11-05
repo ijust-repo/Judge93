@@ -22,10 +22,12 @@ def run_test():
 	import wtforms_json
 
 	def authenticate():
-		without_login_url_list = ('static', 'user.login', 'user.exists', 'user.do_login', 'user.signup', 'user.do_signup')
+		if not request.endpoint:
+			return "ERROR 404", 404
+		without_login_url_list = ('user.user_page', 'user.login', 'user.exists', 'user.signup')
 		if request.endpoint not in without_login_url_list:
 			if not logged_in_user():
-				return "", 405
+				return "ERROR 405", 405
 
 	wtforms_json.init()
 	connect('judge93')
