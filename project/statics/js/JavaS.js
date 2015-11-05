@@ -1,29 +1,31 @@
-﻿var Item;
-var Timer;
-document.onclick = CloseMenu;
-      function OpenMenu(Menu) {
-          if (Item) {
-              Item.style.visibility = "hidden";
-          }
+
+$(document).ready(function () {
+$("#signupbtn").click(function() { 
 
 
-          Item = document.getElementById(Menu);
+var username = $("input#username").val();
+var password = $("input#password").val();  
 
-          Item.style.visibility = "visible";
-      }
+	$.ajax({
+            type: "POST",
+            url : '/user/do_signup/',
+				contentType: "application/json",
+            dataType: "json",
+            data: '{"username": "' + username + '", "password" : "' + password + '"}',
+            success: function (data) {
+              $("#result").text(data.username + data.password);
+    			
 
+            },
+            error: function (request, status, error) {
+            	
+              alert( request.status);
+             
+              
+            }
+		});
+	});
+});
+/*****************************************slideshow*********************************/
 
-function CloseMenu() {
-
-    Timer = window.setTimeout(PerformClose, 500);
-}
-function PerformClose() {
-
-    if (Item) {
-
-        Item.style.visibility = "hidden";
-    }
-}
-function KeepSubmenu() {
-    window.clearTimeout(Timer);
-}
+/*****************************************slideshow*********************************/
