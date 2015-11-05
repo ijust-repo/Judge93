@@ -53,14 +53,15 @@ def create():
 
 					form.members.errors.append(form.members.gettext('No one can be added twice!'))
 					return jsonify(errors=form.errors), 401
+			team_obj.members = members_list
+			team_obj.save()
 			user_obj.teams.append (team_obj)
 			user_obj.save()
 			for i in members:
 				user_obj = User.objects().get(username=i)
 				user_obj.teams.append (team_obj)
 				user_obj.save()
-			team_obj.members = members_list
-			team_obj.save()
+
 			return "", 201
 		except DoesNotExist:
 			form.members.errors.append(form.members.gettext('User does not exist!'))
