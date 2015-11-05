@@ -88,20 +88,21 @@ def change_user():
                 newUsername = form.data['username']
                 newEmail = form.data['email']
                 obj = User.objects().get(username=pastUsername)
-                if pastUsername == newUsername and obj.email == newEmail :
+                if pastUsername == newUsername and obj.email == newEmail:
                         form.username.errors.append(form.username.gettext('Nothing to change.'))
                         return jsonify(errors=form.errors), 401
                 else:
                         try:
+                                if pastUsername == newUsername and obj.email != newEmail :
+                                        raise DoesNotExist
                                 newObj = User.objects().get(username=newUsername)
                                 form.username.errors.append(form.username.gettext('Repetitive username.'))
                                 return jsonify(errors=form.errors), 401
                         
                         except DoesNotExist:
-                                obj = User.objects().get(username=pastUsername)
                                 obj.username = newUsername
                                 obj.email = newEmail
                                 obj.save()
                                 return "", 200        
                                 
-        return "lol", 406
+        return "", 406

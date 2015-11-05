@@ -11,7 +11,7 @@ Name: login
 Method: POST
 Url: /user/login/
 Request: {
-  "username": "admin",
+  "username": "admin1",
   "password": "123123"
 }
 
@@ -20,8 +20,8 @@ Name: change_user
 Method: POST
 Url: /user/change_user/
 Request: {
-  "username": "admin2",
-  "email": "123123"
+  "username": "admin1",
+  "email": "aref"
 }
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
