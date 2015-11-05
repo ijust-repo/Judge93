@@ -25,7 +25,7 @@ def run_test():
 		without_login_url_list = ('static', 'user.login', 'user.exists', 'user.do_login', 'user.signup', 'user.do_signup')
 		if request.endpoint not in without_login_url_list:
 			if not logged_in_user():
-				return "please login first", 405
+				return "", 405
 
 	wtforms_json.init()
 	connect('judge93')
