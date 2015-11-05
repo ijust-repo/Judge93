@@ -4,7 +4,8 @@ ElmosJudge93 v0.1 API DOC
 APIs Usage
 ==========
 
-> In all resources if response status code is **405** then the request url or method is invalid or you must login to use that resource.
+> In case url or method does not exist response status code will be **404**.
+> In all resources if response status code is **405** then you must login to use that resource.
 
 
 User API
