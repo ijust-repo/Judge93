@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Kia'
+__author__ = 'Kia' , 'mahnoosh'
 
 
 #flask import
@@ -8,7 +8,7 @@ from flask import jsonify, request, render_template
 #project import
 from project.apps.user import user
 from project.apps.team import team
-from project.apps.team.forms import CreateTeam
+from project.apps.team.forms import CreateTeam , ChangeName
 from project.utils.access import login_user, logout_user, logged_in_user
 
 from project.apps.user.models import User
@@ -72,5 +72,38 @@ def create():
 
 	return "", 406
 			
-
-
+@team.route('change_name/', methods=['POST'])
+def change_team_name():
+	
+	form = ChangeName.from_json(request.json)
+	if form.validate():
+		
+		new_name = form.data['new_name']
+		current_name = form.data['current_name']
+		user_obj = User.objects().get(username = logged_in_user())
+			
+		try:
+			
+			obj = Team.objects().get(name=current_name)
+			if obj.owner== logged_in_user():
+				obj.name = new_name
+				obj.save()
+				return "" , 200
+			else:
+				
+				return jsonify(errors="User is not owner"), 406
+		
+		except DoesNotExist:
+			form.current_name.errors.append(form.current_name.gettext('Team does not exist!'))
+			return jsonify(errors=form.errors), 406
+		
+		except NotUniqueError:
+			form.new_name.errors.append(form.new_name.gettext('This team name already exists.'))
+			return jsonify(errors=form.errors), 409
+		
+					
+	return "" , 406
+	
+	
+	
+	

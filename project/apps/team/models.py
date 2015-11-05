@@ -11,3 +11,5 @@ class Team(Document):
 	members = ListField(ReferenceField('User'))
 	contests = ListField(ReferenceField('Contest'))
 
+	def set_name(self , Name):
+		self.name = Name
