@@ -11,12 +11,12 @@ User API
 ========
 
 
-View login page
+View user page
 ===============
 
 Resource URL
 >GET
-> **/user/login/**
+> **/user/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -58,7 +58,7 @@ Login
 
 Resource URL
 >POST
-**/user/do_login/**
+**/user/login/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -81,31 +81,12 @@ Example Request
 
 --------
 
-View signup page
-================
-
-Resource URL
->GET
-> **/user/signup/**
-
-Resource Information
->|Response formats|Requires authentication?|
-|:-:|:-:|
-|PAGE|NO (must be not authenticated)|
-
-
-> **NOTE:**
->
->- This url returns a html template.
-
--------
-
 Signup
 ======
 
 Resource URL
 >POST
-**/user/do_signup/**
+**/user/signup/**
 
 Resource Information
 >|Response formats|Requires authentication?|

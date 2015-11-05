@@ -19,7 +19,7 @@ from mongoengine import DoesNotExist, NotUniqueError
 
 
 @user.route('/', methods=['GET'])
-def login():
+def user():
 	return render_template('user.html')
 
 
@@ -32,8 +32,8 @@ def exists(username):
 	return "", 200
 
 
-@user.route('do_login/', methods=['POST'])
-def do_login():
+@user.route('login/', methods=['POST'])
+def login():
 	form = Login.from_json(request.json)
 	if form.validate():
 		username = form.data['username']
@@ -53,8 +53,8 @@ def do_login():
 
 
 
-@user.route('do_signup/', methods=['POST'])
-def do_signup():
+@user.route('signup/', methods=['POST'])
+def signup():
 	form = Signup.from_json(request.json)
 	if form.validate():
 		username = form.data['username']
