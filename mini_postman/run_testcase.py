@@ -2,22 +2,22 @@
 # -*- coding: utf-8 -*-
 __author__ = 'AminHP'
 
-import requests as rq
+import requests
 import json
 import sys
 
 
-def send_request(info, headers):
+def send_request(info, req):
 	if info['method'] == 'POST':
-		return rq.post(info['url'], data=info['request'], headers=headers)
+		return req.post(info['url'], data=info['request'])
 	elif info['method'] == 'PUT':
-		rq.put(info['url'], data=info['request'], headers=headers)
+		req.put(info['url'], data=info['request'])
 	elif info['method'] == 'GET':
-		return rq.get(info['url'], headers=headers)
+		return req.get(info['url'])
 	elif info['method'] == 'PATCH':
-		return rq.patch(info['url'], headers=headers)
+		return req.patch(info['url'])
 	elif info['method'] == 'DELETE':
-		return rq.delete(info['url'], headers=headers)
+		return req.delete(info['url'])
 
 def print_response(resp):
 	print "StatusCode: %s\nResponse: %s\n%s\n" % (resp.status_code, resp.text, '-' * 100), 
@@ -26,6 +26,8 @@ def print_response(resp):
 def run_testcase():
 	base_url = 'http://127.0.0.1:5000'
 	headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+	req = requests.Session()
+	req.headers = headers
 
 	with open('testcase.txt', 'r') as testcase:
 		reqs = testcase.read().split('-' * 200)
@@ -45,7 +47,7 @@ def run_testcase():
 			info['url'] = base_url + r[url_index + 5: request_index - 1]
 			info['request'] = r[request_index + 9: -2]
 
-			response = send_request(info, headers)
+			response = send_request(info, req)
 			print_response(response)
 
 if __name__ == '__main__':
