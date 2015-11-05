@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Kia','Amin Hosseini'
+__author__ = ['Kia','Amin Hosseini']
 
 # flask imports
 from flask.ext.wtf import Form
@@ -11,6 +11,5 @@ class CreateTeam(Form):
 	members = FieldList(StringField())
 
 	
-class MemberAdder(Form):
-        TeamName    = StringField(validators=[validators.DataRequired()])
-        TeamMembers = FieldList(StringField())
+class AddMember(Form): #MemberAdder
+        members = FieldList(StringField()) #TeamMembers

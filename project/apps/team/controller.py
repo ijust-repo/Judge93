@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Kia',"Amin Hosseini"
+__author__ = ['Kia',"Amin Hosseini"]
 
 
 #flask import
@@ -8,7 +8,7 @@ from flask import jsonify, request, render_template
 #project import
 from project.apps.user import user
 from project.apps.team import team
-from project.apps.team.forms import CreateTeam, AddMemberToTeam
+from project.apps.team.forms import CreateTeam, AddMember
 from project.utils.access import login_user, logout_user, logged_in_user
 
 from project.apps.user.models import User
@@ -67,42 +67,42 @@ def create():
 	return "", 406
 
 
-@team.route('addMemberToTeam/',methods=['POST'])
+@team.route('addMemberToTeam/<string:teamname>/',methods=['POST','GET'])
 def addMemberToTeam():
-    form = AddMemberToTeam.from_json(request.json)
+    form = AddMember.from_json(request.json)
     if form.validate():
-        name = form.data['TeamName']
+        name = teamname
 	members = form.data ['TeamMembers']
 	try:
             user_obj = User.objects.get(username=logged_in_user())
 
         except DoesNotExist:
-            form.TeamMembers.errors.append(form.TeamMembers.gettext('User does not exist!'))
+            form.members.errors.append(form.members.gettext('User does not exist!'))
 	    return jsonify(errors=form.errors), 401
 
 	try:
             team_obj = Team(name=name)
 
         except DoesNotExist:
-            form.TeamName.errors.append(form.TeamName.gettext('Team does not exist create it first!'))
+            form.members.errors.append(form.members.gettext('Team does not exist create it first!'))
 	    return jsonify(errors=form.errors), 401
 
 	if not team_obj.owner == user_obj.username:
-            return "you aren't team owner!",403
+            return form
         
 
         if len(team_obj.members) + len(members) > 3:
-            form.TeamMembers.errors.append(form.TeamMembers.gettext('Number of members must be under three!'))
+            form.members.errors.append(form.members.gettext('Number of members must be under three!'))
 	    return jsonify(errors=form.errors), 401
 
 	if user_obj in members:
-            form.TeamMembers.errors.append(form.TeamMembers.gettext('you already are in the team members remove yourself from the list!'))
+            form.members.errors.append(form.members.gettext('you already are in the team members remove yourself from the list!'))
 	    return jsonify(errors=form.errors), 401
 
 	for member in members:
             assistantMembers = team_obj.members
             if member in assistantMembers:
-                form.TeamMembers.errors.append(form.TeamMembers.gettext('No one can be added twice!'))
+                form.members.errors.append(form.TeamMembers.gettext('No one can be added twice!'))
 		return jsonify(errors=form.errors), 401
 	    else:
                 team_obj.members.append(member)
@@ -111,8 +111,8 @@ def addMemberToTeam():
                 u.save()
 
         team_obj.save()
-        return "members added successfully!",201
+        return "members added successfully!",200
     else:
-        return "don't left all forms empty!",406
+        return "",406
 
 
