@@ -39,7 +39,7 @@ def run_test():
 	app.secret_key = '.g2He35T9TQhTxth3IPj75KP5zQDAmXaZWiVz1FwCKAWs3Oi'
 	app.config["WTF_CSRF_ENABLED"] = False
 	app.before_request(authenticate)
-	app.run(host='0.0.0.0', debug=True)
+	app.run(host='127.0.0.1', debug=True)
 
 
 def help():

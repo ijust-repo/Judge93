@@ -111,7 +111,7 @@ def addMemberToTeam():
                 u.save()
 
         team_obj.save()
-        return "members added successfully!",200
+        return "",200
     else:
         return "",406
 
