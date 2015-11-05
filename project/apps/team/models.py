@@ -10,3 +10,4 @@ class Team(Document):
 	name = StringField(required=True, unique=True)
 	members = ListField(ReferenceField('User'))
 	contests = ListField(ReferenceField('Contest'))
+

@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 __author__ = 'AminHP'
 
-#mongo import
-from mongoengine import connect
-
-# flask import
-from flask import Flask, session, request
+#python import
+import sys
+import subprocess
 
 #project import
 from project.apps.user import user
@@ -15,14 +13,23 @@ from project.apps.contest import contest
 from project.utils.access import logged_in_user
 
 
-def authenticate():
-	without_login_url_list = ('static', 'user.login', 'user.signup')
-	if request.endpoint not in without_login_url_list:
-		if not logged_in_user():
-			return "please login first"
 
+def run_test():
+	# mongo import
+	from mongoengine import connect
+	# flask import
+	from flask import Flask, session, request
+	import wtforms_json
 
-def run():
+	def authenticate():
+		if not request.endpoint:
+			return "ERROR 404", 404
+		without_login_url_list = ('static', 'user.user_page', 'user.login', 'user.exists', 'user.signup')
+		if request.endpoint not in without_login_url_list:
+			if not logged_in_user():
+				return "ERROR 405", 405
+
+	wtforms_json.init()
 	connect('judge93')
 	app = Flask('ElmosJudge93', static_folder='project/statics', 
 			template_folder='project/templates')
@@ -30,9 +37,34 @@ def run():
 	app.register_blueprint(team)
 	app.register_blueprint(contest)
 	app.secret_key = '.g2He35T9TQhTxth3IPj75KP5zQDAmXaZWiVz1FwCKAWs3Oi'
+	app.config["WTF_CSRF_ENABLED"] = False
 	app.before_request(authenticate)
-	app.run(host='0.0.0.0')
+	app.run(host='0.0.0.0', debug=True)
+
+
+def help():
+    print('''
+Judge93 Project
+python run.py [COMMAND]
+COMMAND:
+    test
+        run judge93 app in test and debug mode.
+
+    update_packages
+        update project packages using python pip.
+
+        '''
+          )
 
 
 if __name__ == '__main__':
-	run()
+	if len(sys.argv) > 1:
+		arg = (sys.argv[1])
+		if arg == 'test':
+			run_test()
+		elif arg == 'update_packages':
+			subprocess.call(['pip', 'install', '-r', 'requirements'])
+		else:
+			help()
+	else:
+		help()

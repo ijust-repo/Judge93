@@ -1,0 +1,79 @@
+﻿body {
+    background-color: #DAD6CA;
+}
+
+
+.top-menu{
+    height:55px;
+    background-color:#413040;
+    padding: 15px ;
+    color: white;
+ 	 margin: 8px ;
+ 	 -webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);        
+  box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);
+ 	}
+
+body,
+input,
+textarea,
+select {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: #4c4c4c;
+}
+
+input{
+  width: 220px; 
+  height: 39px; 
+  -webkit-border-radius: 0px 4px 4px 0px/5px 5px 4px 4px; 
+  -moz-border-radius: 0px 4px 4px 0px/0px 0px 4px 4px; 
+  border-radius: 4px; 
+  background-color: #fff; 
+  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  border: solid 1px #cbc9c9;
+
+  margin-top: 20px; 
+  padding-left: 10px;
+}
+
+
+.user{
+    background-color:#312736;
+    margin: 8px ; 
+     -webkit-border-radius:10px 10px 10px 10px; 
+ 	 -moz-border-radius: 10px 10px 10px 10px; 
+	-webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);        
+  box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);
+  border-radius: 1px;
+  color:white;
+}
+.left
+{
+ 
+	position: relative;
+	float: left;
+	margin:   100px 0 50px 60px  ;
+}
+.right
+{
+    position: relative;
+float: right;
+margin:  100px  80px 50px 0;
+}
+
+
+}
+
+.textproperty{
+   
+    color:white;
+
+}
+
+/******************************slideshow*************************/
+/
+/******************************slideshow*************************/
+
+
