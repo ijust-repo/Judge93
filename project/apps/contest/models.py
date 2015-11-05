@@ -41,6 +41,6 @@ class Contest(Document):
 	owner = ReferenceField('User', required=True)
 	created_on = DateTimeField(required=True)
 	starts_on = DateTimeField(required=True)
-	duration = IntField(required=True)
+	ends_on = DateTimeField(required=True)
 	problems = ListField(EmbeddedDocumentField(Problem))
 	teams = ListField(EmbeddedDocumentField(TeamInfo))
