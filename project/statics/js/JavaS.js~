@@ -21,9 +21,7 @@ var password = $("input#password").val();
             	
               alert( request.status);
              
-              else {
-              	$("signupdiv").hide());
-              	}
+              
             }
 		});
 	});

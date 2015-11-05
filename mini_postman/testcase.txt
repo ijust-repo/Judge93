@@ -1,17 +1,17 @@
 Name: signup
 Method: POST
-Url: /user/do_signup/
+Url: /user/signup/
 Request: {
-  "username": "admin2",
+  "username": "admin",
   "password": "123123"
 }
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Name: login
 Method: POST
-Url: /user/do_login/
+Url: /user/login/
 Request: {
-  "username": "admin2",
+  "username": "admin",
   "password": "123123"
 }
 
