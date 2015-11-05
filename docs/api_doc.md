@@ -67,7 +67,10 @@ Resource Information
 
 Example Request
 ```
-{"username": "admin", "password": "123123"}
+{
+  "username": "admin", 
+  "password": "123123"
+}
 ```
 
 > **NOTE:**
@@ -111,7 +114,10 @@ Resource Information
 
 Example Request
 ```
-{"username": "admin", "password": "123123"}
+{
+  "username": "admin", 
+  "password": "123123"
+}
 ```
 
 > **NOTE:**
