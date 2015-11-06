@@ -69,16 +69,10 @@ def create():
 
 @team.route('change_name/<string:team_id>/', methods=['PUT'])
 def change_team_name(team_id):
-
 	form = ChangeName.from_json(request.json)
-	
 	if form.validate():
-		
 		new_name = form.data['new_name']
-
-		
 		try:
-			
 			obj = Team.objects().get(pk=team_id)
 			if obj.owner== logged_in_user():
 				obj.name = new_name
@@ -86,7 +80,7 @@ def change_team_name(team_id):
 				return "" , 200
 			else:
 				
-				return jsonify(errors="User is not owner"), 406
+				return jsonify(errors="User is not owner"), 403
 		
 		except DoesNotExist:			
 			return jsonify(errors='Team does not exist!'), 406
@@ -94,6 +88,4 @@ def change_team_name(team_id):
 		except NotUniqueError:
 			form.new_name.errors.append(form.new_name.gettext('This team name already exists.'))
 			return jsonify(errors=form.errors), 409
-		
-					
 	return "" , 406
