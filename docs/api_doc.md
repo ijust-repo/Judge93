@@ -225,6 +225,35 @@ Example Request
 --------
 
 
+Change team name
+===============
+
+Resource URL
+>PUT
+**/team/change_name/```string:team_id```/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "new_name": "newTeam" 
+}
+```
+
+> **Note:**
+
+>- Team_id is the Id of the team in database.
+>- If response status code is **200** then the team name successfully changed.
+>- If response status code is **406** then the user is not owner of the team or team does not exist.
+>- If response status code is **409** then the new name does not exist.
+>- If there are errors like a required field response status code will be **406** .
+
+------- 
+
 
 Contest API
 ========
