@@ -54,8 +54,7 @@ class Contest(Document):
 		return dict(
 			id=str(self.pk),
 			name=self.name,
-			owner_name=self.owner.username,
-			owner_id=self.owner.pk,
+			owner=self.owner.to_json(),
 			created_on=datetime_to_str(self.created_on),
 			starts_on=datetime_to_str(self.starts_on),
 			ends_on=datetime_to_str(self.ends_on))
