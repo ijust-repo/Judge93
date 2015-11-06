@@ -189,3 +189,43 @@ Example Request
 >- If there are errors like a required field response status code will be **406** .
 
 --------
+
+
+
+Contest API
+========
+
+
+Creating new contest
+===============
+
+Resource URL
+>post
+> **/contest/creat/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "name": "new_contest" ,
+  "starts_on": 1500000000,
+  "ends_on": 1800000000
+}
+
+```
+
+> **NOTE:**
+>
+>- Type of "starts_on" is float:timestamp.
+>- Type of "ends_on" is float:timestamp.
+>- If response status code is **201** then new contest is successfully created.
+>- If the name of contest already exists, status code will be **409** and you will have errors with creating contest like **'Contest with this name already exists!' ** .
+>- If the value of "starts_on" is biger than value of "ends_on" , status code will be **406** and you will have errors with creating contest like **'Start date must be earlier than end date!' ** .
+>- If thc float form of current time is biger than the value of "starts_on",  status code will be **406** and you will have errors with creating contest like **'Start date must be later than now!' ** .
+>- If there are errors like a required field response status code will be **406** .
+
+--------

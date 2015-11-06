@@ -44,7 +44,7 @@ def create():
 			return "", 201
 		except NotUniqueError:
 			form.name.errors.append(form.name.gettext('Contest with this name already exists!'))
-			return jsonify(errors=form.errors), 406
+			return jsonify(errors=form.errors), 409
 	return "", 406
 			
 
