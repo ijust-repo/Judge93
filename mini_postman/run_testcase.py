@@ -11,7 +11,7 @@ def send_request(info, req):
 	if info['method'] == 'POST':
 		return req.post(info['url'], data=info['request'])
 	elif info['method'] == 'PUT':
-		req.put(info['url'], data=info['request'])
+		return req.put(info['url'], data=info['request'])
 	elif info['method'] == 'GET':
 		return req.get(info['url'])
 	elif info['method'] == 'PATCH':

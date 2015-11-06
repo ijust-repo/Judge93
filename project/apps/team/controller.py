@@ -32,22 +32,21 @@ def create():
 		members = form.data ['members']
 		if (len(members) > 2) :
 			form.members.errors.append(form.members.gettext('Number of members must be under three!'))
-			return jsonify(errors=form.errors), 401
-			#return "", 401
+			return jsonify(errors=form.errors), 406
 		try:
 			user_obj = User.objects().get(username=logged_in_user())
 			team_obj = Team(name=name)
 			team_obj.owner = user_obj
-			members_list = [user_obj]
+			members_list = []
 			for i in members:
 				if (i == logged_in_user()):
-					form.members.errors.append(form.members.gettext('Owner is one of members by default!'))
-					return jsonify(errors=form.errors), 401
+					form.members.errors.append(form.members.gettext('Owner can not be added to the team!'))
+					return jsonify(errors=form.errors), 406
 				if (User.objects().get(username=i) not in members_list):
 					members_list.append (User.objects().get(username=i))
 				else:
 					form.members.errors.append(form.members.gettext('No one can be added twice!'))
-					return jsonify(errors=form.errors), 401
+					return jsonify(errors=form.errors), 406
 			team_obj.members = members_list
 			team_obj.save()
 			user_obj.teams.append (team_obj)
@@ -59,11 +58,9 @@ def create():
 			return "", 201
 		except DoesNotExist:
 			form.members.errors.append(form.members.gettext('User does not exist!'))
-			return jsonify(errors=form.errors), 401
-			#return "", 410
+			return jsonify(errors=form.errors), 406
 		except NotUniqueError:
 			return "", 409
-
 	return "", 406
 
 
