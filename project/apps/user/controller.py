@@ -23,7 +23,7 @@ def user_page():
 	return render_template('user.html')
 
 
-@user.route('/home/', methods=['GET'])
+@user.route('home/', methods=['GET'])
 def user_home_page():
 	return render_template('home.html')
 
