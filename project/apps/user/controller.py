@@ -24,7 +24,7 @@ def user_page():
 
 
 @user.route('/home/', methods=['GET'])
-def user_page():
+def user_home_page():
 	return render_template('home.html')
 
 
