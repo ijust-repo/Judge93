@@ -283,8 +283,8 @@ Example Request
 
 > **NOTE:**
 >
->- Type of "starts_on" is float:timestamp.
->- Type of "ends_on" is float:timestamp.
+>- Type of "starts_on" is float:timestamp and it must be in UTC.
+>- Type of "ends_on" is float:timestamp and ite must be in UTC.
 >- If response status code is **201** then new contest is successfully created.
 >- If the name of contest already exists, status code will be **409** and you will have errors with creating contest like **'Contest with this name already exists!' ** .
 >- If the value of "starts_on" is biger than value of "ends_on" , status code will be **406** and you will have errors with creating contest like **'Start date must be earlier than end date!' ** .
