@@ -66,6 +66,7 @@ def create():
 			return "", 409
 	return "", 406
 			
+
 @team.route('change_name/<string:team_id>/', methods=['PUT'])
 def change_team_name(team_id):
 
@@ -96,7 +97,3 @@ def change_team_name(team_id):
 		
 					
 	return "" , 406
-	
-	
-	
-	
