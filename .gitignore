@@ -1,3 +1,4 @@
 *.pyc
+*~
 .idea
 mini_postman/testcase.txt
