@@ -32,6 +32,7 @@ class Result(EmbeddedDocument):
 
 class TeamInfo(EmbeddedDocument):
 	team = ReferenceField('Team', required=True, unique=True, sparse=True)
+	accepted = BooleanField()
 	problem_results = ListField(EmbeddedDocumentField(Result))
 
 
