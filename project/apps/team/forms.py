@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Kia' , 'mahnoosh'
+__author__ = ['Kia' , 'mahnoosh']
 
 # flask imports
 from flask.ext.wtf import Form
@@ -12,5 +12,4 @@ class CreateTeam(Form):
 	
 	
 class ChangeName(Form):
-	current_name = StringField(validators=[validators.DataRequired()])
-	new_name =  StringField(validators=[validators.DataRequired()])
+	new_name = StringField(validators=[validators.DataRequired()])

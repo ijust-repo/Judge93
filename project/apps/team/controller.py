@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Kia' , 'mahnoosh'
+__author__ = ['Kia' , 'mahnoosh']
 
 
 #flask import
@@ -72,19 +72,19 @@ def create():
 
 	return "", 406
 			
-@team.route('change_name/', methods=['POST'])
-def change_team_name():
-	
+@team.route('change_name/<string:team_id>/', methods=['PUT'])
+def change_team_name(team_id):
+
 	form = ChangeName.from_json(request.json)
+	
 	if form.validate():
 		
 		new_name = form.data['new_name']
-		current_name = form.data['current_name']
-		user_obj = User.objects().get(username = logged_in_user())
-			
+
+		
 		try:
 			
-			obj = Team.objects().get(name=current_name)
+			obj = Team.objects().get(pk=team_id)
 			if obj.owner== logged_in_user():
 				obj.name = new_name
 				obj.save()
@@ -93,9 +93,8 @@ def change_team_name():
 				
 				return jsonify(errors="User is not owner"), 406
 		
-		except DoesNotExist:
-			form.current_name.errors.append(form.current_name.gettext('Team does not exist!'))
-			return jsonify(errors=form.errors), 406
+		except DoesNotExist:			
+			return jsonify(errors='Team does not exist!'), 406
 		
 		except NotUniqueError:
 			form.new_name.errors.append(form.new_name.gettext('This team name already exists.'))
