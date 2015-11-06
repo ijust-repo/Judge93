@@ -26,9 +26,9 @@ def team_page():
 
 @team.route('create/', methods=['POST'])
 def create():
-	form = CreateTeam.from_json(request.json)
-	if form.validate():
-		name = form.data['name']
+        form = CreateTeam.from_json(request.json)
+        if form.validate():
+                name = form.data['name']
 		members = form.data ['members']
 		if (len(members) > 2) :
 			form.members.errors.append(form.members.gettext('Number of members must be under three!'))
@@ -69,7 +69,7 @@ def addMemberToTeam():
     form = AddMember.from_json(request.json)
     if form.validate():
         name = teamname
-	members = form.data ['TeamMembers']
+	members = form.data ['members']
 	try:
             user_obj = User.objects.get(username=logged_in_user())
 
