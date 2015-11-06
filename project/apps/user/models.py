@@ -28,3 +28,9 @@ class User(Document):
 
 	def reset_password(self):
 		self.password = None
+
+
+	def to_json(self):
+		return dict(
+			id=str(self.pk),
+			username=self.username)
