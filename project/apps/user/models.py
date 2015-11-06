@@ -11,7 +11,6 @@ class User(Document):
 	username = StringField(required=True, unique=True)
 	password = StringField(required=True)
 	email = StringField()
-	name = StringField()
 	teams = ListField(ReferenceField('Team'))
 
 
