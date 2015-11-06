@@ -240,7 +240,7 @@ Resource Information
 Example Request
 ```
 {
-  "name": "new_team" 
+  "new_name": "newTeam" 
 }
 ```
 
