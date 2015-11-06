@@ -15,28 +15,42 @@
 
 <body>
 <div class="top-menu shadow" >
-	<p > ACM Contest/logo</p>
+    <p > ACM Contest/logo</p>
 
 </div>
-	<div class="container-fluid user">
-	<div class="col-lg-4 left">
-		<p class="textproperty"> matn....</p>
-		<p class="textproperty"> ya....</p>
-		<p class="textproperty"> ax....</p>
+    <div class="container-fluid user">
+    <div class="col-lg-4 left">
+        <p class="textproperty"> matn....</p>
+        <p class="textproperty"> ya....</p>
+        <p class="textproperty"> ax....</p>
 <p class="textproperty"> ya....</p>
 <p class="textproperty">slide show....</p>
-	</div>
+    </div>
 
    
-            <div id="signup" class=" right col-ms-5" >
+            <div id="signup" class=" right col-ms-5" style="display:block">
                 <br>
                   <p id="signupdiv"class="textproperty"> Please Sign UP</p>
                 <hr>         
                 <input type="text" name="username" id="username" placeholder="Username" required /><br>             
                 <input type="password" name="password" id="password" placeholder="Password" required /><br>                
                 <input type="button" name="signup" id="signupbtn" class="btn btn-primary "value="register" /><br>
+                or <a href="#" onclick="showLogin()">Login</a>
                 
             </div>
+
+            <div id="login" class=" right col-ms-5" style="display:none">
+                <br>
+                  <p id="logindiv"class="textproperty"> Please Login</p>
+                <hr>         
+                <input type="text" name="username_login" id="username_login" placeholder="Username" required /><br>             
+                <input type="password" name="password_login" id="password_login" placeholder="Password" required /><br>                
+                <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br>
+                or <a href="#" onclick="showSignUp()">Sign Up</a>
+                
+            </div>
+
+
 
       
     </div>
