@@ -8,7 +8,7 @@ var password = $("input#password").val();
 
 	$.ajax({
             type: "POST",
-            url : '/user/do_signup/',
+            url : '/user/signup/',
 				contentType: "application/json",
             dataType: "json",
             data: '{"username": "' + username + '", "password" : "' + password + '"}',
@@ -17,11 +17,14 @@ var password = $("input#password").val();
             },
             error: function (request, status, error) {
       	
-              alert( request.status);
+              alert( request.status );
 
             }
 		});
 	});
+});
+$(document).ready(function(){
+    $('.leftMenu').css("height",$('.mainWrapper').height());
 });
 /*****************************************slideshow*********************************/
 
