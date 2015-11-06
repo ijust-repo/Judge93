@@ -34,3 +34,9 @@ class User(Document):
 		return dict(
 			id=str(self.pk),
 			username=self.username)
+
+	def to_json_profile(self):
+		return dict(
+			id=str(self.pk),
+			username=self.username,
+			email=self.email)
