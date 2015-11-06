@@ -32,6 +32,25 @@ Resource Information
 
 -------
 
+View user home page
+===============
+
+Resource URL
+>GET
+> **/user/home/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template.
+
+-------
+
 Checking user existance
 =======================
 

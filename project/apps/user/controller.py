@@ -23,6 +23,11 @@ def user_page():
 	return render_template('user.html')
 
 
+@user.route('/home/', methods=['GET'])
+def user_page():
+	return render_template('home.html')
+
+
 @user.route('exists/<string:username>/', methods=['GET'])
 def exists(username):
 	try:
