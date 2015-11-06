@@ -11,5 +11,5 @@ class CreateTeam(Form):
 	members = FieldList(StringField())
 
 	
-class AddMember(Form): #MemberAdder
-        members = FieldList(StringField()) #TeamMembers
+class AddMember(Form): 
+        members = FieldList(StringField()) 
