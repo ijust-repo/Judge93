@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AminHP'
+__author__ = ['AminHP','Aref']
 
 
 #flask import
@@ -77,32 +77,33 @@ def logout():
 	return "", 200
 
 
-########## change user profile ##########
-__author__ = 'Aref'
-
-@user.route('change_user/', methods=['POST'])
+@user.route('change_profile/', methods=['PUT'])
 def change_user():
         form = ChangeUser.from_json(request.json)
         if form.validate():
+                isError = False
                 pastUsername = logged_in_user()
                 newUsername = form.data['username']
                 newEmail = form.data['email']
                 obj = User.objects().get(username=pastUsername)
-                if pastUsername == newUsername and obj.email == newEmail:
-                        form.username.errors.append(form.username.gettext('Nothing to change.'))
-                        return jsonify(errors=form.errors), 401
-                else:
+                if newUsername and newUsername != pastUsername:
                         try:
-                                if pastUsername == newUsername and obj.email != newEmail :
-                                        raise DoesNotExist
                                 newObj = User.objects().get(username=newUsername)
                                 form.username.errors.append(form.username.gettext('Repetitive username.'))
-                                return jsonify(errors=form.errors), 401
-                        
-                        except DoesNotExist:
+                                isError = True
+                        except:
                                 obj.username = newUsername
-                                obj.email = newEmail
-                                obj.save()
-                                return "", 200        
-                                
+                elif not newUsername :
+                        form.username.errors.append(form.username.gettext('Nothing to change username.'))
+                        isError = True
+                if newEmail :
+                        obj.email = newEmail
+                else :
+                        form.username.errors.append(form.username.gettext('Nothing to change email.'))
+                        isError = True
+                obj.save()
+                if isError:
+                        return return jsonify(errors=form.errors), 406
+                else :
+                        return "", 200
         return "", 406
