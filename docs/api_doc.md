@@ -130,6 +130,29 @@ Resource Information
 
 
 
+ChangePassword
+======
+
+Resource URL
+>PUT
+> **/user/change_password/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- If response status code is **200** then you have successfully changed password.
+>- If response status code is **401** then you have errors with changing Password like `Wrong password`.
+>- If there are errors like a required field response status code will be **406**.
+
+-------
+
+
+
 Team API
 ========
 

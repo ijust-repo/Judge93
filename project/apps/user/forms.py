@@ -15,6 +15,6 @@ class Signup(Form):
     username = StringField(validators=[validators.DataRequired()])
     password = PasswordField(validators=[validators.DataRequired()])
 
-class Change_password(Form):
+class ChangePassword(Form):
     old_password = PasswordField(validators=[validators.DataRequired()])
     new_password = PasswordField(validators=[validators.DataRequired()])

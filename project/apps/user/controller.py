@@ -7,7 +7,7 @@ from flask import jsonify, request, render_template
 
 #project import
 from project.apps.user import user
-from project.apps.user.forms import Login, Signup , Change_password
+from project.apps.user.forms import Login, Signup , ChangePassword
 from project.utils.access import login_user, logout_user ,logged_in_user
 
 from project.apps.user.models import User
@@ -79,7 +79,7 @@ def logout():
 
 @user.route('change_password/', methods=['PUT'])
 def change_password():
-        form = Change_password.from_json(request.json)
+        form = ChangePassword.from_json(request.json)
         if form.validate():
                 old_password = form.data['old_password']
                 new_password = form.data['new_password']
