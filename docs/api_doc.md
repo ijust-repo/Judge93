@@ -292,3 +292,45 @@ Example Request
 >- If there are errors like a required field response status code will be **406** .
 
 --------
+
+
+Add problem contest
+===============
+
+Resource URL
+>post
+> **/problem/```string:contest_id```/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "title":"problem2",
+  "time_limit":1000 ,
+  "space_limit":1000 ,
+  "header":"header",
+  "body":"body",
+  "footer":"footer", 
+  "testcases": [ {
+                  "input":"1" ,
+                  "output":"9" 
+                 },
+                 {
+                   "input":"6",
+                   "output":"4"
+                 } ]
+}
+```
+
+> **NOTE:**
+>
+>- If response status code is **201** then new problem is successfully added to contest.
+>- The header, footer and tastcases fields are optional (but if there is a test case, both of its fields are required.)
+>- Just the owner of contest can add new problems, if the loged in user is not the owner of contest, status code will be **403**.
+>- If there are errors like a required field response status code will be **406** .
+
+--------
