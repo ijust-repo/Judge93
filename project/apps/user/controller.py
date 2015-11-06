@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AminHP'
+__author__ = ['AminHP','SALAR']
 
 
 #flask import
@@ -7,8 +7,8 @@ from flask import jsonify, request, render_template
 
 #project import
 from project.apps.user import user
-from project.apps.user.forms import Login, Signup
-from project.utils.access import login_user, logout_user
+from project.apps.user.forms import Login, Signup , Change_password
+from project.utils.access import login_user, logout_user ,logged_in_user
 
 from project.apps.user.models import User
 from project.apps.team.models import Team
@@ -75,3 +75,21 @@ def signup():
 def logout():
 	logout_user()
 	return "", 200
+
+
+@user.route('change_password/', methods=['PUT'])
+def change_password():
+        form = Change_password.from_json(request.json)
+        if form.validate():
+                old_password = form.data['old_password']
+                new_password = form.data['new_password']
+                username = logged_in_user()
+                obj = User.objects().get(username=username)
+                if obj.change_password(old_password , new_password):
+                        obj.save()
+                        return "", 200
+                else:
+                        form.old_password.errors.append(form.old_password.gettext('Wrong password.'))
+                        return jsonify(errors=form.errors), 401
+        return "", 406
+                        

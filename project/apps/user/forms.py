@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AminHP'
+__author__ = ['AminHP','SALAR']
 
 # flask imports
 from flask.ext.wtf import Form
@@ -14,3 +14,7 @@ class Login(Form):
 class Signup(Form):
     username = StringField(validators=[validators.DataRequired()])
     password = PasswordField(validators=[validators.DataRequired()])
+
+class Change_password(Form):
+    old_password = PasswordField(validators=[validators.DataRequired()])
+    new_password = PasswordField(validators=[validators.DataRequired()])
