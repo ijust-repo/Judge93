@@ -55,14 +55,14 @@ def add_problem(contest_id):
 	if not (main_form.validate()):
 		return "", 406
 	
-	sub_forms = []
-	for sub_form in main_form.data['testcases'] :
-		sub_forms.append (sub_form)
-
 	contest_obj = Contest.objects().get(pk = contest_id)
 	#checking owner
 	if contest_obj.owner.username != logged_in_user():
 		return  "", 403
+
+	sub_forms = []
+	for sub_form in main_form.data['testcases'] :
+		sub_forms.append (sub_form)
 
 	problem = Problem (title = main_form.data ['title'])
 	problem.time_limit = main_form.data ['time_limit']
@@ -81,7 +81,6 @@ def add_problem(contest_id):
 		testcases.append (testcase)
 	problem.testcases = testcases
 
-	
 	contest_obj.problems.append (problem)
 	problem.order = len (contest_obj.problems)
 
