@@ -4,6 +4,10 @@ __author__ = ['AminHP', 'Kia']
 # python imports
 from mongoengine import Document, StringField, IntField, BooleanField, DateTimeField, ReferenceField, ListField, EmbeddedDocument, EmbeddedDocumentField
 
+# project imports
+from project.utils.date import datetime_to_str
+
+
 
 class Testcase(EmbeddedDocument):
 	order = IntField(required=True, unique=True, sparse=True)
@@ -45,3 +49,13 @@ class Contest(Document):
 	ends_on = DateTimeField(required=True)
 	problems = ListField(EmbeddedDocumentField(Problem))
 	teams = ListField(EmbeddedDocumentField(TeamInfo))
+
+	def to_json(self):
+		return dict(
+			id=str(self.pk),
+			name=self.name,
+			owner_name=self.owner.username,
+			owner_id=self.owner.pk,
+			created_on=datetime_to_str(self.created_on),
+			starts_on=datetime_to_str(self.starts_on),
+			ends_on=datetime_to_str(self.ends_on))
