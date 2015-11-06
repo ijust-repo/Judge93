@@ -246,6 +246,7 @@ Example Request
 
 > **Note:**
 
+>- Team_id is the Id of the team in database.
 >- If response status code is **200** then the team name successfully changed.
 >- If response status code is **406** then the user is not owner of the team or team does not exist.
 >- If response status code is **409** then the new name does not exist.
