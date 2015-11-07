@@ -182,6 +182,47 @@ Example Request
 -------
 
 
+Get user profile by username
+============================
+
+Resource URL
+>GET
+> **/user/get_profile/by_username/<string:username>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- If response status code is **200** then username have been successfully found and returned.
+>- If response status code is **401** then the username does not exist.
+
+--------
+
+
+Get user profile by user id
+============================
+
+Resource URL
+>GET
+> **/user/get_profile/by_id/<string:user_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- If response status code is **200** then user id have been successfully found and returned.
+>- If response status code is **401** then the user id does not exist.
+
+--------
+
 
 Team API
 ========
