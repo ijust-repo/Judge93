@@ -107,7 +107,7 @@ def get_user_profile_by_username(username):
 		resp.pop('username', None)
 		return jsonify(resp), 200
 	except DoesNotExist:
-			return jsonify(errors="User doeas not exists!"), 401
+			return jsonify(errors="User does not exists!"), 406
 
 
 @user.route('get_profile/by_id/<string:user_id>/', methods=['GET'])
@@ -118,7 +118,7 @@ def get_user_profile_by_id(user_id):
 		resp.pop('id', None)
 		return jsonify(resp), 200
 	except DoesNotExist:
-			return jsonify(errors="User doeas not exists!"), 401
+			return jsonify(errors="User does not exists!"), 406
 
 
 
