@@ -63,14 +63,19 @@ def signup():
 	form = Signup.from_json(request.json)
 	if form.validate():
 		username = form.data['username']
+		email = form.data['email']
 		password = form.data['password']
 		if form.validate_on_submit():
 			try:
-				obj = User(username=username)
+				obj = User(username=username, email=email)
 				obj.set_password(password)
 				obj.save()
-			except NotUniqueError:
-				form.username.errors.append(form.username.gettext('Username already exists.'))
+			except NotUniqueError, err:
+				err = err.args[0]
+				if '$username' in err:
+					form.username.errors.append(form.username.gettext('Username already exists.'))
+				elif '$email' in err:
+					form.email.errors.append(form.email.gettext('Email already exists.'))
 				return jsonify(errors=form.errors), 409
 			return "", 201
 	return "", 406

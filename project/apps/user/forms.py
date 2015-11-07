@@ -13,7 +13,9 @@ class Login(Form):
 
 class Signup(Form):
     username = StringField(validators=[validators.DataRequired()])
+    email = StringField(validators=[validators.DataRequired(), validators.Email()])
     password = PasswordField(validators=[validators.DataRequired()])
+
 
 class ChangePassword(Form):
     old_password = PasswordField(validators=[validators.DataRequired()])

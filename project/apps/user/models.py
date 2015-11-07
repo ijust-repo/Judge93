@@ -10,7 +10,7 @@ from mongoengine import Document, StringField, ReferenceField, ListField
 class User(Document):
 	username = StringField(required=True, unique=True)
 	password = StringField(required=True)
-	email = StringField()
+	email = StringField(required=True, unique=True)
 	teams = ListField(ReferenceField('Team'))
 
 
