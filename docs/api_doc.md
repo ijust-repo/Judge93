@@ -294,12 +294,12 @@ Example Request
 --------
 
 
-Add problem contest
+Add problem to contest
 ===============
 
 Resource URL
 >post
-> **/problem/```string:contest_id```/**
+> **/```string:contest_id```/problem/**
 
 Resource Information
 >|Response formats|Requires authentication?|
