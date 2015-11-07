@@ -11,5 +11,6 @@ class CreateTeam(Form):
 	members = FieldList(StringField())
 
 	
-class AddMember(Form): 
+class AddMember(Form):
+        name    = StringField(validators=[validators.DataRequired()])
         members = FieldList(StringField()) 
