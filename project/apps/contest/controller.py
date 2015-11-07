@@ -58,7 +58,7 @@ def add_problem(contest_id):
 	contest_obj = Contest.objects().get(pk = contest_id)
 	#checking owner
 	if contest_obj.owner.username != logged_in_user():
-		return  "", 403
+		return  jsonify(errors="User is not owner!"), 403
 
 	sub_forms = []
 	for sub_form in main_form.data['testcases'] :
