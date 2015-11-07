@@ -29,7 +29,7 @@ def run_testcase():
 	req = requests.Session()
 	req.headers = headers
 
-	with open('testcase.example', 'r') as testcase:
+	with open('testcase.txt', 'r') as testcase:
 		reqs = testcase.read().split('-' * 200)
 
 		for r in reqs:
