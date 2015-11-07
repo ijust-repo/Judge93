@@ -48,7 +48,7 @@ def create():
 	return "", 406
 
 
-@contest.route('problem/<string:contest_id>/', methods=['POST'])
+@contest.route('<string:contest_id>/problem/', methods=['POST'])
 def add_problem(contest_id):
 	main_form = AddProblem.from_json(request.json)
 	#checking  forms validation
