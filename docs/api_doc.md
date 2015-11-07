@@ -341,7 +341,7 @@ Creating new contest
 
 Resource URL
 >post
-> **/contest/creat/**
+> **/contest/create/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -365,7 +365,7 @@ Example Request
 >- If response status code is **201** then new contest is successfully created.
 >- If the name of contest already exists, status code will be **409** and you will have errors with creating contest like **'Contest with this name already exists!' ** .
 >- If the value of "starts_on" is biger than value of "ends_on" , status code will be **406** and you will have errors with creating contest like **'Start date must be earlier than end date!' ** .
->- If thc float form of current time is biger than the value of "starts_on",  status code will be **406** and you will have errors with creating contest like **'Start date must be later than now!' ** .
+>- If the float form of current time is biger than the value of "starts_on",  status code will be **406** and you will have errors with creating contest like **'Start date must be later than now!' ** .
 >- If there are errors like a required field response status code will be **406** .
 
 --------
@@ -409,5 +409,41 @@ Example Request
 >- The header, footer and tastcases fields are optional (but if there is a test case, both of its fields are required.)
 >- Just the owner of contest can add new problems, if the loged in user is not the owner of contest, status code will be **403**.
 >- If there are errors like a required field response status code will be **406** .
+
+--------
+
+
+Contests List
+===============
+
+Resource URL
+>GET
+> **/contest/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|NO (must be authenticated)|
+
+Example Request
+```
+/contest/?create_from=1200000000&create_to= 1500000000&start_from=1300000000&start_to=1500000550
+```
+Example Response
+```
+{
+"created_on": "2015-11-07 10:14:00", 
+"ends_on": "2015-11-07 15:42:40", 
+"id": "563dcee823e3c01d38a73502", 
+"name": "maincontest", 
+"owner": {"id": "563d03c623e3c01694ee7291","username": "admin24"}
+}
+```
+
+> **NOTE:**
+>- Type of "create_from" and "create_to" and "start_from" and "start_to" is float:timestamp.
+>- default value of "start_from" and "create_from" is 0.
+>- default value of "start_to" and "create_to" is current time.
+>- If response status code is **200** then the ContestsList returned successfully.
 
 --------
