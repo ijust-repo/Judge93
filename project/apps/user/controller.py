@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['AminHP','SALAR']
+__author__ = ['AminHP','SALAR' , 'mahnoosh']
 
 
 #flask import
@@ -102,4 +102,28 @@ def change_password():
                         form.old_password.errors.append(form.old_password.gettext('Wrong password.'))
                         return jsonify(errors=form.errors), 401
         return "", 406
+
                         
+@user.route('get_profile/by_username/<string:username>/', methods=['GET'])
+def get_user_profile_by_username(username):
+	try:
+		obj = User.objects().get(username=username)
+		resp = obj.to_json_profile()
+		resp.pop('username', None)
+		return jsonify(resp), 200
+	except DoesNotExist:
+			return jsonify(errors="User does not exists!"), 406
+
+
+@user.route('get_profile/by_id/<string:user_id>/', methods=['GET'])
+def get_user_profile_by_id(user_id):
+	try:
+		obj = User.objects().get(pk=user_id)
+		resp = obj.to_json_profile()
+		resp.pop('id', None)
+		return jsonify(resp), 200
+	except DoesNotExist:
+			return jsonify(errors="User does not exists!"), 406
+
+
+

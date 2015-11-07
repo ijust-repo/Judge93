@@ -183,6 +183,63 @@ Example Request
 -------
 
 
+Get user profile by username
+============================
+
+Resource URL
+>GET
+> **/user/get_profile/by_username/<string:username>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+Example Response:
+```
+{
+  "id": "563b9d2857040f1b6c805892", 
+  "email": "mdan.hagh@gmail.com"
+}
+```
+
+> **NOTE:**
+>
+>- username is the username of the user.
+>- If response status code is **200** then username have been successfully found and returned.
+>- If response status code is **406** then the username does not exist.
+
+--------
+
+
+Get user profile by user id
+============================
+
+Resource URL
+>GET
+> **/user/get_profile/by_id/<string:user_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+Example Response:
+```
+{
+  "username": "admin", 
+  "email": "mdan.hagh@gmail.com"
+}
+```
+
+> **NOTE:**
+>
+>- user_id is the Id of the user in database.
+>- If response status code is **200** then user id have been successfully found and returned.
+>- If response status code is **406** then the user id does not exist.
+
+--------
+
 
 Team API
 ========
