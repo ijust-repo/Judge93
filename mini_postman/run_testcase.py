@@ -1,3 +1,12 @@
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+__author__ = 'AminHP'
+
+import requests
+import json
+import sys
+
+
 def send_request(info, req):
 	if info['method'] == 'POST':
 		return req.post(info['url'], data=info['request'])

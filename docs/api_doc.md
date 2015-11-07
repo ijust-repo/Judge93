@@ -32,6 +32,25 @@ Resource Information
 
 -------
 
+View user home page
+===============
+
+Resource URL
+>GET
+> **/user/home/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template.
+
+-------
+
 Checking user existance
 =======================
 
@@ -99,6 +118,7 @@ Example Request
 ```
 {
   "username": "admin", 
+  "email": "mdan.hagh@gmail.com",  
   "password": "123123"
 }
 ```
@@ -106,7 +126,7 @@ Example Request
 > **NOTE:**
 >
 >- If response status code is **201** then you have successfully signed in.
->- If response status code is **409** then you have errors with signup like `user already exists`.
+>- If response status code is **409** then you have errors with signup like `Username already exists.` or `Email already exists.`.
 >- If there are errors like a required field response status code will be **406**.
 
 --------
@@ -283,8 +303,8 @@ Example Request
 
 > **NOTE:**
 >
->- Type of "starts_on" is float:timestamp.
->- Type of "ends_on" is float:timestamp.
+>- Type of "starts_on" is float:timestamp and it must be in UTC.
+>- Type of "ends_on" is float:timestamp and ite must be in UTC.
 >- If response status code is **201** then new contest is successfully created.
 >- If the name of contest already exists, status code will be **409** and you will have errors with creating contest like **'Contest with this name already exists!' ** .
 >- If the value of "starts_on" is biger than value of "ends_on" , status code will be **406** and you will have errors with creating contest like **'Start date must be earlier than end date!' ** .
@@ -293,29 +313,71 @@ Example Request
 
 --------
 
+<<<<<<< HEAD
 Contests List
 ===============
 
 Resource URL
 >GET
 > **/contest/**
+=======
+
+Add problem to contest
+===============
+
+Resource URL
+>post
+> **/```string:contest_id```/problem/**
+>>>>>>> upstream/master
 
 Resource Information
 >|Response formats|Requires authentication?|
 |:-:|:-:|
+<<<<<<< HEAD
 |JSON|NO (must be authenticated)|
 
 Example Request
 ```
 /contest/?create_from=1200000000&create_to= 1500000000&start_from=1300000000&start_to=1500000550
 
+=======
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "title":"problem2",
+  "time_limit":1000 ,
+  "space_limit":1000 ,
+  "header":"header",
+  "body":"body",
+  "footer":"footer", 
+  "testcases": [ {
+                  "input":"1" ,
+                  "output":"9" 
+                 },
+                 {
+                   "input":"6",
+                   "output":"4"
+                 } ]
+}
+>>>>>>> upstream/master
 ```
 
 > **NOTE:**
 >
+<<<<<<< HEAD
 >- Type of "create_from" and "create_to" and "start_from" and "start_to" is float:timestamp.
 >- default value of "start_from" and "create_from" is 0.
 >- default value of "start_to" and "create_to" is current time.
 >- If response status code is **200** then the ContestsList returned successfully.
 
 --------
+=======
+>- If response status code is **201** then new problem is successfully added to contest.
+>- The header, footer and tastcases fields are optional (but if there is a test case, both of its fields are required.)
+>- Just the owner of contest can add new problems, if the loged in user is not the owner of contest, status code will be **403**.
+>- If there are errors like a required field response status code will be **406** .
+
+--------
+>>>>>>> upstream/master

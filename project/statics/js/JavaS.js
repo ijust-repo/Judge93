@@ -3,29 +3,118 @@ $(document).ready(function () {
 $("#signupbtn").click(function() { 
 
 
-var username = $("input#username").val();
-var password = $("input#password").val();  
-
-	$.ajax({
+var username = $("input#username_signup").val();
+var password = $("input#password_signup").val();  
+var password2 = $("input#re-password_signup").val();  
+var email = $("input#email_signup").val(); 
+if (password===password2) {
+  $.ajax({
             type: "POST",
             url : '/user/signup/',
-				contentType: "application/json",
+            contentType: "application/json",
+            dataType: "json",
+            data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
+            success: function (data) {
+     
+            },
+            error: function (request, status, error) {            
+         
+        
+               if (request.status===201) {
+	      
+	      		window.location.replace("/user/");
+      		}
+      		else if (request.status===409) 
+             {
+					alert(" this username is already taken ");             
+             }
+				else if (request.status===406) 
+             {
+					alert("Please fill in all fields");             
+             }
+          }
+              
+
+                            });
+      }
+      else
+      {
+			alert(" passwords don't match");      
+      }
+  });
+});
+
+$(document).ready(function () {
+$("#loginbtn").click(function() { 
+
+
+var username = $("input#username_login").val();
+var password = $("input#password_login").val();  
+
+  $.ajax({
+            type: "POST",
+            url : '/user/login/',
+            contentType: "application/json",
             dataType: "json",
             data: '{"username": "' + username + '", "password" : "' + password + '"}',
             success: function (data) {
-              $("#result").text(data.username + data.password);    	
+                
             },
             error: function (request, status, error) {
-      	
-              alert( request.status );
+        
+              if (request.status===200) {
+	      		window.location.replace("/user/home/");
+      		}
+      		else if (request.status===401) 
+             {
+					alert(" Username or password is incorrect ");             
+             }
+				else if (request.status===406) 
+             {
+					alert("Please fill in all fields");             
+             }
+              
 
             }
-		});
-	});
+    });
+  });
 });
-$(document).ready(function(){
-    $('.leftMenu').css("height",$('.mainWrapper').height());
-});
-/*****************************************slideshow*********************************/
 
-/*************************************slideshow*********************************/
+function showLogin(){
+  document.title = "Login";
+  document.getElementById('signup').style.display = 'none';
+  document.getElementById('login').style.display = 'block';
+}
+function showSignUp(){
+  document.title = "Sign Up";
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('signup').style.display = 'block';
+}$(document).ready(function () {
+$("#logout").click(function() { 
+
+
+  $.ajax({
+            type: "GET",
+            url : '/user/logout/',
+            dataType: "jsonp", 
+        		jsonp:"skywardDetails",
+ 				
+            success: function () {
+           
+            },
+          error: function (request, status, error) {
+        
+              if (request.status===200) {
+	      
+	      		window.location.replace("/user/");
+      		}
+             {
+					alert(request.message);             
+             }
+          
+          
+
+            }
+    });
+  });
+});

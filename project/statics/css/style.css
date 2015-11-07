@@ -129,7 +129,18 @@ margin-bottom: 2px;
     color:white;
 
 }
-
+#signup
+{
+	display:none;
+}
+#login
+{
+	display:block;
+}
+#usernameitem
+{
+	background-color: #6C6368;
+}
 /******************************slideshow*************************/
 /
 /******************************slideshow*************************/
