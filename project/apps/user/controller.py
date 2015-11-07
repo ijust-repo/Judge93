@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['AminHP','Aref']
+__author__ = ['AminHP','SALAR']
 
 
 #flask import
@@ -7,8 +7,8 @@ from flask import jsonify, request, render_template
 
 #project import
 from project.apps.user import user
-from project.apps.user.forms import Login, Signup, ChangeUser
-from project.utils.access import login_user, logout_user, logged_in_user
+from project.apps.user.forms import Login, Signup , ChangePassword
+from project.utils.access import login_user, logout_user ,logged_in_user
 
 from project.apps.user.models import User
 from project.apps.team.models import Team
@@ -77,33 +77,19 @@ def logout():
 	return "", 200
 
 
-@user.route('change_profile/', methods=['PUT'])
-def change_user():
-        form = ChangeUser.from_json(request.json)
+@user.route('change_password/', methods=['PUT'])
+def change_password():
+        form = ChangePassword.from_json(request.json)
         if form.validate():
-                isError = False
-                pastUsername = logged_in_user()
-                newUsername = form.data['username']
-                newEmail = form.data['email']
-                obj = User.objects().get(username=pastUsername)
-                if newUsername and newUsername != pastUsername:
-                        try:
-                                newObj = User.objects().get(username=newUsername)
-                                form.username.errors.append(form.username.gettext('Repetitive username.'))
-                                isError = True
-                        except:
-                                obj.username = newUsername
-                elif not newUsername :
-                        form.username.errors.append(form.username.gettext('Nothing to change username.'))
-                        isError = True
-                if newEmail :
-                        obj.email = newEmail
-                else :
-                        form.username.errors.append(form.username.gettext('Nothing to change email.'))
-                        isError = True
-                obj.save()
-                if isError:
-                        return return jsonify(errors=form.errors), 406
-                else :
+                old_password = form.data['old_password']
+                new_password = form.data['new_password']
+                username = logged_in_user()
+                obj = User.objects().get(username=username)
+                if obj.change_password(old_password , new_password):
+                        obj.save()
                         return "", 200
+                else:
+                        form.old_password.errors.append(form.old_password.gettext('Wrong password.'))
+                        return jsonify(errors=form.errors), 401
         return "", 406
+                        

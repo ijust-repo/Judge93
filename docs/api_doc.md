@@ -4,6 +4,8 @@ ElmosJudge93 v0.1 API DOC
 APIs Usage
 ==========
 
+> In case url or method does not exist response status code will be **404**.
+> In case you send a bad json request status code will be **400**.
 > In all resources if response status code is **405** then the request url or method is invalid or you must login to use that resource.
 
 
@@ -130,6 +132,38 @@ Resource Information
 
 
 
+ChangePassword
+======
+
+Resource URL
+>PUT
+> **/user/change_password/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+
+Example Request
+```
+{
+  "old_password": "123123",
+  "new_password": "1231235"
+}
+```
+
+
+> **NOTE:**
+>
+>- If response status code is **200** then you have successfully changed password.
+>- If response status code is **401** then you have errors with changing Password like `Wrong password`.
+>- If there are errors like a required field response status code will be **406**.
+
+-------
+
+
+
 Team API
 ========
 
@@ -179,13 +213,82 @@ Example Request
 
 > **NOTE:**
 >
->- The team creator will be the owner of the team and one of its members by default.
+>- The team creator will be the owner of the team.
 >- If response status code is **201** then new team is successfully created.
->- If there are more than two members in the request, response status code will be **401** and you will have errors with creating team like  **'Number of members must be under three!' ** .
->- If owner is found in the members of the request, status code will be **401** and and you will have errors with creating team like  **'Owner is one of members by default!' ** .
->- If the members in the request are the same, status code will be **401** and and you will have errors with creating team like **'No one can be added twice!' ** .
->- If the requested members do not exist in data base, status code will be **401** and you will have errors with creating team like  **'User does not exist!' ** .
+>- If there are more than two members in the request, response status code will be **406** and you will have errors with creating team like  **'Number of members must be under three!' ** .
+>- If owner is found in the members of the request, status code will be **406** and and you will have errors with creating team like  **'Owner can not be added to the team!' ** .
+>- If the members in the request are the same, status code will be **406** and and you will have errors with creating team like **'No one can be added twice!' ** .
+>- If the requested members do not exist in data base, status code will be **406** and you will have errors with creating team like  **'User does not exist!' ** .
 >- If the name of team already exists, status code will be **409** .
+>- If there are errors like a required field response status code will be **406** .
+
+--------
+
+
+Change team name
+===============
+
+Resource URL
+>PUT
+**/team/change_name/```string:team_id```/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "new_name": "newTeam" 
+}
+```
+
+> **Note:**
+
+>- Team_id is the Id of the team in database.
+>- If response status code is **200** then the team name successfully changed.
+>- If response status code is **406** then the user is not owner of the team or team does not exist.
+>- If response status code is **409** then the new name does not exist.
+>- If there are errors like a required field response status code will be **406** .
+
+------- 
+
+
+Contest API
+========
+
+
+Creating new contest
+===============
+
+Resource URL
+>post
+> **/contest/creat/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "name": "new_contest" ,
+  "starts_on": 1500000000,
+  "ends_on": 1800000000
+}
+
+```
+
+> **NOTE:**
+>
+>- Type of "starts_on" is float:timestamp.
+>- Type of "ends_on" is float:timestamp.
+>- If response status code is **201** then new contest is successfully created.
+>- If the name of contest already exists, status code will be **409** and you will have errors with creating contest like **'Contest with this name already exists!' ** .
+>- If the value of "starts_on" is biger than value of "ends_on" , status code will be **406** and you will have errors with creating contest like **'Start date must be earlier than end date!' ** .
+>- If thc float form of current time is biger than the value of "starts_on",  status code will be **406** and you will have errors with creating contest like **'Start date must be later than now!' ** .
 >- If there are errors like a required field response status code will be **406** .
 
 --------
