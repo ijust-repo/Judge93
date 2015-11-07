@@ -292,3 +292,30 @@ Example Request
 >- If there are errors like a required field response status code will be **406** .
 
 --------
+
+Contests List
+===============
+
+Resource URL
+>GET
+> **/contest/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|NO (must be authenticated)|
+
+Example Request
+```
+/contest/?create_from=1200000000&create_to= 1500000000&start_from=1300000000&start_to=1500000550
+
+```
+
+> **NOTE:**
+>
+>- Type of "create_from" and "create_to" and "start_from" and "start_to" is float:timestamp.
+>- default value of "start_from" and "create_from" is 0.
+>- default value of "start_to" and "create_to" is current time.
+>- If response status code is **200** then the ContestsList returned successfully.
+
+--------

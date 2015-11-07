@@ -50,29 +50,29 @@ def create():
 
 @contest.route('/', methods=['GET'])
 def contests_list():
-        create_date_from = request.args.get('create_from', 0.0, type=float)
-        create_date_to = request.args.get('create_to', datetime.utcnow(), type=float)
-        start_date_from = request.args.get('start_from', 0.0, type=float)
-        start_date_to = request.args.get('start_to', datetime.utcnow(), type=float)
+		create_date_from = request.args.get('create_from', 0.0, type=float)
+		create_date_to = request.args.get('create_to', datetime.utcnow(), type=float)
+		start_date_from = request.args.get('start_from', 0.0, type=float)
+		start_date_to = request.args.get('start_to', datetime.utcnow(), type=float)
 
-        if type(create_date_from) == float:
-                create_date_from = datetime.fromtimestamp(create_date_from)
-                
-        if type(start_date_from) == float:
-                start_date_from = datetime.fromtimestamp(start_date_from)
-       
-        if type(create_date_to) == float:
-                create_date_to = datetime.fromtimestamp(create_date_to)
-                
-        if type(start_date_to) == float:
-                start_date_to = datetime.fromtimestamp(start_date_to)
+		if type(create_date_from) == float:
+			create_date_from = datetime.fromtimestamp(create_date_from)
 
-        contests_list = []
-        print Contest.objects(created_on__gte = create_date_from)
-        for obj in (Contest.objects(created_on__gte = create_date_from) and
-                    Contest.objects(starts_on__gte = start_date_from) and
-                    Contest.objects(created_on__lte = create_date_to) and
-                    Contest.objects(starts_on__lte = start_date_to)):
-                
-                contests_list.append(obj.to_json())
-        return jsonify(contests = contests_list) , 200
+		if type(start_date_from) == float:
+			start_date_from = datetime.fromtimestamp(start_date_from)
+
+		if type(create_date_to) == float:
+			create_date_to = datetime.fromtimestamp(create_date_to)
+		        
+		if type(start_date_to) == float:
+			start_date_to = datetime.fromtimestamp(start_date_to)
+
+		contests_list = []
+		print Contest.objects(created_on__gte = create_date_from)
+		for obj in (Contest.objects(created_on__gte = create_date_from) and
+					Contest.objects(starts_on__gte = start_date_from) and
+					Contest.objects(created_on__lte = create_date_to) and
+					Contest.objects(starts_on__lte = start_date_to)):
+
+				contests_list.append(obj.to_json())
+		return jsonify(contests = contests_list) , 200
