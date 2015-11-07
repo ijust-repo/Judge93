@@ -89,7 +89,29 @@ function showSignUp(){
   document.title = "Sign Up";
   document.getElementById('login').style.display = 'none';
   document.getElementById('signup').style.display = 'block';
-}$(document).ready(function () {
+}
+
+$(document).ready(function () {
+  $("#setting").click(function() { 
+    $('#usernameitem').css('background-color', '#312736');
+    $('#setting').css('background-color', '#6C6368');
+    $('.post').css('display', 'none');
+    $('.settingcontent').css('display', 'block');
+
+  });
+});
+
+$(document).ready(function () {
+  $("#usernameitem").click(function() { 
+    $('#setting').css('background-color', '#312736');
+    $('#usernameitem').css('background-color', '#6C6368');
+    $('.settingcontent').css('display', 'none');
+    $('.post').css('display', 'block');
+
+  });
+});
+
+$(document).ready(function () {
 $("#logout").click(function() { 
 
 
