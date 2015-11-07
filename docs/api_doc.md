@@ -118,6 +118,7 @@ Example Request
 ```
 {
   "username": "admin", 
+  "email": "mdan.hagh@gmail.com",  
   "password": "123123"
 }
 ```
@@ -125,7 +126,7 @@ Example Request
 > **NOTE:**
 >
 >- If response status code is **201** then you have successfully signed in.
->- If response status code is **409** then you have errors with signup like `user already exists`.
+>- If response status code is **409** then you have errors with signup like `Username already exists.` or `Email already exists.`.
 >- If there are errors like a required field response status code will be **406**.
 
 --------
