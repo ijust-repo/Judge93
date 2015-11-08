@@ -9,13 +9,14 @@ from flask import jsonify, request, render_template
 from project.apps.user import user
 from project.apps.team import team
 from project.apps.contest import contest
-from project.apps.contest.forms import CreateContest
+from project.apps.contest.forms import CreateContest , AddProblem
 from project.utils.access import login_user, logout_user, logged_in_user
 from project.utils.date import datetime_to_str, str_to_datetime
+
 #models import
 from project.apps.user.models import User
 from project.apps.team.models import Team
-from project.apps.contest.models import Contest
+from project.apps.contest.models import Contest, Problem, Testcase
 #other
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
