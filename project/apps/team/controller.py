@@ -84,9 +84,12 @@ def change_team_name(team_id):
 		
 		except DoesNotExist:			
 			return jsonify(errors='Team does not exist!'), 406
-		
+			
 		except NotUniqueError:
-			return jsonify(errors='Team does not exist!'), 406
+			form.new_name.errors.append(form.new_name.gettext('This team name already exists.'))
+			return jsonify(errors=form.errors), 409
+
+
 	return "" , 406
 
 
@@ -101,7 +104,7 @@ def get_team_member(team_id):
 		for i in team_obj.members :
 			members_list.append(i.to_json())
 			print(members_list)
-		return jsonify(results=members_list),201
+		return jsonify(results=members_list),200
 	
 	except DoesNotExist:			
 		return jsonify(errors='Team does not exist!'), 406
