@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'mahnoosh']
+__author__ = ['Kia' , 'mahnoosh','nargess']
 
 
 #flask import
@@ -86,6 +86,24 @@ def change_team_name(team_id):
 			return jsonify(errors='Team does not exist!'), 406
 		
 		except NotUniqueError:
-			form.new_name.errors.append(form.new_name.gettext('This team name already exists.'))
-			return jsonify(errors=form.errors), 409
+			return jsonify(errors='Team does not exist!'), 406
 	return "" , 406
+
+
+
+@team.route('members/<string:team_id>/', methods=['GET'])
+def get_team_member(team_id):
+	team_obj = Team.objects().get(pk=team_id)
+	members_list=[]
+	members_list.append(team_obj.owner.to_json())
+	for i in team_obj.members :
+		members_list.append(i.to_json())
+		print(members_list)
+	return jsonify(results=members_list),201
+	
+
+
+
+
+
+			
