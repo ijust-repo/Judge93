@@ -9,13 +9,13 @@ from flask import jsonify, request, render_template
 from project.apps.user import user
 from project.apps.team import team
 from project.apps.contest import contest
-from project.apps.contest.forms import CreateContest, AddProblem
+from project.apps.contest.forms import CreateContest
 from project.utils.access import login_user, logout_user, logged_in_user
 from project.utils.date import datetime_to_str, str_to_datetime
 #models import
 from project.apps.user.models import User
 from project.apps.team.models import Team
-from project.apps.contest.models import Contest, Problem, Testcase
+from project.apps.contest.models import Contest
 #other
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
@@ -46,46 +46,7 @@ def create():
 			form.name.errors.append(form.name.gettext('Contest with this name already exists!'))
 			return jsonify(errors=form.errors), 409
 	return "", 406
-
-
-@contest.route('<string:contest_id>/problem/', methods=['POST'])
-def add_problem(contest_id):
-	main_form = AddProblem.from_json(request.json)
-	#checking  forms validation
-	if not (main_form.validate()):
-		return "", 406
-	
-	contest_obj = Contest.objects().get(pk = contest_id)
-	#checking owner
-	if contest_obj.owner.username != logged_in_user():
-		return  jsonify(errors="User is not owner!"), 403
-
-	sub_forms = []
-	for sub_form in main_form.data['testcases'] :
-		sub_forms.append (sub_form)
-
-	problem = Problem (title = main_form.data ['title'])
-	problem.time_limit = main_form.data ['time_limit']
-	problem.space_limit = main_form.data ['space_limit']
-	problem.header = main_form.data ['header']
-	problem.body = main_form.data ['body']
-	problem.footer = main_form.data ['footer']
-
-	testcases = []
-	order = 1
-	for sub_form in sub_forms:
-		testcase = Testcase (input = sub_form ['input'])
-		testcase.output = sub_form ['output']
-		testcase.order = order
-		order = order + 1
-		testcases.append (testcase)
-	problem.testcases = testcases
-
-	contest_obj.problems.append (problem)
-	problem.order = len (contest_obj.problems)
-
-	contest_obj.save ()
-	return "", 201
+			
 
 @contest.route('/', methods=['GET'])
 def contests_list():
@@ -102,7 +63,7 @@ def contests_list():
 
 		if type(create_date_to) == float:
 			create_date_to = datetime.fromtimestamp(create_date_to)
-		        
+			
 		if type(start_date_to) == float:
 			start_date_to = datetime.fromtimestamp(start_date_to)
 
@@ -115,3 +76,19 @@ def contests_list():
 
 				contests_list.append(obj.to_json())
 		return jsonify(contests = contests_list) , 200
+
+@contest.route('by_id/<string:contest_id>/', methods=['GET'])
+def contest_info_by_id(contest_id):
+	try:
+		contest = Contest.objects().get(id=contest_id)
+		return jsonify(contest.to_json()) , 200
+	except DoesNotExist:
+		return "" , 406
+
+@contest.route('by_name/<string:contest_name>/', methods=['GET'])
+def contest_info_by_name(contest_name):
+	try:
+		contest = Contest.objects().get(name=contest_name)
+		return jsonify(contest.to_json()) , 200
+	except DoesNotExist:
+		return "" , 406

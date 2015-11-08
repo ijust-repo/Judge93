@@ -447,3 +447,69 @@ Example Response
 >- If response status code is **200** then the ContestsList returned successfully.
 
 --------
+
+
+contest_info_by_id
+===============
+
+Resource URL
+>GET
+> **/contest/by_id/<id>**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+/contest/by_id/563dcee823e3c01d38a73502/
+```
+Example Response
+```
+{
+"created_on": "2015-11-07 10:14:00", 
+"ends_on": "2015-11-07 15:42:40", 
+"id": "563dcee823e3c01d38a73502", 
+"name": "maincontest", 
+"owner": {"id": "563d03c623e3c01694ee7291","username": "admin24"}
+}
+```
+
+> **NOTE:**
+>- If response status code is **200** then the Contest_info returned successfully.
+>- If there are errors like a required value response status code will be **406** .
+
+--------
+
+
+contest_info_by_name
+===============
+
+Resource URL
+>GET
+> **/contest/by_name/<name>**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+/contest/by_name/maincontest/
+```
+Example Response
+```
+{
+"created_on": "2015-11-07 10:14:00", 
+"ends_on": "2015-11-07 15:42:40", 
+"id": "563dcee823e3c01d38a73502", 
+"name": "maincontest", 
+"owner": {"id": "563d03c623e3c01694ee7291","username": "admin24"}
+}
+```
+
+> **NOTE:**
+>- If response status code is **200** then the Contest_info returned successfully.
+>- If there are errors like a required value response status code will be **406** .
