@@ -46,7 +46,51 @@ def create():
 			form.name.errors.append(form.name.gettext('Contest with this name already exists!'))
 			return jsonify(errors=form.errors), 409
 	return "", 406
+<<<<<<< HEAD
 			
+=======
+
+
+@contest.route('<string:contest_id>/problem/', methods=['POST'])
+def add_problem(contest_id):
+	main_form = AddProblem.from_json(request.json)
+	#checking  forms validation
+	if not (main_form.validate()):
+		return "", 406
+	
+	contest_obj = Contest.objects().get(pk = contest_id)
+	#checking owner
+	if contest_obj.owner.username != logged_in_user():
+		return  jsonify(errors="User is not owner!"), 403
+
+	sub_forms = []
+	for sub_form in main_form.data['testcases'] :
+		sub_forms.append (sub_form)
+
+	problem = Problem (title = main_form.data ['title'])
+	problem.time_limit = main_form.data ['time_limit']
+	problem.space_limit = main_form.data ['space_limit']
+	problem.header = main_form.data ['header']
+	problem.body = main_form.data ['body']
+	problem.footer = main_form.data ['footer']
+
+	testcases = []
+	order = 1
+	for sub_form in sub_forms:
+		testcase = Testcase (input = sub_form ['input'])
+		testcase.output = sub_form ['output']
+		testcase.order = order
+		testcase.id = order
+		order = order + 1
+		testcases.append (testcase)
+	problem.testcases = testcases
+
+	contest_obj.problems.append (problem)
+	problem.order = len (contest_obj.problems)
+	problem.id = len (contest_obj.problems)
+	contest_obj.save ()
+	return "", 201
+>>>>>>> upstream/master
 
 @contest.route('/', methods=['GET'])
 def contests_list():
