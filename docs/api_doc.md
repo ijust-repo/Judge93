@@ -482,7 +482,7 @@ Example Response
 --------
 
 
-get_contest_info_by_id
+get contest info by id
 ===============
 
 Resource URL
@@ -507,7 +507,7 @@ Example Response
 "name": "maincontest", 
 "owner": {
           "id": "563d03c623e3c01694ee7291",
-          "username": "admin24"
+          "username": "admin"
         }
 }
 ```
@@ -519,7 +519,7 @@ Example Response
 --------
 
 
-get_contest_info_by_name
+get contest info by name
 ===============
 
 Resource URL
@@ -544,7 +544,7 @@ Example Response
 "name": "maincontest", 
 "owner": {
           "id": "563d03c623e3c01694ee7291",
-          "username": "admin24"
+          "username": "admin"
         }
 }
 ```
