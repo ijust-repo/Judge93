@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">  
      
-    <title>Sign Up</title>
+    <title>Login</title>
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} "rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} "rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
@@ -28,18 +28,20 @@
     </div>
 
    
-            <div id="signup" class=" right col-ms-5" style="display:block">
+            <div id="signup" class=" right col-ms-5" style="display:none">
                 <br>
-                  <p id="signupdiv"class="textproperty"> Please Sign UP</p>
+                  <p id="signupdiv" class="textproperty"> Please Sign Up</p>
                 <hr>         
-                <input type="text" name="username" id="username" placeholder="Username" required /><br>             
-                <input type="password" name="password" id="password" placeholder="Password" required /><br>                
+                <input type="text" name="username" id="username_signup" placeholder="Username" required /><br>             
+                <input type="password" name="password" id="password_signup" placeholder="Password" required /><br>    
+                <input type="password" name="password" id="re-password_signup" placeholder="re-Enter Password" required /><br>
+                <input type="email" name="username" id="email_signup" placeholder="Email" /><br>             
                 <input type="button" name="signup" id="signupbtn" class="btn btn-primary "value="register" /><br>
                 or <a href="#" onclick="showLogin()">Login</a>
                 
             </div>
 
-            <div id="login" class=" right col-ms-5" style="display:none">
+            <div id="login" class=" right col-ms-5" >
                 <br>
                   <p id="logindiv"class="textproperty"> Please Login</p>
                 <hr>         

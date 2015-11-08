@@ -10,12 +10,14 @@ from project.utils.date import datetime_to_str
 
 
 class Testcase(EmbeddedDocument):
+	id = IntField(required=True, unique=True)
 	order = IntField(required=True, unique=True, sparse=True)
 	input = StringField(required=True)
 	output = StringField(required=True)
 
 
 class Problem(EmbeddedDocument):
+	id = IntField(required=True, unique=True)
 	order = IntField(required=True, unique=True, sparse=True)
 	title = StringField(required=True)
 	time_limit = IntField(required=True)
@@ -28,6 +30,7 @@ class Problem(EmbeddedDocument):
 
 
 class Result(EmbeddedDocument):
+	id = IntField(required=True, unique=True)
 	problem = ReferenceField('Problem', required=True, unique=True, sparse=True)
 	status = StringField()
 	penalty = IntField()
@@ -35,6 +38,7 @@ class Result(EmbeddedDocument):
 
 
 class TeamInfo(EmbeddedDocument):
+	id = IntField(required=True, unique=True)
 	team = ReferenceField('Team', required=True, unique=True, sparse=True)
 	accepted = BooleanField()
 	problem_results = ListField(EmbeddedDocumentField(Result))
