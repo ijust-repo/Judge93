@@ -46,9 +46,6 @@ def create():
 			form.name.errors.append(form.name.gettext('Contest with this name already exists!'))
 			return jsonify(errors=form.errors), 409
 	return "", 406
-<<<<<<< HEAD
-			
-=======
 
 
 @contest.route('<string:contest_id>/problem/', methods=['POST'])
@@ -90,7 +87,6 @@ def add_problem(contest_id):
 	problem.id = len (contest_obj.problems)
 	contest_obj.save ()
 	return "", 201
->>>>>>> upstream/master
 
 @contest.route('/', methods=['GET'])
 def contests_list():
