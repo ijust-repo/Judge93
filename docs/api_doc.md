@@ -300,8 +300,6 @@ Example Result
 }
 ```
 
-
-
 > **NOTE:**
 
 >- Team_id is the Id of the team in database.
