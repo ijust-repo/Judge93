@@ -247,7 +247,7 @@ Get logged in user profile
 
 Resource URL
 >GET
-> **/user/get_profile/**
+> **/user/get_current_user/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -266,7 +266,6 @@ Example Response:
 > **NOTE:**
 >
 >- If response status code is **200** then the logged in user have been successfully found and returned.
->- If response status code is **406** then no one has been logged in.
 
 -----------
 
