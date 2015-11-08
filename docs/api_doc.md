@@ -466,7 +466,9 @@ Example Response
 "ends_on": "2015-11-07 15:42:40", 
 "id": "563dcee823e3c01d38a73502", 
 "name": "maincontest", 
-"owner": {"id": "563d03c623e3c01694ee7291","username": "admin24"}
+"owner": {"id": "563d03c623e3c01694ee7291",
+          "username": "admin24"
+          }
 }
 ```
 
