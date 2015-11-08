@@ -93,15 +93,17 @@ def change_team_name(team_id):
 
 @team.route('members/<string:team_id>/', methods=['GET'])
 def get_team_member(team_id):
-	team_obj = Team.objects().get(pk=team_id)
-	members_list=[]
-	members_list.append(team_obj.owner.to_json())
-	for i in team_obj.members :
-		members_list.append(i.to_json())
-		print(members_list)
-	return jsonify(results=members_list),201
+	try:
+		team_obj = Team.objects().get(pk=team_id)
+		members_list=[]
+		members_list.append(team_obj.owner.to_json())
+		for i in team_obj.members :
+			members_list.append(i.to_json())
+			print(members_list)
+		return jsonify(results=members_list),201
 	
-
+	except DoesNotExist:			
+		return jsonify(errors='Team does not exist!'), 406
 
 
 
