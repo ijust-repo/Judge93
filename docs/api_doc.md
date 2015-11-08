@@ -242,6 +242,34 @@ Example Response:
 --------
 
 
+Get logged in user profile
+==========================
+
+Resource URL
+>GET
+> **/user/get_profile/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+Example Response:
+```
+{
+  "email": "example@gmail.com", 
+  "id": "563b9d2857040f1b6c805892", 
+  "username": "admin"
+}
+```
+
+> **NOTE:**
+>
+>- If response status code is **200** then the logged in user have been successfully found and returned.
+
+-----------
+
+
 Get user profile by user id
 ============================
 
