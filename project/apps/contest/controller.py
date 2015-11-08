@@ -77,13 +77,14 @@ def add_problem(contest_id):
 		testcase = Testcase (input = sub_form ['input'])
 		testcase.output = sub_form ['output']
 		testcase.order = order
+		testcase.id = order
 		order = order + 1
 		testcases.append (testcase)
 	problem.testcases = testcases
 
 	contest_obj.problems.append (problem)
 	problem.order = len (contest_obj.problems)
-
+	problem.id = len (contest_obj.problems)
 	contest_obj.save ()
 	return "", 201
 
