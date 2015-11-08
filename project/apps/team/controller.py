@@ -91,6 +91,7 @@ def change_team_name(team_id):
 
 
 
+
 @team.route('members/<string:team_id>/', methods=['GET'])
 def get_team_member(team_id):
 	try:
