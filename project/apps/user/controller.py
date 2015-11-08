@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
-__author__ = ['AminHP','SALAR','Aref']
-=======
-__author__ = ['AminHP','SALAR' , 'mahnoosh']
->>>>>>> 0468cf406acfb4a7f5d0244e3624cb21099f52f1
+__author__ = ['AminHP','SALAR' , 'mahnoosh', 'Aref']
 
 
 #flask import
