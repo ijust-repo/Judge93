@@ -150,8 +150,8 @@ def get_user_profile_by_id(user_id):
 		return jsonify(errors="User does not exists!"), 406
 		
 			
-@user.route('get_current_user/', methods=['GET'])
-def get_logged_in_user():
+@user.route('get_logged_in_user/', methods=['GET'])
+def get_current_user():
 	
 	obj = User.objects().get(username=logged_in_user())
 	resp = obj.to_json_profile()

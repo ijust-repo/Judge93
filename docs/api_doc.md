@@ -247,7 +247,7 @@ Get logged in user profile
 
 Resource URL
 >GET
-> **/user/get_current_user/**
+> **/user/get_logged_in_user/**
 
 Resource Information
 >|Response formats|Requires authentication?|
