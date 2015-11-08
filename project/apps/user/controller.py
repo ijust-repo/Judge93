@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
-__author__ = ['AminHP','SALAR','Aref']
-=======
-__author__ = ['AminHP','SALAR' , 'mahnoosh']
->>>>>>> 0468cf406acfb4a7f5d0244e3624cb21099f52f1
+__author__ = ['AminHP','SALAR', 'mahnoosh', 'Aref']
 
 
 #flask import
@@ -61,7 +57,6 @@ def login():
 	return "", 406
 
 
-
 @user.route('signup/', methods=['POST'])
 def signup():
 	form = Signup.from_json(request.json)
@@ -116,7 +111,6 @@ def change_profile():
         return "", 406
         
         
-
 @user.route('change_password/', methods=['PUT'])
 def change_password():
         form = ChangePassword.from_json(request.json)
@@ -142,7 +136,7 @@ def get_user_profile_by_username(username):
 		resp.pop('username', None)
 		return jsonify(resp), 200
 	except DoesNotExist:
-			return jsonify(errors="User does not exists!"), 406
+		return jsonify(errors="User does not exists!"), 406
 
 
 @user.route('get_profile/by_id/<string:user_id>/', methods=['GET'])
@@ -153,7 +147,4 @@ def get_user_profile_by_id(user_id):
 		resp.pop('id', None)
 		return jsonify(resp), 200
 	except DoesNotExist:
-			return jsonify(errors="User does not exists!"), 406
-
-
-
+		return jsonify(errors="User does not exists!"), 406
