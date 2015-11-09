@@ -291,12 +291,20 @@ Resource Information
 Example Result
 ```
 {
-  "id": "user_id",
-  "username": "member1",
-  "id": "user_id",
-  "username": "member2",
-  "id": "user_id",
-  "username": "member3"
+   "members": [
+    {
+      "id": "user_id", 
+      "username": "member1"
+    }, 
+    {
+      "id": "user_id", 
+      "username": "member2"
+    }, 
+    {
+      "id": "user_id", 
+      "username": "member3"
+    }
+  ]
 }
 ```
 

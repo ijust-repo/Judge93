@@ -103,8 +103,7 @@ def get_team_member(team_id):
 		members_list.append(team_obj.owner.to_json())
 		for i in team_obj.members :
 			members_list.append(i.to_json())
-			print(members_list)
-		return jsonify(results=members_list),200
+		return jsonify(members=members_list),200
 	
 	except DoesNotExist:			
 		return jsonify(errors='Team does not exist!'), 406
