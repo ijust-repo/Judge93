@@ -155,4 +155,4 @@ def get_current_user():
 	
 	obj = User.objects().get(username=logged_in_user())
 	resp = obj.to_json_profile()
-	return jsonify(resp) , 200
+	return jsonify(resp) ,200

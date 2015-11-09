@@ -1,4 +1,4 @@
-
+//sign up
 $(document).ready(function () {
 $("#signupbtn").click(function() { 
 
@@ -12,21 +12,18 @@ if (password===password2) {
             type: "POST",
             url : '/user/signup/',
             contentType: "application/json",
-            dataType: "json",
+            dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
             success: function (data) {
-     
+     					window.location.replace("/user/");
             },
             error: function (request, status, error) {            
          
         
-               if (request.status===201) {
-	      
-	      		window.location.replace("/user/");
-      		}
-      		else if (request.status===409) 
+              
+      		 if (request.status===409) 
              {
-					alert(" this username is already taken ");             
+					alert(" this username or is already taken ");             
              }
 				else if (request.status===406) 
              {
@@ -41,12 +38,16 @@ if (password===password2) {
       {
 			alert(" passwords don't match");      
       }
+        $("input#username_signup").reset();
+		 $("input#password_signup").value(" ");  
+		 $("input#re-password_signup").value()=' ';  
+		 $("input#email_signup").value()=" "; 
   });
 });
-
+//end sign up
+//login
 $(document).ready(function () {
 $("#loginbtn").click(function() { 
-
 
 var username = $("input#username_login").val();
 var password = $("input#password_login").val();  
@@ -55,17 +56,14 @@ var password = $("input#password_login").val();
             type: "POST",
             url : '/user/login/',
             contentType: "application/json",
-            dataType: "json",
+            dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '"}',
             success: function (data) {
-                
+                window.location.replace("/user/home/");
             },
             error: function (request, status, error) {
-        
-              if (request.status===200) {
-	      		window.location.replace("/user/home/");
-      		}
-      		else if (request.status===401) 
+                    
+      		 if (request.status===401) 
              {
 					alert(" Username or password is incorrect ");             
              }
@@ -79,7 +77,7 @@ var password = $("input#password_login").val();
     });
   });
 });
-
+//end login
 function showLogin(){
   document.title = "Login";
   document.getElementById('signup').style.display = 'none';
@@ -110,7 +108,7 @@ $(document).ready(function () {
 
   });
 });
-
+//logout
 $(document).ready(function () {
 $("#logout").click(function() { 
 
@@ -118,25 +116,41 @@ $("#logout").click(function() {
   $.ajax({
             type: "GET",
             url : '/user/logout/',
-            dataType: "jsonp", 
-        		jsonp:"skywardDetails",
- 				
+            dataType: "html",  				
             success: function () {
-           
+           	window.location.replace("/user/");
             },
           error: function (request, status, error) {
-        
-              if (request.status===200) {
-	      
-	      		window.location.replace("/user/");
-      		}
-             {
+                    
 					alert(request.message);             
-             }
-          
-          
 
             }
     });
   });
 });
+//end logout
+//show username
+$(document).ready(function () {
+$("#usernameitem").click(function() { 
+ 
+  $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 
+ 				
+            success: function (data) {
+           $( '#getusername ' ).html(data.records.username); 
+			alert("hello");
+				alert(data.records.username);
+            },
+           error: function (request) {
+                   
+				alert("this user not found");
+			 	      
+	      		
+      		}
+  
+    });
+  });
+});
+//end show username
