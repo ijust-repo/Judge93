@@ -92,10 +92,20 @@ function showSignUp(){
 }
 
 $(document).ready(function () {
+
+    $("#team").click(function() {
+        $('.post').css('display', 'none');
+        $('.settingcontent').css('display', 'none');
+        $('#titlePage').html("Team");
+        $('.close-page').removeClass('close-page').addClass('open-page');
+    });
+
   $("#setting").click(function() { 
     $('#usernameitem').css('background-color', '#312736');
     $('#setting').css('background-color', '#6C6368');
     $('.post').css('display', 'none');
+    $('.open-page').removeClass('open-page').addClass('close-page');
+      $('#titlePage').html("News");
     $('.settingcontent').css('display', 'block');
 
   });
@@ -106,6 +116,8 @@ $(document).ready(function () {
     $('#setting').css('background-color', '#312736');
     $('#usernameitem').css('background-color', '#6C6368');
     $('.settingcontent').css('display', 'none');
+      $('.open-page').removeClass('open-page').addClass('close-page');
+      $('#titlePage').html("News");
     $('.post').css('display', 'block');
 
   });
