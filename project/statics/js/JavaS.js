@@ -166,3 +166,36 @@ $("#usernameitem").click(function() {
   });
 });
 //end show username
+
+//change password
+$(document).ready(function () {
+  $("input#changeSettingbtn").click(function() { 
+    var email = $("input#change_email").val();
+    var password_old = $("input#change_password_old").val();
+    var password_new = $("input#change_password_new").val();
+    $.ajax({
+
+      type: "PUT",
+      url : '/user/change_password/',
+      contentType: "application/json",
+      dataType: "json",
+      data: '{"old_password" : "' + password_old + '", "new_password" : "' + password_new + '"}',
+      success: function (data) {
+                
+      },
+      error: function (request, status, error) {
+        if (request.status === 200) {
+          alert(" Password changed successfully ");
+        } else if (request.status === 401) {
+          alert(" Wrong password! ");
+        } else if (request.status === 406) {
+          alert(" fields required! ");
+        }
+      }
+
+
+    });
+
+  });
+});
+//end change password
