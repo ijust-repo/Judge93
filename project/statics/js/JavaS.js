@@ -1,96 +1,7 @@
-//sign up
-$(document).ready(function () {
-$("#signupbtn").click(function() { 
-
-
-var username = $("input#username_signup").val();
-var password = $("input#password_signup").val();  
-var password2 = $("input#re-password_signup").val();  
-var email = $("input#email_signup").val(); 
-if (password===password2) {
-  $.ajax({
-            type: "POST",
-            url : '/user/signup/',
-            contentType: "application/json",
-            dataType: "html",
-            data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
-            success: function (data) {
-     					window.location.replace("/user/");
-            },
-            error: function (request, status, error) {            
-         
-        
-              
-      		 if (request.status===409) 
-             {
-					alert(" this username or is already taken ");             
-             }
-				else if (request.status===406) 
-             {
-					alert("Please fill in all fields");             
-             }
-          }
-              
-
-                            });
-      }
-      else
-      {
-			alert(" passwords don't match");      
-      }
-        $("input#username_signup").reset();
-		 $("input#password_signup").value(" ");  
-		 $("input#re-password_signup").value()=' ';  
-		 $("input#email_signup").value()=" "; 
-  });
-});
-//end sign up
-//login
-$(document).ready(function () {
-$("#loginbtn").click(function() { 
-
-var username = $("input#username_login").val();
-var password = $("input#password_login").val();  
-
-  $.ajax({
-            type: "POST",
-            url : '/user/login/',
-            contentType: "application/json",
-            dataType: "html",
-            data: '{"username": "' + username + '", "password" : "' + password + '"}',
-            success: function (data) {
-                window.location.replace("/user/home/");
-            },
-            error: function (request, status, error) {
-                    
-      		 if (request.status===401) 
-             {
-					alert(" Username or password is incorrect ");             
-             }
-				else if (request.status===406) 
-             {
-					alert("Please fill in all fields");             
-             }
-              
-
-            }
-    });
-  });
-});
-//end login
-function showLogin(){
-  document.title = "Login";
-  document.getElementById('signup').style.display = 'none';
-  document.getElementById('login').style.display = 'block';
-}
-function showSignUp(){
-  document.title = "Sign Up";
-  document.getElementById('login').style.display = 'none';
-  document.getElementById('signup').style.display = 'block';
-}
 
 $(document).ready(function () {
 
+//show create team
     $("#team").click(function() {
         $('.post').css('display', 'none');
         $('.settingcontent').css('display', 'none');
@@ -107,9 +18,6 @@ $(document).ready(function () {
     $('.settingcontent').css('display', 'block');
 
   });
-});
-
-$(document).ready(function () {
   $("#usernameitem").click(function() { 
     $('#setting').css('background-color', '#312736');
     $('#usernameitem').css('background-color', '#6C6368');
@@ -119,12 +27,8 @@ $(document).ready(function () {
     $('.post').css('display', 'block');
 
   });
-});
 //logout
-$(document).ready(function () {
 $("#logout").click(function() { 
-
-
   $.ajax({
             type: "GET",
             url : '/user/logout/',
@@ -132,37 +36,73 @@ $("#logout").click(function() {
             success: function () {
            	window.location.replace("/user/");
             },
-          error: function (request, status, error) {
-                    
-					alert(request.message);             
-
+          error: function (request, status, error) { 
+			  if(request.status===405){    
+					alert("Please login first"); 
+				}            
             }
+            
     });
   });
-});
-//end logout
 //show username
-$(document).ready(function () {
-$("#usernameitem").click(function() { 
- 
+      	      		   		
   $.ajax({
             type: "GET",
             url : '/user/get_profile/',
-            dataType: "html", 
- 				
+            dataType: "html", 				
             success: function (data) {
-           $( '#getusername ' ).html(data.records.username); 
-			alert("hello");
-				alert(data.records.username);
+           $( '#getusername ' ).html((JSON.parse(data)).username); 			
             },
-           error: function (request) {
-                   
-				alert("this user not found");
-			 	      
-	      		
+           error: function (request) {                
+				alert("this user not found");	      	      		
       		}
-  
-    });
-  });
-});
+		});
 //end show username
+//change profile
+function changeprofile(username){
+  document.title = username;
+  document.getElementById('usernameitem').style.display = 'none';
+			document.getElementById('usernameprofitem').style.display = 'block';
+			document.getElementById('backtoprofile').style.display = 'block';
+			document.getElementById('logout').style.display = 'none';
+			document.getElementById('users').style.display = 'none';
+			document.getElementById('setting').style.display = 'none';
+			$( '#getusernameprof ' ).html(username); 
+			 
+}
+//go to profile
+$("#usernamecontact").click(function() { 
+ var username = $("#usernamecontact").text();
+  $.ajax({
+            type: "GET",
+            url : "/user/get_profile/by_username/"+ username + "/",
+            contentType: "application/json",
+            dataType: "html",
+            success: function (data) {
+            changeprofile(username);
+             window.history.replaceState(username,username, "/user/"+ username  );  
+            },
+            error: function (request, status, error) {
+                    
+      		 if (request.status===406) 
+             {
+					alert(" the user id does not exist ");             
+             }  
+
+            }
+          });          
+  });
+
+// back to profile
+$("#backtoprofile").click(function() { 
+           	window.location.replace("/user/home/");
+              document.title = "home";
+			document.getElementById('usernameitem').style.display = 'block';
+			document.getElementById('usernameprofitem').style.display = 'none';
+			document.getElementById('backtoprofile').style.display = 'none';
+			document.getElementById('logout').style.display = 'block';
+			document.getElementById('users').style.display = 'block';
+			document.getElementById('setting').style.display = 'block';
+			  });
+ 
+  });

@@ -12,12 +12,15 @@
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 </head>
 
-<body>
-	<ul class="col-lg-2 leftmenu shadow">
+<body >
+	<ul class="col-lg-2 leftmenu shadow" onload="username();">
 		
-		<li class="leftmenuitem" id="usernameitem">
+		<li class="leftmenuitem usernameitem" id="usernameitem">
 			<span id="getusername">Username</span>
 		</li>	
+		<li class="leftmenuitem usernameitem" id="usernameprofitem" style="display:none">
+			<span id="getusernameprof">heyyyy</span>
+		</li>
 		
 		<li class="leftmenuitem" id="contest">
 		 	<h4 >Contests</h4>
@@ -37,6 +40,9 @@
 		
 		<li class="leftmenuitem" id="logout">
 		 	<h4 >Log out</h4>
+		</li>
+		<li class="leftmenuitem" id="backtoprofile" style="display:none" >
+		 	<h4 >Back to profile</h4>
 		</li>
 
 	</ul>
@@ -65,17 +71,19 @@
         </div>
     </div>
 
-            <div class="row">
+    <div class="row">
 
 		<div class="col-lg-10  maintitr">
 			<p id="titlePage"> News</p>
             <div><a href="#createTeam"><button class="hover-button close-page">Create Team</button></a></div>
 		</div>
-	
+	</div>
+	<div class="row">
       	<div  class="contents  col-lg-9 shadow" >
 			
 			<div class="post">
 				<h4 >title</h4>
+				<a id="usernamecontact"  >bbb</a>
 				<p>content</p>    
 	    	</div>
 
@@ -122,7 +130,7 @@
 			</div>
 
    		</div>
-   	
+   	</div>
    	</div>
 
 </body>

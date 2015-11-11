@@ -9,7 +9,6 @@
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} "rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 </head>
 
@@ -58,5 +57,94 @@
     </div>
 
 </body>
+<script language="javascript">
+$(document).ready(function () {
+	//sign up
+$("#signupbtn").click(function() { 
+var username = $("input#username_signup").val();
+var password = $("input#password_signup").val();  
+var password2 = $("input#re-password_signup").val();  
+var email = $("input#email_signup").val(); 
+if (password===password2) {
+  $.ajax({
+            type: "POST",
+            url : '/user/signup/',
+            contentType: "application/json",
+            dataType: "html",
+            data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
+            success: function (data) {
+     					window.location.replace("/user/");
+            },
+            error: function (request, status, error) {            
+         
+        
+              
+      		 if (request.status===409) 
+             {
+					alert(" this username or is already taken ");             
+             }
+				else if (request.status===406) 
+             {
+					alert("Please fill in all fields");             
+             }
+          }
+              
+
+          });
+      }
+      else
+      {
+			alert(" passwords don't match");      
+      }
+        $("#username_signup").val('');
+		 $("#password_signup").val('');  
+		 $("#re-password_signup").val('');  
+		 $("#email_signup").val('');
+  });
+//login
+$("#loginbtn").click(function() { 
+
+var username = $("input#username_login").val();
+var password = $("input#password_login").val();  
+
+  $.ajax({
+            type: "POST",
+            url : '/user/login/',
+            contentType: "application/json",
+            dataType: "html",
+            data: '{"username": "' + username + '", "password" : "' + password + '"}',
+            success: function (data) {
+                window.location.replace("/user/home/");
+            },
+            error: function (request, status, error) {
+                    
+      		 if (request.status===401) 
+             {
+					alert(" Username or password is incorrect ");             
+             }
+				else if (request.status===406) 
+             {
+					alert("Please fill in all fields");             
+             }
+              
+
+            }
+                });
+  $("#username_login").val('');
+		 $("#password_login").val('');                
+                
+  });
+function showLogin(){
+  document.title = "Login";
+  document.getElementById('signup').style.display = 'none';
+  document.getElementById('login').style.display = 'block';
+}
+function showSignUp(){
+  document.title = "Sign Up";
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('signup').style.display = 'block';
+}
+});
+</script>
 </html>
 
