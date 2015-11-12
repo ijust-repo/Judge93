@@ -77,8 +77,8 @@ def add_member():
             team_obj = Team.objects.get(name=team_name)
 
         except DoesNotExist:
-            form.name.errors.append(form.name.gettext('Team does not exist!'))
-            return jsonify(errors=form.errors), 401
+            form.name.errors.append(form.name.gettext('Team does not exists!'))
+            return jsonify(errors=form.errors), 406
 
         if not team_obj.owner.username == logged_in_user():
                 form.members.errors.append(form.members.gettext("you aren't team owner!"))
@@ -90,12 +90,12 @@ def add_member():
 
         if logged_in_user() in members:
             form.members.errors.append(form.members.gettext('you already are in the team members remove yourself from the list!'))
-            return jsonify(errors=form.errors), 401
+            return jsonify(errors=form.errors), 406
 
         for member in members:
             if User.objects.get(username=member) in team_obj.members:
                 form.members.errors.append(form.members.gettext('No one can be added twice!'))
-                return jsonify(errors=form.errors), 401
+                return jsonify(errors=form.errors), 406
             else:
                 try:
                         u = User.objects.get(username=member)
