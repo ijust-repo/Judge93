@@ -242,6 +242,34 @@ Example Response:
 --------
 
 
+Get logged in user profile
+==========================
+
+Resource URL
+>GET
+> **/user/get_profile/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+Example Response:
+```
+{
+  "email": "example@gmail.com", 
+  "id": "563b9d2857040f1b6c805892", 
+  "username": "admin"
+}
+```
+
+> **NOTE:**
+>
+>- If response status code is **200** then the logged in user have been successfully found and returned.
+
+-----------
+
+
 Get user profile by user id
 ============================
 
@@ -441,6 +469,76 @@ Example Request
 >- If there are errors like a required field response status code will be **406** .
 
 --------
+
+
+
+Edit Contest
+============
+
+Resource URL
+>PUT
+> **/contest/```<string:contest_id>```/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "name":"new name",
+  "starts_on":2000 ,
+  "ends_on":2000 ,
+  "problems": [{ "id":1 ,
+                 "order":1 ,
+                 "title":"new title" ,
+                 "time_limit":10 ,
+                 "space_limit":10 ,
+                 "header":"new header" ,
+                 "body":"new body" ,
+                 "footer":"new footer" ,
+                 "testcaases": [ {"id":1 ,
+                                  "order":1 ,
+                                  "input":"new input" ,
+                                  "output":"new output" } ,
+                                 {"id":2 ,
+                                  "order":2 ,
+                                  "input":"new input 2" ,
+                                  "output":"new output 2"} ] }
+                { "id":2 ,
+                 "order":2 ,
+                 "title":"new title 2" ,
+                 "time_limit":20 ,
+                 "space_limit":20 ,
+                 "header":"new header 2" ,
+                 "body":"new body 2" ,
+                 "footer":"new footer 2" ,
+                 "testcaases": [ {"id":1 ,
+                                  "order":1 ,
+                                  "input":"new input 3" ,
+                                  "output":"new output 3" } ,
+                                 {"id":2 ,
+                                  "order":2 ,
+                                  "input":"new input 4" ,
+                                  "output":"new output 4"} ] } ] }
+```
+
+> **NOTE:**
+>
+>- All fields are optional!
+>- Problems and test cases are sorted by the value of order field .
+>- If there are new starts_on and new ends_on and new starts_on is biger than new ends_on then status code will be **406** and there will be errors like **'Start date must be earlier than end date!'** . 
+>- If there is new starts_on but no new ends_on and new starts_on is biger than the ends_on we had before then status code will be **406** and there will be errors like **'Start date must be earlier than end date!'** . 
+>- If there is new ends_on but no new starts_on and new ends_on is lower than the starts_on we had before then status code will be **406** and there will be errors like **'End date must be later than start date!'** .
+>- If there is new starts_on and new starts_on is biger than created_on then status code will be **406** and there will be errors like **'Start date must be later than creation time!!'** . 
+>- If the logged in user is not the owner of contest, status code will be **403** and there will be errors like **'User is not owner!'**
+>- If there is new name and this name already exists, the status code will be **409** and there will be errors like **'Contest with this name already exists!'** .
+>- If none of errors above occurs, the status code will be 200 .
+
+--------
+
+
 
 
 Contests List

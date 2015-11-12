@@ -1,58 +1,137 @@
 <html  lang="en">
 <head>
-<meta charset="utf-8">
+	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Home</title>
-     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} "rel="stylesheet" />
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} "rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 </head>
 
-<body>
-	<ul class="col-lg-2 leftmenu shadow">
-	<li class="leftmenuitem" id="usernameitem">
+<body >
+	<ul class="col-lg-2 leftmenu shadow" onload="username();">
 		
-		 	<h4 >Username</h4>
-		
+		<li class="leftmenuitem usernameitem" id="usernameitem">
+			<span id="getusername">Username</span>
 		</li>	
+		<li class="leftmenuitem usernameitem" id="usernameprofitem" style="display:none">
+			<span id="getusernameprof">heyyyy</span>
+		</li>
+		
 		<li class="leftmenuitem" id="contest">
-		
-		 <h4 >Contests</h4>
+		 	<h4 >Contests</h4>
 		</li>
+		
 		<li class="leftmenuitem" id="team">
+		 	<h4 >Teams</h4>
+		</li>
 		
-		 <h4 >Teams</h4>
-		</li>
 		<li class="leftmenuitem" id="users">
-		 <h4 >Users</h4>
+		 	<h4 >Users</h4>
 		</li>
+		
 		<li class="leftmenuitem" id="setting">
-		 <h4 >Settings</h4>
+		 	<h4 >Settings</h4>
 		</li>
+		
 		<li class="leftmenuitem" id="logout">
-		 <h4 >Log out</h4>
+		 	<h4 >Log out</h4>
 		</li>
-				
-	</ul>
-	<div class="row">
-	<div class="col-lg-10  maintitr">
-			<p > News</p>
-	</div>
-	
-      <div  class=" contents  col-lg-9 shadow" >
-			<div class="post ">
-			 <h4 >title</h4>
-			 <p>content</p>    
-	      </div>
-			
-	      
-   	</div>
-   </div>
+		<li class="leftmenuitem" id="backtoprofile" style="display:none" >
+		 	<h4 >Back to profile</h4>
+		</li>
 
+	</ul>
+    <div id="createTeam" class="form-dialog">
+        <div>
+            <a href="#" title="Close" class="close-button">X</a>
+            <form>
+                <div class="question">
+                    <input type="text" required/>
+                    <label>Team Name</label>
+                </div>
+                <div class="question">
+                    <input type="text" required/>
+                    <label>members</label>
+                </div>
+                <div class="question">
+                    <input type="text" required/>
+                    <label>members</label>
+                </div>
+                <div class="question">
+                    <input type="text" required/>
+                    <label>members</label>
+                </div>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+
+		<div class="col-lg-10  maintitr">
+			<p id="titlePage"> News</p>
+            <div><a href="#createTeam"><button class="hover-button close-page">Create Team</button></a></div>
+		</div>
+	</div>
+	<div class="row">
+      	<div  class="contents  col-lg-9 shadow" >
+			
+			<div class="post">
+				<h4 >title</h4>
+				<a id="usernamecontact"  >bbb</a>
+				<p>content</p>    
+	    	</div>
+
+	    	<div class="settingcontent" style="display:none">
+	    		
+	    		<div id="changeProfilePicture">
+	    			<div id="profilePictureWrapper">
+	    			</div>
+	    			<span class="btn btn-default btn-file"> Browse 
+	    				<input type="file">
+					</span>
+	    		</div>
+
+	    		<div id="changeProfileSetting">
+	    			Email: 
+	    			<input type="text" name="change_email" id="change_email" /> <br/>
+	    			old password: 
+	    			<input type="password" name="change_password_old" id="change_password_old" /> <br/>
+	    			new password: 
+	    			<input type="password" name="change_password_new" id="change_password_new" /> <br/>
+	    			<input type="button" name="changeSetting" id="changeSettingbtn" class="btn btn-primary "value="submit" /><br>
+	    		</div>
+	    	</div>
+
+			<div class="close-page" id="teamPage">
+					<div class="header-team">
+						<div>Team Name</div>
+					</div>
+					<div class="body-team">
+						<div class="sector-block-team">
+							<div>Users :</div>
+							<p>...</p>
+							<p>...</p>
+							<p>...</p>
+						</div>
+						<div class="sector-block-team">
+							<a href="#">Contest :</a>
+							<p>...</p>
+							<p>...</p>
+							<p>...</p>
+						</div>
+					</div>
+
+			</div>
+
+   		</div>
+   	</div>
+   	</div>
 
 </body>
 </html>

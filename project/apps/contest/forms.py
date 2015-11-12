@@ -25,3 +25,27 @@ class AddProblem(Form):
 	body = StringField (validators=[validators.DataRequired()])
 	testcases = FieldList(FormField(TestCase))
 	footer = StringField ()
+
+
+class EditTestCase (Form):
+	id = IntegerField ()
+	order = IntegerField ()
+	input = StringField()
+	output = StringField()
+
+class EditProblem(Form):
+	id = IntegerField ()
+	order = IntegerField ()
+	title = StringField ()
+	time_limit = IntegerField ()
+	space_limit = IntegerField ()
+	header = StringField ()
+	body = StringField ()
+	testcases = FieldList(FormField(EditTestCase))
+	footer = StringField ()
+
+class EditContest(Form):
+	problems = FieldList(FormField(EditProblem))
+	name = StringField()
+	starts_on = FloatField()
+	ends_on = FloatField()
