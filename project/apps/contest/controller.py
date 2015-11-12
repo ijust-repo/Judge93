@@ -133,3 +133,43 @@ def contest_info_by_name(contest_name):
 		return jsonify(contest.to_json()) , 200
 	except DoesNotExist:
 		return "" , 406
+
+
+@contest.route('report/<string:contest_id>/', methods=['GET'])
+def contest_report(contest_id):
+	try:
+		contest_obj = Contest.objects().get(id=contest_id)
+		start_time = contest_obj.starts_on
+		current_time = datetime.utcnow()
+		#[teams , [problems_list[]] , penalty ]
+		#teams = obj.teams[0].team.to_json()
+		report_list = []
+		#tries = obj.teams[0].problem_results[0].tries
+		#solved = obj.teams[0].problem_results[0].solved
+		#order = obj.teams[0].problem_results[0].problem.order
+		# [order , tries , solved]
+		problems_list = []
+		for team_info in contest_obj.teams:
+			report_list.append(team_info.team.to_json())
+			for result in team_info.problem_results:
+				problems_list.append(result.problem.order)
+				problems_list.append(result.tries)
+				problems_list.append(result.solved)
+			problems_list.sort(key= lambda order :order[0])
+			report_list.append(problems_list)
+			report_list.append(calculate_penalty(problems_list,start_time,current_time))
+		return jsonify(contests = report_list) , 200
+	except DoesNotExist:
+		return "" , 406
+
+
+def calculate_penalty (problems_list,start_time,current_time):
+	penalty=0
+	for result in problems_list:
+		if result[2]:
+			penalty += (result[1]*20)
+	time_delta = current_time - start_time
+	time_delta_minutes = int(time_delta.total_seconds()//60)
+	penalty += time_delta_minutes
+	return penalty
+

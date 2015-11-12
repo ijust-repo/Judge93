@@ -33,7 +33,7 @@ class Result(EmbeddedDocument):
 	id = IntField(required=True, unique=True)
 	problem = ReferenceField('Problem', required=True, unique=True, sparse=True)
 	status = StringField()
-	penalty = IntField()
+	tries = IntField()
 	solved = BooleanField()
 
 
