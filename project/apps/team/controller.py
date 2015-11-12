@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini"]
 
-
-
 #flask import
 from flask import jsonify, request, render_template
 
@@ -20,11 +18,9 @@ from project.apps.contest.models import Contest
 from mongoengine import DoesNotExist, NotUniqueError
 
 
-
 @team.route('/', methods=['GET'])
 def team_page():
         return render_template('team.html')
-
 
 @team.route('create/', methods=['POST'])
 def create():
@@ -93,18 +89,19 @@ def add_member():
             return jsonify(errors=form.errors), 406
 
         for member in members:
-            if User.objects.get(username=member) in team_obj.members:
+            try:
+                    u = User.objects.get(username=member)
+            except DoesNotExist:
+                    form.members.errors.append(form.members.gettext('User does not exist!'))
+                    return jsonify(errors=form.errors), 406
+            if u in team_obj.members:
                 form.members.errors.append(form.members.gettext('No one can be added twice!'))
                 return jsonify(errors=form.errors), 406
             else:
-                try:
-                        u = User.objects.get(username=member)
-                        team_obj.members.append(u)
-                        u.teams.append(team_obj)
-                        u.save()
-                except DoesNotExist:
-                        form.members.errors.append(form.members.gettext('User does not exist!'))
-                        return jsonify(errors=form.errors), 406
+                team_obj.members.append(u)
+                u.teams.append(team_obj)
+                u.save()
+                
                 
                 team_obj.save()
         return "",200
@@ -114,46 +111,39 @@ def add_member():
 
 @team.route('change_name/<string:team_id>/', methods=['PUT'])
 def change_team_name(team_id):
-	form = ChangeName.from_json(request.json)
-	if form.validate():
-		new_name = form.data['new_name']
-		try:
-			obj = Team.objects().get(pk=team_id)
-			if obj.owner== logged_in_user():
-				obj.name = new_name
-				obj.save()
-				return "" , 200
-			else:
-				
-				return jsonify(errors="User is not owner"), 403
-		
-		except DoesNotExist:			
-			return jsonify(errors='Team does not exist!'), 406
-			
-		except NotUniqueError:
-			form.new_name.errors.append(form.new_name.gettext('This team name already exists.'))
-			return jsonify(errors=form.errors), 409
+    form = ChangeName.from_json(request.json)
+    if form.validate():
+        new_name = form.data['new_name']
+        try:
+            obj = Team.objects().get(pk=team_id)
+            if obj.owner== logged_in_user():
+                obj.name = new_name
+                obj.save()
+                return "" , 200
+            else:
+                
+                return jsonify(errors="User is not owner"), 403
+        
+        except DoesNotExist:            
+            return jsonify(errors='Team does not exist!'), 406
+            
+        except NotUniqueError:
+            form.new_name.errors.append(form.new_name.gettext('This team name already exists.'))
+            return jsonify(errors=form.errors), 409
 
 
-	return "" , 406
-
-
+    return "" , 406
 
 
 @team.route('members/<string:team_id>/', methods=['GET'])
 def get_team_member(team_id):
-	try:
-		team_obj = Team.objects().get(pk=team_id)
-		members_list=[]
-		members_list.append(team_obj.owner.to_json())
-		for i in team_obj.members :
-			members_list.append(i.to_json())
-		return jsonify(members=members_list),200
-	
-	except DoesNotExist:			
-		return jsonify(errors='Team does not exist!'), 406
-
-
-
-
-			
+    try:
+        team_obj = Team.objects().get(pk=team_id)
+        members_list=[]
+        members_list.append(team_obj.owner.to_json())
+        for i in team_obj.members :
+            members_list.append(i.to_json())
+        return jsonify(members=members_list),200
+    
+    except DoesNotExist:            
+        return jsonify(errors='Team does not exist!'), 406
