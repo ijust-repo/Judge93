@@ -79,6 +79,7 @@ $("#usernamecontact").click(function() {
             contentType: "application/json",
             dataType: "html",
             success: function (data) {
+			$( '#getidprof ' ).html((JSON.parse(data)).id); 	
             changeprofile(username);
              window.history.replaceState(username,username, "/user/"+ username  );  
             },
