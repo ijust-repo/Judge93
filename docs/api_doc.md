@@ -390,6 +390,38 @@ Example Request
 ------- 
 
 
+Add members to existing team
+===============
+
+Resource URL
+>POST
+**/team/members/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "name": "Team's name",
+  "members" : ["new members"] 
+}
+```
+
+> **Note:**
+
+>- Team_id is the Id of the team in database.
+>- If response status code is **200** then members added to the team successfully.
+>- If response status code is **406** then team does not exists or the team owner are in the members list or someone in members list are repeated twice or sum of the team members be greater than 3 or the username in the members list does not exists. 
+>- If there are errors like a required field response status code will be **406**.
+>- If response status code is **403** the user is not owner of the team.
+
+
+-------
+
+
 
 GetMembers
 ===============
