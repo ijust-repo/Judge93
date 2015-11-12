@@ -390,6 +390,50 @@ Example Request
 ------- 
 
 
+
+GetMembers
+===============
+
+Resource URL
+>GET
+> **/user/members/```string:team_id```/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+
+Example Result
+```
+{
+   "members": [
+    {
+      "id": "user_id", 
+      "username": "member1"
+    }, 
+    {
+      "id": "user_id", 
+      "username": "member2"
+    }, 
+    {
+      "id": "user_id", 
+      "username": "member3"
+    }
+  ]
+}
+```
+
+
+> **NOTE:**
+
+>- Team_id is the Id of the team in database.
+>- If response status code is **200** then the team name successfully changed.
+>- If response status code is **406** then the user is not owner of the team or team does not exist.
+
+------- 
+
+
 Contest API
 ========
 
