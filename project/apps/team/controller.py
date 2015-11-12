@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia',"Amin Hosseini"]
+__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini"]
+
 
 
 #flask import
@@ -8,7 +9,8 @@ from flask import jsonify, request, render_template
 #project import
 from project.apps.user import user
 from project.apps.team import team
-from project.apps.team.forms import CreateTeam, AddMember
+
+from project.apps.team.forms import *
 from project.utils.access import login_user, logout_user, logged_in_user
 
 from project.apps.user.models import User
@@ -64,31 +66,27 @@ def create():
         return "", 406
 
 
-@team.route('add_member/',methods=['POST'])
-def addMemberToTeam():
+@team.route('members/',methods=['POST'])
+def add_member():
     form = AddMember.from_json(request.json)
     if form.validate():
         name = logged_in_user()
-        teamName = form.data['name']
+        team_name = form.data['name']
         members = form.data ['members']
-        
-
         try:
-            team_obj = Team.objects.get(name=teamName)
+            team_obj = Team.objects.get(name=team_name)
 
         except DoesNotExist:
             form.name.errors.append(form.name.gettext('Team does not exist!'))
             return jsonify(errors=form.errors), 401
 
         if not team_obj.owner.username == logged_in_user():
-                return str(team_obj.owner),898
-            #return "",403 form
+                form.members.errors.append(form.members.gettext("you aren't team owner!"))
+                return jsonify(errors=form.errors), 403
                 
-        
-
         if len(team_obj.members) + len(members) > 2:
             form.members.errors.append(form.members.gettext('Number of members must be under three!'))
-            return jsonify(errors=form.errors), 401
+            return jsonify(errors=form.errors), 406
 
         if logged_in_user() in members:
             form.members.errors.append(form.members.gettext('you already are in the team members remove yourself from the list!'))
@@ -114,4 +112,48 @@ def addMemberToTeam():
         return "",406
         
 
+@team.route('change_name/<string:team_id>/', methods=['PUT'])
+def change_team_name(team_id):
+	form = ChangeName.from_json(request.json)
+	if form.validate():
+		new_name = form.data['new_name']
+		try:
+			obj = Team.objects().get(pk=team_id)
+			if obj.owner== logged_in_user():
+				obj.name = new_name
+				obj.save()
+				return "" , 200
+			else:
+				
+				return jsonify(errors="User is not owner"), 403
+		
+		except DoesNotExist:			
+			return jsonify(errors='Team does not exist!'), 406
+			
+		except NotUniqueError:
+			form.new_name.errors.append(form.new_name.gettext('This team name already exists.'))
+			return jsonify(errors=form.errors), 409
 
+
+	return "" , 406
+
+
+
+
+@team.route('members/<string:team_id>/', methods=['GET'])
+def get_team_member(team_id):
+	try:
+		team_obj = Team.objects().get(pk=team_id)
+		members_list=[]
+		members_list.append(team_obj.owner.to_json())
+		for i in team_obj.members :
+			members_list.append(i.to_json())
+		return jsonify(members=members_list),200
+	
+	except DoesNotExist:			
+		return jsonify(errors='Team does not exist!'), 406
+
+
+
+
+			

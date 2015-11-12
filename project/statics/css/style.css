@@ -1,7 +1,19 @@
-﻿body {
+﻿body
+{
     background-color: #DAD6CA;
 }
 
+a
+{
+    text-decoration: none !important;
+}
+
+.shadow
+{
+-webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .20);        
+  box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .20);
+
+}
 
 .top-menu{
     height:55px;
@@ -9,16 +21,14 @@
     padding: 15px ;
     color: white;
  	 margin: 8px ;
- 	 -webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);        
-  box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);
+ 	 
  	}
-
 body,
 input,
 textarea,
 select {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
+  font-family: Helvetica;
+  font-size: 18px;
   color: #4c4c4c;
 }
 
@@ -63,17 +73,380 @@ float: right;
 margin:  100px  80px 50px 0;
 }
 
+.leftmenu{
+	background-color:#312736;
+	margin: 0;
+   position: fixed;
+	float:left;	
+ 	height: 100%;
+	padding: 0;
+	overflow: hidden; 
+}
+.leftmenuitem
+{
+height: 65px;
+color: white;
 
+padding-left: 20px;
+padding-top: 10px;
+}
+.leftmenuitem:hover  {
+    background-color: #6C6368!important;   
 }
 
-.textproperty{
+.maintitr
+{
+background-color: #DAD6CA;
+color: black;
+height: 65px;
+padding-top: 17px;
+padding-left: 30px;
+border-bottom-style: solid;
+border-bottom-color:#312736; 
+position: relative;
+float: right;
+height: 65px;
+}
+
+.maintitr p, .maintitr div
+{
+    display: inline-block;
+}
+
+.maintitr div
+{
+    float: right;
+    margin-right: 3%;
+    margin-left: 3%;
+}
+
+
+.hover-button
+{
+    background-color: #443949;
+    border: 3px solid transparent;
+    color: #efe6f1;
+    border-radius: 5%;
+    padding-right: 10px;
+    padding-left: 10px;
+    font-weight: 300;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    font-size: 20px;
+    height: 40px;
+    width: 150px;
+    margin-top: -5px;
+    text-;
+}
+
+.hover-button:hover
+{
+    background-color: #efe6f1;
+    color: #443949;
+    border-color: #443949;
+    font-size: 17px;
+}
+
+.contents
+{
+	background-color: #D9D9D9;
+  position: relative;
+	float:right;
+	margin-right: 55px;
+	margin-top: 20px;
+	padding: 0;
+
+}
+.post
+{
+background-color: #E9E9E9;
+height: 75px;
+padding-left: 20px;
+padding-top:1px; 
+margin-bottom: 2px;
+}
+.post:hover  {
+    background-color: #D9D9D9;   
+}
+.textproperty
+{
    
     color:white;
 
 }
+#signup
+{
+	display:none;
+}
+#login
+{
+	display:block;
+}
+.usernameitem
+{
+	background-color: #6C6368;
+}
 
+#changeProfileSetting
+{
+  width: 60%;
+}
+
+#changeProfilePicture
+{
+  float: right;
+  margin-top: 15px;
+  margin-right: 15px;
+}
+
+#profilePictureWrapper
+{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-image: url('http://placehold.it/150x150');
+}
+
+/***** team page css *****/
+.close-page
+{
+    display: none;
+}
+.open-page
+{
+    display: block;
+}
+
+.header-team
+{
+    border-bottom: solid 5px #101010;
+}
+
+.header-team div
+{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.body-team
+{
+
+}
+
+.sector-block-team
+{
+    width: 40%;
+    margin: 1%;
+    display: inline-block;
+}
+
+.sector-block-team div, .sector-block-team a
+{
+    display: block;
+    margin: 3%;
+}
+
+.sector-block-team p
+{
+    display: block;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-left: 15%;
+}
+
+.form-dialog {
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 99999;
+    opacity:0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+}
+
+
+
+.form-dialog:target {
+    opacity:1;
+    pointer-events: auto;
+}
+
+.form-dialog > div {
+    width: 300px;
+    position: relative;
+    margin: 3% auto;
+    padding: 30px 20px 13px 20px;
+    border-radius: 10px;
+    background: #fff;
+    background: -moz-linear-gradient(#fff, #999);
+    background: -webkit-linear-gradient(#fff, #999);
+    background: -o-linear-gradient(#fff, #999);
+}
+
+.close-button {
+    background: #606061;
+    color: #FFFFFF;
+    line-height: 25px;
+    position: absolute;
+    right: -12px;
+    text-align: center;
+    top: -10px;
+    width: 24px;
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+}
+
+.close-button:hover { background: #00d9ff; }
+
+.form-dialog form .question label,
+.form-dialog form .question input[type="text"],
+.form-dialog form .question input[type="password"]{
+    -moz-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+    -o-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+    -webkit-transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+    transition: all 0.25s cubic-bezier(0.53, 0.01, 0.35, 1.5);
+}
+
+.form-dialog form .question {
+    position: relative;
+    padding: 20px 0;
+}
+
+.form-dialog form .question:first-of-type {
+    padding-top: 0;
+}
+
+.form-dialog form .question:last-of-type {
+    padding-bottom: 0;
+}
+
+.form-dialog form .question label {
+    transform-origin: left center;
+    color: #443949;
+    font-weight: 100;
+    letter-spacing: 0.01em;
+    font-size: 17px;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    display: block;
+    position: absolute;
+    margin-top: -40px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.form-dialog form .question input[type="text"],
+.form-dialog form .question input[type="password"]
+{
+    text-align: left;
+    appearance: none;
+    background-color: none;
+    border: 1px solid #443949;
+    line-height: 0;
+    font-size: 17px;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    border-radius: 15px;
+    color: #443949;
+    font-weight: 100;
+    letter-spacing: 0.01em;
+    position: relative;
+    z-index: 1;
+}
+
+.form-dialog form .question input[type="text"]:focus,
+.form-dialog form .question input[type="password"]:focus{
+    outline: none;
+    background: #443949;
+    color: white;
+    margin-top: 30px;
+}
+.form-dialog form .question input[type="text"]:valid
+.form-dialog form .question input[type="password"]:valid{
+    margin-top: 30px;
+}
+
+.form-dialog form .question input[type="text"]:focus ~ label,
+.form-dialog form .question input[type="password"]:focus ~ label{
+    -moz-transform: translate(0, -35px);
+    -ms-transform: translate(0, -35px);
+    -webkit-transform: translate(0, -35px);
+    transform: translate(0, -35px);
+}
+.form-dialog form .question input[type="text"]:valid ~ label,
+.form-dialog form .question input[type="password"]:valid ~ label {
+    font-style: italic;
+    -moz-transform: translate(5px, -35px) scale(0.6);
+    -ms-transform: translate(5px, -35px) scale(0.6);
+    -webkit-transform: translate(5px, -35px) scale(0.6);
+    transform: translate(5px, -35px) scale(0.6);
+}
+
+.form-dialog form button.submit-button{
+    font-family: BYekan, sans-serif;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #443949;
+    border: 2px #443949 solid;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    -o-transition: .3s;
+}
+
+.form-dialog form button.submit-button:hover{
+    color: #fff;
+    background-color: #443949;
+}
+
+/****************************/
+
+.btn-file
+{
+  position: relative;
+
+  overflow: hidden; 
+}
+
+.btn-file input[type=file]
+{
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
 /******************************slideshow*************************/
 /
 /******************************slideshow*************************/
-
 

@@ -3,6 +3,7 @@ Method: POST
 Url: /user/signup/
 Request: {
   "username": "admin",
+  "email": "mdan.hagh@gmail.com",
   "password": "123123"
 }
 

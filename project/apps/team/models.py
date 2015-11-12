@@ -6,8 +6,13 @@ from mongoengine import Document, StringField, ReferenceField, ListField
 
 
 class Team(Document):
-	owner = ReferenceField('User', required=True)
 	name = StringField(required=True, unique=True)
+	owner = ReferenceField('User', required=True)
 	members = ListField(ReferenceField('User'))
 	contests = ListField(ReferenceField('Contest'))
 
+	def to_json(self):
+		return dict(
+			id=str(self.pk),
+			name=self.name,
+			owner=self.owner.to_json())

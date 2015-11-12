@@ -10,7 +10,7 @@ from mongoengine import Document, StringField, ReferenceField, ListField
 class User(Document):
 	username = StringField(required=True, unique=True)
 	password = StringField(required=True)
-	email = StringField()
+	email = StringField(required=True, unique=True)
 	teams = ListField(ReferenceField('Team'))
 
 
@@ -28,3 +28,15 @@ class User(Document):
 
 	def reset_password(self):
 		self.password = None
+
+
+	def to_json(self):
+		return dict(
+			id=str(self.pk),
+			username=self.username)
+
+	def to_json_profile(self):
+		return dict(
+			id=str(self.pk),
+			username=self.username,
+			email=self.email)
