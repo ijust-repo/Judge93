@@ -79,6 +79,7 @@ $("#usernamecontact").click(function() {
             contentType: "application/json",
             dataType: "html",
             success: function (data) {
+			$( '#getidprof ' ).html((JSON.parse(data)).id); 	
             changeprofile(username);
              window.history.replaceState(username,username, "/user/"+ username  );  
             },
@@ -104,5 +105,61 @@ $("#backtoprofile").click(function() {
 			document.getElementById('users').style.display = 'block';
 			document.getElementById('setting').style.display = 'block';
 			  });
- 
+
+$("input#changeSettingbtn").click(function() { 
+    var email = $("input#change_email").val();
+    var username = $("input#change_username").val();
+    var password_old = $("input#change_password_old").val();
+    var password_new = $("input#change_password_new").val();
+
+    if (email != "" && username != "") {
+
+      $.ajax({
+
+        type: "PUT",
+        url : '/user/change_profile',
+        contentType: "application/json",
+        dataType: "html",
+        data: '{"new_username" : "' + username + '", "new_email" : "' + email + '"}',
+        success: function (data) {
+            alert(" username and email changed successfully ");
+        },
+        error: function (request, status, error) {
+          if (request.status === 409) {
+            alert(" username or email already exist! ");
+          } else if (request.status === 406) {
+            alert(" fields required! ");
+          }
+        }
+
+
+      });
+
+    };
+
+    $.ajax({
+
+      type: "PUT",
+      url : '/user/change_password/',
+      contentType: "application/json",
+      dataType: "html",
+      data: '{"old_password" : "' + password_old + '", "new_password" : "' + password_new + '"}',
+      success: function (data) {
+          alert(" Password changed successfully ");
+      },
+      error: function (request, status, error) {
+        if (request.status === 401) {
+          alert(" Wrong password! ");
+        } else if (request.status === 406) {
+          alert(" fields required! ");
+        }
+      }
+
+
+    });
+
   });
+
+
+ 
+});

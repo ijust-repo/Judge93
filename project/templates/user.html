@@ -36,7 +36,7 @@
                 <input type="password" name="password" id="re-password_signup" placeholder="re-Enter Password" required /><br>
                 <input type="email" name="username" id="email_signup" placeholder="Email" /><br>             
                 <input type="button" name="signup" id="signupbtn" class="btn btn-primary "value="register" /><br>
-                or <a href="#" onclick="showLogin()">Login</a>
+                or <a href="" onclick="showLogin()">Login</a>
                 
             </div>
 
@@ -58,6 +58,16 @@
 
 </body>
 <script language="javascript">
+	function showLogin(){
+  document.title = "Login";
+  document.getElementById('signup').style.display = 'none';
+  document.getElementById('login').style.display = 'block';
+}
+function showSignUp(){
+  document.title = "Sign Up";
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('signup').style.display = 'block';
+}
 $(document).ready(function () {
 	//sign up
 $("#signupbtn").click(function() { 
@@ -134,16 +144,7 @@ var password = $("input#password_login").val();
 		 $("#password_login").val('');                
                 
   });
-function showLogin(){
-  document.title = "Login";
-  document.getElementById('signup').style.display = 'none';
-  document.getElementById('login').style.display = 'block';
-}
-function showSignUp(){
-  document.title = "Sign Up";
-  document.getElementById('login').style.display = 'none';
-  document.getElementById('signup').style.display = 'block';
-}
+
 });
 </script>
 </html>

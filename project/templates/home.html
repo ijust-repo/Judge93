@@ -13,13 +13,14 @@
 </head>
 
 <body >
-	<ul class="col-lg-2 leftmenu shadow" onload="username();">
+	<ul class="col-lg-2 leftmenu shadow" >
 		
 		<li class="leftmenuitem usernameitem" id="usernameitem">
-			<span id="getusername">Username</span>
+			<span id="getusername"></span>
 		</li>	
 		<li class="leftmenuitem usernameitem" id="usernameprofitem" style="display:none">
-			<span id="getusernameprof">heyyyy</span>
+			<span id="getusernameprof"></span>
+			<span id="getidprof" style="display:none"></span>
 		</li>
 		
 		<li class="leftmenuitem" id="contest">
@@ -83,7 +84,8 @@
 			
 			<div class="post">
 				<h4 >title</h4>
-				<a id="usernamecontact"  >bbb</a>
+				<a id="usernamecontact1"  >bbb</a>
+				<a id="usernamecontact"  >ccc</a>
 				<p>content</p>    
 	    	</div>
 
@@ -98,6 +100,8 @@
 	    		</div>
 
 	    		<div id="changeProfileSetting">
+	    			Username: 
+	    			<input type="text" name="change_username" id="change_username" /> <br/>
 	    			Email: 
 	    			<input type="text" name="change_email" id="change_email" /> <br/>
 	    			old password: 
