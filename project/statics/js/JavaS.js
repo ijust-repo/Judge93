@@ -10,8 +10,8 @@ $(document).ready(function () {
     });
 
   $("#setting").click(function() { 
-    $('#usernameitem').css('background-color', '#312736');
-    $('#setting').css('background-color', '#6C6368');
+    $('#usernameitem').css('background-color', '#355C7D');
+    $('#setting').css('background-color', '#355C7D');
     $('.post').css('display', 'none');
     $('.open-page').removeClass('open-page').addClass('close-page');
       $('#titlePage').html("News");
@@ -19,8 +19,8 @@ $(document).ready(function () {
 
   });
   $("#usernameitem").click(function() { 
-    $('#setting').css('background-color', '#312736');
-    $('#usernameitem').css('background-color', '#6C6368');
+    $('#setting').css('background-color', '#1B325F');
+    $('#usernameitem').css('background-color', '#355C7D');
     $('.settingcontent').css('display', 'none');
       $('.open-page').removeClass('open-page').addClass('close-page');
       $('#titlePage').html("News");

@@ -1,6 +1,6 @@
 ﻿body
 {
-    background-color: #DAD6CA;
+    background-color: #E9F2F9;
 }
 
 a
@@ -74,7 +74,7 @@ margin:  100px  80px 50px 0;
 }
 
 .leftmenu{
-	background-color:#312736;
+	background-color:#1B325F;
 	margin: 0;
    position: fixed;
 	float:left;	
@@ -91,12 +91,12 @@ padding-left: 20px;
 padding-top: 10px;
 }
 .leftmenuitem:hover  {
-    background-color: #6C6368!important;   
+    background-color:#355C7D!important;   
 }
 
 .maintitr
 {
-background-color: #DAD6CA;
+background-color: #E9F2F9;
 color: black;
 height: 65px;
 padding-top: 17px;
@@ -185,7 +185,7 @@ margin-bottom: 2px;
 }
 .usernameitem
 {
-	background-color: #6C6368;
+	background-color: #355C7D;
 }
 
 #changeProfileSetting
