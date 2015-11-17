@@ -16,6 +16,18 @@ $(document).ready(function () {
     $('.open-page').removeClass('open-page').addClass('close-page');
       $('#titlePage').html("News");
     $('.settingcontent').css('display', 'block');
+    $.ajax({
+        type: "GET",
+        url : '/user/get_profile/',
+        dataType: "html",
+        success: function(data) {
+            $('#change_username').val((JSON.parse(data)).username);
+            $('#change_email').val((JSON.parse(data)).email);
+        },
+        error: function(request, status, error) {
+
+        }
+    });
 
   });
   $("#usernameitem").click(function() { 
@@ -111,6 +123,7 @@ $("input#changeSettingbtn").click(function() {
     var username = $("input#change_username").val();
     var password_old = $("input#change_password_old").val();
     var password_new = $("input#change_password_new").val();
+    var password_new_re = $("input#change_password_new_re").val();
 
     if (email != "" && username != "") {
 
@@ -137,26 +150,31 @@ $("input#changeSettingbtn").click(function() {
 
     };
 
-    $.ajax({
 
-      type: "PUT",
-      url : '/user/change_password/',
-      contentType: "application/json",
-      dataType: "html",
-      data: '{"old_password" : "' + password_old + '", "new_password" : "' + password_new + '"}',
-      success: function (data) {
-          alert(" Password changed successfully ");
-      },
-      error: function (request, status, error) {
-        if (request.status === 401) {
-          alert(" Wrong password! ");
-        } else if (request.status === 406) {
-          alert(" fields required! ");
-        }
-      }
+    if (password_new === password_new_re && password_new != "") {
+        $.ajax({
+
+          type: "PUT",
+          url : '/user/change_password/',
+          contentType: "application/json",
+          dataType: "html",
+          data: '{"old_password" : "' + password_old + '", "new_password" : "' + password_new + '"}',
+          success: function (data) {
+              alert(" Password changed successfully ");
+          },
+          error: function (request, status, error) {
+            if (request.status === 401) {
+              alert(" Wrong password! ");
+            } else if (request.status === 406) {
+              alert(" fields required! ");
+            }
+          }
 
 
-    });
+        });
+    } else {
+      alert("Password doesn't match!");
+    }
 
   });
 
