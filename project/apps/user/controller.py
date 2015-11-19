@@ -27,6 +27,10 @@ def user_page():
 def user_home_page():
 	return render_template('home.html')
 
+@user.route('contest/', methods=['GET'])
+def user_contest_page():
+	return render_template('contest.html')
+
 @user.route('setting/', methods=['GET'])
 def user_setting_page():
 	return render_template('setting.html')
