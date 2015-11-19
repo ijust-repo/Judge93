@@ -12,66 +12,41 @@
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 </head>
 
-<body >
+<body>
 	<ul class="col-lg-2 leftmenu shadow" >
 		
-		<li class="leftmenuitem usernameitem" id="usernameitem">
-			<span id="getusername"></span>
+		<li class=" usernameitem" id="usernameitem">
+			<a href=""><h4 id="getusername" class="leftmenuitem"></h4></a>
 		</li>	
-		<li class="leftmenuitem usernameitem" id="usernameprofitem" style="display:none">
-			<span id="getusernameprof"></span>
-			<span id="getidprof" style="display:none"></span>
+		<li class=" usernameitem" id="usernameprofitem" style="display:none">
+			<h4 id="getusernameprof" class="leftmenuitem"></h4>
+			<h4 id="getidprof" style="display:none"></h4>
 		</li>
 		
-		<li class="leftmenuitem" id="contest">
-		 	<h4 >Contests</h4>
+		<li  id="contest">
+		 	<a href="#contests" ><h4 class="leftmenuitem">Contests</h4></a>
 		</li>
 		
-		<li class="leftmenuitem" id="team">
-		 	<h4 >Teams</h4>
+		<li  id="team">
+		 	<a href="/user/team/"><h4 class="leftmenuitem">Teams</h4></a>
 		</li>
 		
-		<li class="leftmenuitem" id="users">
-		 	<h4 >Users</h4>
+		<li  id="users">
+		 	<a href="#users"><h4 class="leftmenuitem">Users</h4></a>
 		</li>
 		
-		<li class="leftmenuitem" id="setting">
-		 	<h4 >Settings</h4>
+		<li  id="setting">
+		 	<a href="/user/setting/"><h4 class="leftmenuitem">Settings</h4></a>
 		</li>
 		
-		<li class="leftmenuitem" id="logout">
-		 	<h4 >Log out</h4>
+		<li  id="logout">
+		 	<a href="#logout"><h4 class="leftmenuitem">Log out</h4></a>
 		</li>
-		<li class="leftmenuitem" id="backtoprofile" style="display:none" >
-		 	<h4 >Back to profile</h4>
+		<li  id="backtoprofile" style="display:none" >
+		 	<a href="#back"><h4 class="leftmenuitem">Back to profile</h4></a>
 		</li>
 
 	</ul>
-    <div id="createTeam" class="form-dialog">
-        <div>
-            <a href="#" title="Close" class="close-button">X</a>
-            <form>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>Team Name</label>
-                </div>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>members</label>
-                </div>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>members</label>
-                </div>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>members</label>
-                </div>
-                <button type="submit" class="submit-button">Submit</button>
-            </form>
-        </div>
-    </div>
-
     <div class="row">
 
 		<div class="col-lg-10  maintitr">
@@ -80,64 +55,18 @@
 		</div>
 	</div>
 	<div class="row">
-      	<div  class="contents  col-lg-9 shadow" >
+      	<div id="contents" class="contents  col-lg-9 " >
 			
-			<div class="post">
+			<div class="post ">
 				<h4 >title</h4>
 				<a id="usernamecontact1"  >bbb</a>
 				<a id="usernamecontact"  >ccc</a>
-				<p>content</p>    
+				<p>content</p> 
+				 
 	    	</div>
-
-	    	<div class="settingcontent" style="display:none">
-	    		
-	    		<div id="changeProfilePicture">
-	    			<div id="profilePictureWrapper">
-	    			</div>
-	    			<span class="btn btn-default btn-file"> Browse 
-	    				<input type="file">
-					</span>
-	    		</div>
-
-	    		<div id="changeProfileSetting">
-	    			Username: 
-	    			<input type="text" name="change_username" id="change_username" /> <br/>
-	    			Email: 
-	    			<input type="text" name="change_email" id="change_email" /> <br/>
-	    			old password: 
-	    			<input type="password" name="change_password_old" id="change_password_old" /> <br/>
-	    			new password: 
-	    			<input type="password" name="change_password_new" id="change_password_new" /> <br/>
-	    			re-enter password: 
-	    			<input type="password" name="change_password_new_re" id="change_password_new_re" /> <br/>
-	    			<input type="button" name="changeSetting" id="changeSettingbtn" class="btn btn-primary "value="submit" /><br>
-	    		</div>
-	    	</div>
-
-			<div class="close-page" id="teamPage">
-					<div class="header-team">
-						<div>Team Name</div>
-					</div>
-					<div class="body-team">
-						<div class="sector-block-team">
-							<div>Users :</div>
-							<p>...</p>
-							<p>...</p>
-							<p>...</p>
-						</div>
-						<div class="sector-block-team">
-							<a href="#">Contest :</a>
-							<p>...</p>
-							<p>...</p>
-							<p>...</p>
-						</div>
-					</div>
-
-			</div>
-
-   		</div>
+		</div>
    	</div>
-   	</div>
+   
 
 </body>
 </html>

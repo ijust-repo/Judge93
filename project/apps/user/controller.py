@@ -27,6 +27,13 @@ def user_page():
 def user_home_page():
 	return render_template('home.html')
 
+@user.route('setting/', methods=['GET'])
+def user_setting_page():
+	return render_template('setting.html')
+
+@user.route('team/', methods=['GET'])
+def user_team_page():
+	return render_template('team.html')
 
 @user.route('exists/<string:username>/', methods=['GET'])
 def exists(username):
