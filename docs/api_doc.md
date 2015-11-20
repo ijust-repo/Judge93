@@ -318,10 +318,10 @@ Example Response:
     {
       "contests": [
 	{
-  "id" = "5210e3923ac198af54156118",
-  "name" = "mycontest",
-  "starts_on" = "2015-11-20 13:00:00",
-  "ends_on" = "2015-11-20 17:00:00"
+  	  "id": "5210e3923ac198af54156118",
+  	  "name": "mycontest",
+  	  "starts_on": "2015-11-20 13:00:00",
+  	  "ends_on": "2015-11-20 17:00:00"
 	}
       ], 
       "id": "563bd59157040f0fcc0113b4", 
