@@ -1,6 +1,7 @@
 ﻿body
 {
-    background-color: #E9F2F9;
+    background-color: #E9E9E9;
+   
 }
 
 a
@@ -80,15 +81,15 @@ margin:  100px  80px 50px 0;
 	float:left;	
  	height: 100%;
 	padding: 0;
-	overflow: hidden; 
+	overflow-y: scroll; 
 }
 .leftmenuitem
 {
 height: 65px;
 color: white;
 margin:0;
-padding-left: 20px;
-padding-top: 20px;
+padding: 20px;
+
 }
 .leftmenuitem:hover  {
     background-color:#355C7D!important;   
@@ -96,16 +97,18 @@ padding-top: 20px;
 
 .maintitr
 {
-background-color: #E9F2F9;
+background-color: #DCE4F7;
 color: black;
 height: 65px;
 padding-top: 17px;
 padding-left: 30px;
-border-bottom-style: solid;
-border-bottom-color:#312736; 
+
 position: relative;
-float: right;
-height: 65px;
+float:left;
+margin-right:20px;
+margin-left: 0;
+overflow-x:hidden;
+
 }
 
 .maintitr p, .maintitr div
@@ -151,20 +154,28 @@ height: 65px;
 .contents
 {
 	background-color:#DCE4F7;
-  position: relative;
-	float:right;
-	margin-right: 55px;
-	margin-top: 20px;
+	position: relative;
+	float:left;
+	margin-right:50px;
+	margin-top: 2% ;
+	margin-left: 2%;
+	margin-bottom:20px;
 	padding: 0;
+	width: 96%;
+	overflow-x:hidden;
+	
+	height: 70%;
 
 }
 .post
 {
-/*background-color:#E9F2F9;*/
-height: 75px;
+
+
 padding-left: 20px;
 padding-top:1px; 
 margin:0;
+
+
  border: 1px solid #E9F2F9; 
 }
 .post:hover  {
@@ -455,7 +466,8 @@ width:170px;
   cursor: inherit;
   display: block;
 }
+
+
 /******************************slideshow*************************/
 /
 /******************************slideshow*************************/
-

@@ -9,17 +9,18 @@
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
+	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>	
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 </head>
 
 <body>
-	<ul class="col-lg-2 leftmenu shadow" >
+	<ul class="col-xs-3 col-md-2 leftmenu shadow scrollbar" id="leftmenu" >
 		
-		<li class=" usernameitem" id="usernameitem">
+		<li class=" usernameitem " id="usernameitem">
 			<a href=""><h4 id="getusername" class="leftmenuitem"></h4></a>
 		</li>	
-		<li class=" usernameitem" id="usernameprofitem" style="display:none">
-			<h4 id="getusernameprof" class="leftmenuitem"></h4>
+		<li class=" usernameitem " id="usernameprofitem" style="display:none">
+			<h4 id="getusernameprof" ></h4>
 			<h4 id="getidprof" style="display:none"></h4>
 		</li>
 		
@@ -47,17 +48,29 @@
 		</li>
 
 	</ul>
-    <div class="row">
-
-		<div class="col-lg-10  maintitr">
-			<p id="titlePage"> News</p>
-            <div><a href="#createTeam"><button class="hover-button close-page">Create Team</button></a></div>
+    <div class="col-xs-offset-3 col-md-offset-2 row">
+		<div class="col-xs-12 col-md-12 maintitr">
+			<p id="titlePage"> News</p>          
 		</div>
 	</div>
-	<div class="row">
-      	<div id="contents" class="contents  col-lg-9 " >
+	<div class="col-xs-offset-3 col-md-offset-2 row">
+      	<div id="contents" class="contents  " >
 			
-			<div class="post ">
+			<div class="post">
+				<h4 >title</h4>
+				<a id="usernamecontact1"  >bbb</a>
+				<a id="usernamecontact"  >ccc</a>
+				<p>content</p> 
+				 
+	    	</div>
+	    	<div class="post">
+				<h4 >title</h4>
+				<a id="usernamecontact1"  >bbb</a>
+				<a id="usernamecontact"  >ccc</a>
+				<p>content</p> 
+				 
+	    	</div>
+	    	<div class="post">
 				<h4 >title</h4>
 				<a id="usernamecontact1"  >bbb</a>
 				<a id="usernamecontact"  >ccc</a>
@@ -69,5 +82,10 @@
    
 
 </body>
+<script>
+$(document).ready(function() {
+    $("#leftmenu").niceScroll({cursorwidth: '5px',cursorcolor:'#ffffff', autohidemode: true, zindex: 999 });
+});
+</script>
 </html>
 

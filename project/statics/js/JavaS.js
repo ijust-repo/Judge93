@@ -5,7 +5,7 @@ var pathname = window.location.pathname;
 	 alert("ccc");
  }
 $(document).ready(function () {
- 
+	
 //logout
 $("#logout").click(function() { 
   $.ajax({
