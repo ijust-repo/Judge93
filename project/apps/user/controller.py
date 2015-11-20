@@ -169,7 +169,7 @@ def get_current_user():
 	return jsonify(resp) ,200
 	
 
-@user.route('get_users_teams/<string:user_id>/', methods=['GET'])
+@user.route('<string:user_id>/teams/', methods=['GET'])
 def get_users_teams(user_id):
 	try:
 		obj = User.objects().get(pk=user_id)
@@ -185,7 +185,6 @@ def get_users_teams(user_id):
 			
 			for member in members:
 				members_list.append(member.to_json())
-			
 			
 			for contest in contests:
 				contests_info = {}
@@ -203,6 +202,6 @@ def get_users_teams(user_id):
 			
 			resp.append(team_info)
 
-		return jsonify({"teams" : resp}),200
+		return jsonify(teams=resp),200
 	except DoesNotExist:
 		return jsonify(errors="User does not exists!"), 406

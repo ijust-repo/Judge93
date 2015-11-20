@@ -304,19 +304,26 @@ Get user's team
 
 Resource URL
 >GET
-> **/user/get_users_teams/<string:user_id>/**
+> **/user/<string:user_id>/teams/**
 
 Resource Information
 >|Response formats|Requires authentication?|
 |:-:|:-:|
-|NULL|YES (must be authenticated)|
+|JSON|YES (must be authenticated)|
 
 Example Response:
 ```
  {
   "teams": [
     {
-      "contests": [], 
+      "contests": [
+	{
+  "id" = "5210e3923ac198af54156118",
+  "name" = "mycontest",
+  "starts_on" = "2015-11-20 13:00:00",
+  "ends_on" = "2015-11-20 17:00:00"
+	}
+      ], 
       "id": "563bd59157040f0fcc0113b4", 
       "members": [
         {
