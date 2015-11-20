@@ -85,7 +85,7 @@ margin:  100px  80px 50px 0;
 }
 .leftmenuitem
 {
-height: 65px;
+height: 60px;
 color: white;
 margin:0;
 padding: 20px;
@@ -99,15 +99,16 @@ padding: 20px;
 {
 background-color: #DCE4F7;
 color: black;
-height: 65px;
+height: 60px;
 padding-top: 17px;
 padding-left: 30px;
 
-position: relative;
+position: fixed;
 float:left;
 margin-right:20px;
 margin-left: 0;
 overflow-x:hidden;
+z-index: 2;
 
 }
 
@@ -163,8 +164,9 @@ overflow-x:hidden;
 	padding: 0;
 	width: 96%;
 	overflow-x:hidden;
-	
-	height: 70%;
+	top:60px;
+	z-index: 1;
+
 
 }
 .post
