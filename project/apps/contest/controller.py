@@ -21,6 +21,8 @@ from project.apps.user.models import User
 from project.apps.team.models import Team
 from project.apps.contest.models import Contest, Problem, Testcase
 #other
+import os , zipfile
+from zipfile import BadZipfile
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
 
@@ -233,3 +235,28 @@ def contest_info_by_name(contest_name):
 		return jsonify(contest.to_json()) , 200
 	except DoesNotExist:
 		return "" , 406
+
+
+@contest.route('<string:contest_id>/testcase/<int:number>/', methods=['POST'])
+def upload_tastecase (contest_id, number):
+#	print "hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+	try:
+		contest_name = Contest.objects().get(pk = contest_id).name
+	except DoesNotExist:
+		return "", 406
+	data = request.data
+	current_path = os.getcwd()
+	#project_path = os.sep.join(current_path.split(os.sep)[:-2])
+	#print current_path
+	if not os.path.exists(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/'):
+		os.makedirs(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/')
+	filename = str('testcase ') + str (number)
+	with open(os.path.join(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/', filename), 'w') as file:
+		file.write(data)
+	try:
+		with zipfile.ZipFile(os.path.join(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/' + filename)) as zf:
+			zf.extractall(os.path.join(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/'))
+	except BadZipfile:
+		return "", 410
+	
+	return "", 200
