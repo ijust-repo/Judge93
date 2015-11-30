@@ -271,3 +271,33 @@ def calculate_penalty (problems_list,start_time,current_time):
 	time_delta_minutes = int(time_delta.total_seconds()//60)
 	penalty += time_delta_minutes
 	return penalty
+
+@contest.route('add_team/<string:contest_id>/<string:team_name>/', methods=['GET'])
+def add_team (contest_id,team_name):
+	try:
+		team_obj = Team.objects().get(name=team_name)
+		contest_obj = Contest.objects().get(pk=contest_id)
+		team_info = TeamInfo (team = team_obj)
+		team_info.accepted = True
+		team_info.id = len (contest_obj.teams)
+		print "opwekfwpejf"
+		results =[]
+		for problem in contest_obj.problems:
+			result = Result(problem = problem)
+			result.status = ""
+			result.tries = 0
+			result.solved = True
+			result.id = problem.id +27
+			print problem.id
+			#results.append(result)
+
+		team_info.problem_results = results
+		print team_info
+		lst = contest_obj.teams
+		lst.append(team_info)
+		contest_obj.teams = lst
+		contest_obj.save()
+		return "" , 201
+	except Exception, err:
+		print err
+		return "", 406
