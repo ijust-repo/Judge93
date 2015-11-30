@@ -261,3 +261,13 @@ def contest_details(contest_id):
 		return jsonify(contests = details_list) , 200
 	except DoesNotExist:
 		return "" , 406
+
+def calculate_penalty (problems_list,start_time,current_time):
+	penalty=0
+	for result in problems_list:
+		if result[2]:
+			penalty += (result[1]*20)
+	time_delta = current_time - start_time
+	time_delta_minutes = int(time_delta.total_seconds()//60)
+	penalty += time_delta_minutes
+	return penalty
