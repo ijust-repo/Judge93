@@ -239,23 +239,28 @@ def contest_info_by_name(contest_name):
 
 @contest.route('<string:contest_id>/testcase/<int:number>/', methods=['POST'])
 def upload_tastecase (contest_id, number):
-#	print "hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+	try:	
+		data = request.data
+	except RequestEntityTooLarge:
+		return "", 405
+
 	try:
 		contest_name = Contest.objects().get(pk = contest_id).name
 	except DoesNotExist:
 		return "", 406
-	data = request.data
+
 	current_path = os.getcwd()
-	#project_path = os.sep.join(current_path.split(os.sep)[:-2])
-	#print current_path
-	if not os.path.exists(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/'):
-		os.makedirs(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/')
+	upload_path = current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/'
 	filename = str('testcase ') + str (number)
-	with open(os.path.join(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/', filename), 'w') as file:
+	if not os.path.exists(upload_path):
+		os.makedirs(upload_path)
+	
+	with open(os.path.join(upload_path, filename), 'w') as file:
 		file.write(data)
+	
 	try:
-		with zipfile.ZipFile(os.path.join(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/' + filename)) as zf:
-			zf.extractall(os.path.join(current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/'))
+		with zipfile.ZipFile(os.path.join(upload_path + filename)) as zf:
+			zf.extractall(os.path.join(upload_path))
 	except BadZipfile:
 		return "", 410
 	
