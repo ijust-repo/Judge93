@@ -6,20 +6,19 @@ __author__ = 'AminHP'
 import sys
 import subprocess
 
-#project import
-from project.apps.user import user
-from project.apps.team import team
-from project.apps.contest import contest
-from project.utils.access import logged_in_user
-
-
 
 def run_test():
-	# mongo import
+	#project import
+	from project.apps.user import user
+	from project.apps.team import team
+	from project.apps.contest import contest
+	from project.utils.access import logged_in_user
 	from mongoengine import connect
+
 	# flask import
 	from flask import Flask, session, request
 	import wtforms_json
+
 
 	def authenticate():
 		if not request.endpoint:

@@ -1,142 +1,93 @@
 
+var pathname = window.location.pathname;
+ if(pathname==="/user/ccc/"){
+	 window.history.pushState("","", "/user/home/"); 
+	 alert("ccc");
+ }
 $(document).ready(function () {
-$("#signupbtn").click(function() { 
-
-
-var username = $("input#username_signup").val();
-var password = $("input#password_signup").val();  
-var password2 = $("input#re-password_signup").val();  
-var email = $("input#email_signup").val(); 
-if (password===password2) {
-  $.ajax({
-            type: "POST",
-            url : '/user/signup/',
-            contentType: "application/json",
-            dataType: "json",
-            data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
-            success: function (data) {
-     
-            },
-            error: function (request, status, error) {            
-         
-        
-               if (request.status===201) {
-	      
-	      		window.location.replace("/user/");
-      		}
-      		else if (request.status===409) 
-             {
-					alert(" this username is already taken ");             
-             }
-				else if (request.status===406) 
-             {
-					alert("Please fill in all fields");             
-             }
-          }
-              
-
-                            });
-      }
-      else
-      {
-			alert(" passwords don't match");      
-      }
-  });
-});
-
-$(document).ready(function () {
-$("#loginbtn").click(function() { 
-
-
-var username = $("input#username_login").val();
-var password = $("input#password_login").val();  
-
-  $.ajax({
-            type: "POST",
-            url : '/user/login/',
-            contentType: "application/json",
-            dataType: "json",
-            data: '{"username": "' + username + '", "password" : "' + password + '"}',
-            success: function (data) {
-                
-            },
-            error: function (request, status, error) {
-        
-              if (request.status===200) {
-	      		window.location.replace("/user/home/");
-      		}
-      		else if (request.status===401) 
-             {
-					alert(" Username or password is incorrect ");             
-             }
-				else if (request.status===406) 
-             {
-					alert("Please fill in all fields");             
-             }
-              
-
-            }
-    });
-  });
-});
-
-function showLogin(){
-  document.title = "Login";
-  document.getElementById('signup').style.display = 'none';
-  document.getElementById('login').style.display = 'block';
-}
-function showSignUp(){
-  document.title = "Sign Up";
-  document.getElementById('login').style.display = 'none';
-  document.getElementById('signup').style.display = 'block';
-}
-
-$(document).ready(function () {
-  $("#setting").click(function() { 
-    $('#usernameitem').css('background-color', '#312736');
-    $('#setting').css('background-color', '#6C6368');
-    $('.post').css('display', 'none');
-    $('.settingcontent').css('display', 'block');
-
-  });
-});
-
-$(document).ready(function () {
-  $("#usernameitem").click(function() { 
-    $('#setting').css('background-color', '#312736');
-    $('#usernameitem').css('background-color', '#6C6368');
-    $('.settingcontent').css('display', 'none');
-    $('.post').css('display', 'block');
-
-  });
-});
-
-$(document).ready(function () {
+	
+//logout
 $("#logout").click(function() { 
-
-
   $.ajax({
             type: "GET",
             url : '/user/logout/',
-            dataType: "jsonp", 
-        		jsonp:"skywardDetails",
- 				
+            dataType: "html",  				
             success: function () {
-           
+           	window.location.replace("/user/");
             },
-          error: function (request, status, error) {
-        
-              if (request.status===200) {
-	      
-	      		window.location.replace("/user/");
-      		}
-             {
-					alert(request.message);             
-             }
-          
-          
-
+          error: function (request, status, error) { 
+			  if(request.status===405){    
+					alert("Please login first"); 
+				}            
             }
+            
     });
   });
+//show username
+      	      		   		
+  $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 				
+            success: function (data) {
+           $( '#getusername ' ).html((JSON.parse(data)).username); 			
+            },
+           error: function (request) {                
+				alert("this user not found");	      	      		
+      		}
+		});
+//end show username
+//change profile
+function changeprofile(username){
+  document.title = username;
+  document.getElementById('usernameitem').style.display = 'none';
+			document.getElementById('usernameprofitem').style.display = 'block';
+			document.getElementById('backtoprofile').style.display = 'block';
+			document.getElementById('logout').style.display = 'none';
+			document.getElementById('users').style.display = 'none';
+			document.getElementById('setting').style.display = 'none';
+			$( '#getusernameprof ' ).html(username); 
+			 
+}
+//go to profile
+$("#usernamecontact").click(function() { 
+ var username = $("#usernamecontact").text();
+  $.ajax({
+            type: "GET",
+            url : "/user/get_profile/by_username/"+ username + "/",
+            contentType: "application/json",
+            dataType: "html",
+            success: function (data) {
+			 window.history.pushState(username,username, "/user/get_profile/by_username/"+ username + "/"); 
+			$( '#getidprof ' ).html((JSON.parse(data)).id); 	
+            changeprofile(username);
+              
+            // $("body").load("/user/home/");
+            },
+            error: function (request, status, error) {
+                    
+      		 if (request.status===406) 
+             {
+					alert(" the user id does not exist ");             
+             }  
+
+            }
+          });          
+  });
+
+// back to profile
+$("#backtoprofile").click(function() { 
+           	window.location.replace("/user/home/");
+              document.title = "home";
+			document.getElementById('usernameitem').style.display = 'block';
+			document.getElementById('usernameprofitem').style.display = 'none';
+			document.getElementById('backtoprofile').style.display = 'none';
+			document.getElementById('logout').style.display = 'block';
+			document.getElementById('users').style.display = 'block';
+			document.getElementById('setting').style.display = 'block';
+			  });
+
+
+
+ 
 });

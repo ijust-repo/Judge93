@@ -1,83 +1,91 @@
 <html  lang="en">
-<head>	
+<head>
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Home</title>
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} "rel="stylesheet" />
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} "rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
+	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>	
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 </head>
 
 <body>
-	<ul class="col-lg-2 leftmenu shadow">
+	<ul class="col-xs-3 col-md-2 leftmenu shadow scrollbar" id="leftmenu" >
 		
-		<li class="leftmenuitem" id="usernameitem">
-			<h4 >Username</h4>
+		<li class=" usernameitem " id="usernameitem">
+			<a href=""><h4 id="getusername" class="leftmenuitem"></h4></a>
 		</li>	
-		
-		<li class="leftmenuitem" id="contest">
-		 	<h4 >Contests</h4>
+		<li class=" usernameitem " id="usernameprofitem" style="display:none">
+			<h4 id="getusernameprof" ></h4>
+			<h4 id="getidprof" style="display:none"></h4>
 		</li>
 		
-		<li class="leftmenuitem" id="team">
-		 	<h4 >Teams</h4>
+		<li  id="contest">
+		 	<a href="/user/contest/" ><h4 class="leftmenuitem">Contests</h4></a>
 		</li>
 		
-		<li class="leftmenuitem" id="users">
-		 	<h4 >Users</h4>
+		<li  id="team">
+		 	<a href="/user/team/"><h4 class="leftmenuitem">Teams</h4></a>
 		</li>
 		
-		<li class="leftmenuitem" id="setting">
-		 	<h4 >Settings</h4>
+		<li  id="users">
+		 	<a href="#users"><h4 class="leftmenuitem">Users</h4></a>
 		</li>
 		
-		<li class="leftmenuitem" id="logout">
-		 	<h4 >Log out</h4>
+		<li  id="setting">
+		 	<a href="/user/setting/"><h4 class="leftmenuitem">Settings</h4></a>
+		</li>
+		
+		<li  id="logout">
+		 	<a href="#logout"><h4 class="leftmenuitem">Log out</h4></a>
+		</li>
+		<li  id="backtoprofile" style="display:none" >
+		 	<a href="#back"><h4 class="leftmenuitem">Back to profile</h4></a>
 		</li>
 
 	</ul>
-	<div class="row">
-		
-		<div class="col-lg-10  maintitr">
-			<p > News</p>
+    <div class="col-xs-offset-3 col-md-offset-2 row">
+		<div class="col-xs-12 col-md-12 maintitr">
+			<p id="titlePage"> News</p>          
 		</div>
-	
-      	<div  class=" contents  col-lg-9 shadow" >
+	</div>
+	<div class="col-xs-offset-3 col-md-offset-2 row">
+      	<div id="contents" class="contents  " >
 			
 			<div class="post">
 				<h4 >title</h4>
-				<p>content</p>    
+				<a id="usernamecontact1"  >bbb</a>
+				<a id="usernamecontact"  >ccc</a>
+				<p>content</p> 
+				 
 	    	</div>
-
-	    	<div class="settingcontent" style="display:none">
-	    		
-	    		<div id="changeProfilePicture">
-	    			<div id="profilePictureWrapper">
-	    			</div>
-	    			<span class="btn btn-default btn-file"> Browse 
-	    				<input type="file">
-					</span>
-	    		</div>
-
-	    		<div id="changeProfileSetting">
-	    			Email: 
-	    			<input type="text" name="change_email" id="change_email" /> <br/>
-	    			old password: 
-	    			<input type="password" name="change_password_old" id="change_password_old" /> <br/>
-	    			new password: 
-	    			<input type="password" name="change_password_new" id="change_password_new" /> <br/>
-	    			<input type="button" name="changeSetting" id="changeSettingbtn" class="btn btn-primary "value="submit" /><br>
-	    		</div>
+	    	<div class="post">
+				<h4 >title</h4>
+				<a id="usernamecontact1"  >bbb</a>
+				<a id="usernamecontact"  >ccc</a>
+				<p>content</p> 
+				 
 	    	</div>
-   		
-   		</div>
-   	
+	    	<div class="post">
+				<h4 >title</h4>
+				<a id="usernamecontact1"  >bbb</a>
+				<a id="usernamecontact"  >ccc</a>
+				<p>content</p> 
+				 
+	    	</div>
+		</div>
    	</div>
+   
 
 </body>
+<script>
+$(document).ready(function() {
+    $("#leftmenu").niceScroll({cursorwidth: '5px',cursorcolor:'#ffffff', autohidemode: true, zindex: 999 });
+});
+</script>
 </html>
 

@@ -9,7 +9,6 @@
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} "rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 </head>
 
@@ -28,7 +27,7 @@
     </div>
 
    
-            <div id="signup" class=" right col-ms-5" style="display:none">
+            <div id="signup" class=" right col-ms-5" >
                 <br>
                   <p id="signupdiv" class="textproperty"> Please Sign Up</p>
                 <hr>         
@@ -37,7 +36,7 @@
                 <input type="password" name="password" id="re-password_signup" placeholder="re-Enter Password" required /><br>
                 <input type="email" name="username" id="email_signup" placeholder="Email" /><br>             
                 <input type="button" name="signup" id="signupbtn" class="btn btn-primary "value="register" /><br>
-                or <a href="#" onclick="showLogin()">Login</a>
+                or <a href="#login" onclick="showLogin()">Login</a>
                 
             </div>
 
@@ -48,7 +47,7 @@
                 <input type="text" name="username_login" id="username_login" placeholder="Username" required /><br>             
                 <input type="password" name="password_login" id="password_login" placeholder="Password" required /><br>                
                 <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br>
-                or <a href="#" onclick="showSignUp()">Sign Up</a>
+                or <a href="#signup" onclick="showSignUp()">Sign up</a>
                 
             </div>
 
@@ -58,5 +57,95 @@
     </div>
 
 </body>
+<script language="javascript">
+	function showLogin(){
+  document.title = "Login";
+  document.getElementById('signup').style.display = 'none';
+  document.getElementById('login').style.display = 'block';
+}
+function showSignUp(){
+  document.title = "Sign Up";
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('signup').style.display = 'block';
+}
+$(document).ready(function () {
+	//sign up
+$("#signupbtn").click(function() { 
+var username = $("input#username_signup").val();
+var password = $("input#password_signup").val();  
+var password2 = $("input#re-password_signup").val();  
+var email = $("input#email_signup").val(); 
+if (password===password2) {
+  $.ajax({
+            type: "POST",
+            url : '/user/signup/',
+            contentType: "application/json",
+            dataType: "html",
+            data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
+            success: function (data) {
+     					window.location.replace("/user/");
+            },
+            error: function (request, status, error) {            
+         
+        
+              
+      		 if (request.status===409) 
+             {
+					alert(" this username or is already taken ");             
+             }
+				else if (request.status===406) 
+             {
+					alert("Please fill in all fields");             
+             }
+          }
+              
+
+          });
+      }
+      else
+      {
+			alert(" passwords don't match");      
+      }
+        $("#username_signup").val('');
+		 $("#password_signup").val('');  
+		 $("#re-password_signup").val('');  
+		 $("#email_signup").val('');
+  });
+//login
+$("#loginbtn").click(function() { 
+
+var username = $("input#username_login").val();
+var password = $("input#password_login").val();  
+
+  $.ajax({
+            type: "POST",
+            url : '/user/login/',
+            contentType: "application/json",
+            dataType: "html",
+            data: '{"username": "' + username + '", "password" : "' + password + '"}',
+            success: function (data) {
+                window.location.replace("/user/home/");
+            },
+            error: function (request, status, error) {
+                    
+      		 if (request.status===401) 
+             {
+					alert(" Username or password is incorrect ");             
+             }
+				else if (request.status===406) 
+             {
+					alert("Please fill in all fields");             
+             }
+              
+
+            }
+                });
+  $("#username_login").val('');
+		 $("#password_login").val('');                
+                
+  });
+
+});
+</script>
 </html>
 
