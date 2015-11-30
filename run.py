@@ -6,20 +6,19 @@ __author__ = 'AminHP'
 import sys
 import subprocess
 
-#project import
-from project.apps.user import user
-from project.apps.team import team
-from project.apps.contest import contest
-from project.utils.access import logged_in_user
-
-
 
 def run_test():
-	# mongo import
+	#project import
+	from project.apps.user import user
+	from project.apps.team import team
+	from project.apps.contest import contest
+	from project.utils.access import logged_in_user
 	from mongoengine import connect
+
 	# flask import
 	from flask import Flask, session, request
 	import wtforms_json
+
 
 	def authenticate():
 		if not request.endpoint:
@@ -37,7 +36,8 @@ def run_test():
 	app.register_blueprint(team)
 	app.register_blueprint(contest)
 	app.secret_key = '.g2He35T9TQhTxth3IPj75KP5zQDAmXaZWiVz1FwCKAWs3Oi'
-	app.config["WTF_CSRF_ENABLED"] = False
+	app.config['WTF_CSRF_ENABLED'] = False
+	app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 	app.before_request(authenticate)
 	app.run(host='0.0.0.0', debug=True)
 

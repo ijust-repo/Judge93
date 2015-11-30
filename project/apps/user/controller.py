@@ -9,7 +9,7 @@ from flask import jsonify, request, render_template
 from project.apps.user import user
 from project.apps.user.forms import Login, Signup, ChangePassword, ChangeProfile
 from project.utils.access import login_user, logout_user ,logged_in_user
-
+from project.utils.date import datetime_to_str
 from project.apps.user.models import User
 from project.apps.team.models import Team
 from project.apps.contest.models import Contest
@@ -27,6 +27,17 @@ def user_page():
 def user_home_page():
 	return render_template('home.html')
 
+@user.route('contest/', methods=['GET'])
+def user_contest_page():
+	return render_template('contest.html')
+
+@user.route('setting/', methods=['GET'])
+def user_setting_page():
+	return render_template('setting.html')
+
+@user.route('team/', methods=['GET'])
+def user_team_page():
+	return render_template('team.html')
 
 @user.route('exists/<string:username>/', methods=['GET'])
 def exists(username):
@@ -156,3 +167,41 @@ def get_current_user():
 	obj = User.objects().get(username=logged_in_user())
 	resp = obj.to_json_profile()
 	return jsonify(resp) ,200
+	
+
+@user.route('<string:user_id>/teams/', methods=['GET'])
+def get_users_teams(user_id):
+	try:
+		obj = User.objects().get(pk=user_id)
+		teams = obj.teams		
+		resp = []
+		
+		for team in teams:
+			contests = team.contests		
+			members = team.members
+			contests_list =[]	
+			team_info = {}
+			members_list = []
+			
+			for member in members:
+				members_list.append(member.to_json())
+			
+			for contest in contests:
+				contests_info = {}
+				contests_info ["name"] = contest.name
+				contests_info ["id"] = str(contest.pk)
+				contests_info ["start_on"] = datetime_to_str(contest.starts_on)
+				contests_info ["ends_on"] = datetime_to_str(contests.ends_on)
+				contests_list.append(contests_info)				
+			
+			team_info["contests"] = contests_list
+			team_info["id"]= str(team.pk)	
+			team_info["name"]= team.name
+			team_info["owner"] = team.owner.to_json()	
+			team_info["members"] = members_list			
+			
+			resp.append(team_info)
+
+		return jsonify(teams=resp),200
+	except DoesNotExist:
+		return jsonify(errors="User does not exists!"), 406

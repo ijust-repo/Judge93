@@ -299,6 +299,70 @@ Example Response:
 --------
 
 
+Get user's team
+===============
+
+Resource URL
+>GET
+> **/user/<string:user_id>/teams/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Response:
+```
+ {
+  "teams": [
+    {
+      "contests": [
+	{
+  	  "id": "5210e3923ac198af54156118",
+  	  "name": "mycontest",
+  	  "starts_on": "2015-11-20 13:00:00",
+  	  "ends_on": "2015-11-20 17:00:00"
+	}
+      ], 
+      "id": "563bd59157040f0fcc0113b4", 
+      "members": [
+        {
+          "id": "563b9d2857040f1b6c805892", 
+          "username": "admin"
+        }
+      ], 
+      "name": "team2", 
+      "owner": {
+        "id": "563b9d2857040f1b6c805892", 
+        "username": "admin"
+      }
+    }, 
+    {
+      "contests": [], 
+      "id": "563bd74257040f10ed1134fb", 
+      "members": [
+        {
+          "id": "563b9d2857040f1b6c805892", 
+          "username": "admin"
+        }
+      ], 
+      "name": "myteam", 
+      "owner": {
+        "id": "563b9d2857040f1b6c805892", 
+        "username": "admin"
+      }
+    }
+  ]
+}
+```
+
+> **NOTE**
+>
+>- user_id is the Id of the user in database.
+>- If response status code is **200** then user id have been successfully found and information have been returned.
+>- If response status code is **406** then the user id does not exist.
+
+
 Team API
 ========
 
