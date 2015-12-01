@@ -19,7 +19,7 @@ from project.utils.date import datetime_to_str, str_to_datetime
 #models import
 from project.apps.user.models import User
 from project.apps.team.models import Team
-from project.apps.contest.models import Contest, Problem, Testcase
+from project.apps.contest.models import Contest, Problem, Testcase, TeamInfo, Result
 #other
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
@@ -234,62 +234,28 @@ def contest_info_by_name(contest_name):
 	except DoesNotExist:
 		return "" , 406
 
-
-@contest.route('details/<string:contest_id>/', methods=['GET'])
-def contest_details(contest_id):
+@contest.route('<string:contest_id>/add_team/<string:team_id>/', methods=['GET'])
+def add_team (contest_id,team_id):
 	try:
-		contest_obj = Contest.objects().get(id=contest_id)
-		start_time = contest_obj.starts_on
-		current_time = datetime.utcnow()
-		#[teams , [problems_list[]] , penalty ]
-		#teams = obj.teams[0].team.to_json()
-		details_list = []
-		#tries = obj.teams[0].problem_results[0].tries
-		#solved = obj.teams[0].problem_results[0].solved
-		#order = obj.teams[0].problem_results[0].problem.order
-		# [order , tries , solved]
-		problems_list = []
-		for team_info in contest_obj.teams:
-			details_list.append(team_info.team.to_json())
-			for result in team_info.problem_results:
-				problems_list.append(result.problem.order)
-				problems_list.append(result.tries)
-				problems_list.append(result.solved)
-			problems_list.sort(key= lambda order :order[0])
-			details_list.append(problems_list)
-			print calculate_penalty(problems_list,start_time,current_time)
-		return jsonify(contests = details_list) , 200
-	except DoesNotExist:
-		return "" , 406
-
-def calculate_penalty (problems_list,start_time,current_time):
-	penalty=0
-	for result in problems_list:
-		if result[2]:
-			penalty += (result[1]*20)
-	time_delta = current_time - start_time
-	time_delta_minutes = int(time_delta.total_seconds()//60)
-	penalty += time_delta_minutes
-	return penalty
-
-@contest.route('add_team/<string:contest_id>/<string:team_name>/', methods=['GET'])
-def add_team (contest_id,team_name):
-	try:
-		team_obj = Team.objects().get(name=team_name)
+		team_obj = Team.objects().get(pk=team_id)
 		contest_obj = Contest.objects().get(pk=contest_id)
+		for info in contest_obj.teams:
+			if (team_obj == info.team):
+				print team_obj == info.team
+				return jsonify(errors = 'team already exists!'), 409
+
+		print team_obj not in contest_obj.teams
 		team_info = TeamInfo (team = team_obj)
-		team_info.accepted = True
-		team_info.id = len (contest_obj.teams)
-		print "opwekfwpejf"
+		team_info.accepted = False
+		team_info.id = len (contest_obj.teams) + 1
 		results =[]
 		for problem in contest_obj.problems:
-			result = Result(problem = problem)
+			result = Result(problem_id = problem.id)
 			result.status = ""
 			result.tries = 0
-			result.solved = True
-			result.id = problem.id +27
-			print problem.id
-			#results.append(result)
+			result.solved = False
+			result.id = len(results) + (len(contest_obj.problems)*(team_info.id-1)) + 1
+			results.append(result)
 
 		team_info.problem_results = results
 		print team_info
@@ -298,6 +264,5 @@ def add_team (contest_id,team_name):
 		contest_obj.teams = lst
 		contest_obj.save()
 		return "" , 201
-	except Exception, err:
-		print err
-		return "", 406
+	except DoesNotExist:
+		return "" , 406
