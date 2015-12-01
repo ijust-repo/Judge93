@@ -16,4 +16,3 @@ class Team(Document):
 			id=str(self.pk),
 			name=self.name,
 			owner=self.owner.to_json())
-;
