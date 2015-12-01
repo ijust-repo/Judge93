@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AminHP'
+__author__ = 'Amin HP'
 
 # python imports
 from mongoengine import Document, StringField, ReferenceField, ListField
@@ -16,3 +16,4 @@ class Team(Document):
 			id=str(self.pk),
 			name=self.name,
 			owner=self.owner.to_json())
+;

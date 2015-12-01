@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini"]
+__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini", "Amir Mohammad"]
 
 #flask import
 from flask import jsonify, request, render_template
@@ -144,3 +144,32 @@ def get_team_member(team_id):
 
 	except DoesNotExist:
 		return jsonify(errors='Team does not exist!'), 406
+
+
+
+
+
+@team.route('remove_users/', methods=['POST'])
+def remove_user():
+	try:
+		form = RemoveUser.from_json(request.json)
+		if form.validate():
+			name = form.data['name']
+			member = form.data ['member']
+			team_obj = Team.objects().get(name = name)
+			for member in team_obj.members:
+				print member.username
+				# print members
+				# print member.username in members
+				# print '5648e39d57040f178cc1eeab' in team_obj.members
+				# print member in team_obj.members
+				if member.username == member:
+					team_obj.member.update(pull__images = member)
+					#team_obj.member.delete(member)
+					#team_obj.members = []
+			team_obj.save()
+			return jsonify(members = team_obj.members), 201
+	except Exception ,err:
+		print err
+		form.members.errors.append(form.members.gettext('member is not in team'))
+		return jsonify(errors=form.errors), 406
