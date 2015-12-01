@@ -47,26 +47,18 @@
 		</li>
 
 	</ul>
-    <div id="createTeam" class="form-dialog">
+    <div id="createContest" class="form-dialog">
         <div>
             <a href="#" title="Close" class="close-button">X</a>
             <form>
                 <div class="question">
                     <input type="text" required/>
-                    <label>Team Name</label>
+                    <label>Contest Name</label>
                 </div>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>members</label>
-                </div>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>members</label>
-                </div>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>members</label>
-                </div>
+                <label style="margin-top:10px;">starts</label>
+                <input type="datetime-local" required style="width:100%;margin-top:-8px;" />
+                <label style="margin-top:10px;">ends</label>
+                <input type="datetime-local" required style="width:100%;margin-top:-8px;" />
                 <button type="submit" class="submit-button">Submit</button>
             </form>
         </div>
@@ -76,7 +68,7 @@
 
 		<div class="col-lg-10  maintitr">
 			<p id="titlePage"> News</p>
-            <div><a href="#createTeam"><button class="hover-button close-page">Create Team</button></a></div>
+            <div><a href="#createContest"><button class="hover-button close-page">Create Contest</button></a></div>
 		</div>
 	</div>
 	<div class="row">
@@ -84,15 +76,9 @@
 
 			<div class="close-page" id="teamPage">
 					<div class="header-team">
-						<div>Team Name</div>
+						<div>Contest Name</div>
 					</div>
 					<div class="body-team">
-						<div class="sector-block-team">
-							<div>Users :</div>
-							<p>...</p>
-							<p>...</p>
-							<p>...</p>
-						</div>
 						<div class="sector-block-team">
 							<a href="#">Contest :</a>
 							<p>...</p>
@@ -108,5 +94,10 @@
    	</div>
 
 </body>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('.close-page').removeClass('close-page').addClass('open-page');
+	});
+</script>
 </html>
 
