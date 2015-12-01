@@ -21,10 +21,11 @@ from project.apps.user.models import User
 from project.apps.team.models import Team
 from project.apps.contest.models import Contest, Problem, Testcase
 #other
-import os , zipfile
+import os , zipfile, shutil
 from zipfile import BadZipfile
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
+from werkzeug.exceptions import RequestEntityTooLarge
 
 
 @contest.route('/', methods=['POST'])
@@ -239,29 +240,48 @@ def contest_info_by_name(contest_name):
 
 @contest.route('<string:contest_id>/testcase/<int:number>/', methods=['POST'])
 def upload_tastecase (contest_id, number):
-	try:	
-		data = request.data
-	except RequestEntityTooLarge:
-		return "", 405
+	data = request.data
 
 	try:
-		contest_name = Contest.objects().get(pk = contest_id).name
+		contest = Contest.objects().get(pk = contest_id)
+		contest_name = contest.name
 	except DoesNotExist:
-		return "", 406
+		return jsonify(errors="Contest does not exist!"), 406
 
-	current_path = os.getcwd()
-	upload_path = current_path + "/project/contests/" + str (contest_name) + "/testcase/" + str (number) + '/'
-	filename = str('testcase ') + str (number)
+	max_num = len(contest.problems)
+	print max_num, "    ", number
+	if number < 1 or number > max_num:
+		return jsonify(errors="Invalid problem number!"), 406
+
+	upload_path = "project/contests/" + str (contest_name) + "/testcases/" + str (number) + '/'
+	filename = str('testcase ') + str (number)+ ".zip"
 	if not os.path.exists(upload_path):
 		os.makedirs(upload_path)
-	
-	with open(os.path.join(upload_path, filename), 'w') as file:
+	else :
+		shutil.rmtree (upload_path)
+		print "removing    ", upload_path 
+		os.makedirs(upload_path)
+	with open(os.path.join(upload_path, filename), 'wb') as file:
 		file.write(data)
 	
 	try:
 		with zipfile.ZipFile(os.path.join(upload_path + filename)) as zf:
 			zf.extractall(os.path.join(upload_path))
-	except BadZipfile:
-		return "", 410
+	except BadZipfile as e:
+		#shutil.rmtree (upload_path [:-1])
+		print e
+		shutil.rmtree (upload_path)
+		return jsonify(errors="Bad zip file!"), 406
 	
+	allowed_extensions = ['txt', 'tc']
+	unziped_files = os.listdir (upload_path)
+	unziped_files.remove (filename)
+	os.remove (upload_path + filename)
+	for f in  unziped_files:
+		if not f.split('.') [-1] in allowed_extensions:
+			if os.path.isdir(upload_path + f):
+				shutil.rmtree (upload_path + f)
+			else:
+				os.remove (upload_path + f)
+
 	return "", 200
