@@ -539,7 +539,7 @@ Creating new contest
 
 Resource URL
 >post
-> **/contest/create/**
+> **/contest/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -790,3 +790,49 @@ Example Response
 > **NOTE:**
 >- If response status code is **200** then the Contest_info returned successfully.
 >- If there are errors like a required value response status code will be **406** .
+
+--------
+
+
+Upload testcases for a problem
+===============
+
+Resource URL
+>POST
+> **/contest/<string:contest_id>/testcase/<int:number>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+> **NOTE:**
+>- If response status code is **200** then the file is uploaded successfully.
+>- If contest_id does not exist in data base response status code will be **406** and you will have errors like "Contest does not exist!".
+>- If number is bigger than number of problems or it is lower than 1 the response status code will be **406** and you have errors like "Invalid problem number!".
+>- If the extinsion of uploading  file is not **.zip** , response status code will be **406** and there will be errors like "Bad zip file!".
+>- Zipped document will get unziped automatically and any thing except **.txt** files or **.tc** files will be removed, including zip file itself.
+
+--------
+
+add team to contest
+===============
+
+Resource URL
+>GET
+> **/contest/<contest_id>/add_team/<team_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|NO (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/add_team/565df1df23e3c00dfca5f8b5/
+```
+
+> **NOTE:**
+>- If response status code is **201** then the team is successfully added to contest.
+>- If the team already exists, status code will be **409** and you will have errors with adding team like **'team with this name already exists!' ** .
+>- If there are errors like team or contest does not exists response status code will be **406**.
