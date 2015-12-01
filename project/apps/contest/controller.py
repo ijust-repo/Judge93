@@ -249,7 +249,6 @@ def upload_tastecase (contest_id, number):
 		return jsonify(errors="Contest does not exist!"), 406
 
 	max_num = len(contest.problems)
-	print max_num, "    ", number
 	if number < 1 or number > max_num:
 		return jsonify(errors="Invalid problem number!"), 406
 
@@ -259,7 +258,6 @@ def upload_tastecase (contest_id, number):
 		os.makedirs(upload_path)
 	else :
 		shutil.rmtree (upload_path)
-		print "removing    ", upload_path 
 		os.makedirs(upload_path)
 	with open(os.path.join(upload_path, filename), 'wb') as file:
 		file.write(data)
@@ -268,8 +266,6 @@ def upload_tastecase (contest_id, number):
 		with zipfile.ZipFile(os.path.join(upload_path + filename)) as zf:
 			zf.extractall(os.path.join(upload_path))
 	except BadZipfile as e:
-		#shutil.rmtree (upload_path [:-1])
-		print e
 		shutil.rmtree (upload_path)
 		return jsonify(errors="Bad zip file!"), 406
 	
@@ -285,3 +281,4 @@ def upload_tastecase (contest_id, number):
 				os.remove (upload_path + f)
 
 	return "", 200
+
