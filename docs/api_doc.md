@@ -790,3 +790,29 @@ Example Response
 > **NOTE:**
 >- If response status code is **200** then the Contest_info returned successfully.
 >- If there are errors like a required value response status code will be **406** .
+
+
+add team to contest
+===============
+
+Resource URL
+>GET
+> **/contest/<contest_id>/add_team/<team_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|NO (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/add_team/565df1df23e3c00dfca5f8b5/
+```
+
+> **NOTE:**
+>- If response status code is **201** then the team is successfully added to contest.
+>- If there are errors like a required value response status code will be **406** .
+>- If response status code is **201** then new problem is successfully added to contest.
+>- The header, footer and tastcases fields are optional (but if there is a test case, both of its fields are required.)
+>- Just the owner of contest can add new problems, if the loged in user is not the owner of contest, status code will be **403**.
+>- If there are errors like a required field response status code will be **406** .
