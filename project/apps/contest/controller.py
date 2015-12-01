@@ -21,8 +21,11 @@ from project.apps.user.models import User
 from project.apps.team.models import Team
 from project.apps.contest.models import Contest, Problem, Testcase, TeamInfo, Result
 #other
+import os , zipfile, shutil
+from zipfile import BadZipfile
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
+from werkzeug.exceptions import RequestEntityTooLarge
 
 
 @contest.route('/', methods=['POST'])
@@ -233,6 +236,52 @@ def contest_info_by_name(contest_name):
 		return jsonify(contest.to_json()) , 200
 	except DoesNotExist:
 		return "" , 406
+
+
+@contest.route('<string:contest_id>/testcase/<int:number>/', methods=['POST'])
+def upload_tastecase (contest_id, number):
+	data = request.data
+
+	try:
+		contest = Contest.objects().get(pk = contest_id)
+		contest_name = contest.name
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406
+
+	max_num = len(contest.problems)
+	if number < 1 or number > max_num:
+		return jsonify(errors="Invalid problem number!"), 406
+
+	upload_path = "project/contests/" + str (contest_name) + "/testcases/" + str (number) + '/'
+	filename = str('testcase ') + str (number)+ ".zip"
+	if not os.path.exists(upload_path):
+		os.makedirs(upload_path)
+	else :
+		shutil.rmtree (upload_path)
+		os.makedirs(upload_path)
+	with open(os.path.join(upload_path, filename), 'wb') as file:
+		file.write(data)
+	
+	try:
+		with zipfile.ZipFile(os.path.join(upload_path + filename)) as zf:
+			zf.extractall(os.path.join(upload_path))
+	except BadZipfile as e:
+		shutil.rmtree (upload_path)
+		return jsonify(errors="Bad zip file!"), 406
+	
+	allowed_extensions = ['txt', 'tc']
+	unziped_files = os.listdir (upload_path)
+	unziped_files.remove (filename)
+	os.remove (upload_path + filename)
+	for f in  unziped_files:
+		if not f.split('.') [-1] in allowed_extensions:
+			if os.path.isdir(upload_path + f):
+				shutil.rmtree (upload_path + f)
+			else:
+				os.remove (upload_path + f)
+
+	return "", 200
+
 
 @contest.route('<string:contest_id>/add_team/<string:team_id>/', methods=['GET'])
 def add_team (contest_id,team_id):
