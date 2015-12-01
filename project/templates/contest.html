@@ -52,14 +52,14 @@
             <a href="#" title="Close" class="close-button">X</a>
             <form>
                 <div class="question">
-                    <input type="text" required/>
+                    <input type="text" id="contest_name" required/>
                     <label>Contest Name</label>
                 </div>
                 <label style="margin-top:10px;">starts</label>
-                <input type="datetime-local" required style="width:100%;margin-top:-8px;" />
+                <input type="datetime-local" required id="contest_start" style="width:100%;margin-top:-8px;" />
                 <label style="margin-top:10px;">ends</label>
-                <input type="datetime-local" required style="width:100%;margin-top:-8px;" />
-                <button type="submit" class="submit-button">Submit</button>
+                <input type="datetime-local" required id="contest_end" style="width:100%;margin-top:-8px;" />
+                <button id="create_contest_button" type="submit" class="submit-button">Submit</button>
             </form>
         </div>
     </div>
@@ -97,6 +97,38 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('.close-page').removeClass('close-page').addClass('open-page');
+		$('#create_contest_button').click(function() {
+			var name = $("input#contest_name").val();
+
+			var start = $("input#contest_start").val();
+			var startDate = new Date(start);
+			startDate = new Date(startDate.toUTCString());
+			var startMillis = startDate.getTime()/1000 + (startDate.getTimezoneOffset() * 6);
+
+			var end = $("input#contest_end").val();
+			var endDate = new Date(end);
+			endDate = new Date(endDate.toUTCString());
+			var endMillis = endDate.getTime()/1000 + (endDate.getTimezoneOffset() * 6);
+
+			$.ajax({
+          		type: "POST",
+          		url : '/contest/',
+          		contentType: "application/json",
+          		dataType: "html",
+          		data: '{"name" : "' + name + '", "starts_on" : "' + startMillis + '", "ends_on" : "' + endMillis + '"}',
+          		success: function (data) {
+              		alert(" Contest successfully Created ");
+          		},
+          		error: function (request, status, error) {
+            		if (request.status === 409) {
+              			alert(" Contest with this name already exists! ");
+            		} else if (request.status === 406) {
+              			alert(" Start date must be earlier than end date! or Start date must be later than now! or fields required ");
+            		}
+          		}
+        	});
+			
+		});
 	});
 </script>
 </html>
