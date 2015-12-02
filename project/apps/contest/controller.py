@@ -366,8 +366,6 @@ def contest_details(contest_id):
 		return jsonify(contests = final_list) , 200
 	except DoesNotExist:
 		return "" , 406
-<<<<<<< HEAD
-
 
 @contest.route('submit/<string:contest_id>/<string:team_id>/<int:number>/<string:file_type>/', methods=['POST'])
 def submit (contest_id, team_id ,number, file_type):
@@ -507,55 +505,30 @@ def Update_Result(contest_id, team_id, problem_number ,status, solved):
 
 	for complete_team_info in contest_obj.teams:
 		if (team_obj == complete_team_info.team):
-                        for problem_result in complete_team_info.problem_results:
-                                if problem_number == problem_result.problem_id:
-                                        problem_result.status = status
-                                        print problem_result.tries
-                                        if not solved:
-                                                problem_result.tries += 1
-                                        print problem_result.tries
-                                        problem_result.solved = solved
-                                        contest_obj.save()
-                                        print 'done!'
-                                else:
-                                        results =[]
-                                        result = Result(problem_id = problem_number)
-                                        result.status = status
-                                        result.tries = 1 if (not solved) else 0
-                                        result.solved = solved
-                                        result.id = len(results) + (len(contest_obj.problems)*(team_info.id-1)) + 1
-                                        results.append(result)
-                                        team_info.problem_results = results
-                                        lst = contest_obj.teams
-                                        lst.append(team_info)
-                                        contest_obj.teams = lst
-                                        contest_obj.save() 
-                                                        
+                        print 'team found'
+                        problem_results_list = [ problem_result for problem_result in complete_team_info.problem_results ]
+                        if( problem_number not in [ problem_result.problem_id for problem_result in complete_team_info.problem_results ] ):
+                                print ":P"
+                                result = Result(problem_id = problem_number)
+                                result.status = status
+                                result.failed_tries = 1 if (not solved) else 0
+                                result.solved = solved
+                                result.id = problem_number
+                                problem_results_list.append( result )
+                                if solved:
+                                        result.solved_on = datetime.fromtimestamp(datetime.utcnow()) #in o kharaki gozashtam... sakhtaresh fix she...
+                                complete_team_info.problem_results = problem_results_list
+                                contest_obj.save()
+                                break
+                        else:
+                                result = [problem_result for problem_result in problem_results_list if( problem_result.problem_id == problem_number )][0]
+                                print [p.status for p in problem_results_list]
+                                result.status = 'zzz'
+                                problem_results_list[problem_results_list.index(result)] = result
+                                print [p.status for p in problem_results_list]
                                 
-                        
-        '''
-	print team not in contest_obj.teams
-	team_info = TeamInfo (team = team)
-	team_info.accepted = False
-	team_info.id = len (contest_obj.teams) + 1
-	results =[]
-	for problem in contest_obj.problems:
-		result = Result(problem_id = problem.id)
-		result.status = ""
-		result.tries = 0
-		result.solved = False
-		result.id = len(results) + (len(contest_obj.problems)*(team_info.id-1)) + 1
-		results.append(result)
-		team_info.problem_results = results
-	lst = contest_obj.teams
-	lst.append(team_info)
-	contest_obj.teams = lst
-	contest_obj.save()
-	return "" , 200
-        '''
+                                
+                                complete_team_info.problem_results = problem_results_list
+                                contest_obj.save()
+                                break
 
-
-
-
-=======
->>>>>>> upstream/master
