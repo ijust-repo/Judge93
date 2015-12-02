@@ -1,8 +1,9 @@
 ﻿body
 {
     background-color: #E9E9E9;
-   
+    
 }
+
 
 a
 {
@@ -29,7 +30,7 @@ input,
 textarea,
 select {
   font-family: Helvetica;
-  font-size: 18px;
+  font-size: 17px;
   color: #4c4c4c;
 }
 
@@ -51,13 +52,9 @@ input{
 
 
 .user{
-    background-color:#312736;
+    /*background-color:#312736;*/
     margin: 8px ; 
-     -webkit-border-radius:10px 10px 10px 10px; 
- 	 -moz-border-radius: 10px 10px 10px 10px; 
-	-webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);        
-  box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);
-  border-radius: 1px;
+ 
   color:white;
 }
 .left
@@ -81,14 +78,16 @@ margin:  100px  80px 50px 0;
 	float:left;	
  	height: 100%;
 	padding: 0;
-	overflow-y: scroll; 
+	overflow-y: hidden; 
+	font-size: 2vh;
 }
 .leftmenuitem
 {
 height: 60px;
 color: white;
 margin:0;
-padding: 20px;
+padding: 18px;
+
 
 }
 .leftmenuitem:hover  {
@@ -120,7 +119,7 @@ z-index: 2;
 .maintitr div
 {
     float: right;
-    margin-right: 3%;
+    margin-right: 2%;
     margin-left: 3%;
 }
 
@@ -137,9 +136,12 @@ z-index: 2;
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
-    font-size: 20px;
-    height: 40px;
-    width: 150px;
+    max-font-size: 18px;
+    min-font-size: 12px;
+    font-size: 1.2vw;
+    min-height: 35px;
+    height: 5vh;
+    width: 12vw;
     margin-top: -5px;
 }
 
@@ -315,6 +317,7 @@ width:170px;
 .form-dialog:target {
     opacity:1;
     pointer-events: auto;
+        overflow-x:hidden;
 }
 
 .form-dialog > div {
@@ -323,7 +326,7 @@ width:170px;
     width: 40vw;
     position: relative;
     margin: 3% auto;
-    padding: 30px 20px 13px 20px;
+    padding: 30px 30px 13px 20px;
     border-radius: 10px;
     background: #E9F2F9;
     background: -moz-linear-gradient(#E9F2F9, #1B325F);
@@ -336,7 +339,7 @@ width:170px;
     color: #E9F2F9;
     line-height: 25px;
     position: absolute;
-    right: -12px;
+    right: -8px;
     text-align: center;
     top: -10px;
     width: 24px;
@@ -366,7 +369,7 @@ width:170px;
 
 .form-dialog .question {
     position: relative;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .form-dialog .question:first-of-type {
@@ -451,7 +454,7 @@ width:170px;
 
 .form-dialog button.submit-button{
     font-family: BYekan, sans-serif;
-    margin-top: 50px;
+    margin-top: 30px;
     margin-right: 10px;
     padding-right: 10px;
     padding-left: 10px;
@@ -500,8 +503,109 @@ width:170px;
   cursor: inherit;
   display: block;
 }
+/* responsive text queries */
 
+}
+.CSSTableGenerator {
+	margin:0px;padding:0px;
+	width:100%;
+	border-bottom:1px solid #ffffff;
+	
+}.CSSTableGenerator table{
+    border-collapse: collapse;
+    border-spacing: 0;
+
+	margin:0px;padding:0px;
+}
+.CSSTableGenerator tr:hover td{
+	background-color:#e9f2f9;	
+}
+.CSSTableGenerator td{
+	vertical-align:middle;
+	background-color:#dce4f7;
+	border-bottom:1px solid #ffffff;
+	border-top:1px solid #ffffff;
+	text-align:center;
+	padding:5px;
+	width:200px;
+	height:50px;
+	font-size:14px;
+	font-family:Arial;
+	font-weight:normal;
+}
+.CSSTableGenerator tr:first-child td{
+		background:-o-linear-gradient(bottom, #dce4f7 5%, #dce4f7 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dce4f7), color-stop(1, #dce4f7) );
+	background:-moz-linear-gradient( center top, #dce4f7 5%, #dce4f7 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#dce4f7", endColorstr="#dce4f7");	background: -o-linear-gradient(top,#dce4f7,dce4f7);
+
+	background-color:#dce4f7;
+	border-bottom:0px solid #ffffff;
+	text-align:center;
+	border-bottom-width:0px 0px 1px 1px;
+	font-size:14px;
+	font-family:Arial;
+	font-weight:bold;
+	color:#000000;
+}
+.CSSTableGenerator tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #dce4f7 5%, #dce4f7 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dce4f7), color-stop(1, #dce4f7) );
+	background:-moz-linear-gradient( center top, #dce4f7 5%, #dce4f7 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#dce4f7", endColorstr="#dce4f7");	background: -o-linear-gradient(top,#dce4f7,dce4f7);
+
+	background-color:#dce4f7;
+}
+@media screen and (max-width: 992px) {
+  p,.btn,input,div,span,h4 {
+    font-size: 15px;
+  }
+    .maintitr{
+padding-top: 7px;
+padding-left: 18px;
+font-size:10px;
+height:40px;
+}
+.leftmenuitem 
+ {
+ height:40px;
+padding: 12px;
+ font-size: 12px;
+
+ }
+
+ .CSSTableGenerator td{
+	/*padding:5px;*/
+	font-size:9px;
+}
+.CSSTableGenerator tr:first-child td{
+	font-size:9px;
+}
+}
+
+@media screen and (max-width: 768px) {
+  p,.btn,input,div,span,h4 {
+    font-size: 14px;
+  }
+  .maintitr
+{
+padding-top: 5px;
+padding-left: 15px;
+font-size:6px;
+height:30px;
+}
+.leftmenuitem  
+ {
+ height:30px;
+ padding: 3px;
+ font-size: 9px;
+ }
+.CSSTableGenerator td{
+	font-size:4px;
+	height:30px;
+}
+.CSSTableGenerator tr:first-child td{
+	font-size:4px;
+}
 
 /******************************slideshow*************************/
-/
+
 /******************************slideshow*************************/

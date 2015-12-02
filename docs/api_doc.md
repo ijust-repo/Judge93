@@ -539,7 +539,7 @@ Creating new contest
 
 Resource URL
 >post
-> **/contest/create/**
+> **/contest/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -790,3 +790,153 @@ Example Response
 > **NOTE:**
 >- If response status code is **200** then the Contest_info returned successfully.
 >- If there are errors like a required value response status code will be **406** .
+
+--------
+
+
+Upload testcases for a problem
+===============
+
+Resource URL
+>POST
+> **/contest/<string:contest_id>/testcase/<int:number>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+> **NOTE:**
+>- If response status code is **200** then the file is uploaded successfully.
+>- If contest_id does not exist in data base response status code will be **406** and you will have errors like "Contest does not exist!".
+>- If number is bigger than number of problems or it is lower than 1 the response status code will be **406** and you have errors like "Invalid problem number!".
+>- If the extinsion of uploading  file is not **.zip** , response status code will be **406** and there will be errors like "Bad zip file!".
+>- Zipped document will get unziped automatically and any thing except **.txt** files or **.tc** files will be removed, including zip file itself.
+
+--------
+
+
+add team to contest
+===============
+
+Resource URL
+>POST
+> **/contest/<contest_id>/add_team/<team_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/add_team/565df1df23e3c00dfca5f8b5/
+```
+
+> **NOTE:**
+>- If response status code is **200** then the team is successfully added to contest.
+>- If the team already exists, status code will be **409** and you will have errors with adding team like **'team with this name already exists!' ** .
+>- If there are errors like team or contest does not exists response status code will be **406**.
+
+--------
+
+
+contest detail
+===============
+
+Resource URL
+>GET
+> **/contest/<contest_id>/details/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/details/
+```
+Example Response
+```
+{
+  [
+    {
+      "penalty": 459, 
+      "problems_list": [{
+                          "order": 1, 
+                          "problem_id": 1, 
+                          "solved": true,
+                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
+                          "failed_tries": 15
+                        }, 
+                        {
+                          "order": 2, 
+                          "problem_id": 2, 
+                          "solved": true, 
+                          "solved_on": "Wed, 02 Dec 2015 14:30:00 GMT",
+                          "failed_tries": 0
+                        }, 
+                        {
+                          "order": 3, 
+                          "problem_id": 3, 
+                          "solved": true, 
+                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
+                          "failed_tries": 0
+                        }], 
+
+      "solved_problem_counter": 3, 
+
+      "team": {
+              "id": "565ee15223e3c01ca02e0a7a", 
+              "name": "new_team3", 
+              "owner": {
+                        "id": "565df07323e3c00dfca5f8af", 
+                        "username": "admin"
+                       }
+              }
+    }, 
+
+    {
+      "penalty": 299, 
+      "problems_list": [{
+                          "order": 1, 
+                          "problem_id": 1, 
+                          "solved": true,
+                          "solved_on": "Wed, 02 Dec 2015 13:30:00 GMT", 
+                          "failed_tries": 4
+                        }, 
+                        {
+                          "order": 2, 
+                          "problem_id": 2, 
+                          "solved": true,
+                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
+                          "failed_tries": 0
+                        }, 
+                        {
+                          "order": 3, 
+                          "problem_id": 3, 
+                          "solved": false,
+                          "solved_on": null,
+                          "failed_tries": 6
+                        }],
+
+      "solved_problem_counter": 2, 
+
+      "team": {
+              "id": "565df1df23e3c00dfca5f8b5", 
+              "name": "new_team", 
+              "owner": {
+                        "id": "565df07323e3c00dfca5f8af", 
+                        "username": "admin"
+                       }
+              } 
+    }
+  ]
+}
+```
+
+> **NOTE:**
+>- If response status code is **200** then the contest details returned successfully.
+>- If there are errors like contest does not exists response status code will be **406**.
+>- response is sorted.

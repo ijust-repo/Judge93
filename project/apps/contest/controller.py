@@ -19,10 +19,13 @@ from project.utils.date import datetime_to_str, str_to_datetime
 #models import
 from project.apps.user.models import User
 from project.apps.team.models import Team
-from project.apps.contest.models import Contest, Problem, Testcase
+from project.apps.contest.models import Contest, Problem, Testcase, TeamInfo, Result
 #other
+import os , zipfile, shutil
+from zipfile import BadZipfile
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
+from werkzeug.exceptions import RequestEntityTooLarge
 
 
 @contest.route('/', methods=['POST'])
@@ -231,5 +234,130 @@ def contest_info_by_name(contest_name):
 	try:
 		contest = Contest.objects().get(name=contest_name)
 		return jsonify(contest.to_json()) , 200
+	except DoesNotExist:
+		return "" , 406
+
+
+@contest.route('<string:contest_id>/testcase/<int:number>/', methods=['POST'])
+def upload_tastecase (contest_id, number):
+	data = request.data
+
+	try:
+		contest = Contest.objects().get(pk = contest_id)
+		contest_name = contest.name
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406
+
+	max_num = len(contest.problems)
+	if number < 1 or number > max_num:
+		return jsonify(errors="Invalid problem number!"), 406
+
+	upload_path = "project/contests/" + str (contest_name) + "/testcases/" + str (number) + '/'
+	filename = str('testcase ') + str (number)+ ".zip"
+	if not os.path.exists(upload_path):
+		os.makedirs(upload_path)
+	else :
+		shutil.rmtree (upload_path)
+		os.makedirs(upload_path)
+	with open(os.path.join(upload_path, filename), 'wb') as file:
+		file.write(data)
+	
+	try:
+		with zipfile.ZipFile(os.path.join(upload_path + filename)) as zf:
+			zf.extractall(os.path.join(upload_path))
+	except BadZipfile as e:
+		shutil.rmtree (upload_path)
+		return jsonify(errors="Bad zip file!"), 406
+	
+	allowed_extensions = ['txt', 'tc']
+	unziped_files = os.listdir (upload_path)
+	unziped_files.remove (filename)
+	os.remove (upload_path + filename)
+	for f in  unziped_files:
+		if not f.split('.') [-1] in allowed_extensions:
+			if os.path.isdir(upload_path + f):
+				shutil.rmtree (upload_path + f)
+			else:
+				os.remove (upload_path + f)
+
+	return "", 200
+
+
+@contest.route('<string:contest_id>/add_team/<string:team_id>/', methods=['POST'])
+def add_team (contest_id,team_id):
+  try:
+    team_obj = Team.objects().get(pk=team_id)
+    contest_obj = Contest.objects().get(pk=contest_id)
+    for info in contest_obj.teams:
+      if (team_obj == info.team):
+        return jsonify(errors = 'team already exists!'), 409
+
+    team_info = TeamInfo (team = team_obj)
+    team_info.accepted = False
+    team_info.id = len (contest_obj.teams) + 1
+    lst = contest_obj.teams
+    lst.append(team_info)
+    contest_obj.teams = lst
+    contest_obj.save()
+    return "" , 200
+  except DoesNotExist:
+    return "" , 406
+
+@contest.route('<string:contest_id>/details/', methods=['GET'])
+def contest_details(contest_id):
+
+	def calculate_penalty (problems_list,start_time):
+		penalty=0
+		solved_problem_counter = 0
+		for result in problems_list:
+			if result["solved"]:
+				penalty += (result["failed_tries"]*20)
+				solved_problem_counter += 1
+				time_delta = result["solved_on"] - start_time
+				time_delta_minutes = int(time_delta.total_seconds()//60)
+				penalty += time_delta_minutes
+		return penalty , solved_problem_counter
+
+	try:
+		contest_obj = Contest.objects().get(id=contest_id)
+		start_time = contest_obj.starts_on
+
+		#[details_dict,details_dict,details_dict,...] sort keys (penalty,solved_problem_counter)
+		final_list = []
+
+		#keys = team , problems_list, solved_problem_counter , penalty
+		details_dict = {}
+
+		#[result_dict,result_dict,result_dict,...] sort key is order
+		problems_list = []
+
+		#keys = failed_tries , solved , id , order
+		result_dict ={}
+
+		for team_info in contest_obj.teams:
+			details_dict["team"] = (team_info.team.to_json())
+
+			for result in team_info.problem_results:
+				result_dict["failed_tries"] = (result.failed_tries)
+				result_dict["solved"] = (result.solved)
+				result_dict["solved_on"] = (result.solved_on)
+				result_dict["problem_id"] = (result.problem_id)
+				for problem_obj in contest_obj.problems:
+					if problem_obj.id == result.problem_id:
+						result_dict["order"] = problem_obj.order
+						break
+				problems_list.append(result_dict)
+				result_dict={}
+			problems_list.sort(key = lambda resultdictionary :resultdictionary["order"])
+			details_dict["problems_list"] = problems_list
+			penalty = calculate_penalty(problems_list,start_time)
+			details_dict["penalty"] = penalty[0]
+			details_dict["solved_problem_counter"] = penalty[1] 
+			final_list.append(details_dict)
+			details_dict = {}
+			problems_list=[]
+		final_list.sort(key = lambda detailsdictionary :detailsdictionary["penalty"])
+		final_list.sort(key = lambda detailsdictionary :detailsdictionary["solved_problem_counter"] , reverse = True)
+		return jsonify(contests = final_list) , 200
 	except DoesNotExist:
 		return "" , 406
