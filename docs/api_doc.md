@@ -37,7 +37,7 @@ View user home page
 
 Resource URL
 >GET
-> **/user/home/**
+> **/user/```string:Username```/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -47,7 +47,8 @@ Resource Information
 
 > **NOTE:**
 >
->- This url returns a html template.
+>- This url returns a html template and the id of the user in database.
+>- Username is the username of the user.
 
 -------
 
@@ -56,7 +57,7 @@ Checking user existance
 
 Resource URL
 >GET
-**/user/exists/```string:username```/*
+**/user/exists/```string:username```/**
 
 Resource Information
 >|Response formats|Requires authentication?|
