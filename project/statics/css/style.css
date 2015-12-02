@@ -1,8 +1,9 @@
 ﻿body
 {
     background-color: #E9E9E9;
-   
+    
 }
+
 
 a
 {
@@ -29,7 +30,7 @@ input,
 textarea,
 select {
   font-family: Helvetica;
-  font-size: 18px;
+  font-size: 17px;
   color: #4c4c4c;
 }
 
@@ -81,14 +82,16 @@ margin:  100px  80px 50px 0;
 	float:left;	
  	height: 100%;
 	padding: 0;
-	overflow-y: scroll; 
+	overflow-y: hidden; 
+	font-size: 2vh;
 }
 .leftmenuitem
 {
 height: 60px;
 color: white;
 margin:0;
-padding: 20px;
+padding: 18px;
+
 
 }
 .leftmenuitem:hover  {
@@ -468,8 +471,108 @@ width:170px;
   cursor: inherit;
   display: block;
 }
+/* responsive text queries */
 
+}
+.CSSTableGenerator {
+	margin:0px;padding:0px;
+	width:100%;
+	border-bottom:1px solid #ffffff;
+	
+}.CSSTableGenerator table{
+    border-collapse: collapse;
+    border-spacing: 0;
 
+	margin:0px;padding:0px;
+}
+.CSSTableGenerator tr:hover td{
+	background-color:#e9f2f9;	
+}
+.CSSTableGenerator td{
+	vertical-align:middle;
+	background-color:#dce4f7;
+	border-bottom:1px solid #ffffff;
+	border-top:1px solid #ffffff;
+	text-align:center;
+	padding:5px;
+	width:200px;
+	height:50px;
+	font-size:14px;
+	font-family:Arial;
+	font-weight:normal;
+}
+.CSSTableGenerator tr:first-child td{
+		background:-o-linear-gradient(bottom, #dce4f7 5%, #dce4f7 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dce4f7), color-stop(1, #dce4f7) );
+	background:-moz-linear-gradient( center top, #dce4f7 5%, #dce4f7 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#dce4f7", endColorstr="#dce4f7");	background: -o-linear-gradient(top,#dce4f7,dce4f7);
+
+	background-color:#dce4f7;
+	border-bottom:0px solid #ffffff;
+	text-align:center;
+	border-bottom-width:0px 0px 1px 1px;
+	font-size:14px;
+	font-family:Arial;
+	font-weight:bold;
+	color:#000000;
+}
+.CSSTableGenerator tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #dce4f7 5%, #dce4f7 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dce4f7), color-stop(1, #dce4f7) );
+	background:-moz-linear-gradient( center top, #dce4f7 5%, #dce4f7 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#dce4f7", endColorstr="#dce4f7");	background: -o-linear-gradient(top,#dce4f7,dce4f7);
+
+	background-color:#dce4f7;
+}
+@media screen and (max-width: 992px) {
+  p,.btn,input,div,span,h4 {
+    font-size: 15px;
+  }
+    .maintitr{
+padding-top: 7px;
+padding-left: 18px;
+font-size:10px;
+height:40px;
+}
+.leftmenuitem 
+ {
+ height:40px;
+padding: 12px;
+ font-size: 12px;
+
+ }
+
+ .CSSTableGenerator td{
+	/*padding:5px;*/
+	font-size:9px;
+}
+.CSSTableGenerator tr:first-child td{
+	font-size:9px;
+}
+}
+
+@media screen and (max-width: 768px) {
+  p,.btn,input,div,span,h4 {
+    font-size: 14px;
+  }
+  .maintitr
+{
+padding-top: 5px;
+padding-left: 15px;
+font-size:6px;
+height:30px;
+}
+.leftmenuitem  
+ {
+ height:30px;
+ padding: 3px;
+ font-size: 9px;
+ }
+.CSSTableGenerator td{
+	font-size:4px;
+	height:30px;
+}
+.CSSTableGenerator tr:first-child td{
+	font-size:4px;
+}
 /******************************slideshow*************************/
 /
 /******************************slideshow*************************/

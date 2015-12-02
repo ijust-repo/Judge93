@@ -814,3 +814,26 @@ Resource Information
 >- Zipped document will get unziped automatically and any thing except **.txt** files or **.tc** files will be removed, including zip file itself.
 
 --------
+
+
+add team to contest
+===============
+
+Resource URL
+>POST
+> **/contest/<contest_id>/add_team/<team_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/add_team/565df1df23e3c00dfca5f8b5/
+```
+
+> **NOTE:**
+>- If response status code is **200** then the team is successfully added to contest.
+>- If the team already exists, status code will be **409** and you will have errors with adding team like **'team with this name already exists!' ** .
+>- If there are errors like team or contest does not exists response status code will be **406**.

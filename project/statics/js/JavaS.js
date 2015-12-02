@@ -30,12 +30,14 @@ $("#logout").click(function() {
             url : '/user/get_profile/',
             dataType: "html", 				
             success: function (data) {
-           $( '#getusername ' ).html((JSON.parse(data)).username); 			
+           $( '#getusername ' ).html((JSON.parse(data)).username); 
+           $( '#getidprof ' ).html((JSON.parse(data)).id);  				
             },
            error: function (request) {                
 				alert("this user not found");	      	      		
       		}
 		});
+		
 //end show username
 //change profile
 function changeprofile(username){

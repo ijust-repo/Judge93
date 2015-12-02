@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['AminHP', 'Kia']
+__author__ = ['AminHP', 'Kia', 'SALAR']
 
 # python imports
 from mongoengine import Document, StringField, IntField, BooleanField, DateTimeField, ReferenceField, ListField, EmbeddedDocument, EmbeddedDocumentField
@@ -31,9 +31,9 @@ class Problem(EmbeddedDocument):
 
 class Result(EmbeddedDocument):
 	id = IntField(required=True, unique=True, sparse=True)
-	problem = ReferenceField('Problem', required=True, unique=True, sparse=True)
+	problem_id = IntField(required=True, unique=True, sparse=True)
 	status = StringField()
-	penalty = IntField()
+	tries = IntField()
 	solved = BooleanField()
 
 

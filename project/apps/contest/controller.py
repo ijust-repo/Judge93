@@ -19,7 +19,7 @@ from project.utils.date import datetime_to_str, str_to_datetime
 #models import
 from project.apps.user.models import User
 from project.apps.team.models import Team
-from project.apps.contest.models import Contest, Problem, Testcase
+from project.apps.contest.models import Contest, Problem, Testcase, TeamInfo, Result
 #other
 import os , zipfile, shutil
 from zipfile import BadZipfile
@@ -282,3 +282,34 @@ def upload_tastecase (contest_id, number):
 
 	return "", 200
 
+
+@contest.route('<string:contest_id>/add_team/<string:team_id>/', methods=['POST'])
+def add_team (contest_id,team_id):
+	try:
+		team_obj = Team.objects().get(pk=team_id)
+		contest_obj = Contest.objects().get(pk=contest_id)
+		for info in contest_obj.teams:
+			if (team_obj == info.team):
+				return jsonify(errors = 'team already exists!'), 409
+
+		print team_obj not in contest_obj.teams
+		team_info = TeamInfo (team = team_obj)
+		team_info.accepted = False
+		team_info.id = len (contest_obj.teams) + 1
+		results =[]
+		for problem in contest_obj.problems:
+			result = Result(problem_id = problem.id)
+			result.status = ""
+			result.tries = 0
+			result.solved = False
+			result.id = len(results) + (len(contest_obj.problems)*(team_info.id-1)) + 1
+			results.append(result)
+
+		team_info.problem_results = results
+		lst = contest_obj.teams
+		lst.append(team_info)
+		contest_obj.teams = lst
+		contest_obj.save()
+		return "" , 200
+	except DoesNotExist:
+		return "" , 406
