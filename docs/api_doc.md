@@ -851,7 +851,7 @@ Resource URL
 Resource Information
 >|Response formats|Requires authentication?|
 |:-:|:-:|
-|JSON|NO (must be authenticated)|
+|JSON|YES (must be authenticated)|
 
 Example Request
 ```
@@ -865,26 +865,25 @@ Example Response
       "penalty": 459, 
       "problems_list": [{
                           "order": 1, 
-                          "problem_id": 1, 
+                          "problem_id": 1,
                           "solved": true,
                           "solved_on": "Wed, 02 Dec 2015 16:20:00 GMT", 
-                          "tries": 15
+                          "faild_tries": 15
                         }, 
                         {
                           "order": 2, 
                           "problem_id": 2, 
                           "solved": true, 
                           "solved_on": "Wed, 02 Dec 2015 14:30:00 GMT",
-                          "tries": 0
+                          "faild_tries": 0
                         }, 
                         {
                           "order": 3, 
-                          "problem_id": 3, 
-                          "solved": false, 
-                          "tries": 0
+                          "problem_id": 3,
+                          "faild_tries": 0
                         }], 
 
-      "solved_problem_counter": 3, 
+      "solved_problem_counter": 2, 
 
       "team": {
               "id": "565ee15223e3c01ca02e0a7a", 
@@ -903,23 +902,20 @@ Example Response
                           "problem_id": 1, 
                           "solved": true,
                           "solved_on": "Wed, 02 Dec 2015 13:30:00 GMT", 
-                          "tries": 4
+                          "faild_tries": 4
                         }, 
                         {
                           "order": 2, 
-                          "problem_id": 2, 
-                          "solved": true,
-                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
-                          "tries": 0
+                          "problem_id": 2,
+                          "faild_tries": 0
                         }, 
                         {
                           "order": 3, 
-                          "problem_id": 3, 
-                          "solved": false, 
-                          "tries": 6
+                          "problem_id": 3,
+                          "faild_tries": 6
                         }],
 
-      "solved_problem_counter": 2, 
+      "solved_problem_counter": 1, 
 
       "team": {
               "id": "565df1df23e3c00dfca5f8b5", 

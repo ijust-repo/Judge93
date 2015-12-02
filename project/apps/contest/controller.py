@@ -320,16 +320,16 @@ def contest_details(contest_id):
 		#[result_dict,result_dict,result_dict,...] sort key is order
 		problems_list = []
 
-		#keys = tries , solved , id , order
+		#keys = faild_tries , solved , id , order
 		result_dict ={}
 
 		for team_info in contest_obj.teams:
 			details_dict["team"] = (team_info.team.to_json())
 
 			for result in team_info.problem_results:
-				result_dict["tries"] = (result.tries)
-				result_dict["solved"] = (result.solved)
-				if result_dict["solved"]:
+				result_dict["faild_tries"] = (result.faild_tries)
+				if result.solved:
+					result_dict["solved"] = (result.solved)
 					result_dict["solved_on"] = (result.solved_on)
 				result_dict["problem_id"] = (result.problem_id)
 
@@ -358,7 +358,7 @@ def calculate_penalty (problems_list,start_time):
 	solved_problem_counter = 0
 	for result in problems_list:
 		if result["solved"]:
-			penalty += (result["tries"]*20)
+			penalty += (result["faild_tries"]*20)
 			solved_problem_counter += 1
 			time_delta = result["solved_on"] - start_time
 			time_delta_minutes = int(time_delta.total_seconds()//60)
