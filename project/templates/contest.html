@@ -24,7 +24,14 @@
 			<h4 id="getusernameprof" class="leftmenuitem">></h4>
 			<h4 id="getidprof" style="display:none"></h4>
 		</li>
-		
+		<li  id="contestname" class="contestmenu" style="display:none" >
+			
+		 	<a  ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests name</h4></a>
+		</li>
+		<li  id="contestteam" class="contestmenu" style="display:none" >
+			
+		 	<a ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests team</h4></a>
+		</li>
 		<li  id="contest"  >
 			
 		 	<a href="/user/contest/" ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests</h4></a>
@@ -79,6 +86,9 @@
 				<div id="contestinfoforusers"class="CSSTableGenerator" >
 			<table >
                     <tr>
+						<td style="display:none" >
+                            contests id
+                        </td>
                         <td>
                             Name
                         </td>
@@ -168,7 +178,7 @@
             dataType: "html", 				
             success: function (data) {
 				var data=data
-				   $('#contents').html(data);
+				//   $('#contents').html(data);
            alert(data.teams); 		
             },
            error: function (request) {                
@@ -197,13 +207,13 @@
  for (var key=0, size=data.length; key<size; key++){
      r[++j] ='<tr><td>';
      r[++j] = data[key][0];
-     r[++j] = '</td><td class="whatever1">';
+     r[++j] = '</td><td >';
      r[++j] = data[key][1];
-     r[++j] = '</td><td class="whatever2">';
+     r[++j] = '</td><td >';
      r[++j] = data[key][2];
      r[++j] = '</td></tr>';
  }
- $('#dataTable').html(r.join('')); */
+ $('#contestinfoforusers').html(r.join('')); */
 
 
 $(document).ready(function () {

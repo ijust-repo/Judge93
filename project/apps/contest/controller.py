@@ -27,6 +27,10 @@ from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
 from werkzeug.exceptions import RequestEntityTooLarge
 
+@contest.route('contest/', methods=['GET'])
+def contest_contest_page():
+	return render_template('contest.html')
+
 
 @contest.route('/', methods=['POST'])
 def create():
