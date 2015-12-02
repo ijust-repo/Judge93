@@ -21,11 +21,15 @@ from mongoengine import DoesNotExist, NotUniqueError
 @user.route('/', methods=['GET'])
 def user_page():
 	return render_template('user.html')
-
-
-@user.route('home/', methods=['GET'])
-def user_home_page():
-	return render_template('home.html')
+		
+@user.route('<string:Username>/', methods=['GET'])
+def user_home_page(Username):
+	try:
+		obj = User.objects().get(username = Username)	
+		pk = obj.pk
+		return render_template("home.html" , user_id=pk)  
+	except DoesNotExist:
+		return 	jsonify(errors="User does not exists!"), 406
 
 @user.route('contest/', methods=['GET'])
 def user_contest_page():
@@ -205,3 +209,4 @@ def get_users_teams(user_id):
 		return jsonify(teams=resp),200
 	except DoesNotExist:
 		return jsonify(errors="User does not exists!"), 406
+	
