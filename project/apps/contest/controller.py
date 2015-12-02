@@ -320,7 +320,6 @@ def contest_details(contest_id):
 	try:
 		contest_obj = Contest.objects().get(id=contest_id)
 		start_time = contest_obj.starts_on
-		current_time = datetime.utcnow()
 
 		#[details_dict,details_dict,details_dict,...] sort keys (penalty,solved_problem_counter)
 		final_list = []
@@ -340,7 +339,10 @@ def contest_details(contest_id):
 			for result in team_info.problem_results:
 				result_dict["tries"] = (result.tries)
 				result_dict["solved"] = (result.solved)
+				if result_dict["solved"]:
+					result_dict["solved_on"] = (result.solved_on)
 				result_dict["problem_id"] = (result.problem_id)
+
 				for problem_obj in contest_obj.problems:
 					if problem_obj.id == result.problem_id:
 						result_dict["order"] = problem_obj.order
@@ -349,7 +351,7 @@ def contest_details(contest_id):
 				result_dict={}
 			problems_list.sort(key = lambda resultdictionary :resultdictionary["order"])
 			details_dict["problems_list"] = problems_list
-			penalty = calculate_penalty(problems_list,start_time,current_time)
+			penalty = calculate_penalty(problems_list,start_time)
 			details_dict["penalty"] = penalty[0]
 			details_dict["solved_problem_counter"] = penalty[1] 
 			final_list.append(details_dict)
@@ -361,15 +363,15 @@ def contest_details(contest_id):
 	except DoesNotExist:
 		return "" , 406
 
-def calculate_penalty (problems_list,start_time,current_time):
+def calculate_penalty (problems_list,start_time):
 	penalty=0
 	solved_problem_counter = 0
 	for result in problems_list:
 		if result["solved"]:
 			penalty += (result["tries"]*20)
 			solved_problem_counter += 1
-	time_delta = current_time - start_time
-	time_delta_minutes = int(time_delta.total_seconds()//60)
-	penalty += time_delta_minutes
+			time_delta = result["solved_on"] - start_time
+			time_delta_minutes = int(time_delta.total_seconds()//60)
+			penalty += time_delta_minutes
 	return penalty , solved_problem_counter
 

@@ -866,19 +866,21 @@ Example Response
       "problems_list": [{
                           "order": 1, 
                           "problem_id": 1, 
-                          "solved": true, 
+                          "solved": true,
+                          "solved_on": "Wed, 02 Dec 2015 16:20:00 GMT", 
                           "tries": 15
                         }, 
                         {
                           "order": 2, 
                           "problem_id": 2, 
                           "solved": true, 
+                          "solved_on": "Wed, 02 Dec 2015 14:30:00 GMT",
                           "tries": 0
                         }, 
                         {
                           "order": 3, 
                           "problem_id": 3, 
-                          "solved": true, 
+                          "solved": false, 
                           "tries": 0
                         }], 
 
@@ -899,13 +901,15 @@ Example Response
       "problems_list": [{
                           "order": 1, 
                           "problem_id": 1, 
-                          "solved": true, 
+                          "solved": true,
+                          "solved_on": "Wed, 02 Dec 2015 13:30:00 GMT", 
                           "tries": 4
                         }, 
                         {
                           "order": 2, 
                           "problem_id": 2, 
-                          "solved": true, 
+                          "solved": true,
+                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
                           "tries": 0
                         }, 
                         {
