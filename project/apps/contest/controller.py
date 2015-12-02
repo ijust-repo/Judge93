@@ -175,7 +175,6 @@ def edit(contest_id):
 					break
 
 			if testcase_form['input']:
-				print "hi"
 				case.input = testcase_form['input'] 
 			if testcase_form['output']:
 				case.output = testcase_form['output']
