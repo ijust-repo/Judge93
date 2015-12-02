@@ -1,0 +1,196 @@
+<html  lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Contests</title>
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
+    <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
+
+    <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
+	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>	
+    <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
+		
+		<li class=" usernameitem " id="usernameitem">
+			<a href="/user/home/"><h4 id="getusername" class="leftmenuitem"></h4></a>
+		</li>	
+		<li class=" usernameitem " id="usernameprofitem" style="display:none">
+			<h4 id="getusernameprof" class="leftmenuitem">></h4>
+			<h4 id="getidprof" style="display:none"></h4>
+		</li>
+		
+		<li  id="contest"  >
+			
+		 	<a href="/user/contest/" ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests</h4></a>
+		</li>
+		
+		<li  id="team"  >
+		 	<a href="/user/team/"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
+		</li>
+		
+		<li  id="users"  >
+		 	<a href="#users"><h4 class="leftmenuitem"><i class="fa fa-user" style="width:20px; height:20px; "></i> Users</h4></a>
+		</li>
+		
+		<li  id="setting"  >
+		 	<a href="/user/setting/"><h4 class="leftmenuitem"><i class="fa fa-gears" style=" width:20px; height:20px; "></i> Settings</h4></a>
+		</li>
+		
+		<li  id="logout"   >
+		 	<a href="#logout"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
+		</li>
+		<li  id="backtoprofile" style="display:none" >
+		 	<a href="/user/home/"><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
+		</li>
+
+	</ul>
+    <div class="row">
+		<div class="col-lg-10  maintitr">
+			<p id="titlePage">Contests</p>          
+		</div>
+	</div>
+	<div class="row">
+      	<div id="contents" class="contents  col-lg-9  " >
+					 
+	    	</div>
+		</div>
+   	</div>
+   
+
+</body>
+<div id="contestinfoforusers"class="CSSTableGenerator" >
+			<table >
+                    <tr>
+                        <td>
+                            Name
+                        </td>
+                        <td >
+                            Admin
+                        </td>
+                        <td>
+                           Starts on
+                        </td>
+                        <td>
+                           End on
+                        </td>
+                        <td>
+                            Description
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Row 1
+                        </td>
+                        <td>
+                            Row 1
+                        </td>
+                        <td>
+                            Row 1
+                        </td>
+                        <td>
+                            Row 1
+                        </td>
+                        <td>
+                            Row 1
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Row 2
+                        </td>
+                        <td>
+                            Row 2
+                        </td>
+                        <td>
+                            Row 2
+                        </td>
+                        <td>
+                            Row 2
+                        </td>
+                        <td>
+                            Row 2
+                        </td>
+                    </tr>
+                
+                    <tr>
+                        <td >
+                            Row 3
+                        </td>
+                        <td>
+                            Row 3
+                        </td>
+                        <td>
+                            Row 3
+                        </td>
+                        <td>
+                            Row 3
+                        </td>
+                        <td>
+                            Row 3
+                        </td>
+                    </tr>
+                </table>
+                </div>	
+
+
+<script>
+ $('#contest').css('background-color', '#355C7D');
+
+  //show contest
+  function getidprofile(id){    		   		
+  $.ajax({
+            type: "GET",
+            url : '/user/'+id+'/teams/',
+            dataType: "html", 				
+            success: function (data) {
+				var data=data
+				   $('#contents').html(data);
+           alert(data.teams); 		
+            },
+           error: function (request) {                
+				alert("this user not found");	      	      		
+      		}
+		});
+  } 
+  //end show contest 
+   //show username	      		   		
+  $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 				
+            success: function (data) {
+           $( '#getusername ' ).html((JSON.parse(data)).username);
+           getidprofile((JSON.parse(data)).id); 
+           $( '#getidprof ' ).html((JSON.parse(data)).id);  				
+            },
+           error: function (request) {                
+				alert("this user not found");	      	      		
+      		}
+		});
+		
+//end show username
+/*var r = new Array(), j = -1;
+ for (var key=0, size=data.length; key<size; key++){
+     r[++j] ='<tr><td>';
+     r[++j] = data[key][0];
+     r[++j] = '</td><td class="whatever1">';
+     r[++j] = data[key][1];
+     r[++j] = '</td><td class="whatever2">';
+     r[++j] = data[key][2];
+     r[++j] = '</td></tr>';
+ }
+ $('#dataTable').html(r.join('')); */
+
+	
+
+ 
+
+
+</script>
+</html>
