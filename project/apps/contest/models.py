@@ -10,15 +10,15 @@ from project.utils.date import datetime_to_str
 
 
 class Testcase(EmbeddedDocument):
-	id = IntField(required=True, unique=True, sparse=True)
-	order = IntField(required=True, unique=True, sparse=True)
+	id = IntField(required=True, sparse=True)
+	order = IntField(required=True, sparse=True)
 	input = StringField(required=True)
 	output = StringField(required=True)
 
 
 class Problem(EmbeddedDocument):
-	id = IntField(required=True, unique=True, sparse=True)
-	order = IntField(required=True, unique=True, sparse=True)
+	id = IntField(required=True, sparse=True)
+	order = IntField(required=True, sparse=True)
 	title = StringField(required=True)
 	time_limit = IntField(required=True)
 	space_limit = IntField(required=True)
