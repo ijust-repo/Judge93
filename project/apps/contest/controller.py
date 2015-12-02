@@ -305,9 +305,9 @@ def add_team (contest_id,team_id):
 		return "" , 406
 
 
-@contest.route('/<string:contest_id>/details', methods=['GET'])
+@contest.route('/<string:contest_id>/details/', methods=['GET'])
 def contest_details(contest_id):
-	
+
 	def calculate_penalty (problems_list,start_time):
 		penalty=0
 		solved_problem_counter = 0
