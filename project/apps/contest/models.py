@@ -34,6 +34,7 @@ class Result(EmbeddedDocument):
 	problem_id = IntField(required=True, unique=True, sparse=True)
 	status = StringField()
 	tries = IntField()
+	solved_on = DateTimeField()
 	solved = BooleanField()
 
 
