@@ -834,6 +834,6 @@ Example Request
 ```
 
 > **NOTE:**
->- If response status code is **201** then the team is successfully added to contest.
+>- If response status code is **200** then the team is successfully added to contest.
 >- If the team already exists, status code will be **409** and you will have errors with adding team like **'team with this name already exists!' ** .
 >- If there are errors like team or contest does not exists response status code will be **406**.
