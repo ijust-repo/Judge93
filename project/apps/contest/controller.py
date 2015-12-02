@@ -291,11 +291,6 @@ def add_team (contest_id,team_id):
 		for info in contest_obj.teams:
 			if (team_obj == info.team):
 				return jsonify(errors = 'team already exists!'), 409
-
-		print team_obj not in contest_obj.teams
-		team_info = TeamInfo (team = team_obj)
-		team_info.accepted = False
-		team_info.id = len (contest_obj.teams) + 1
 		lst = contest_obj.teams
 		lst.append(team_info)
 		contest_obj.teams = lst
@@ -305,7 +300,7 @@ def add_team (contest_id,team_id):
 		return "" , 406
 
 
-@contest.route('/<string:contest_id>/details/', methods=['GET'])
+@contest.route('<string:contest_id>/details/', methods=['GET'])
 def contest_details(contest_id):
 
 	def calculate_penalty (problems_list,start_time):
@@ -313,7 +308,7 @@ def contest_details(contest_id):
 		solved_problem_counter = 0
 		for result in problems_list:
 			if result["solved"]:
-				penalty += (result["faild_tries"]*20)
+				penalty += (result["failed_tries"]*20)
 				solved_problem_counter += 1
 				time_delta = result["solved_on"] - start_time
 				time_delta_minutes = int(time_delta.total_seconds()//60)
@@ -333,19 +328,17 @@ def contest_details(contest_id):
 		#[result_dict,result_dict,result_dict,...] sort key is order
 		problems_list = []
 
-		#keys = faild_tries , solved , id , order
+		#keys = failed_tries , solved , id , order
 		result_dict ={}
 
 		for team_info in contest_obj.teams:
 			details_dict["team"] = (team_info.team.to_json())
 
 			for result in team_info.problem_results:
-				result_dict["faild_tries"] = (result.faild_tries)
-				if result.solved:
-					result_dict["solved"] = (result.solved)
-					result_dict["solved_on"] = (result.solved_on)
+				result_dict["failed_tries"] = (result.failed_tries)
+				result_dict["solved"] = (result.solved)
+				result_dict["solved_on"] = (result.solved_on)
 				result_dict["problem_id"] = (result.problem_id)
-
 				for problem_obj in contest_obj.problems:
 					if problem_obj.id == result.problem_id:
 						result_dict["order"] = problem_obj.order
