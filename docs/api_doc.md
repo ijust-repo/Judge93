@@ -846,7 +846,7 @@ contest detail
 
 Resource URL
 >GET
-> **/contest/details/<contest_id>/**
+> **/contest/<contest_id>/details/**
 
 Resource Information
 >|Response formats|Requires authentication?|
