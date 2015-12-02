@@ -855,7 +855,7 @@ Resource Information
 
 Example Request
 ```
-/contest/details/565dfe6823e3c00e88c0f18c/
+/contest/565dfe6823e3c00e88c0f18c/details/
 ```
 Example Response
 ```
