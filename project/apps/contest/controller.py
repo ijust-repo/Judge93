@@ -27,11 +27,18 @@ from zipfile import BadZipfile
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
 from werkzeug.exceptions import RequestEntityTooLarge
+
 import random
 import string
 import subprocess
 import time
 import re
+
+
+@contest.route('contest/', methods=['GET'])
+def contest_contest_page():
+	return render_template('contest.html')
+
 
 @contest.route('/', methods=['POST'])
 def create():
@@ -180,7 +187,6 @@ def edit(contest_id):
 					break
 
 			if testcase_form['input']:
-				print "hi"
 				case.input = testcase_form['input'] 
 			if testcase_form['output']:
 				case.output = testcase_form['output']

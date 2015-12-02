@@ -17,6 +17,10 @@ from project.apps.contest.models import Contest
 
 from mongoengine import DoesNotExist, NotUniqueError
 
+@team.route('team/', methods=['GET'])
+def team_team_page():
+	return render_template('team.html')
+
 
 @team.route('/', methods=['GET'])
 def team_page():
