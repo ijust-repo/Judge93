@@ -815,17 +815,18 @@ Resource Information
 
 --------
 
+
 add team to contest
 ===============
 
 Resource URL
->GET
+>POST
 > **/contest/<contest_id>/add_team/<team_id>/**
 
 Resource Information
 >|Response formats|Requires authentication?|
 |:-:|:-:|
-|JSON|NO (must be authenticated)|
+|NULL|YES (must be authenticated)|
 
 Example Request
 ```

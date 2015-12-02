@@ -283,7 +283,7 @@ def upload_tastecase (contest_id, number):
 	return "", 200
 
 
-@contest.route('<string:contest_id>/add_team/<string:team_id>/', methods=['GET'])
+@contest.route('<string:contest_id>/add_team/<string:team_id>/', methods=['POST'])
 def add_team (contest_id,team_id):
 	try:
 		team_obj = Team.objects().get(pk=team_id)
@@ -312,6 +312,6 @@ def add_team (contest_id,team_id):
 		lst.append(team_info)
 		contest_obj.teams = lst
 		contest_obj.save()
-		return "" , 201
+		return "" , 200
 	except DoesNotExist:
 		return "" , 406
