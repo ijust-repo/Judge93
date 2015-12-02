@@ -305,8 +305,21 @@ def add_team (contest_id,team_id):
 		return "" , 406
 
 
-@contest.route('details/<string:contest_id>/', methods=['GET'])
+@contest.route('/<string:contest_id>/details', methods=['GET'])
 def contest_details(contest_id):
+	
+	def calculate_penalty (problems_list,start_time):
+		penalty=0
+		solved_problem_counter = 0
+		for result in problems_list:
+			if result["solved"]:
+				penalty += (result["faild_tries"]*20)
+				solved_problem_counter += 1
+				time_delta = result["solved_on"] - start_time
+				time_delta_minutes = int(time_delta.total_seconds()//60)
+				penalty += time_delta_minutes
+		return penalty , solved_problem_counter
+
 	try:
 		contest_obj = Contest.objects().get(id=contest_id)
 		start_time = contest_obj.starts_on
@@ -352,16 +365,4 @@ def contest_details(contest_id):
 		return jsonify(contests = final_list) , 200
 	except DoesNotExist:
 		return "" , 406
-
-def calculate_penalty (problems_list,start_time):
-	penalty=0
-	solved_problem_counter = 0
-	for result in problems_list:
-		if result["solved"]:
-			penalty += (result["faild_tries"]*20)
-			solved_problem_counter += 1
-			time_delta = result["solved_on"] - start_time
-			time_delta_minutes = int(time_delta.total_seconds()//60)
-			penalty += time_delta_minutes
-	return penalty , solved_problem_counter
 
