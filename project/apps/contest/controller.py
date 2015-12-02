@@ -320,8 +320,8 @@ def add_team (contest_id,team_id):
 		return "" , 406
 
 
-@contest.route('submit/<string:contest_id>/<int:number>/<string:file_type>/', methods=['POST'])
-def submit (contest_id, number, file_type):
+@contest.route('submit/<string:contest_id>/<string:team_id>/<int:number>/<string:file_type>/', methods=['POST'])
+def submit (contest_id, team_id ,number, file_type):
 	data = request.data
 
 	allowed_filetypes = ['py','cpp','java']
@@ -334,9 +334,24 @@ def submit (contest_id, number, file_type):
 	except DoesNotExist:
 		return jsonify(errors="Contest does not exist!"), 406
 
+	try:
+		team = Team.objects().get(pk = team_id)
+		team_name = team.name
+		members_list=[]
+		members_list.append(team.owner.username)
+		for i in team.members :
+			members_list.append(i.username)
+                if logged_in_user() not in members_list:
+                        return "You Are Not A Member Of This Team", 406
+	except DoesNotExist:
+		return jsonify(errors="Team does not exist!"), 406
+
 	max_num = len(contest.problems)
 	if number < 1 or number > max_num:
 		return jsonify(errors="Invalid problem number!"), 406
+
+        ### result func test
+        Update_Result(contest_id, team_id, number , "www", False)
 
         # Upload...
 	upload_path = "project/contests/" + str (contest_name) + "/testcases/" + str (number) + '/submission_codes/' 
@@ -436,4 +451,60 @@ def Check_Restricted(upload_path, filename, file_type):
                 if (res):
                         return True
         return False
+
+def Update_Result(contest_id, team_id, problem_number ,status, solved):
+        contest_obj = Contest.objects().get(pk = contest_id)
+        team_obj = Team.objects().get(pk = team_id)
+
+	for complete_team_info in contest_obj.teams:
+		if (team_obj == complete_team_info.team):
+                        for problem_result in complete_team_info.problem_results:
+                                if problem_number == problem_result.problem_id:
+                                        problem_result.status = status
+                                        print problem_result.tries
+                                        if not solved:
+                                                problem_result.tries += 1
+                                        print problem_result.tries
+                                        problem_result.solved = solved
+                                        contest_obj.save()
+                                        print 'done!'
+                                else:
+                                        results =[]
+                                        result = Result(problem_id = problem_number)
+                                        result.status = status
+                                        result.tries = 1 if (not solved) else 0
+                                        result.solved = solved
+                                        result.id = len(results) + (len(contest_obj.problems)*(team_info.id-1)) + 1
+                                        results.append(result)
+                                        team_info.problem_results = results
+                                        lst = contest_obj.teams
+                                        lst.append(team_info)
+                                        contest_obj.teams = lst
+                                        contest_obj.save() 
+                                                        
+                                
+                        
+        '''
+	print team not in contest_obj.teams
+	team_info = TeamInfo (team = team)
+	team_info.accepted = False
+	team_info.id = len (contest_obj.teams) + 1
+	results =[]
+	for problem in contest_obj.problems:
+		result = Result(problem_id = problem.id)
+		result.status = ""
+		result.tries = 0
+		result.solved = False
+		result.id = len(results) + (len(contest_obj.problems)*(team_info.id-1)) + 1
+		results.append(result)
+		team_info.problem_results = results
+	lst = contest_obj.teams
+	lst.append(team_info)
+	contest_obj.teams = lst
+	contest_obj.save()
+	return "" , 200
+        '''
+
+
+
 
