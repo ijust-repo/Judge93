@@ -838,8 +838,6 @@ Example Request
 >- If response status code is **200** then the team is successfully added to contest.
 >- If the team already exists, status code will be **409** and you will have errors with adding team like **'team with this name already exists!' ** .
 >- If there are errors like team or contest does not exists response status code will be **406**.
-<<<<<<< HEAD
-=======
 
 --------
 
@@ -943,4 +941,3 @@ Example Response
 >- If response status code is **200** then the contest details returned successfully.
 >- If there are errors like contest does not exists response status code will be **406**.
 >- response is sorted.
->>>>>>> d0b710f91512475483095b4bf1750a979f80ed33
