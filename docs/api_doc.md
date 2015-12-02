@@ -837,3 +837,100 @@ Example Request
 >- If response status code is **200** then the team is successfully added to contest.
 >- If the team already exists, status code will be **409** and you will have errors with adding team like **'team with this name already exists!' ** .
 >- If there are errors like team or contest does not exists response status code will be **406**.
+
+--------
+
+
+contest detail
+===============
+
+Resource URL
+>GET
+> **/contest/details/<contest_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|NO (must be authenticated)|
+
+Example Request
+```
+/contest/details/565dfe6823e3c00e88c0f18c/
+```
+Example Response
+```
+{
+  [
+    {
+      "penalty": 459, 
+      "problems_list": [{
+                          "order": 1, 
+                          "problem_id": 1, 
+                          "solved": true, 
+                          "tries": 15
+                        }, 
+                        {
+                          "order": 2, 
+                          "problem_id": 2, 
+                          "solved": true, 
+                          "tries": 0
+                        }, 
+                        {
+                          "order": 3, 
+                          "problem_id": 3, 
+                          "solved": true, 
+                          "tries": 0
+                        }], 
+
+      "solved_problem_counter": 3, 
+
+      "team": {
+              "id": "565ee15223e3c01ca02e0a7a", 
+              "name": "new_team3", 
+              "owner": {
+                        "id": "565df07323e3c00dfca5f8af", 
+                        "username": "admin"
+                       }
+              }
+    }, 
+
+    {
+      "penalty": 299, 
+      "problems_list": [{
+                          "order": 1, 
+                          "problem_id": 1, 
+                          "solved": true, 
+                          "tries": 4
+                        }, 
+                        {
+                          "order": 2, 
+                          "problem_id": 2, 
+                          "solved": true, 
+                          "tries": 0
+                        }, 
+                        {
+                          "order": 3, 
+                          "problem_id": 3, 
+                          "solved": false, 
+                          "tries": 6
+                        }],
+
+      "solved_problem_counter": 2, 
+
+      "team": {
+              "id": "565df1df23e3c00dfca5f8b5", 
+              "name": "new_team", 
+              "owner": {
+                        "id": "565df07323e3c00dfca5f8af", 
+                        "username": "admin"
+                       }
+              } 
+    }
+  ]
+}
+```
+
+> **NOTE:**
+>- If response status code is **200** then the contest details returned successfully.
+>- If there are errors like contest does not exists response status code will be **406**.
+>- response is sorted.
