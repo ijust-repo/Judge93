@@ -12,97 +12,74 @@
 </head>
 
 <body>
-	<ul class="col-lg-2 leftmenu shadow" >
-		
-		<li class=" usernameitem" id="usernameitem">
-			<a href="/user/home/"><h4 id="getusername" class="leftmenuitem"></h4></a>
-		</li>	
-		<li class=" usernameitem" id="usernameprofitem" style="display:none">
-			<h4 id="getusernameprof" class="leftmenuitem"></h4>
-			<h4 id="getidprof" style="display:none"></h4>
-		</li>
-		
-		<li  id="contest">
-		 	<a href="#contests" ><h4 class="leftmenuitem">Contests</h4></a>
-		</li>
-		
-		<li  id="team">
-		 	<a href="#teams"><h4 class="leftmenuitem">Teams</h4></a>
-		</li>
-		
-		<li  id="users">
-		 	<a href="#users"><h4 class="leftmenuitem">Users</h4></a>
-		</li>
-		
-		<li  id="setting">
-		 	<a href="/user/setting/"><h4 class="leftmenuitem">Settings</h4></a>
-		</li>
-		
-		<li  id="logout">
-		 	<a href="#logout"><h4 class="leftmenuitem">Log out</h4></a>
-		</li>
-		<li  id="backtoprofile" style="display:none" >
-		 	<a href="#back"><h4 class="leftmenuitem">Back to profile</h4></a>
-		</li>
+<ul class="col-xs-3 col-md-2 leftmenu shadow scrollbar" id="leftmenu" >
 
-	</ul>
+	<li class=" usernameitem " id="usernameitem">
+		<a href=""><h4 id="getusername" class="leftmenuitem"></h4></a>
+	</li>
+	<li class=" usernameitem " id="usernameprofitem" style="display:none">
+		<h4 id="getusernameprof" ></h4>
+		<h4 id="getidprof" style="display:none"></h4>
+	</li>
+
+	<li  id="contest">
+		<a href="/user/contest/" ><h4 class="leftmenuitem">Contests</h4></a>
+	</li>
+
+	<li  id="team">
+		<a href="/user/team/"><h4 class="leftmenuitem">Teams</h4></a>
+	</li>
+
+	<li  id="users">
+		<a href="#users"><h4 class="leftmenuitem">Users</h4></a>
+	</li>
+
+	<li  id="setting">
+		<a href="/user/setting/"><h4 class="leftmenuitem">Settings</h4></a>
+	</li>
+
+	<li  id="logout">
+		<a href="#logout"><h4 class="leftmenuitem">Log out</h4></a>
+	</li>
+	<li  id="backtoprofile" style="display:none" >
+		<a href="#back"><h4 class="leftmenuitem">Back to profile</h4></a>
+	</li>
+
+</ul>
+		<div class="col-xs-offset-3 col-md-offset-2 row">
+			<div class="col-xs-9 col-md-10 maintitr">
+				<p id="titlePage">Teams</p>
+				<div><a href="#createTeam"><button class="hover-button close-page">Create Team</button></a></div>
+			</div>
+		</div>
+		<div class="col-xs-offset-3 col-md-offset-2 row">
+			<div  class="contents  col-lg-9 " id="teamPage">
+
+			</div>
+		</div>
     <div id="createTeam" class="form-dialog">
-        <div>
-            <a href="#" title="Close" class="close-button">X</a>
-            <form>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>Team Name</label>
-                </div>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>members</label>
-                </div>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>members</label>
-                </div>
-                <div class="question">
-                    <input type="text" required/>
-                    <label>members</label>
-                </div>
-                <button type="submit" class="submit-button">Submit</button>
-            </form>
+        <div id="teamForm">
+		<a href="#" title="Close" class="close-button">X</a>
+			<div class="question">
+				<input id="teamName" type="text" required/>
+				<label>Team Name</label>
+			</div>
+			<div class="question">
+				<input id="member1" type="text" required/>
+				<label>Member 1</label>
+				<p>Optional</p>
+			</div>
+			<div class="question">
+				<input id="member2" type="text" required/>
+				<label>Member 2</label>
+				<p>Optional</p>
+			</div>
+			<button id="submitCreateTeam" class="submit-button">Submit</button>
+			<div id="ifSuccessfully"></div>
         </div>
     </div>
 
-    <div class="row">
 
-		<div class="col-lg-10  maintitr">
-			<p id="titlePage">Teams</p>
-            <div><a href="#createTeam"><button class="hover-button close-page">Create Team</button></a></div>
-		</div>
-	</div>
-	<div class="row">
-      	<div  class="contents  col-lg-9 " >
-			<div class="close-page" id="teamPage">
-					<div class="header-team">
-						<div>Team Name</div>
-					</div>
-					<div class="body-team">
-						<div class="sector-block-team">
-							<div>Users :</div>
-							<p>...</p>
-							<p>...</p>
-							<p>...</p>
-						</div>
-						<div class="sector-block-team">
-							<a href="#">Contest :</a>
-							<p>...</p>
-							<p>...</p>
-							<p>...</p>
-						</div>
-					</div>
-
-			</div>
-
-   		</div>
-   	</div>
    
 
 </body>
@@ -133,12 +110,88 @@
         url : '/user/get_profile/',
         dataType: "html",
         success: function(data) {
-			$( '#getusername ' ).html((JSON.parse(data)).username);            
+			$myId = (JSON.parse(data)).id;
+			$( '#getusername ' ).html((JSON.parse(data)).username);
+			$.ajax({
+				type: "GET",
+				url : '/user/' + $myId + '/teams/',
+				dataType: "html",
+				success: function (data) {
+
+					$myDataTeam = (JSON.parse(data)).teams;
+					for (var counter = 0; counter < $myDataTeam.length; counter++)
+					{
+						if ($myDataTeam[counter]["members"].length == 2)
+						{
+							if ($myDataTeam[counter].owner.id == $myId)
+							{
+								$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '<label>(remove)</label></p><p>' + $myDataTeam[counter].members[1].username + '<label>(remove)</label></p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+							}
+							else
+							{
+								$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '</p><p>' + $myDataTeam[counter].members[1].username + '</p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+							}
+						}
+						else if ($myDataTeam[counter]["members"].length == 1)
+						{
+							if ($myDataTeam[counter].owner.id == $myId)
+							{
+								$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '<label>(remove)</label></p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+							}
+							else
+							{
+								$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '</p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+							}
+						}
+						else
+						{
+							$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+						}
+						$("#teamPage").append($myHtml);
+					}
+				},
+				error: function (request, status, error) {
+					if(request.status===405){
+						alert("Please login first");
+					}
+				}
+
+			});
         },
         error: function(request, status, error) {
 
         }
     });
+	$('#submitCreateTeam').click(function(){
+		var teamName = $("#teamName").val();
+		var member1 = $("#member1").val();
+		var member2 = $("#member2").val();
+		if (member1 && member2)
+		{
+			myData = {"name": teamName, "members": [member1, member2]};
+		}
+		else if (member1)
+		{
+			myData = {"name": teamName, "members": [member1]};
+		}
+		else
+		{
+			myData = {"name": teamName};
+		}
+		$.ajax({
+			type: "POST",
+			url: '/team/create/',
+			dataType: "html",
+			contentType: "application/json",
+			data: JSON.stringify(myData),
+			success: function(data){
+				$("#ifSuccessfully").html("Your team successfully created.");
+			},
+			error: function (request, status, error){
+				alert(status);
+			}
+		});
+	});
      });
 </script>
 </html>
