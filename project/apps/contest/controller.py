@@ -290,7 +290,6 @@ def add_team (contest_id,team_id):
 		contest_obj = Contest.objects().get(pk=contest_id)
 		for info in contest_obj.teams:
 			if (team_obj == info.team):
-				print team_obj == info.team
 				return jsonify(errors = 'team already exists!'), 409
 
 		print team_obj not in contest_obj.teams
@@ -307,7 +306,6 @@ def add_team (contest_id,team_id):
 			results.append(result)
 
 		team_info.problem_results = results
-		print team_info
 		lst = contest_obj.teams
 		lst.append(team_info)
 		contest_obj.teams = lst
