@@ -296,16 +296,6 @@ def add_team (contest_id,team_id):
 		team_info = TeamInfo (team = team_obj)
 		team_info.accepted = False
 		team_info.id = len (contest_obj.teams) + 1
-		results =[]
-		for problem in contest_obj.problems:
-			result = Result(problem_id = problem.id)
-			result.status = ""
-			result.tries = 0
-			result.solved = False
-			result.id = len(results) + (len(contest_obj.problems)*(team_info.id-1)) + 1
-			results.append(result)
-
-		team_info.problem_results = results
 		lst = contest_obj.teams
 		lst.append(team_info)
 		contest_obj.teams = lst
