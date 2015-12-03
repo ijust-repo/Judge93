@@ -379,8 +379,8 @@ def submit (contest_id, team_id ,number, file_type):
 
 	allowed_filetypes = ['py','cpp','java']
 	if( file_type not in allowed_filetypes ):
-                Update_Result(contest_id, team_id, number ,"Extention Error", False)
-                return "Extention Error", 406
+                Update_Result(contest_id, team_id, number ,"Extension Error", False)
+                return "Extension Error", 406
         
 	try:
 		contest = Contest.objects().get(pk = contest_id)
