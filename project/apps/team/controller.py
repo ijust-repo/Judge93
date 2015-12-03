@@ -22,9 +22,14 @@ def team_team_page():
 	return render_template('team.html')
 
 
-@team.route('/', methods=['GET'])
-def team_page():
-	return render_template('team.html')
+@team.route('<string:team_name>/', methods=['GET'])
+def team_page(team_name):
+	try:
+		obj = Team.objects().get(name = team_name)
+		pk = obj.pk
+		return render_template('team.html' , team_id = pk)
+	except DoesNotExist:
+		return jsonify(errors="team does not exists!"), 406
 
 @team.route('create/', methods=['POST'])
 def create():
