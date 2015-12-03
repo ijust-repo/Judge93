@@ -379,6 +379,7 @@ def submit (contest_id, team_id ,number, file_type):
 
 	allowed_filetypes = ['py','cpp','java']
 	if( file_type not in allowed_filetypes ):
+                Update_Result(contest_id, team_id, number ,"Extention Error", False)
                 return "Extention Error", 406
         
 	try:
@@ -403,9 +404,6 @@ def submit (contest_id, team_id ,number, file_type):
 	if number < 1 or number > max_num:
 		return jsonify(errors="Invalid problem number!"), 406
 
-        ### result func test
-        Update_Result(contest_id, team_id, number , "www", False)
-
         # Upload...
 	upload_path = "project/contests/" + str (contest_name) + "/testcases/" + str (number) + '/submission_codes/' 
 	filename = str('code_') + ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15)) + ".%s" %file_type
@@ -420,6 +418,7 @@ def submit (contest_id, team_id ,number, file_type):
         is_Restriced = Check_Restricted(upload_path, filename, file_type)
         if is_Restriced:
                 Delete_Compile_Files(upload_path, filename, file_type)
+                Update_Result(contest_id, team_id, number ,"Restricted Function", False)
                 return "Restricted Function", 406
         
         ### Compile...
@@ -428,6 +427,7 @@ def submit (contest_id, team_id ,number, file_type):
                         subprocess.check_output("g++ -o %s %s" %(filename[:-4] , os.path.join(upload_path, filename)),shell=True,stderr=subprocess.STDOUT)
                 except:
                         Delete_Compile_Files(upload_path, filename, file_type)
+                        Update_Result(contest_id, team_id, number ,"Compile Error", False)
                         return "Compile Error", 406
         elif(file_type == "java"):
                 try:
@@ -446,6 +446,7 @@ def submit (contest_id, team_id ,number, file_type):
                         subprocess.check_output("javac %s" %(os.path.join(upload_path, filename)), shell=True,stderr=subprocess.STDOUT)
                 except:
                         Delete_Compile_Files(upload_path, filename, file_type)
+                        Update_Result(contest_id, team_id, number ,"Compile Error", False)
                         return "Compile Error", 406
 
         ### Run & Check...
@@ -455,18 +456,21 @@ def submit (contest_id, team_id ,number, file_type):
                                 out = str(subprocess.check_output("python %s <%s " %(os.path.join(upload_path, filename), os.path.join(testcases_folder, testcase)) ,shell=True,stderr=subprocess.STDOUT))[:-2]
                         except:
                                 Delete_Compile_Files(upload_path, filename, file_type)
+                                Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return "Runtime Error", 406
                 elif(file_type == "cpp"):
                         try:
                                 out = str(subprocess.check_output("%s.exe <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT))
                         except:
                                 Delete_Compile_Files(upload_path, filename, file_type)
+                                Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return "Runtime Error", 406
                 elif(file_type == "java"):
                         try:
                                 out = str(subprocess.check_output("java -classpath %s %s <%s " %(upload_path, filename[:-5] ,os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT))[:-2]
                         except:
                                 Delete_Compile_Files(upload_path, filename, file_type)
+                                Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return "Runtime Error", 406
                         
 
@@ -478,9 +482,11 @@ def submit (contest_id, team_id ,number, file_type):
                 
                 if(not expected_out == out):
                         Delete_Compile_Files(upload_path, filename, file_type)
+                        Update_Result(contest_id, team_id, number ,"Wrong Answer", False)
                         return "Wrong Answer In TestCase %s" %testcase[:-3], 406
                 
         Delete_Compile_Files(upload_path, filename, file_type)
+        Update_Result(contest_id, team_id, number ,"Accepted", True)
 	return "Accepted", 200
 
 def Delete_Compile_Files(upload_path, filename, file_type):
@@ -518,7 +524,7 @@ def Update_Result(contest_id, team_id, problem_number ,status, solved):
                                 result.failed_tries = 1 if (not solved) else 0
                                 result.solved = solved
                                 if solved:
-                                        result.solved_on = datetime.fromtimestamp(datetime.utcnow()) #in o kharaki gozashtam... sakhtaresh fix she...
+                                        result.solved_on = datetime.utcnow()
                                 problem_results_list.append( result )
                                 complete_team_info.problem_results = problem_results_list
                                 contest_obj.save()
@@ -526,8 +532,11 @@ def Update_Result(contest_id, team_id, problem_number ,status, solved):
                         else:
                                 result = [problem_result for problem_result in problem_results_list if( problem_result.problem_id == problem_number )][0]
                                 result.status = status
+                                result.solved = solved
                                 if not solved:
                                         result.failed_tries += 1
+                                if solved:
+                                        result.solved_on = datetime.utcnow()
                                 problem_results_list[problem_results_list.index(result)] = result
                                 complete_team_info.problem_results = problem_results_list
                                 contest_obj.save()
