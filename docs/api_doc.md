@@ -369,7 +369,7 @@ Team API
 
 
 View team page
-============
+==============
 
 Resource URL
 >GET > 
@@ -725,7 +725,7 @@ Example Response
 
 
 View contest page
-============
+=================
 
 Resource URL
 >GET > 
