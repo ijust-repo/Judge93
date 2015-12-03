@@ -25,8 +25,7 @@ import string
 import subprocess
 import time
 import re
-
-
+from signal import SIGTERM
 
 
 @contest.route('submit/<string:contest_id>/<string:team_id>/<int:number>/<string:file_type>/', methods=['POST'])
@@ -60,6 +59,11 @@ def submit (contest_id, team_id ,number, file_type):
 	if number < 1 or number > max_num:
 		return jsonify(errors="Invalid problem number!"), 406
 
+        if datetime.utcnow() < contest.starts_on:
+                return jsonify(errors="Contest Is Not Started Yet!"), 406
+        elif datetime.utcnow() > contest.ends_on:
+                return jsonify(errors="Contest Is Finished!"), 406
+        
         # Upload...
 	upload_path = "project/contests/" + str (contest_name) + "/testcases/" + str (number) + '/submission_codes/' 
 	filename = str('code_') + ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15)) + ".%s" %file_type
@@ -105,25 +109,79 @@ def submit (contest_id, team_id ,number, file_type):
                         Update_Result(contest_id, team_id, number ,"Compile Error", False)
                         return jsonify(status="Compile Error"), 200
 
+
+
+        problem_time_limit = Get_Problem_TimeLimit(contest_id, number)/1000.0
+        if not problem_time_limit:
+                Delete_Compile_Files(upload_path, filename, file_type)
+                return jsonify(errors="Problem does not have time limit!"), 406
         ### Run & Check...
         for testcase in [ i for i in os.listdir(testcases_folder) if i[-2:]=="in" ]:
                 if(file_type == "py"):
                         try:
-                                out = str(subprocess.check_output("python %s <%s " %(os.path.join(upload_path, filename), os.path.join(testcases_folder, testcase)) ,shell=True,stderr=subprocess.STDOUT))[:-2]
+                                p = subprocess.Popen("python %s <%s " %(os.path.join(upload_path, filename), os.path.join(testcases_folder, testcase)) ,shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                                start_time = time.time()
+                                while p.poll() is None:
+                                        if(time.time() - start_time > problem_time_limit):
+                                                pids = [p.pid]
+                                                for pid in pids:
+                                                        pids.extend(get_process_children(p.pid))
+                                                        try: 
+                                                                os.kill(pid, SIGTERM)
+                                                        except OSError:
+                                                                pass
+                                                Delete_Compile_Files(upload_path, filename, file_type)
+                                                Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
+                                                return jsonify(status="Time Exceeded"), 200
+                                        time.sleep(0.1)
+                                out, err = p.communicate()
+                                out = out[:-2]
                         except:
                                 Delete_Compile_Files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return jsonify(status="Runtime Error"), 200
                 elif(file_type == "cpp"):
                         try:
-                                out = str(subprocess.check_output("%s.exe <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT))
+                                p = subprocess.Popen("%s.exe <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                                start_time = time.time()
+                                while p.poll() is None:
+                                        if(time.time() - start_time > problem_time_limit):
+                                                pids = [p.pid]
+                                                for pid in pids:
+                                                        pids.extend(get_process_children(p.pid))
+                                                        try: 
+                                                                os.kill(pid, SIGTERM)
+                                                                print 'wwwww'
+                                                        except OSError:
+                                                                pass
+                                                Delete_Compile_Files(upload_path, filename, file_type)
+                                                Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
+                                                return jsonify(status="Time Exceeded"), 200
+                                        time.sleep(0.1)
+                                out, err = p.communicate()
                         except:
                                 Delete_Compile_Files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return jsonify(status="Runtime Error"), 200
                 elif(file_type == "java"):
                         try:
-                                out = str(subprocess.check_output("java -classpath %s %s <%s " %(upload_path, filename[:-5] ,os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT))[:-2]
+                                p = subprocess.Popen("java -classpath %s %s <%s " %(upload_path, filename[:-5] ,os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                                start_time = time.time()
+                                while p.poll() is None:
+                                        if(time.time() - start_time > problem_time_limit):
+                                                pids = [p.pid]
+                                                for pid in pids:
+                                                        pids.extend(get_process_children(p.pid))
+                                                        try: 
+                                                                os.kill(pid, SIGTERM)
+                                                        except OSError:
+                                                                pass
+                                                Delete_Compile_Files(upload_path, filename, file_type)
+                                                Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
+                                                return jsonify(status="Time Exceeded"), 200
+                                        time.sleep(0.1)
+                                out, err = p.communicate()
+                                out = out[:-2]
                         except:
                                 Delete_Compile_Files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
@@ -149,6 +207,10 @@ def Delete_Compile_Files(upload_path, filename, file_type):
         try:
                 os.remove(os.path.join(upload_path, filename))
                 if(file_type == "cpp"):
+                        try:
+                                subprocess.check_output("taskkill /IM %s.exe /T /F" %filename[:-4],shell=True,stderr=subprocess.STDOUT)
+                        except:
+                                pass
                         os.remove(filename[:-4] + '.exe')
                 if(file_type == "java"):
                         os.remove( os.path.join(upload_path, filename[:-5]) + '.class' )
@@ -198,3 +260,15 @@ def Update_Result(contest_id, team_id, problem_number ,status, solved):
                                 contest_obj.save()
                                 break
 
+def Get_Problem_TimeLimit(contest_id, problem_number):
+        contest_obj = Contest.objects().get(pk = contest_id)
+        for problem in contest_obj.problems:
+                if( problem.id == problem_number ):
+                        return problem.time_limit
+        return 0        
+
+def get_process_children(pid):
+    p = subprocess.Popen('ps --no-headers -o pid --ppid %d' % pid, shell = True,
+              stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+    stdout, stderr = p.communicate()
+    return [int(p) for p in stdout.split()]

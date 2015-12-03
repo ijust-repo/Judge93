@@ -983,7 +983,7 @@ Resource Information
 
 > **NOTE:**
 >- If response status code is **200** then the file is whether accepted or the submission progress has encountered an error. Error type will be returned as response's status.
->. ErrorTypes ==> Wrong Answer, Compile Error, Runtime Error, Restricted Function
+>. ErrorTypes ==> Wrong Answer, Compile Error, Runtime Error, Restricted Function, Time Exceeded
 >- If the sender is not a team member, response status code will be **406** and you will have errors like "You are not a member of this team".
 >- If contest_id does not exist in data base response status code will be **406** and you will have errors like "Contest does not exist!".
 >- If team_id does not exist in data base response status code will be **406** and you will have errors like "Team does not exist!".
