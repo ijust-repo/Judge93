@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'SALAR' , 'Mahnoosh']
-
+__author__ = ['Kia' , 'SALAR', 'Mahnoosh' ,'F4RZ4N']
 
 #flask import
 from flask import jsonify, request, render_template
@@ -26,6 +25,8 @@ from zipfile import BadZipfile
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
 from werkzeug.exceptions import RequestEntityTooLarge
+
+import controller_submission
 
 @contest.route('contest/', methods=['GET'])
 def contest_contest_page():

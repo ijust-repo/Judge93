@@ -966,3 +966,28 @@ Example Response
 >- If response status code is **200** then the contest details returned successfully.
 >- If there are errors like contest does not exists response status code will be **406**.
 >- response is sorted.
+
+--------
+
+Submission Progress
+===============
+
+Resource URL
+>POST
+> **'submit/<string:contest_id>/<string:team_id>/<int:number>/<string:file_type>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+> **NOTE:**
+>- If response status code is **200** then the file is whether accepted or the submission progress has encountered an error. Error type will be returned as response's status.
+>. ErrorTypes ==> Wrong Answer, Compile Error, Runtime Error, Restricted Function
+>- If the sender is not a team member, response status code will be **406** and you will have errors like "You are not a member of this team".
+>- If contest_id does not exist in data base response status code will be **406** and you will have errors like "Contest does not exist!".
+>- If team_id does not exist in data base response status code will be **406** and you will have errors like "Team does not exist!".
+>- If number is bigger than number of problems or it is lower than 1 the response status code will be **406** and you have errors like "Invalid problem number!".
+>- The file_type should be **py** ,**cpp** or **java** otherwise the response status code will be **406** and there will be errors like "Extension Error".
+
+--------
