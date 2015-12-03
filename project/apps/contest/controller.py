@@ -511,29 +511,24 @@ def Update_Result(contest_id, team_id, problem_number ,status, solved):
 
 	for complete_team_info in contest_obj.teams:
 		if (team_obj == complete_team_info.team):
-                        print 'team found'
                         problem_results_list = [ problem_result for problem_result in complete_team_info.problem_results ]
                         if( problem_number not in [ problem_result.problem_id for problem_result in complete_team_info.problem_results ] ):
-                                print ":P"
                                 result = Result(problem_id = problem_number)
                                 result.status = status
                                 result.failed_tries = 1 if (not solved) else 0
                                 result.solved = solved
-                                result.id = problem_number
-                                problem_results_list.append( result )
                                 if solved:
                                         result.solved_on = datetime.fromtimestamp(datetime.utcnow()) #in o kharaki gozashtam... sakhtaresh fix she...
+                                problem_results_list.append( result )
                                 complete_team_info.problem_results = problem_results_list
                                 contest_obj.save()
                                 break
                         else:
                                 result = [problem_result for problem_result in problem_results_list if( problem_result.problem_id == problem_number )][0]
-                                print [p.status for p in problem_results_list]
-                                result.status = 'zzz'
+                                result.status = status
+                                if not solved:
+                                        result.failed_tries += 1
                                 problem_results_list[problem_results_list.index(result)] = result
-                                print [p.status for p in problem_results_list]
-                                
-                                
                                 complete_team_info.problem_results = problem_results_list
                                 contest_obj.save()
                                 break
