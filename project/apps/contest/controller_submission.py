@@ -52,7 +52,7 @@ def submit (contest_id, team_id ,number, file_type):
 		for i in team.members :
 			members_list.append(i.username)
                 if logged_in_user() not in members_list:
-                        return "You Are Not A Member Of This Team", 406
+                        return jsonify(errors="You Are Not A Member Of This Team"), 406
 	except DoesNotExist:
 		return jsonify(errors="Team does not exist!"), 406
 
