@@ -125,7 +125,7 @@ var password = $("input#password_login").val();
             dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '"}',
             success: function (data) {
-                window.location.replace("/user/home/");
+                window.location.replace("/user/"+username+"/");
             },
             error: function (request, status, error) {
                     

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'SALAR', 'F4RZ4N']
-
+__author__ = ['Kia' , 'SALAR', 'Mahnoosh' ,'F4RZ4N']
 
 #flask import
 from flask import jsonify, request, render_template
@@ -33,6 +32,15 @@ import controller_submission
 def contest_contest_page():
 	return render_template('contest.html')
 
+@contest.route('<string:contest_name>/', methods=['GET'])
+def contest_page(contest_name):
+	try:
+		obj = Contest.objects().get(name = contest_name)
+		pk = obj.pk
+		return render_template('contest.html' , contest_id = pk)
+	except DoesNotExist:
+		return jsonify(errors="contest does not exists!"), 406
+		
 
 @contest.route('/', methods=['POST'])
 def create():

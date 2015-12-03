@@ -369,11 +369,11 @@ Team API
 
 
 View team page
-===============
+==============
 
 Resource URL
->GET
-> **/team/**
+>GET > 
+> **/team/```string:team_name```/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -383,9 +383,12 @@ Resource Information
 
 > **NOTE:**
 >
->- This url returns a html template.
+>- This url returns a html template and the id of the team in database as team_id.
+>- team_name is the name of the team.
+>- If response status code is **406** then the team does not exists.
 
 -------
+
 
 Creating new team
 =================
@@ -717,6 +720,28 @@ Example Response
 >- default value of "start_from" and "create_from" is 0.
 >- default value of "start_to" and "create_to" is current time.
 >- If response status code is **200** then the ContestsList returned successfully.
+
+--------
+
+
+View contest page
+=================
+
+Resource URL
+>GET > 
+> **/contest/```string:contest_name```/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template and the id of the contest in database as contest_id.
+>- contset_name is the name of the contest.
+>- If response status code is **406** then the contest does not exists.
 
 --------
 
