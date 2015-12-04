@@ -581,12 +581,12 @@ Contest API
 ========
 
 
-View contest rank list page
+View contest details page page
 ===================
 
 Resource URL
 >GET
-> **'/contest/```string:contestName```/rankList/'**
+> **'/contest/```string:contestName```/details_page/'**
 
 Resource Information
 >|Response formats|Requires authentication?|
