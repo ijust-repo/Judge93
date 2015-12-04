@@ -40,7 +40,14 @@ def contest_page(contest_name):
 		return render_template('contest.html' , contest_id = pk)
 	except DoesNotExist:
 		return jsonify(errors="contest does not exists!"), 406
-		
+
+@contest.route('<string:contestName>/details_page/', methods=['GET'])
+def details_page(contestName):
+	try:
+		obj  = Contest.objects().get(name = contestName)
+		return render_template('contest.html' )
+	except DoesNotExist:
+		return jsonify(errors="contest does not exists!"), 406
 
 @contest.route('/', methods=['POST'])
 def create():
@@ -210,7 +217,7 @@ def contests_list():
 		create_date_from = request.args.get('create_from', 0.0, type=float)
 		create_date_to = request.args.get('create_to', datetime.utcnow(), type=float)
 		start_date_from = request.args.get('start_from', 0.0, type=float)
-		start_date_to = request.args.get('start_to', datetime.utcnow(), type=float)
+		start_date_to = request.args.get('start_to', 10000000000.0 , type=float)
 
 		if type(create_date_from) == float:
 			create_date_from = datetime.fromtimestamp(create_date_from)
@@ -225,7 +232,6 @@ def contests_list():
 			start_date_to = datetime.fromtimestamp(start_date_to)
 
 		contests_list = []
-		print Contest.objects(created_on__gte = create_date_from)
 		for obj in (Contest.objects(created_on__gte = create_date_from) and
 					Contest.objects(starts_on__gte = start_date_from) and
 					Contest.objects(created_on__lte = create_date_to) and
@@ -374,3 +380,27 @@ def contest_details(contest_id):
 		return jsonify(contests = final_list) , 200
 	except DoesNotExist:
 		return "" , 406
+
+
+@contest.route('<string:contest_id>/problems/', methods=['GET'])
+def get_problems (contest_id):
+	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+		return jsonify(contest_obj.to_json_problems()), 200
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406
+
+@contest.route('<string:contest_id>/problems/<int:number>/', methods=['GET'])
+def get_problem (contest_id, number):
+	try:
+		requested_problem = None
+		for problem in Contest.objects().get(pk=contest_id).problems :
+			if number == problem.id:
+				requested_problem = problem
+				break
+		if requested_problem == None:
+			return jsonify (errors="Problem does not exists!" ), 406
+		return jsonify (requested_problem.to_json_compelete()), 200
+
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406

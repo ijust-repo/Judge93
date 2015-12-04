@@ -52,6 +52,49 @@ Resource Information
 
 -------
 
+
+View user team page
+===================
+
+Resource URL
+>GET
+> **'/user/```string:Username```/team/'**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template and the id of the user in database as user_id.
+>- Username is the username of the user.
+
+-------
+
+View user contest page
+===================
+
+Resource URL
+>GET
+> **'/user/```string:Username```/contest/'**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template and the id of the user in database as user_id.
+>- Username is the username of the user.
+
+-------
+
+
+
 Checking user existance
 =======================
 
@@ -538,6 +581,28 @@ Contest API
 ========
 
 
+View contest details page page
+===================
+
+Resource URL
+>GET
+> **'/contest/```string:contestName```/details_page/'**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template.
+>- contestName is the name of the contest.
+
+-------
+
+
+
 Creating new contest
 ===============
 
@@ -704,21 +769,39 @@ Example Request
 Example Response
 ```
 {
-"created_on": "2015-11-07 10:14:00", 
-"ends_on": "2015-11-07 15:42:40", 
-"id": "563dcee823e3c01d38a73502", 
-"name": "maincontest", 
-"owner": {
-          "id": "563d03c623e3c01694ee7291",
-          "username": "admin24"
-          }
+  [
+    {
+      "created_on": "2014-02-04 08:02:27",
+      "starts_on": "2017-07-14 07:10:00", 
+      "ends_on": "2027-01-15 11:30:00", 
+      "id": "566179cb23e3c01f40fc6432", 
+      "name": "new_contest", 
+      "owner": {
+                "id": "566179cb23e3c01f40fc6431", 
+                "username": "admin2"
+                }   
+    }, 
+    {
+      "created_on": "2015-12-04 12:04:19", 
+      "starts_on": "2017-07-14 07:10:00",
+      "ends_on": "2027-01-15 11:30:00", 
+      "id": "5661814323e3c023fc57aed8", 
+      "name": "another_contest", 
+      "owner": {
+                "id": "566179cb23e3c01f40fc6431", 
+                "username": "admin2"
+               } 
+      
+    }
+  ]
 }
 ```
 
 > **NOTE:**
 >- Type of "create_from" and "create_to" and "start_from" and "start_to" is float:timestamp.
 >- default value of "start_from" and "create_from" is 0.
->- default value of "start_to" and "create_to" is current time.
+>- default value of "create_to" is current time.
+>- default value of "start_to" is infinity.
 >- If response status code is **200** then the ContestsList returned successfully.
 
 --------
@@ -989,5 +1072,108 @@ Resource Information
 >- If team_id does not exist in data base response status code will be **406** and you will have errors like "Team does not exist!".
 >- If number is bigger than number of problems or it is lower than 1 the response status code will be **406** and you have errors like "Invalid problem number!".
 >- The file_type should be **py** ,**cpp** or **java** otherwise the response status code will be **406** and there will be errors like "Extension Error".
+
+--------
+
+
+Contest problem
+===============
+
+Resource URL
+>GET
+> **/contest/<string:contest_id>/problems/<int:problem_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/problems/1/
+```
+Example Response
+```
+
+{
+  "body": "body",
+  "footer": "footer",
+  "header": "header",
+  "id": 1,
+  "order": 1,
+  "space_limit": 1000,
+  "testcases": [
+                {
+                "id": 1,
+                "input": "1",
+                "order": 1,
+                "output": "9"
+                },
+               {
+                "id": 2,
+                "input": "6",
+                "order": 2,
+                "output": "4"
+              }
+              ],
+  "time_limit": 1000,
+  "title": "problem1"
+}
+
+> **NOTE:**
+>- If everything goes well, response status code is **200**.
+>- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
+>- If the requested prolem does not exist in data base, status code will be **406** and you will have errors like  **'Problem does not exist!' ** .
+
+--------
+
+
+All contest problem
+===============
+
+Resource URL
+>GET
+> **/contest/<string:contest_id>/problems/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/problems/
+```
+Example Response
+```
+
+{
+  "problems": [
+               {
+                "id": 1,
+                "order": 1,
+                "title": "problem1"
+              },
+               {
+                "id": 2,
+                "order": 2,
+                "title": "problem2"
+              },
+              {
+                "id": 3,
+                "order": 3,
+                "title": "problem3"
+              },
+             {
+                "id": 4,
+                "order": 4,
+                "title": "problem4"
+              }
+            ] 
+}
+
+> **NOTE:**
+>- If everything goes well, response status code is **200**.
+>- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
 
 --------
