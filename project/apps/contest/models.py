@@ -40,9 +40,9 @@ class Problem(EmbeddedDocument):
 			title = self.title)
 
 	def to_json_compelete(self):
-		testcases_dic = {}
+		testcases_list = []
 		for testcase in self.testcases:
-			testcases_dic [testcase.id] = testcase.to_json()
+			testcases_list.append(testcase.to_json())
 		return dict(
 			id = self.id,
 			order = self.order,
@@ -51,7 +51,7 @@ class Problem(EmbeddedDocument):
 			space_limit = self.space_limit,
 			header = self.header,
 			body = self.body,
-			testcases = testcases_dic,
+			testcases = testcases_list,
 			footer = self.footer)
 
 class Result(EmbeddedDocument):
