@@ -196,7 +196,7 @@ def contests_list():
 		create_date_from = request.args.get('create_from', 0.0, type=float)
 		create_date_to = request.args.get('create_to', datetime.utcnow(), type=float)
 		start_date_from = request.args.get('start_from', 0.0, type=float)
-		start_date_to = request.args.get('start_to', datetime.utcnow(), type=float)
+		start_date_to = request.args.get('start_to', 10000000000.0 , type=float)
 
 		if type(create_date_from) == float:
 			create_date_from = datetime.fromtimestamp(create_date_from)
@@ -211,7 +211,6 @@ def contests_list():
 			start_date_to = datetime.fromtimestamp(start_date_to)
 
 		contests_list = []
-		print Contest.objects(created_on__gte = create_date_from)
 		for obj in (Contest.objects(created_on__gte = create_date_from) and
 					Contest.objects(starts_on__gte = start_date_from) and
 					Contest.objects(created_on__lte = create_date_to) and
