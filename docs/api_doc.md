@@ -991,3 +991,106 @@ Resource Information
 >- The file_type should be **py** ,**cpp** or **java** otherwise the response status code will be **406** and there will be errors like "Extension Error".
 
 --------
+
+
+Contest problem
+===============
+
+Resource URL
+>POST
+> **/contest/<string:contest_id>/problems/<int:problem_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/problems/1/
+```
+Example Response
+```
+
+{
+  "body": "body",
+  "footer": "footer",
+  "header": "header",
+  "id": 1,
+  "order": 1,
+  "space_limit": 1000,
+  "testcases": [
+                {
+                "id": 1,
+                "input": "1",
+                "order": 1,
+                "output": "9"
+                },
+               {
+                "id": 2,
+                "input": "6",
+                "order": 2,
+                "output": "4"
+              }
+              ],
+  "time_limit": 1000,
+  "title": "problem1"
+}
+
+> **NOTE:**
+>- If everything goes well, response status code is **200**.
+>- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
+>- If the requested prolem does not exist in data base, status code will be **406** and you will have errors like  **'Problem does not exist!' ** .
+
+--------
+
+
+All contest problem
+===============
+
+Resource URL
+>POST
+> **/contest/<string:contest_id>/problems/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/problems/
+```
+Example Response
+```
+
+{
+  "problems": [
+               {
+                "id": 1,
+                "order": 1,
+                "title": "problem1"
+              },
+               {
+                "id": 2,
+                "order": 2,
+                "title": "problem2"
+              },
+              {
+                "id": 3,
+                "order": 3,
+                "title": "problem3"
+              },
+             {
+                "id": 4,
+                "order": 4,
+                "title": "problem4"
+              }
+            ] 
+}
+
+> **NOTE:**
+>- If everything goes well, response status code is **200**.
+>- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
+
+--------
