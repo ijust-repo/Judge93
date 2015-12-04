@@ -34,21 +34,25 @@ class Problem(EmbeddedDocument):
 	footer = StringField()
 
 	def to_json(self):
+		return dict(
+			id = self.id,
+			order = self.order,
+			title = self.title)
+
+	def to_json_compelete(self):
 		testcases_dic = {}
 		for testcase in self.testcases:
 			testcases_dic [testcase.id] = testcase.to_json()
 		return dict(
 			id = self.id,
 			order = self.order,
-			title = self.title)
-'''
+			title = self.title,
 			time_limit = self.time_limit,
 			space_limit = self.space_limit,
 			header = self.header,
 			body = self.body,
 			testcases = testcases_dic,
 			footer = self.footer)
-'''
 
 class Result(EmbeddedDocument):
 	problem_id = IntField(required=True, sparse=True)
