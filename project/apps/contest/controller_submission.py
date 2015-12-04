@@ -85,6 +85,7 @@ def submit (contest_id, team_id ,number, file_type):
         if(file_type == "cpp"):
                 try:
                         subprocess.check_output("g++ -o %s %s" %(filename[:-4] , os.path.join(upload_path, filename)),shell=True,stderr=subprocess.STDOUT)
+                        time.sleep(0.2)
                 except:
                         Delete_Compile_Files(upload_path, filename, file_type)
                         Update_Result(contest_id, team_id, number ,"Compile Error", False)
@@ -104,6 +105,7 @@ def submit (contest_id, team_id ,number, file_type):
                         code_file.write(" ".join(code))
                         code_file.close()
                         subprocess.check_output("javac %s" %(os.path.join(upload_path, filename)), shell=True,stderr=subprocess.STDOUT)
+                        time.sleep(0.2)
                 except:
                         Delete_Compile_Files(upload_path, filename, file_type)
                         Update_Result(contest_id, team_id, number ,"Compile Error", False)
@@ -111,7 +113,7 @@ def submit (contest_id, team_id ,number, file_type):
 
 
 
-        problem_time_limit = Get_Problem_TimeLimit(contest_id, number)/1000.0
+        problem_time_limit = Get_Problem_TimeLimit(contest_id, number)/1000.0 + 0.2 #yekam avanse delay in dastura :P
         if not problem_time_limit:
                 Delete_Compile_Files(upload_path, filename, file_type)
                 return jsonify(errors="Problem does not have time limit!"), 406
@@ -151,7 +153,6 @@ def submit (contest_id, team_id ,number, file_type):
                                                         pids.extend(get_process_children(p.pid))
                                                         try: 
                                                                 os.kill(pid, SIGTERM)
-                                                                print 'wwwww'
                                                         except OSError:
                                                                 pass
                                                 Delete_Compile_Files(upload_path, filename, file_type)
@@ -205,15 +206,19 @@ def submit (contest_id, team_id ,number, file_type):
 
 def Delete_Compile_Files(upload_path, filename, file_type):
         try:
-                os.remove(os.path.join(upload_path, filename))
-                if(file_type == "cpp"):
-                        try:
-                                subprocess.check_output("taskkill /IM %s.exe /T /F" %filename[:-4],shell=True,stderr=subprocess.STDOUT)
-                        except:
-                                pass
-                        os.remove(filename[:-4] + '.exe')
-                if(file_type == "java"):
-                        os.remove( os.path.join(upload_path, filename[:-5]) + '.class' )
+                try:
+                        os.remove(os.path.join(upload_path, filename))
+                except:
+                        pass
+		if(file_type == "cpp"):
+			try:
+				subprocess.check_output("taskkill /IM %s.exe /T /F" %filename[:-4],shell=True,stderr=subprocess.STDOUT)
+			except:
+				pass
+			time.sleep(0.2)
+			os.remove(filename[:-4] + '.exe')
+		if(file_type == "java"):
+			os.remove( os.path.join(upload_path, filename[:-5]) + '.class' )
         except:
                 pass
 def Check_Restricted(upload_path, filename, file_type):
