@@ -377,7 +377,7 @@ def contest_details(contest_id):
 
 
 @contest.route('<string:contest_id>/problems/', methods=['POST'])
-def contest_probmels_by_id (contest_id):
+def get_problems (contest_id):
 	try:
 		contest_obj = Contest.objects().get(pk=contest_id)
 		return jsonify(contest_obj.to_json_problems()), 200
@@ -385,7 +385,7 @@ def contest_probmels_by_id (contest_id):
 		return jsonify(errors="Contest does not exist!"), 406
 
 @contest.route('<string:contest_id>/problems/<int:number>/', methods=['POST'])
-def contest_problem_by_id (contest_id, number):
+def get_problem (contest_id, number):
 	try:
 		requested_problem = None
 		for problem in Contest.objects().get(pk=contest_id).problems :
