@@ -399,7 +399,7 @@ def get_problem (contest_id, number):
 				requested_problem = problem
 				break
 		if requested_problem == None:
-			return jsonify (errors="Problem does nit exists!" ), 406
+			return jsonify (errors="Problem does not exists!" ), 406
 		return jsonify (requested_problem.to_json_compelete()), 200
 
 	except DoesNotExist:

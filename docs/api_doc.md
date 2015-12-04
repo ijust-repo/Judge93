@@ -801,6 +801,7 @@ Example Response
 >- Type of "create_from" and "create_to" and "start_from" and "start_to" is float:timestamp.
 >- default value of "start_from" and "create_from" is 0.
 >- default value of "create_to" is current time.
+>- default value of "start_to" is infinity.
 >- If response status code is **200** then the ContestsList returned successfully.
 
 --------
