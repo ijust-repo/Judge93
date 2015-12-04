@@ -997,7 +997,7 @@ Contest problem
 ===============
 
 Resource URL
->POST
+>GET
 > **/contest/<string:contest_id>/problems/<int:problem_id>/**
 
 Resource Information
@@ -1049,7 +1049,7 @@ All contest problem
 ===============
 
 Resource URL
->POST
+>GET
 > **/contest/<string:contest_id>/problems/**
 
 Resource Information
