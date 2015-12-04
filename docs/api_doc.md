@@ -743,6 +743,7 @@ Example Request
 >- If there is new starts_on and new starts_on is biger than created_on then status code will be **406** and there will be errors like **'Start date must be later than creation time!!'** . 
 >- If the logged in user is not the owner of contest, status code will be **403** and there will be errors like **'User is not owner!'**
 >- If there is new name and this name already exists, the status code will be **409** and there will be errors like **'Contest with this name already exists!'** .
+>- If contest is already started, it can not be edited and there will be errors with editing it like **'Contest can not be edited at this time!'** and response status code will be **406**.
 >- If none of errors above occurs, the status code will be 200 .
 
 --------
@@ -1124,11 +1125,12 @@ Example Response
 >- If everything goes well, response status code is **200**.
 >- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
 >- If the requested prolem does not exist in data base, status code will be **406** and you will have errors like  **'Problem does not exist!' ** .
+>- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
 
 --------
 
 
-All contest problem
+All contest problems
 ===============
 
 Resource URL
@@ -1175,5 +1177,6 @@ Example Response
 > **NOTE:**
 >- If everything goes well, response status code is **200**.
 >- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
+>- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
 
 --------
