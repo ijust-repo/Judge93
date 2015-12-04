@@ -21,23 +21,37 @@ from mongoengine import DoesNotExist, NotUniqueError
 @user.route('/', methods=['GET'])
 def user_page():
 	return render_template('user.html')
+		
+@user.route('<string:Username>/', methods=['GET'])
+def user_home_page(Username):
+	try:
+		obj = User.objects().get(username = Username)	
+		pk = obj.pk
+		return render_template("home.html" , user_id=pk)  
+	except DoesNotExist:
+		return 	jsonify(errors="User does not exists!"), 406
 
-
-@user.route('home/', methods=['GET'])
-def user_home_page():
-	return render_template('home.html')
-
-@user.route('contest/', methods=['GET'])
-def user_contest_page():
-	return render_template('contest.html')
+@user.route('<string:Username>/contest/', methods=['GET'])
+def user_contest_page(Username):
+	try:
+		obj = User.objects().get(username=Username)
+		pk = obj.pk
+		return render_template('contest.html' , user_id = pk)
+	except DoesNotExist:
+		return 	jsonify(errors="User does not exists!"), 406
 
 @user.route('setting/', methods=['GET'])
 def user_setting_page():
 	return render_template('setting.html')
 
-@user.route('team/', methods=['GET'])
-def user_team_page():
-	return render_template('team.html')
+@user.route('<string:Username>/team/', methods=['GET'])
+def user_team_page(Username):
+	try:
+		obj = User.objects().get(username = Username)
+		pk = obj.pk
+		return render_template('team.html' , user_id = pk)
+	except DoesNotExist:
+		return jsonify(errors="User does not exists!"), 406
 
 @user.route('exists/<string:username>/', methods=['GET'])
 def exists(username):
@@ -205,3 +219,4 @@ def get_users_teams(user_id):
 		return jsonify(teams=resp),200
 	except DoesNotExist:
 		return jsonify(errors="User does not exists!"), 406
+	

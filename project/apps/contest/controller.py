@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'SALAR']
-
+__author__ = ['Kia' , 'SALAR', 'Mahnoosh' ,'F4RZ4N']
 
 #flask import
 from flask import jsonify, request, render_template
@@ -27,6 +26,28 @@ from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
 from werkzeug.exceptions import RequestEntityTooLarge
 
+import controller_submission
+
+@contest.route('contest/', methods=['GET'])
+def contest_contest_page():
+	return render_template('contest.html')
+
+@contest.route('<string:contest_name>/', methods=['GET'])
+def contest_page(contest_name):
+	try:
+		obj = Contest.objects().get(name = contest_name)
+		pk = obj.pk
+		return render_template('contest.html' , contest_id = pk)
+	except DoesNotExist:
+		return jsonify(errors="contest does not exists!"), 406
+
+@contest.route('<string:contestName>/details_page/', methods=['GET'])
+def details_page(contestName):
+	try:
+		obj  = Contest.objects().get(name = contestName)
+		return render_template('contest.html' )
+	except DoesNotExist:
+		return jsonify(errors="contest does not exists!"), 406
 
 @contest.route('/', methods=['POST'])
 def create():
@@ -359,3 +380,27 @@ def contest_details(contest_id):
 		return jsonify(contests = final_list) , 200
 	except DoesNotExist:
 		return "" , 406
+
+
+@contest.route('<string:contest_id>/problems/', methods=['GET'])
+def get_problems (contest_id):
+	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+		return jsonify(contest_obj.to_json_problems()), 200
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406
+
+@contest.route('<string:contest_id>/problems/<int:number>/', methods=['GET'])
+def get_problem (contest_id, number):
+	try:
+		requested_problem = None
+		for problem in Contest.objects().get(pk=contest_id).problems :
+			if number == problem.id:
+				requested_problem = problem
+				break
+		if requested_problem == None:
+			return jsonify (errors="Problem does nit exists!" ), 406
+		return jsonify (requested_problem.to_json_compelete()), 200
+
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406
