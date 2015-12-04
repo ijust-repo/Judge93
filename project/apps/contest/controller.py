@@ -40,7 +40,14 @@ def contest_page(contest_name):
 		return render_template('contest.html' , contest_id = pk)
 	except DoesNotExist:
 		return jsonify(errors="contest does not exists!"), 406
-		
+
+@contest.route('<string:contestName>/rankList/', methods=['GET'])
+def rankList_page(contestName):
+	try:
+		obj  = Contest.objects().get(name = contestName)
+		return render_template('contest.html' )
+	except DoesNotExist:
+		return jsonify(errors="contest does not exists!"), 406
 
 @contest.route('/', methods=['POST'])
 def create():
