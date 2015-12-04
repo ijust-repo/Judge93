@@ -129,6 +129,10 @@ def edit(contest_id):
 	starts_on = main_form.data['starts_on']
 	ends_on = main_form.data['ends_on']
 	name = main_form.data['name']
+
+	if contest_obj.starts_on < datetime.utcnow():
+		return jsonify(errors="Contest can not be edited at this time!"), 406
+	
 	if starts_on and ends_on:
 		if (starts_on > ends_on) :
 			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be earlier than end date!'))
@@ -386,6 +390,9 @@ def contest_details(contest_id):
 def get_problems (contest_id):
 	try:
 		contest_obj = Contest.objects().get(pk=contest_id)
+		if contest_obj.owner.username != logged_in_user() and contest_obj.starts_on > datetime.utcnow():
+			return jsonify(errors="You can not see problems right now!"), 403
+
 		return jsonify(contest_obj.to_json_problems()), 200
 	except DoesNotExist:
 		return jsonify(errors="Contest does not exist!"), 406
@@ -393,13 +400,17 @@ def get_problems (contest_id):
 @contest.route('<string:contest_id>/problems/<int:number>/', methods=['GET'])
 def get_problem (contest_id, number):
 	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+		if contest_obj.owner.username != logged_in_user() and contest_obj.starts_on > datetime.utcnow():
+			return jsonify(errors="You can not see problems right now!"), 403
+
 		requested_problem = None
-		for problem in Contest.objects().get(pk=contest_id).problems :
+		for problem in contest_obj.problems :
 			if number == problem.id:
 				requested_problem = problem
 				break
 		if requested_problem == None:
-			return jsonify (errors="Problem does not exists!" ), 406
+			return jsonify (errors="Problem does not exist!" ), 406
 		return jsonify (requested_problem.to_json_compelete()), 200
 
 	except DoesNotExist:
