@@ -52,6 +52,49 @@ Resource Information
 
 -------
 
+
+View user team page
+===================
+
+Resource URL
+>GET
+> **'/user/```string:Username```/team/'**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template and the id of the user in database as user_id.
+>- Username is the username of the user.
+
+-------
+
+View user contest page
+===================
+
+Resource URL
+>GET
+> **'/user/```string:Username```/contest/'**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template and the id of the user in database as user_id.
+>- Username is the username of the user.
+
+-------
+
+
+
 Checking user existance
 =======================
 
@@ -536,6 +579,28 @@ Example Result
 
 Contest API
 ========
+
+
+View contest details page page
+===================
+
+Resource URL
+>GET
+> **'/contest/```string:contestName```/details_page/'**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template.
+>- contestName is the name of the contest.
+
+-------
+
 
 
 Creating new contest
