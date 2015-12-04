@@ -40,14 +40,15 @@ class Problem(EmbeddedDocument):
 		return dict(
 			id = self.id,
 			order = self.order,
-			title = self.title,
+			title = self.title)
+'''
 			time_limit = self.time_limit,
 			space_limit = self.space_limit,
 			header = self.header,
 			body = self.body,
 			testcases = testcases_dic,
 			footer = self.footer)
-
+'''
 
 class Result(EmbeddedDocument):
 	problem_id = IntField(required=True, sparse=True)
@@ -83,8 +84,8 @@ class Contest(Document):
 			ends_on=datetime_to_str(self.ends_on))
 
 	def to_json_problems(self):
-		problems_dic = {}
+		problems_list = []
 		for problem in self.problems:
-			problems_dic[problem.id] = problem.to_json()
-		return problems_dic
+			problems_list.append (problem.to_json())
+		return dict( problems = problems_list)
 
