@@ -769,21 +769,39 @@ Example Request
 Example Response
 ```
 {
-"created_on": "2015-11-07 10:14:00", 
-"ends_on": "2015-11-07 15:42:40", 
-"id": "563dcee823e3c01d38a73502", 
-"name": "maincontest", 
-"owner": {
-          "id": "563d03c623e3c01694ee7291",
-          "username": "admin24"
-          }
+  [
+    {
+      "created_on": "2014-02-04 08:02:27",
+      "starts_on": "2017-07-14 07:10:00", 
+      "ends_on": "2027-01-15 11:30:00", 
+      "id": "566179cb23e3c01f40fc6432", 
+      "name": "new_contest", 
+      "owner": {
+                "id": "566179cb23e3c01f40fc6431", 
+                "username": "admin2"
+                }   
+    }, 
+    {
+      "created_on": "2015-12-04 12:04:19", 
+      "starts_on": "2017-07-14 07:10:00",
+      "ends_on": "2027-01-15 11:30:00", 
+      "id": "5661814323e3c023fc57aed8", 
+      "name": "another_contest", 
+      "owner": {
+                "id": "566179cb23e3c01f40fc6431", 
+                "username": "admin2"
+               } 
+      
+    }
+  ]
 }
 ```
 
 > **NOTE:**
 >- Type of "create_from" and "create_to" and "start_from" and "start_to" is float:timestamp.
 >- default value of "start_from" and "create_from" is 0.
->- default value of "start_to" and "create_to" is current time.
+>- default value of "create_to" is current time.
+>- default value of "start_to" is infinity.
 >- If response status code is **200** then the ContestsList returned successfully.
 
 --------
