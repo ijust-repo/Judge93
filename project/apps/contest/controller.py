@@ -42,7 +42,7 @@ def contest_page(contest_name):
 		return jsonify(errors="contest does not exists!"), 406
 
 @contest.route('<string:contestName>/details_page/', methods=['GET'])
-def rankList_page(contestName):
+def details_page(contestName):
 	try:
 		obj  = Contest.objects().get(name = contestName)
 		return render_template('contest.html' )
