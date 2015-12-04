@@ -15,6 +15,12 @@ class Testcase(EmbeddedDocument):
 	input = StringField(required=True)
 	output = StringField(required=True)
 
+	def to_json(self):
+		return dict(
+			id = self.id,
+			order = self.order,
+			input = self.input,
+			output = self.output)
 
 class Problem(EmbeddedDocument):
 	id = IntField(required=True, sparse=True)
@@ -27,6 +33,20 @@ class Problem(EmbeddedDocument):
 	testcases = ListField(EmbeddedDocumentField(Testcase))
 	footer = StringField()
 
+	def to_json(self):
+		testcases_dic = {}
+		for testcase in self.testcases:
+			testcases_dic [testcase.id] = testcase.to_json()
+		return dict(
+			id = self.id,
+			order = self.order,
+			title = self.title,
+			time_limit = self.time_limit,
+			space_limit = self.space_limit,
+			header = self.header,
+			body = self.body,
+			testcases = testcases_dic,
+			footer = self.footer)
 
 
 class Result(EmbeddedDocument):
@@ -61,3 +81,10 @@ class Contest(Document):
 			created_on=datetime_to_str(self.created_on),
 			starts_on=datetime_to_str(self.starts_on),
 			ends_on=datetime_to_str(self.ends_on))
+
+	def to_json_problems(self):
+		problems_dic = {}
+		for problem in self.problems:
+			problems_dic[problem.id] = problem.to_json()
+		return problems_dic
+
