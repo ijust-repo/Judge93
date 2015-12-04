@@ -75,9 +75,9 @@ def submit (contest_id, team_id ,number, file_type):
         testcases_folder =  "project/contests/" + str (contest_name) + "/testcases/" + str (number) + '/'
 
         ### Restricted Methods
-        is_Restriced = Check_Restricted(upload_path, filename, file_type)
+        is_Restriced = check_restricted(upload_path, filename, file_type)
         if is_Restriced:
-                Delete_Compile_Files(upload_path, filename, file_type)
+                delete_compile_files(upload_path, filename, file_type)
                 Update_Result(contest_id, team_id, number ,"Restricted Function", False)
                 return jsonify(status="Restricted Function"), 200
         
@@ -87,7 +87,7 @@ def submit (contest_id, team_id ,number, file_type):
                         subprocess.check_output("g++ -o %s %s" %(filename[:-4] , os.path.join(upload_path, filename)),shell=True,stderr=subprocess.STDOUT)
                         time.sleep(0.2)
                 except:
-                        Delete_Compile_Files(upload_path, filename, file_type)
+                        delete_compile_files(upload_path, filename, file_type)
                         Update_Result(contest_id, team_id, number ,"Compile Error", False)
                         return jsonify(status="Compile Error"), 200
         elif(file_type == "java"):
@@ -107,15 +107,15 @@ def submit (contest_id, team_id ,number, file_type):
                         subprocess.check_output("javac %s" %(os.path.join(upload_path, filename)), shell=True,stderr=subprocess.STDOUT)
                         time.sleep(0.2)
                 except:
-                        Delete_Compile_Files(upload_path, filename, file_type)
+                        delete_compile_files(upload_path, filename, file_type)
                         Update_Result(contest_id, team_id, number ,"Compile Error", False)
                         return jsonify(status="Compile Error"), 200
 
 
 
-        problem_time_limit = Get_Problem_TimeLimit(contest_id, number)/1000.0 + 0.2 #yekam avanse delay in dastura :P
+        problem_time_limit = get_problem_time_limit(contest_id, number)/1000.0 + 0.2 #yekam avanse delay in dastura :P
         if not problem_time_limit:
-                Delete_Compile_Files(upload_path, filename, file_type)
+                delete_compile_files(upload_path, filename, file_type)
                 return jsonify(errors="Problem does not have time limit!"), 406
         ### Run & Check...
         for testcase in [ i for i in os.listdir(testcases_folder) if i[-2:]=="in" ]:
@@ -132,14 +132,14 @@ def submit (contest_id, team_id ,number, file_type):
                                                                 os.kill(pid, SIGTERM)
                                                         except OSError:
                                                                 pass
-                                                Delete_Compile_Files(upload_path, filename, file_type)
+                                                delete_compile_files(upload_path, filename, file_type)
                                                 Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
                                 out, err = p.communicate()
                                 out = out[:-2]
                         except:
-                                Delete_Compile_Files(upload_path, filename, file_type)
+                                delete_compile_files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return jsonify(status="Runtime Error"), 200
                 elif(file_type == "cpp"):
@@ -155,13 +155,13 @@ def submit (contest_id, team_id ,number, file_type):
                                                                 os.kill(pid, SIGTERM)
                                                         except OSError:
                                                                 pass
-                                                Delete_Compile_Files(upload_path, filename, file_type)
+                                                delete_compile_files(upload_path, filename, file_type)
                                                 Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
                                 out, err = p.communicate()
                         except:
-                                Delete_Compile_Files(upload_path, filename, file_type)
+                                delete_compile_files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return jsonify(status="Runtime Error"), 200
                 elif(file_type == "java"):
@@ -177,14 +177,14 @@ def submit (contest_id, team_id ,number, file_type):
                                                                 os.kill(pid, SIGTERM)
                                                         except OSError:
                                                                 pass
-                                                Delete_Compile_Files(upload_path, filename, file_type)
+                                                delete_compile_files(upload_path, filename, file_type)
                                                 Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
                                 out, err = p.communicate()
                                 out = out[:-2]
                         except:
-                                Delete_Compile_Files(upload_path, filename, file_type)
+                                delete_compile_files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return jsonify(status="Runtime Error"), 200
                         
@@ -196,15 +196,15 @@ def submit (contest_id, team_id ,number, file_type):
                 #print out, expected_out
                 
                 if(not expected_out == out):
-                        Delete_Compile_Files(upload_path, filename, file_type)
+                        delete_compile_files(upload_path, filename, file_type)
                         Update_Result(contest_id, team_id, number ,"Wrong Answer", False)
                         return jsonify(status="Wrong Answer In TestCase %s" %testcase[:-3]), 200
                 
-        Delete_Compile_Files(upload_path, filename, file_type)
+        delete_compile_files(upload_path, filename, file_type)
         Update_Result(contest_id, team_id, number ,"Accepted", True)
         return jsonify(status="Accepted"), 200
 
-def Delete_Compile_Files(upload_path, filename, file_type):
+def delete_compile_files(upload_path, filename, file_type):
         try:
                 try:
                         os.remove(os.path.join(upload_path, filename))
@@ -221,7 +221,7 @@ def Delete_Compile_Files(upload_path, filename, file_type):
 			os.remove( os.path.join(upload_path, filename[:-5]) + '.class' )
         except:
                 pass
-def Check_Restricted(upload_path, filename, file_type):
+def check_restricted(upload_path, filename, file_type):
         uploaded_code_file = open( os.path.join(upload_path, filename) , 'r' )
         uploaded_code = uploaded_code_file.read()
         uploaded_code_file.close()
@@ -265,7 +265,7 @@ def Update_Result(contest_id, team_id, problem_number ,status, solved):
                                 contest_obj.save()
                                 break
 
-def Get_Problem_TimeLimit(contest_id, problem_number):
+def get_problem_time_limit(contest_id, problem_number):
         contest_obj = Contest.objects().get(pk = contest_id)
         for problem in contest_obj.problems:
                 if( problem.id == problem_number ):
