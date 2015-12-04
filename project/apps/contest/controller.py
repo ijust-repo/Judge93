@@ -374,3 +374,12 @@ def contest_details(contest_id):
 		return jsonify(contests = final_list) , 200
 	except DoesNotExist:
 		return "" , 406
+
+
+@contest.route('<string:contest_id>/problems/', methods=['POST'])
+def contest_probmels_by_id (contest_id):
+	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+		return jsonify(contest_obj.to_json_problems()), 200
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406
