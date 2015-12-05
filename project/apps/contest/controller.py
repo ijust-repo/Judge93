@@ -301,6 +301,20 @@ def upload_tastecase (contest_id, number):
 
 	return "", 200
 
+
+@contest.route('pending_teams/<string:contest_id>/', methods=['GET'])
+def pending_teams (contest_id):
+	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+		pending =[]
+		for info in contest_obj.teams:
+			if (info.accepted == None):
+				pending.append(info.team.to_json())
+		return jsonify(teams = pending) , 200
+	except DoesNotExist:
+		return "" , 406
+
+
 @contest.route('<string:contest_id>/details/', methods=['GET'])
 def contest_details(contest_id):
 

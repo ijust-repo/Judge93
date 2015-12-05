@@ -166,7 +166,6 @@ def join_request():
 			team_members_with_owner = team_obj.members
 			team_members_with_owner.append(team_obj.owner)
 			for info in contest_obj.teams:
-				print info.accepted
 				if (team_obj == info.team):
 					return jsonify(errors = 'team already exists in contest!'), 409
 				contest_teams_members_with_owner = info.team.members
