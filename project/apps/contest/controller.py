@@ -410,8 +410,8 @@ def get_problem (contest_id, number):
 		return jsonify(errors="Contest does not exist!"), 406
 
 
-@contest.route('<string:contest_id>/accept_team/<string:team_id>/', methods=['PUT'])
-def accept (contest_id,team_id):
+@contest.route('<string:contest_id>/team/<string:team_id>/accepted/<bolean:acc_rej>/', methods=['PATCH'])
+def accepting_rejecting (contest_id,team_id,acc_rej):
 	try:
 		contest_obj = Contest.objects().get(pk=contest_id)
 
@@ -426,8 +426,10 @@ def accept (contest_id,team_id):
 				elif (info.accepted == False):
 					return jsonify (errors = "this team was rejected before!") , 409
 				else:
-					info.accepted = True
-					return "" , 201
+					if (acc_rej):
+						info.accepted = True
+					else:
+						info.accepted = False
 		team_obj.save()
 		return "" , 200
 	except DoesNotExist:
