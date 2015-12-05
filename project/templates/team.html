@@ -199,6 +199,42 @@
 			});
 		});
 	});
+	
+	//logout
+$("#logout").click(function() { 
+	
+  $.ajax({
+            type: "GET",
+            url : '/user/logout/',
+            dataType: "html",  				
+            success: function () {
+           	window.location.replace("/user/");
+            },
+          error: function (request, status, error) { 
+			  if(request.status===405){    
+					alert("Please login first"); 
+				}            
+            }
+            
+    });
+  });
+ 
+
+
+// back to profile
+$("#backtoprofile").click(function() { 
+	 $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 				
+            success: function (data) {
+				var userlogin=(JSON.parse(data)).username; 
+				window.location.replace("/user/"+userlogin+"/");         				
+            },
+           error: function (request) {                
+				alert("this user not found");	      	      		
+      		}
+		});
 </script>
 </html>
 

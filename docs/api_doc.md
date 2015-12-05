@@ -643,7 +643,7 @@ Add problem to contest
 
 Resource URL
 >post
-> **/```string:contest_id```/problem/**
+> **/contest/```string:contest_id```/problem/**
 
 Resource Information
 >|Response formats|Requires authentication?|
