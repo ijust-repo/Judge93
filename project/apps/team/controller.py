@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+<<<<<<< HEAD
 __author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini","SALAR"]
+=======
+__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini", 'AminHP']
+>>>>>>> upstream/master
 
 #flask import
 from flask import jsonify, request, render_template
@@ -154,6 +158,7 @@ def get_team_member(team_id):
 	except DoesNotExist:
 		return jsonify(errors='Team does not exist!'), 406
 
+<<<<<<< HEAD
 @team.route('join_request/', methods=['POST'])
 def join_request():
 	form = JoinRequest.from_json(request.json)
@@ -183,4 +188,21 @@ def join_request():
 
 		except DoesNotExist:
 			return "" , 406
+=======
+
+@team.route('<string:team_id>/member/<string:member_id>/', methods=['DELETE'])
+def member_member(team_id, member_id):
+	try:
+		team = Team.objects().get(pk=team_id)
+		if logged_in_user() != team.owner.username:
+			return jsonify(errors="User is not owner"), 403
+
+		member = User.objects().get(pk=member_id)
+		team.update(pull__members=member)
+		team.save()
+
+		return "", 200
+	except DoesNotExist:
+		return jsonify(errors='Team or member does not exist!'), 406
+>>>>>>> upstream/master
 
