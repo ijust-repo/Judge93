@@ -117,7 +117,7 @@ def change_team_name(team_id):
 		new_name = form.data['new_name']
 		try:
 			obj = Team.objects().get(pk=team_id)
-			if obj.owner== logged_in_user():
+			if obj.owner.username == logged_in_user():
 				obj.name = new_name
 				obj.save()
 				return "" , 200

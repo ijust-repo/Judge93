@@ -59,9 +59,10 @@
 	</div>
 </div>
 <div class="col-xs-offset-3 col-md-offset-2 row">
-	<div  class="contents  col-lg-9 " id="teamPage">
+	<div  class="contents col-lg-9" id="teamPage">
 
 	</div>
+	<div  class="contents col-lg-9" id="loneTeamPage"></div>
 </div>
 <div id="createTeam" class="form-dialog">
 	<div id="teamForm">
@@ -91,7 +92,123 @@
 </body>
 
 <script>
+	$backToTeamPage = function(){
+		$("#loneTeamPage").slideUp(500);
+		setTimeout(function(){ $("#teamPage").slideDown(1000); }, 700);
+	};
+	$editTeam = function(){
+		if ($("#editTeamButton").html() == 'Edit')
+		{
+			$('.editable').each(function(){
+				$("#editTeamButton").data("teamName", $(this).html());
+				$(this).replaceWith($('<input class="' + $(this).attr('class') + '" value="' + $(this).html() + '" >'));
+			});
+			var counter = 0;
+			$('.removable').each(function(){
+				if (counter == 0)
+				{
+					$(this).data("member", $(this).html());
+				}
+				else
+				{
+					$(this).data("member", $(this).html());
+				}
+				if ($(this).html() != "")
+				{
+					$(this).html($(this).html() + '<label class="clickable-label">(remove)</label>');
+				}
+				counter = 1;
+			});
+			counter = 0;
+			$('.addable').each(function(){
+				$(this).replaceWith($('<input class="' + $(this).attr('class') + '" value="' + $(this).html() + '" >'));
+			});
+			$("#editTeamButton").html('Submit');
+			$(".clickable-label").click(function(){
+				$(this).closest("p").html("");
+			});
+		}
+		else
+		{
+			counter = 0;
+			$('.removable').each(function(){
+				if (counter == 0)
+				{
+					if ($(this).html() == "" && $(this).data("member") != "")
+					{
+						alert($(this).data("member") + ' removed');
+						$(this).addClass('addable').removeClass('removable');
+					}
+					else
+					{
+						$(this).html($(this).data("member"));
+					}
+				}
+				else
+				{
+					if ($(this).html() == "" && $(this).data("member") != "")
+					{
+						alert($(this).data("member") + ' removed');
+						$(this).addClass('addable').removeClass('removable');
+					}
+					else
+					{
+						$(this).html($(this).data("member"));
+					}
+				}
+				counter = 1;
+			});
+			counter = 0;
+			$('.addable').each(function(){
+				var myData;
+				if ($(this).val() != "") {
+					$obj = $(this);
+					myData = {"name": $("#editTeamButton").data("teamName"), "members": [$(this).val()]};
+					$.ajax({
+						type: "POST",
+						url: '/team/members/',
+						dataType: "html",
+						contentType: "application/json",
+						data: JSON.stringify(myData),
+						success: function (data) {
+							$obj.replaceWith($('<p class="removable">' + $obj.val() + '</p>'));
+							alert($obj.val() + " added");
+						},
+						error: function (request, status, error) {
+							alert(error + request + status);
+						}
+					});
+				}
+				else {
+					$(this).replaceWith($('<p class="' + $(this).attr('class') + '">' + $(this).val() + '</p>'));
+				}
+			});
+			$('.editable').each(function(){
+				if ($(this).val() != $("#editTeamButton").data("teamName"))
+				{
+					var new_name = $(this).val();
+					var myUrl = '/team/change_name/' + $('.idTeam').val() + '/';
+					$.ajax({
+						type: "PUT",
+						url: myUrl,
+						dataType: "html",
+						contentType: "application/json",
+						data: '{"new_name": "' + new_name +'"}',
+						success: function(data){
+							alert($("#editTeamButton").data("teamName") + " changed");
+						},
+						error: function (request, status, error){
+							alert(error + request + status);
+						}
+					});
+				}
+				$(this).replaceWith($('<p class="' + $(this).attr('class') + '">' + $(this).val() + '</p>'));
+			});
+			$("#editTeamButton").html('Edit');
+		}
+	};
 	$(document).ready(function () {
+		$("#loneTeamPage").hide();
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$("#logout").click(function() {
 			$.ajax({
@@ -111,7 +228,6 @@
 		});
 		$('#team').css('background-color', '#355C7D');
 		$.ajax({
-
 			type: "GET",
 			url : '/user/get_profile/',
 			dataType: "html",
@@ -131,30 +247,47 @@
 							{
 								if ($myDataTeam[counter].owner.id == $myId)
 								{
-									$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '<label>(remove)</label></p><p>' + $myDataTeam[counter].members[1].username + '<label>(remove)</label></p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p class="removable">' + $myDataTeam[counter].members[0].username + '</p><p class="removable">' + $myDataTeam[counter].members[1].username + '</p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input class="is-admin" type="hidden" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
 								}
 								else
 								{
-									$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '</p><p>' + $myDataTeam[counter].members[1].username + '</p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '</p><p>' + $myDataTeam[counter].members[1].username + '</p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input type="hidden" value="0"></div>';
 								}
 							}
 							else if ($myDataTeam[counter]["members"].length == 1)
 							{
 								if ($myDataTeam[counter].owner.id == $myId)
 								{
-									$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '<label>(remove)</label></p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p class="removable">' + $myDataTeam[counter].members[0].username + '</p><p class="addable"></p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input class="is-admin" type="hidden" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
 								}
 								else
 								{
-									$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '</p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p>' + $myDataTeam[counter].members[0].username + '</p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input type="hidden" value="0"></div>';
 								}
 							}
 							else
 							{
-								$myHtml = '<div class="open-page info-team"><div class="header-team"><div>' + $myDataTeam[counter].name  + '</div></div><div class="body-team"><div class="sector-block-team"><div>Users :</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p></div><div class="sector-block-team"><a href="#">Contest :</a> <p>' + $myDataTeam[counter].contests + '</p></div></div></div>';
+								$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p class="addable"></p><p class="addable"></p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input type="hidden" class="is-admin" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
 							}
 							$("#teamPage").append($myHtml);
 						}
+						$(".info-team").click(function(){
+							if ($(this).find("input.is-admin").val() == '1')
+							{
+								var addHtml = '<div class="open-page info-team2"><div class="row header-team"><div class="col-sm-3"><button onclick="$backToTeamPage();" class="hover-button">Back</button></div><div class="col-sm-6"><div><p class="editable">' + $(this).closest("div").find(".sector-block-team-middle").html() + '</p></div></div><div class="col-sm-3"><button id="editTeamButton" onclick="$editTeam();" class="hover-button">Edit</button></div></div><div class="body-team">';
+							}
+							else
+							{
+								var addHtml = '<div class="open-page info-team2"><div class="row header-team"><div class="col-sm-3"><button onclick="$backToTeamPage();" class="hover-button">Back</button></div><div class="col-sm-6">' + $(this).closest("div").find(".sector-block-team-middle").html() + '</div><div class="col-sm-3"></div></div><div class="body-team">';
+							}
+							$(this).find(".sector-block-team").each(function(){
+								addHtml += '<div class="sector-block-team2">' + $(this).html() + '</div>';
+							});
+							addHtml += '<input type="hidden" class="idTeam" value="' + $(this).find("input.id-team").val() + '"></div></div>';
+							$("#teamPage").slideUp(1000);
+							setTimeout(function(){ $("#loneTeamPage").html(addHtml).slideDown(500); }, 1200);
+
+						});
 					},
 					error: function (request, status, error) {
 						if(request.status===405){
@@ -167,6 +300,7 @@
 			error: function(request, status, error) {
 
 			}
+
 		});
 		$('#submitCreateTeam').click(function(){
 			var teamName = $("#teamName").val();
@@ -191,7 +325,12 @@
 				contentType: "application/json",
 				data: JSON.stringify(myData),
 				success: function(data){
+					$("#teamName").val("");
+					$("#member1").val("");
+					$("#member2").val("");
+					$("#submitCreateTeam").hide();
 					$("#ifSuccessfully").html("Your team successfully created.");
+					setTimeout(function(){ window.location = "/user/team/"; }, 1000);
 				},
 				error: function (request, status, error){
 					alert(status);
