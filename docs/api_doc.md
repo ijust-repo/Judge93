@@ -532,6 +532,32 @@ Example Request
 
 -------
 
+Remove members from team
+===============
+
+Resource URL
+>DELETE
+**/team/```string:team_id```/member/```string:member_id```/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+Example Request
+```
+team/5662c01a7431e90c36c8bd26/member/56s2bf4e743sd90b4ecc985e/
+```
+
+> **Note:**
+
+>- `team_id` is the Id of the team in database.
+>- `member_id` is the Id of the member in database.
+>- If response status code is **200** then member removed from team successfully.
+>- If response status code is **406** then team does not exists.
+>- If response status code is **403** the user is not owner of the team.
+
+-------
 
 
 GetMembers
