@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini"]
+__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini", 'AminHP']
 
 #flask import
 from flask import jsonify, request, render_template
