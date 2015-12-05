@@ -2,7 +2,7 @@ __author__ = 'F4RZ4N'
 
 python_methods_blacklist = ['eval' , 'exec', 'open', 'file', 'sys', 
                             'subprocess', 'os', 'shutil', 'execfile', 'compile'
-                            'reload', ]
+                            'reload' ]
 
 
 java_methods_blacklist = ['Runtime', 'PrintWriter' ,'Process', 'SystemUtils',

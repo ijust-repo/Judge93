@@ -743,6 +743,7 @@ Example Request
 >- If there is new starts_on and new starts_on is biger than created_on then status code will be **406** and there will be errors like **'Start date must be later than creation time!!'** . 
 >- If the logged in user is not the owner of contest, status code will be **403** and there will be errors like **'User is not owner!'**
 >- If there is new name and this name already exists, the status code will be **409** and there will be errors like **'Contest with this name already exists!'** .
+>- If contest is already started, it can not be edited and there will be errors with editing it like **'Contest can not be edited at this time!'** and response status code will be **406**.
 >- If none of errors above occurs, the status code will be 200 .
 
 --------
@@ -1066,10 +1067,11 @@ Resource Information
 
 > **NOTE:**
 >- If response status code is **200** then the file is whether accepted or the submission progress has encountered an error. Error type will be returned as response's status.
->. ErrorTypes ==> Wrong Answer, Compile Error, Runtime Error, Restricted Function
+>- ErrorTypes ==> Wrong Answer, Compile Error, Runtime Error, Restricted Function, Time Exceeded
 >- If the sender is not a team member, response status code will be **406** and you will have errors like "You are not a member of this team".
 >- If contest_id does not exist in data base response status code will be **406** and you will have errors like "Contest does not exist!".
 >- If team_id does not exist in data base response status code will be **406** and you will have errors like "Team does not exist!".
+>. Files can only be submitted during the contest time otherwise response status code will be **406** and you will have errors like "Contest is not stated yet!" or "Contest is finished".
 >- If number is bigger than number of problems or it is lower than 1 the response status code will be **406** and you have errors like "Invalid problem number!".
 >- The file_type should be **py** ,**cpp** or **java** otherwise the response status code will be **406** and there will be errors like "Extension Error".
 
@@ -1124,11 +1126,12 @@ Example Response
 >- If everything goes well, response status code is **200**.
 >- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
 >- If the requested prolem does not exist in data base, status code will be **406** and you will have errors like  **'Problem does not exist!' ** .
+>- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
 
 --------
 
 
-All contest problem
+All contest problems
 ===============
 
 Resource URL
@@ -1175,5 +1178,6 @@ Example Response
 > **NOTE:**
 >- If everything goes well, response status code is **200**.
 >- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
+>- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
 
 --------
