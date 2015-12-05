@@ -136,7 +136,7 @@ def edit(contest_id):
 	if starts_on and ends_on:
 		if (starts_on > ends_on) :
 			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be earlier than end date!'))
-			return jsonify(errors=form.errors), 406
+			return jsonify(errors=main_form.errors), 406
 		if contest_obj.created_on > datetime.fromtimestamp(starts_on) :
 			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be later than creation time!'))
 			return jsonify(errors=main_form.errors), 406
@@ -409,3 +409,26 @@ def get_problem (contest_id, number):
 	except DoesNotExist:
 		return jsonify(errors="Contest does not exist!"), 406
 
+
+@contest.route('<string:contest_id>/accept_team/<string:team_id>/', methods=['PUT'])
+def accept (contest_id,team_id):
+	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+
+		if logged_in_user() != contest_obj.owner.username:
+			return jsonify(errors="User is not owner"), 403
+
+		team_obj = Team.objects().get(pk=team_id)
+		for info in contest_obj.teams:
+			if (Info.team == team_obj):
+				if (info.accepted == True):
+					return jsonify(errors = "this team was accepted before!") , 409
+				elif (info.accepted == False):
+					return jsonify (errors = "this team was rejected before!") , 409
+				else:
+					info.accepted = True
+					return "" , 201
+		team_obj.save()
+		return "" , 200
+	except DoesNotExist:
+		return jsonify(errors='Team or Contest does not exist!'), 406
