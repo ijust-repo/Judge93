@@ -301,27 +301,6 @@ def upload_tastecase (contest_id, number):
 
 	return "", 200
 
-
-@contest.route('<string:contest_id>/add_team/<string:team_id>/', methods=['POST'])
-def add_team (contest_id,team_id):
-  try:
-    team_obj = Team.objects().get(pk=team_id)
-    contest_obj = Contest.objects().get(pk=contest_id)
-    for info in contest_obj.teams:
-      if (team_obj == info.team):
-        return jsonify(errors = 'team already exists!'), 409
-
-    team_info = TeamInfo (team = team_obj)
-    team_info.accepted = False
-    team_info.id = len (contest_obj.teams) + 1
-    lst = contest_obj.teams
-    lst.append(team_info)
-    contest_obj.teams = lst
-    contest_obj.save()
-    return "" , 200
-  except DoesNotExist:
-    return "" , 406
-
 @contest.route('<string:contest_id>/details/', methods=['GET'])
 def contest_details(contest_id):
 
@@ -404,3 +383,4 @@ def get_problem (contest_id, number):
 
 	except DoesNotExist:
 		return jsonify(errors="Contest does not exist!"), 406
+
