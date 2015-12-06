@@ -7,7 +7,7 @@
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
-
+    <script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>	
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
@@ -21,23 +21,14 @@
 		<li class=" usernameitem " id="usernameitem">
 			<a ><h4 id="getusername" class="leftmenuitem"></h4></a>
 			<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
-		</li>	
-		
-		<li  id="contestname" class="contestmenu" style="display:none" >
-			
-		 	<a  ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests name</h4></a>
-		</li>
-		<li  id="contestteam" class="contestmenu" style="display:none" >
-			
-		 	<a ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests team</h4></a>
-		</li>
+		</li>			
 		<li  id="contest"  >
 			
-		 	<a href="/user/contest/" ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests</h4></a>
+		 	<a href="#" ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests</h4></a>
 		</li>
 		
 		<li  id="team"  >
-		 	<a href="/user/team/"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
+		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
 		</li>
 		
 		<li  id="users"  >
@@ -51,34 +42,34 @@
 		<li  id="logout"   >
 		 	<a href="#logout"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
 		</li>
-		<li  id="backtoprofile" style="display:none" >
-		 	<a href="/user/home/"><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
+		<li  id="backtoprofile" class="backtoprofile" style="display:none" >
+		 	<a ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
 		</li>
 
 	</ul>
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="contestleftmenu" style="display:none">
 		
 		<li class=" usernameitem " id="contestnameitem">
-			<a ><h4 id="getcontestname" class="leftmenuitem">contest name</h4></a>
+			<a ><h4 id="getcontestname" class="leftmenuitem"></h4></a>
 			<h4 id="getidcontest" style="display:none"></h4>
 		</li>	
 		
 		<li  id="questions" class=" usernameitem " >
 			
-		 	<a  ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Questions</h4></a>
+		 	<a href="#questions" ><h4 class="leftmenuitem"><i  class="fa fa-code" style="width:20px; height:20px;"> </i> Questions</h4></a>
 		</li>
 		
 		<li  id="rank"  >
 			
-		 	<a  ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Rank list</h4></a>
+		 	<a ><h4 class="leftmenuitem"><i  class="fa fa-area-chart" style="width:20px; height:20px;"> </i> Rank list</h4></a>
 		</li>
 		
-		<li  id="team"  >
-		 	<a ><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
+		<li  id="contestteam"  style="display:none">
+		 	<a href="#teams"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
 		</li>
 		
-		<li  id="backtoprofile"  >
-		 	<a href="#back" ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
+		<li  id="backtoprofile" class="backtoprofile" >
+		 	<a href="#back" ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i> Back to profile</h4></a>
 		</li>
 
 	</ul>
@@ -99,57 +90,262 @@
             </form>
         </div>
     </div>
-
-    <div class="col-xs-offset-3 col-md-offset-2 row">
-		<div class="col-xs-12 col-md-12 maintitr">
-			<p id="titlePage">Contests</p>
-			<div><a href="#createContest"><button class="hover-button close-page">Create Contest</button></a></div>
-		</div>
+    
+<div class="col-xs-offset-3 col-md-offset-2 row">
+	<div class="col-xs-9 col-md-10 maintitr">
+		<p id="titlePage">Contests</p>
+		<div id="createcontestdiv" ><a href="#createContest"><button class="hover-button close-page">Create  Contest</button></a></div>
+		<div id="addproblemdiv" style="display:none"><a href="#addProblem"><button id="addproblembtn" class="hover-button close-page">Add problem</button></a></div>
 	</div>
+</div>
+   
 	<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents  " >
-				<div id="contestinfoforusers"class="CSSTableGenerator" >
+				<div id="contestinfoforusers"class="CSSTableGenerator" >					
+					<table id="contestinfo">
+					   <tr>
+						   <td style="display:none"> id </td>
+						   <td > Name </td>
+						   <td > Sart on </td>
+						   <td> End on </td>
+						   <td > Your team</td>
+						   <td > Your rank</td>					     
+						</tr>
+					</table>
+                </div>
+                <div id="contestinformation" class="CSSTableGenerator" style="display:none">
+					<input type="button" id="editcontestbtn" class="btn btn-primary" value="edit" style="display:none"/>
+				</div>            
+                <div id="contestquestions" class="CSSTableGenerator" style="display:none">
+					<table id="contestquestionslist">
+					   <tr>
+						   <td > id </td>
+						   <td > Number</td>
+						   <td > Title </td>							 
+						</tr>
+					</table>
+				</div>
+				<div id="contestaddquestions" style="display:none; margin:3%;">
+					Problem details:
+					<hr>
+					 <label class="labelcss" for="problemtitle">Title: </label>
+					 <input type="text" name="problemtitle" id="problemtitle" style="width:85%"/><br>
+					 <div class="row"> 
+					 <label class="labelcss" for="problemtimelimit">Time limit: </label>
+					 <input type="text" name="problemtimelimit" id="problemtimelimit" style="margin-right:3%; width:35.5%"/>
+					 <label class="labelcss" for="problemspacelimit">Space limit: </label>
+					 <input type="text" name="problemspacelimit" id="problemspacelimit" style="width:35.5%"/><br>
+					 </div>
+					 <label class="labelcss" for="problemheader">Header: </label>
+					 <textarea class="textareacss" name="problemheader"  id="problemheader"></textarea><br>
+					 <label class="labelcss" for="problembody">Body: </label>
+					 <textarea class="textareacss" name="problembody" id="problembody" ></textarea><br>
+					 <label class="labelcss" for="problembody">Footer: </label>
+					 <textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
+					 <hr>
+					  
+				    Testcase example:
 					
-			<table id="contestinfo">
+					 <div class="testcase" id="problemtestcase">
+						 <hr>
+					 <label class="labelcss" for="problemtestcaseinput">Input: </label>
+					 <textarea class="textareacss" name="problemtestcaseinput" id="problemtestcaseinput" ></textarea><br>
+					 <label class="labelcss" for="problemtestcaseoutput">Output: </label>
+					 <textarea class="textareacss" name="problemtestcaseoutput" id="problemtestcaseoutput" ></textarea><br>
+					 </div>
+					  <a href="#" id="addtestcaseexample" ><i class="fa fa-plus-square-o" style="font-size:24px"></i></a><br>
+					 <input type="button" name="addproblemsubmitbtn" id="addproblemsubmitbtn" class="btn btn-primary "value="Add" /><br>        
+				</div>
+				<div id="contestquestion" class="CSSTableGenerator" style="display:none">
+				
+				</div>
+				<div id="contestrank" class="CSSTableGenerator" style="display:none">
+				<table id="contestranklist">
                    <tr>
 					   <td style="display:none"> id </td>
-					   <td > Name </td>
-
-					   <td > Sart on </td>
-					    <td> End on </td>
-					    <td > Your team</td>
-					    <td > Your rank</td>
+					   <td > Team name</td>
+					   <td >Q1 </td>
+					   <td> Q2 </td>
 					     
 					</tr>
                 </table>
-                </div>
-                <div id="contestquestions" class="questions">
-				
-				</div>
-				<div id="contestquestion" class="question">
-				
-				</div>
-				<div id="contestrank" class="rank">
-				
 				</div>
 				<div id="contestteam" class="team">
 				
-				</div>
-					 
-	    </div>
-   	</div>
-   
-
+				</div>					 
+	    </div>	  
+   	</div>  
 </body>
-
-
-
 <script>
-	$(document).ready(function () {
+	var problemnumber=0;
+	var canedit="no";
+	var contestid =null;
+	var contestname=null;
+	var loc = window.location;
+	
+    if(loc.pathname==="/contest/"){
+		
+	}
+	function checkifadmin(username){
+		 $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 				
+            success: function (data) {
+				var userlogin=(JSON.parse(data)).username;
+           if(username===userlogin){
+           document.getElementById('contestteam').style.display = 'block';	
+           document.getElementById('editcontestbtn').style.display = 'block';
+			canedit="yes";
+			}
+           else{
+			  //changeprofile(username);
+			   
+			   }				
+            },
+           error: function (request) {                
+				alert("this user not found");	      	      		
+      		}
+		
+		});
+	}
+	//change profile
+	function changeprofile(username){
+			document.title = username;
+			document.getElementById('backtoprofile').style.display = 'block';
+			document.getElementById('logout').style.display = 'none';
+			document.getElementById('users').style.display = 'none';
+			document.getElementById('setting').style.display = 'none';			
+			document.getElementById('createcontestdiv').style.display = 'none';		
+					 
+}
+	function checkprofile(username){
+		 $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 				
+            success: function (data) {
+				var userlogin=(JSON.parse(data)).username;
+           if(username===userlogin){
+          /* document.getElementById('info').style.display = 'none';*/	}
+           else{
+			  changeprofile(username);
+			   
+			   }				
+            },
+           error: function (request) {                
+				alert("this user not found");	      	      		
+      		}
+		
+		});
+	}
+	function changecontestpage(contestname){		
+		document.title = contestname;
+		$( '#getcontestname ' ).html(contestname);
+		document.getElementById('contestleftmenu').style.display = 'block';
+		document.getElementById('contestinformation').style.display = 'block';
+		document.getElementById('leftmenu').style.display = 'none';
+		document.getElementById('contestinfoforusers').style.display = 'none';
+		document.getElementById('createcontestdiv').style.display = 'none';
+		document.getElementById('titlePage').innerHTML="Details" ;
+		$('#questions').css('background-color', '#1B325F');
+		$('#rank').css('background-color', '#1B325F');
+		$('#team').css('background-color', '#1B325F');
+		$('#backtoprofile').css('background-color', '#1B325F');
+		
+							
+		}
+	function getAbsolutePath() {
+    
+    var pathName = loc.pathname.substring(0, 9);
+    return pathName;
+}
+	//show contest menu
+	if(getAbsolutePath()==="/contest/"){
+	  contestid = '{{contest_id }}';
+	 $( '#getidcontest ' ).html(contestid);	
+	  $.ajax({
+            type: "GET",
+            url : "/contest/by_id/"+contestid+"/",
+            dataType: "html", 				
+            success: function (data) {
+				$('#contestinformation').append(data);
+				 contestname=(JSON.parse(data)).name;
+				var contestadmin=(JSON.parse(data)).owner.username;
+				checkifadmin(contestadmin);
+				 changecontestpage(contestname);				
+            },
+           error: function (request) {                
+				alert("this contest not found");	      	      		
+      		}
+		}); 
+		 	
+	}
+	else{
+		var id = '{{user_id }}'; 
+		 $.ajax({
+            type: "GET",
+            url : "/user/get_profile/by_id/"+id+"/",
+            dataType: "html", 				
+            success: function (data) {
+				var username=(JSON.parse(data)).username;
+				checkprofile(username);
+				$( '#getusername ' ).html(username);
+				$( '#getidprof ' ).html(id);
+
+				$("#team").click(function() {
+					window.location.replace("/user/"+username+"/team/");
+				});
+            },
+           error: function (request) {                
+				alert("this user not found");	      	      		
+      		}
+		});
  $('#contest').css('background-color', '#355C7D');
+ }
 
-  //show contest
-
+//show question list
+$("#questions").click(function() { 
+	document.getElementById('titlePage').innerHTML="Problems" ;
+	document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('contestinformation').style.display = 'none';
+	document.getElementById('contestquestions').style.display = 'block';
+	document.getElementById('contestquestion').style.display = 'none';
+	document.getElementById('contestrank').style.display = 'none';	
+	document.getElementById('contestaddquestions').style.display = 'none';
+	 $('#contestteam').css('background-color', '#1B325F');
+	 $('#questions').css('background-color', '#355C7D');
+	 if (canedit==="yes"){
+		 document.getElementById('addproblemdiv').style.display = 'block';
+		
+	 }
+  $.ajax({
+            type: "GET",
+            url :"/contest/"+contestid+"/problems/",
+            dataType: "html",  				
+            success: function (data) {
+				//alert(data);
+           	var data=(JSON.parse(data)).problems;
+				 var tr;
+				 problemnumber=data.length;
+			for (var i = 0; i < data.length; i++) {
+				tr = $('<tr/>');
+				tr.append('<td>' + data[i].id + "</td>");
+				tr.append("<td>" + data[i].order + "</td>");
+				tr.append("<td>" + data[i].title + "</td>");
+				//tr.append("<td>" + data[i].contests.ends_on + "</td>");
+				//tr.append("<td>" + data[i].name + "</td>");
+				$('#contestquestionslist').append(tr);
+			}
+            },
+          error: function (request, status, error) { 
+			  if(request.status===406){    
+					alert("Contest does not exists"); 
+			   }            
+           }   
+    });
+ });
+ //show contest of user
   function getidprofile(id){    		   		
   $.ajax({
             type: "GET",
@@ -174,25 +370,6 @@
       		}
 		});
   } 
-  
-  //end show contest 
-   //show username	      		   		
-  $.ajax({
-            type: "GET",
-            url : '/user/get_profile/',
-            dataType: "html", 				
-            success: function (data) {	
-           $( '#getusername ' ).html((JSON.parse(data)).username);
-           getidprofile((JSON.parse(data)).id); 
-           $( '#getidprof ' ).html((JSON.parse(data)).id);  				
-            },
-           error: function (request) {                
-				alert("this user not found");	      	      		
-      		}
-		});
-		
-//end show username
-
  
   function addRowHandlers() {
     var table = document.getElementById("tableId");
@@ -213,8 +390,7 @@
     }
 }
 
-
-
+$(document).ready(function () {
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#create_contest_button').click(function() {
 			var name = $("input#contest_name").val();
@@ -250,8 +426,107 @@
 		});
 	});
 
+ //logout
+$("#logout").click(function() { 
+	
+  $.ajax({
+            type: "GET",
+            url : '/user/logout/',
+            dataType: "html",  				
+            success: function () {
+           	window.location.replace("/user/");
+            },
+          error: function (request, status, error) { 
+			  if(request.status===405){    
+					alert("Please login first"); 
+				}            
+            }
+            
+    });
+  });
  
+// back to profile
+$(".backtoprofile").click(function() { 
+	 $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 				
+            success: function (data) {
+				var userlogin=(JSON.parse(data)).username; 
+				window.location.replace("/user/"+userlogin+"/");         				
+            },
+           error: function (request) {                
+				window.location.replace("/user/");  	      	      		
+      		}
+		});
+		});
 
+//add problem
+$("#addproblembtn").click(function() { 
+	document.getElementById('titlePage').innerHTML="Add Problems" ;
+	document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('contestinformation').style.display = 'none';
+	document.getElementById('contestquestions').style.display = 'none';
+	document.getElementById('contestaddquestions').style.display = 'block';
+	document.getElementById('contestquestion').style.display = 'none';
+	document.getElementById('contestrank').style.display = 'none';	
+	 $('#contestteam').css('background-color', '#1B325F');
+	 $('#questions').css('background-color', '#355C7D');	
+});
+$("#addproblemsubmitbtn").click(function() { 
+	var problemtitle = $("#problemtitle").val();
+	var problemtimelimit = $("#problemtimelimit").val();
+	var problemspacelimit = $("#problemspacelimit").val();
+	var problemheader = $("#problemheader").val();
+	var problembody = $("#problembody").val();
+	var problemfooter = $("#problemfooter").val(); 
+	var problemtestcaseinput = $("#problemtestcaseinput").val();  
+	var problemtestcaseoutput = $("#problemtestcaseoutput").val();  
+
+  $.ajax({
+            type: "POST",
+            url : "/contest/"+contestid+"/problem/",
+           contentType: "application/json",
+            dataType: "html",			
+            data: '{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}',
+            success: function (data) {
+                alert("add problem successfully");
+                window.location.replace("/contest/"+contestname+"/");
+            },
+            error: function (request, status, error) {
+                    
+      		 if (request.status===500) 
+             {
+					alert("The admin not found , please login first");             
+             } 	
+				else if (request.status===403) 
+             {
+					alert("Sorry, only admin can add a problem");             
+             }
+             else if (request.status===406) 
+             {
+					alert("Please fill in all fields");             
+             }
+              
+
+            }
+              });
+  $("#problemtitle").val('');
+  $("#problemtimelimit").val('');
+  $("#problemspacelimit").val('');
+  $("#problemheader").val('');
+  $("#problembody").val('');
+  $("#problemfooter").val(''); 
+  $("#problemtestcaseinput").val('');  
+  $("#problemtestcaseoutput").val('');  
+
+});	
+$("#addtestcaseexample").click(function() { 
+	var container = document.getElementById('contestaddquestions');
+	var clonedDiv = $('#problemtestcase').clone();
+	clonedDiv.attr("id", "problemtestcase1");
+	$('#problemtestcase1').after(cloneDiv);
+});
 
 </script>
 </html>

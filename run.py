@@ -21,6 +21,7 @@ def run_test():
 
 
 	def authenticate():
+		print request.endpoint
 		if not request.endpoint:
 			return "ERROR 404", 404
 		without_login_url_list = ('static', 'user.user_page', 'user.login', 'user.exists', 'user.signup')

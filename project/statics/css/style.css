@@ -9,7 +9,9 @@ a
 {
     text-decoration: none !important;
 }
-
+.labelcss{
+width: 10% ;
+}
 .shadow
 {
 -webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .20);        
@@ -25,6 +27,23 @@ a
  	 margin: 8px ;
  	 
  	}
+ .textareacss {
+	width: 85%;
+	height:100px;
+	margin-top:20px;
+	padding-left: 10px;
+	  -webkit-border-radius: 0px 4px 4px 0px/5px 5px 4px 4px; 
+  -moz-border-radius: 0px 4px 4px 0px/0px 0px 4px 4px; 
+  border-radius: 4px; 
+  background-color: #fff; 
+  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  border: solid 1px #cbc9c9;
+  resize:none;
+    overflow: auto;
+}
+
 body,
 input,
 textarea,
@@ -625,6 +644,13 @@ width:170px;
   p,.btn,input,div,span,h4 {
     font-size: 15px;
   }
+  input[type=text]{
+  width:100px;
+  }
+  .labelcss{
+  font-size: 5px;
+
+  }
     .maintitr{
 padding-top: 7px;
 padding-left: 18px;
@@ -649,8 +675,18 @@ padding: 12px;
 }
 
 @media screen and (max-width: 768px) {
-    p, .btn, input, div, span, h4 {
+    /*****************************slideshow*************************/
+    p, .btn, input, div, span, h4, label {
         font-size: 14px;
+    }
+
+    input[type=text] {
+        width: 150px;
+    }
+
+    .labelcss {
+        font-size: 11px;
+
     }
 
     .maintitr {
@@ -675,6 +711,6 @@ padding: 12px;
         font-size: 4px;
     }
 }
-/*****************************slideshow*************************/
+/******************************slideshow*************************/
 
 /******************************slideshow*************************/

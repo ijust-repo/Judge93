@@ -2,3 +2,6 @@
 *~
 .idea
 mini_postman/testcase.txt
+*.in
+*.out
+project/contests/

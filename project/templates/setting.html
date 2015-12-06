@@ -18,10 +18,7 @@
 		<li class=" usernameitem " id="usernameitem">
 			<a href="/user/home/"><h4 id="getusername" class="leftmenuitem"></h4></a>
 		</li>	
-		<li class=" usernameitem " id="usernameprofitem" style="display:none">
-			<h4 id="getusernameprof" class="leftmenuitem">></h4>
-			<h4 id="getidprof" style="display:none"></h4>
-		</li>
+
 		
 		<li  id="contest"  >
 			
@@ -43,9 +40,7 @@
 		<li  id="logout"   >
 		 	<a href="#logout"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
 		</li>
-		<li  id="backtoprofile" style="display:none" >
-		 	<a href="/user/home/"><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
-		</li>
+		
 
 	</ul>
 
@@ -181,6 +176,25 @@
   });
 
      });
+     
+      //logout
+$("#logout").click(function() { 
+	
+  $.ajax({
+            type: "GET",
+            url : '/user/logout/',
+            dataType: "html",  				
+            success: function () {
+           	window.location.replace("/user/");
+            },
+          error: function (request, status, error) { 
+			  if(request.status===405){    
+					alert("Please login first"); 
+				}            
+            }
+            
+    });
+  });
      
 </script>
 </html>

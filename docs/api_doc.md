@@ -52,6 +52,49 @@ Resource Information
 
 -------
 
+
+View user team page
+===================
+
+Resource URL
+>GET
+> **'/user/```string:Username```/team/'**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template and the id of the user in database as user_id.
+>- Username is the username of the user.
+
+-------
+
+View user contest page
+===================
+
+Resource URL
+>GET
+> **'/user/```string:Username```/contest/'**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template and the id of the user in database as user_id.
+>- Username is the username of the user.
+
+-------
+
+
+
 Checking user existance
 =======================
 
@@ -369,11 +412,11 @@ Team API
 
 
 View team page
-===============
+==============
 
 Resource URL
->GET
-> **/team/**
+>GET > 
+> **/team/```string:team_name```/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -383,9 +426,12 @@ Resource Information
 
 > **NOTE:**
 >
->- This url returns a html template.
+>- This url returns a html template and the id of the team in database as team_id.
+>- team_name is the name of the team.
+>- If response status code is **406** then the team does not exists.
 
 -------
+
 
 Creating new team
 =================
@@ -486,6 +532,32 @@ Example Request
 
 -------
 
+Remove members from team
+===============
+
+Resource URL
+>DELETE
+**/team/```string:team_id```/member/```string:member_id```/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+Example Request
+```
+team/5662c01a7431e90c36c8bd26/member/56s2bf4e743sd90b4ecc985e/
+```
+
+> **Note:**
+
+>- `team_id` is the Id of the team in database.
+>- `member_id` is the Id of the member in database.
+>- If response status code is **200** then member removed from team successfully.
+>- If response status code is **406** then team does not exists.
+>- If response status code is **403** the user is not owner of the team.
+
+-------
 
 
 GetMembers
@@ -535,6 +607,28 @@ Contest API
 ========
 
 
+View contest details page page
+===================
+
+Resource URL
+>GET
+> **'/contest/```string:contestName```/details_page/'**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template.
+>- contestName is the name of the contest.
+
+-------
+
+
+
 Creating new contest
 ===============
 
@@ -575,7 +669,7 @@ Add problem to contest
 
 Resource URL
 >post
-> **/```string:contest_id```/problem/**
+> **/contest/```string:contest_id```/problem/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -675,6 +769,7 @@ Example Request
 >- If there is new starts_on and new starts_on is biger than created_on then status code will be **406** and there will be errors like **'Start date must be later than creation time!!'** . 
 >- If the logged in user is not the owner of contest, status code will be **403** and there will be errors like **'User is not owner!'**
 >- If there is new name and this name already exists, the status code will be **409** and there will be errors like **'Contest with this name already exists!'** .
+>- If contest is already started, it can not be edited and there will be errors with editing it like **'Contest can not be edited at this time!'** and response status code will be **406**.
 >- If none of errors above occurs, the status code will be 200 .
 
 --------
@@ -701,22 +796,62 @@ Example Request
 Example Response
 ```
 {
-"created_on": "2015-11-07 10:14:00", 
-"ends_on": "2015-11-07 15:42:40", 
-"id": "563dcee823e3c01d38a73502", 
-"name": "maincontest", 
-"owner": {
-          "id": "563d03c623e3c01694ee7291",
-          "username": "admin24"
-          }
+  [
+    {
+      "created_on": "2014-02-04 08:02:27",
+      "starts_on": "2017-07-14 07:10:00", 
+      "ends_on": "2027-01-15 11:30:00", 
+      "id": "566179cb23e3c01f40fc6432", 
+      "name": "new_contest", 
+      "owner": {
+                "id": "566179cb23e3c01f40fc6431", 
+                "username": "admin2"
+                }   
+    }, 
+    {
+      "created_on": "2015-12-04 12:04:19", 
+      "starts_on": "2017-07-14 07:10:00",
+      "ends_on": "2027-01-15 11:30:00", 
+      "id": "5661814323e3c023fc57aed8", 
+      "name": "another_contest", 
+      "owner": {
+                "id": "566179cb23e3c01f40fc6431", 
+                "username": "admin2"
+               } 
+      
+    }
+  ]
 }
 ```
 
 > **NOTE:**
 >- Type of "create_from" and "create_to" and "start_from" and "start_to" is float:timestamp.
 >- default value of "start_from" and "create_from" is 0.
->- default value of "start_to" and "create_to" is current time.
+>- default value of "create_to" is current time.
+>- default value of "start_to" is infinity.
 >- If response status code is **200** then the ContestsList returned successfully.
+
+--------
+
+
+View contest page
+=================
+
+Resource URL
+>GET > 
+> **/contest/```string:contest_name```/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|PAGE|YES (must be authenticated)|
+
+
+> **NOTE:**
+>
+>- This url returns a html template and the id of the contest in database as contest_id.
+>- contset_name is the name of the contest.
+>- If response status code is **406** then the contest does not exists.
 
 --------
 
@@ -941,3 +1076,134 @@ Example Response
 >- If response status code is **200** then the contest details returned successfully.
 >- If there are errors like contest does not exists response status code will be **406**.
 >- response is sorted.
+
+--------
+
+Submission Progress
+===============
+
+Resource URL
+>POST
+> **'submit/<string:contest_id>/<string:team_id>/<int:number>/<string:file_type>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+> **NOTE:**
+>- If response status code is **200** then the file is whether accepted or the submission progress has encountered an error. Error type will be returned as response's status.
+>- ErrorTypes ==> Wrong Answer, Compile Error, Runtime Error, Restricted Function, Time Exceeded
+>- If the sender is not a team member, response status code will be **406** and you will have errors like "You are not a member of this team".
+>- If contest_id does not exist in data base response status code will be **406** and you will have errors like "Contest does not exist!".
+>- If team_id does not exist in data base response status code will be **406** and you will have errors like "Team does not exist!".
+>. Files can only be submitted during the contest time otherwise response status code will be **406** and you will have errors like "Contest is not stated yet!" or "Contest is finished".
+>- If number is bigger than number of problems or it is lower than 1 the response status code will be **406** and you have errors like "Invalid problem number!".
+>- The file_type should be **py** ,**cpp** or **java** otherwise the response status code will be **406** and there will be errors like "Extension Error".
+
+--------
+
+
+Contest problem
+===============
+
+Resource URL
+>GET
+> **/contest/<string:contest_id>/problems/<int:problem_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/problems/1/
+```
+Example Response
+```
+
+{
+  "body": "body",
+  "footer": "footer",
+  "header": "header",
+  "id": 1,
+  "order": 1,
+  "space_limit": 1000,
+  "testcases": [
+                {
+                "id": 1,
+                "input": "1",
+                "order": 1,
+                "output": "9"
+                },
+               {
+                "id": 2,
+                "input": "6",
+                "order": 2,
+                "output": "4"
+              }
+              ],
+  "time_limit": 1000,
+  "title": "problem1"
+}
+
+> **NOTE:**
+>- If everything goes well, response status code is **200**.
+>- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
+>- If the requested prolem does not exist in data base, status code will be **406** and you will have errors like  **'Problem does not exist!' ** .
+>- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
+
+--------
+
+
+All contest problems
+===============
+
+Resource URL
+>GET
+> **/contest/<string:contest_id>/problems/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+/contest/565dfe6823e3c00e88c0f18c/problems/
+```
+Example Response
+```
+
+{
+  "problems": [
+               {
+                "id": 1,
+                "order": 1,
+                "title": "problem1"
+              },
+               {
+                "id": 2,
+                "order": 2,
+                "title": "problem2"
+              },
+              {
+                "id": 3,
+                "order": 3,
+                "title": "problem3"
+              },
+             {
+                "id": 4,
+                "order": 4,
+                "title": "problem4"
+              }
+            ] 
+}
+
+> **NOTE:**
+>- If everything goes well, response status code is **200**.
+>- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
+>- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
+
+--------

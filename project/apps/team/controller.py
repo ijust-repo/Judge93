@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini"]
+__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini", 'AminHP']
 
 #flask import
 from flask import jsonify, request, render_template
@@ -22,9 +22,14 @@ def team_team_page():
 	return render_template('team.html')
 
 
-@team.route('/', methods=['GET'])
-def team_page():
-	return render_template('team.html')
+@team.route('<string:team_name>/', methods=['GET'])
+def team_page(team_name):
+	try:
+		obj = Team.objects().get(name = team_name)
+		pk = obj.pk
+		return render_template('team.html' , team_id = pk)
+	except DoesNotExist:
+		return jsonify(errors="team does not exists!"), 406
 
 @team.route('create/', methods=['POST'])
 def create():
@@ -148,3 +153,20 @@ def get_team_member(team_id):
 
 	except DoesNotExist:
 		return jsonify(errors='Team does not exist!'), 406
+
+
+@team.route('<string:team_id>/member/<string:member_id>/', methods=['DELETE'])
+def member_member(team_id, member_id):
+	try:
+		team = Team.objects().get(pk=team_id)
+		if logged_in_user() != team.owner.username:
+			return jsonify(errors="User is not owner"), 403
+
+		member = User.objects().get(pk=member_id)
+		team.update(pull__members=member)
+		team.save()
+
+		return "", 200
+	except DoesNotExist:
+		return jsonify(errors='Team or member does not exist!'), 406
+

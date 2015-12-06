@@ -31,17 +31,27 @@ def user_home_page(Username):
 	except DoesNotExist:
 		return 	jsonify(errors="User does not exists!"), 406
 
-@user.route('contest/', methods=['GET'])
-def user_contest_page():
-	return render_template('contest.html')
+@user.route('<string:Username>/contest/', methods=['GET'])
+def user_contest_page(Username):
+	try:
+		obj = User.objects().get(username=Username)
+		pk = obj.pk
+		return render_template('contest.html' , user_id = pk)
+	except DoesNotExist:
+		return 	jsonify(errors="User does not exists!"), 406
 
 @user.route('setting/', methods=['GET'])
 def user_setting_page():
 	return render_template('setting.html')
 
-@user.route('team/', methods=['GET'])
-def user_team_page():
-	return render_template('team.html')
+@user.route('<string:Username>/team/', methods=['GET'])
+def user_team_page(Username):
+	try:
+		obj = User.objects().get(username = Username)
+		pk = obj.pk
+		return render_template('team.html' , user_id = pk)
+	except DoesNotExist:
+		return jsonify(errors="User does not exists!"), 406
 
 @user.route('exists/<string:username>/', methods=['GET'])
 def exists(username):

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'SALAR']
-
+__author__ = ['Kia' , 'SALAR', 'Mahnoosh' ,'F4RZ4N']
 
 #flask import
 from flask import jsonify, request, render_template
@@ -27,10 +26,28 @@ from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
 from werkzeug.exceptions import RequestEntityTooLarge
 
+import controller_submission
+
 @contest.route('contest/', methods=['GET'])
 def contest_contest_page():
 	return render_template('contest.html')
 
+@contest.route('<string:contest_name>/', methods=['GET'])
+def contest_page(contest_name):
+	try:
+		obj = Contest.objects().get(name = contest_name)
+		pk = obj.pk
+		return render_template('contest.html' , contest_id = pk)
+	except DoesNotExist:
+		return jsonify(errors="contest does not exists!"), 406
+
+@contest.route('<string:contestName>/details_page/', methods=['GET'])
+def details_page(contestName):
+	try:
+		obj  = Contest.objects().get(name = contestName)
+		return render_template('contest.html' )
+	except DoesNotExist:
+		return jsonify(errors="contest does not exists!"), 406
 
 @contest.route('/', methods=['POST'])
 def create():
@@ -112,6 +129,10 @@ def edit(contest_id):
 	starts_on = main_form.data['starts_on']
 	ends_on = main_form.data['ends_on']
 	name = main_form.data['name']
+
+	if contest_obj.starts_on < datetime.utcnow():
+		return jsonify(errors="Contest can not be edited at this time!"), 406
+	
 	if starts_on and ends_on:
 		if (starts_on > ends_on) :
 			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be earlier than end date!'))
@@ -200,7 +221,7 @@ def contests_list():
 		create_date_from = request.args.get('create_from', 0.0, type=float)
 		create_date_to = request.args.get('create_to', datetime.utcnow(), type=float)
 		start_date_from = request.args.get('start_from', 0.0, type=float)
-		start_date_to = request.args.get('start_to', datetime.utcnow(), type=float)
+		start_date_to = request.args.get('start_to', 10000000000.0 , type=float)
 
 		if type(create_date_from) == float:
 			create_date_from = datetime.fromtimestamp(create_date_from)
@@ -215,7 +236,6 @@ def contests_list():
 			start_date_to = datetime.fromtimestamp(start_date_to)
 
 		contests_list = []
-		print Contest.objects(created_on__gte = create_date_from)
 		for obj in (Contest.objects(created_on__gte = create_date_from) and
 					Contest.objects(starts_on__gte = start_date_from) and
 					Contest.objects(created_on__lte = create_date_to) and
@@ -364,3 +384,34 @@ def contest_details(contest_id):
 		return jsonify(contests = final_list) , 200
 	except DoesNotExist:
 		return "" , 406
+
+
+@contest.route('<string:contest_id>/problems/', methods=['GET'])
+def get_problems (contest_id):
+	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+		if contest_obj.owner.username != logged_in_user() and contest_obj.starts_on > datetime.utcnow():
+			return jsonify(errors="You can not see problems right now!"), 403
+
+		return jsonify(contest_obj.to_json_problems()), 200
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406
+
+@contest.route('<string:contest_id>/problems/<int:number>/', methods=['GET'])
+def get_problem (contest_id, number):
+	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+		if contest_obj.owner.username != logged_in_user() and contest_obj.starts_on > datetime.utcnow():
+			return jsonify(errors="You can not see problems right now!"), 403
+
+		requested_problem = None
+		for problem in contest_obj.problems :
+			if number == problem.id:
+				requested_problem = problem
+				break
+		if requested_problem == None:
+			return jsonify (errors="Problem does not exist!" ), 406
+		return jsonify (requested_problem.to_json_compelete()), 200
+
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406

@@ -20,20 +20,17 @@
 <ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 
 	<li class=" usernameitem " id="usernameitem">
-		<a href="/user/home/"><h4 id="getusername" class="leftmenuitem"></h4></a>
-	</li>
-	<li class=" usernameitem " id="usernameprofitem" style="display:none">
-		<h4 id="getusernameprof" class="leftmenuitem">></h4>
-		<h4 id="getidprof" style="display:none"></h4>
+		<a ><h4 id="getusername" class="leftmenuitem"></h4></a>
+		<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 	</li>
 
 	<li  id="contest"  >
 
-		<a href="/user/contest/" ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests</h4></a>
+		<a href="#" ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests</h4></a>
 	</li>
 
 	<li  id="team"  >
-		<a href="/user/team/"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
+		<a href="#"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
 	</li>
 
 	<li  id="users"  >
@@ -44,11 +41,12 @@
 		<a href="/user/setting/"><h4 class="leftmenuitem"><i class="fa fa-gears" style=" width:20px; height:20px; "></i> Settings</h4></a>
 	</li>
 
+	<li  id="backtoprofile" style="display:none" >
+		<a href="#" ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
+	</li>
+
 	<li  id="logout"   >
 		<a href="#logout"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
-	</li>
-	<li  id="backtoprofile" style="display:none" >
-		<a href="/user/home/"><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
 	</li>
 
 </ul>
@@ -130,35 +128,38 @@
 		}
 		else
 		{
-			counter = 0;
 			$('.removable').each(function(){
-				if (counter == 0)
+				if ($(this).html() == "" && $(this).data("member") != "")
 				{
-					if ($(this).html() == "" && $(this).data("member") != "")
-					{
-						alert($(this).data("member") + ' removed');
-						$(this).addClass('addable').removeClass('removable');
-					}
-					else
-					{
-						$(this).html($(this).data("member"));
-					}
+					$.ajax({
+						type: "GET",
+						url: '/user/get_profile/by_username/' + $(this).data("member") + '/',
+						dataType: "html",
+						success: function(data){
+							var myUrl = '/team/' + $('.idTeam').val() + '/member/' + (JSON.parse(data)).id + '/';
+							$.ajax({
+								type: "DELETE",
+								url: myUrl,
+								dataType: "html",
+								success: function(data2){
+									alert('removed');
+									$(this).addClass('addable').removeClass('removable');
+								},
+								error: function (request, status, error){
+									alert(error + request + status);
+								}
+							});
+						},
+						error: function (request, status, error){
+							alert(error + request + status);
+						}
+					});
 				}
 				else
 				{
-					if ($(this).html() == "" && $(this).data("member") != "")
-					{
-						alert($(this).data("member") + ' removed');
-						$(this).addClass('addable').removeClass('removable');
-					}
-					else
-					{
-						$(this).html($(this).data("member"));
-					}
+					$(this).html($(this).data("member"));
 				}
-				counter = 1;
 			});
-			counter = 0;
 			$('.addable').each(function(){
 				var myData;
 				if ($(this).val() != "") {
@@ -205,47 +206,109 @@
 				$(this).replaceWith($('<p class="' + $(this).attr('class') + '">' + $(this).val() + '</p>'));
 			});
 			$("#editTeamButton").html('Edit');
+			setTimeout(function(){ location.reload(); }, 1000);
 		}
 	};
-	$(document).ready(function () {
-		$("#loneTeamPage").hide();
-		$('.close-page').removeClass('close-page').addClass('open-page');
-		$("#logout").click(function() {
-			$.ajax({
-				type: "GET",
-				url : '/user/logout/',
-				dataType: "html",
-				success: function () {
-					window.location.replace("/user/");
-				},
-				error: function (request, status, error) {
-					if(request.status===405){
-						alert("Please login first");
-					}
-				}
 
-			});
-		});
-		$('#team').css('background-color', '#355C7D');
+
+	/************************************************************************************************************/
+	$(document).ready(function () {
+
+		var id = '{{user_id }}';
+		$myId = '{{user_id }}';
+		var username;
+
+		function changeprofile(username){
+			document.title = username;
+			document.getElementById('backtoprofile').style.display = 'block';
+			document.getElementById('logout').style.display = 'none';
+			document.getElementById('users').style.display = 'none';
+			document.getElementById('setting').style.display = 'none';
+			document.getElementById('titlePage').innerHTML="Team Information" ;
+		}
 		$.ajax({
 			type: "GET",
-			url : '/user/get_profile/',
+			url : "/user/get_profile/by_id/"+id+"/",
 			dataType: "html",
-			success: function(data) {
-				$myId = (JSON.parse(data)).id;
-				$( '#getusername ' ).html((JSON.parse(data)).username);
+			success: function (data) {
+				username = (JSON.parse(data)).username;
+				$("#contest").click(function() {
+					window.location.replace("/user/"+username+"/contest/");
+				});
+
+				$("#team").click(function() {
+					window.location.replace("/user/"+username+"/team/");
+				});
+				$.ajax({
+					type: "GET",
+					url : '/user/get_profile/',
+					dataType: "html",
+					success: function (data) {
+						var userlogin=(JSON.parse(data)).username;
+						if(username===userlogin)
+						{
+							$isYourProfile = true;
+							$('#submitCreateTeam').click(function(){
+								var teamName = $("#teamName").val();
+								var member1 = $("#member1").val();
+								var member2 = $("#member2").val();
+								if (member1 && member2)
+								{
+									myData = {"name": teamName, "members": [member1, member2]};
+								}
+								else if (member1)
+								{
+									myData = {"name": teamName, "members": [member1]};
+								}
+								else
+								{
+									myData = {"name": teamName};
+								}
+								$.ajax({
+									type: "POST",
+									url: '/team/create/',
+									dataType: "html",
+									contentType: "application/json",
+									data: JSON.stringify(myData),
+									success: function(data){
+										$("#teamName").val("");
+										$("#member1").val("");
+										$("#member2").val("");
+										$("#submitCreateTeam").hide();
+										$("#ifSuccessfully").html("Your team successfully created.");
+										setTimeout(function(){ window.location = "/user/" + username + "/team/"; }, 1000);
+									},
+									error: function (request, status, error){
+										alert(status);
+									}
+								});
+							});
+						}
+						else
+						{
+							$isYourProfile = false;
+							changeprofile(username);
+							$("#createTeam").hide();
+							$(".maintitr").find('div').hide();
+						}
+					},
+					error: function (request) {
+						alert("this user not found");
+					}
+				});
+
+
 				$.ajax({
 					type: "GET",
 					url : '/user/' + $myId + '/teams/',
 					dataType: "html",
 					success: function (data) {
-
 						$myDataTeam = (JSON.parse(data)).teams;
 						for (var counter = 0; counter < $myDataTeam.length; counter++)
 						{
 							if ($myDataTeam[counter]["members"].length == 2)
 							{
-								if ($myDataTeam[counter].owner.id == $myId)
+								if ($myDataTeam[counter].owner.id == $myId && $isYourProfile)
 								{
 									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p class="removable">' + $myDataTeam[counter].members[0].username + '</p><p class="removable">' + $myDataTeam[counter].members[1].username + '</p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input class="is-admin" type="hidden" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
 								}
@@ -256,7 +319,7 @@
 							}
 							else if ($myDataTeam[counter]["members"].length == 1)
 							{
-								if ($myDataTeam[counter].owner.id == $myId)
+								if ($myDataTeam[counter].owner.id == $myId && $isYourProfile)
 								{
 									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p class="removable">' + $myDataTeam[counter].members[0].username + '</p><p class="addable"></p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input class="is-admin" type="hidden" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
 								}
@@ -267,7 +330,14 @@
 							}
 							else
 							{
-								$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p class="addable"></p><p class="addable"></p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input type="hidden" class="is-admin" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
+								if ($isYourProfile && $myDataTeam[counter].owner.username == username)
+								{
+									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p class="addable"></p><p class="addable"></p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input type="hidden" class="is-admin" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
+								}
+								else
+								{
+									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle">' + $myDataTeam[counter].name + '</div><div class="sector-block-team"><div>Users</div><p>' + $myDataTeam[counter].owner.username +' (Admin)</p><p class="addable"></p><p class="addable"></p></div><div class="sector-block-team"><a href="#">Contest</a> <p>' + $myDataTeam[counter].contests + '</p></div></div><input type="hidden" class="is-admin" value="0"></div>';
+								}
 							}
 							$("#teamPage").append($myHtml);
 						}
@@ -296,48 +366,66 @@
 					}
 
 				});
+
+				$( '#getusername ' ).html(username);
+				$( '#getidprof ' ).html(id);
 			},
-			error: function(request, status, error) {
-
+			error: function (request) {
+				alert("this user not found");
 			}
-
 		});
-		$('#submitCreateTeam').click(function(){
-			var teamName = $("#teamName").val();
-			var member1 = $("#member1").val();
-			var member2 = $("#member2").val();
-			if (member1 && member2)
-			{
-				myData = {"name": teamName, "members": [member1, member2]};
-			}
-			else if (member1)
-			{
-				myData = {"name": teamName, "members": [member1]};
-			}
-			else
-			{
-				myData = {"name": teamName};
-			}
+
+		// back to profile
+		$("#backtoprofile").click(function() {
 			$.ajax({
-				type: "POST",
-				url: '/team/create/',
+				type: "GET",
+				url : '/user/get_profile/',
 				dataType: "html",
-				contentType: "application/json",
-				data: JSON.stringify(myData),
-				success: function(data){
-					$("#teamName").val("");
-					$("#member1").val("");
-					$("#member2").val("");
-					$("#submitCreateTeam").hide();
-					$("#ifSuccessfully").html("Your team successfully created.");
-					setTimeout(function(){ window.location = "/user/team/"; }, 1000);
+				success: function (data) {
+					var userlogin=(JSON.parse(data)).username;
+					window.location.replace("/user/"+userlogin+"/");
 				},
-				error: function (request, status, error){
-					alert(status);
+				error: function (request) {
+					alert("this user not found");
 				}
 			});
+
+			document.title = "home";
+			document.getElementById('usernameitem').style.display = 'block';
+			document.getElementById('usernameprofitem').style.display = 'none';
+			document.getElementById('backtoprofile').style.display = 'none';
+			document.getElementById('logout').style.display = 'block';
+			document.getElementById('users').style.display = 'block';
+			document.getElementById('setting').style.display = 'block';
 		});
+
+
+/**************************************************************************************************/
+
+
+
+		$("#loneTeamPage").hide();
+		$('.close-page').removeClass('close-page').addClass('open-page');
+		$("#logout").click(function() {
+			$.ajax({
+				type: "GET",
+				url : '/user/logout/',
+				dataType: "html",
+				success: function () {
+					window.location.replace("/user/");
+				},
+				error: function (request, status, error) {
+					if(request.status===405){
+						alert("Please login first");
+					}
+				}
+
+			});
+		});
+		$('#team').css('background-color', '#355C7D');
+
 	});
+	
 </script>
 </html>
 

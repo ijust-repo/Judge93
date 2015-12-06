@@ -26,27 +26,26 @@
 		
 		
 		<li  id="contest"  >
-			
-		 	<a href="/user/contest/" ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests</h4></a>
+		 	<a href="#"><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests</h4></a>
 		</li>
 		
 		<li  id="team"  >
-		 	<a href="/user/team/"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
+		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
 		</li>
 		
 		<li  id="users"  >
-		 	<a href="#users"><h4 class="leftmenuitem"><i class="fa fa-user" style="width:20px; height:20px; "></i> Users</h4></a>
+		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-user" style="width:20px; height:20px; "></i> Users</h4></a>
 		</li>
 		
 		<li  id="setting"  >
 		 	<a href="/user/setting/"><h4 class="leftmenuitem"><i class="fa fa-gears" style=" width:20px; height:20px; "></i> Settings</h4></a>
 		</li>
 		<li  id="backtoprofile" style="display:none" >
-		 	<a href="#back" ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
+		 	<a href="#" ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
 		</li>
 		
 		<li  id="logout"   >
-		 	<a href="#logout"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
+		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
 		</li>
 		</ul>
 
@@ -55,53 +54,45 @@
 	</ul>
     <div class="col-xs-offset-3 col-md-offset-2 row">
 		<div class="col-xs-12 col-md-12 maintitr">
-			<p id="titlePage"> News</p>          
+			<p id="titlePage"> Contest list</p>          
 		</div>
 	</div>
 	<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents " >
-		<div id="info">
-			
-		</div>
-
-		<div id="post">
-			<div class="post">
-				<h4 >title</h4>
-				<a id="usernamecontact1"  >bbb</a>
-				<a id="usernamecontact"  >ccc</a>
-				<p>content</p> 
-				 
-	    	</div>
-	    	<div class="post">
-				<h4 >title</h4>
-				<a id="usernamecontact1"  >bbb</a>
-				<a id="usernamecontact"  >ccc</a>
-				<p>content</p> 
-				 
-	    	</div>
-	    	<div class="post">
-				<h4 >title</h4>
-				<a id="usernamecontact1"  >bbb</a>
-				<a id="usernamecontact"  >ccc</a>
-				<p>content</p> 
-				 
-	    	</div>
-	    	</div>
-		</div>
+			<div id="contestinfoforusers"class="CSSTableGenerator" >							
+				<table id="contestinfo">
+                   <tr>
+					   <td > Row number </td>
+					   <td style="display:none"> id </td>
+					   <td > Name </td>
+					   <td > Admin </td>
+					   <td style="display:none"> Admin id </td>
+					   <td > Sart on </td>
+					    <td> End on </td>
+					    <td > Your team</td>
+					</tr>
+                </table>
+             </div>
+		
+			<div id="info"></div>
+			</div>
    	</div>
    
 
 </body>
 <script>
+	$(document).ready(function () {
 	     var id = '{{user_id }}'; 
+	     var username;
 	 //change profile
 function changeprofile(username){
-  document.title = username;
+		document.title = username;
 			document.getElementById('backtoprofile').style.display = 'block';
+			document.getElementById('info').style.display = 'block';
 			document.getElementById('logout').style.display = 'none';
 			document.getElementById('users').style.display = 'none';
 			document.getElementById('setting').style.display = 'none';
-			document.getElementById('post').style.display = 'none';
+			document.getElementById('contestinfoforusers').style.display = 'none';
 			document.getElementById('titlePage').innerHTML="Information" ;		
 					 
 }
@@ -115,6 +106,7 @@ function checkprofile(username){
            if(username===userlogin){
            document.getElementById('info').style.display = 'none';	}
            else{
+			   
 			  changeprofile(username);
 			   
 			   }				
@@ -126,24 +118,26 @@ function checkprofile(username){
 	}
 	
 	//show username
-
+	
      $.ajax({
             type: "GET",
             url : "/user/get_profile/by_id/"+id+"/",
             dataType: "html", 				
             success: function (data) {
 				$('#info').html(data);
-				var username=(JSON.parse(data)).username;
+			 username=(JSON.parse(data)).username;
 				checkprofile(username);
 				$( '#getusername ' ).html(username);
-				$( '#getidprof ' ).html(id);  				
+				$( '#getidprof ' ).html(id);  
+				$('#info').html(data);	
+					
             },
            error: function (request) {                
 				alert("this user not found");	      	      		
       		}
 		});
-		// back to profile
 
+	// back to profile
 $("#backtoprofile").click(function() { 
 	 $.ajax({
             type: "GET",
@@ -167,6 +161,67 @@ $("#backtoprofile").click(function() {
 			document.getElementById('setting').style.display = 'block';
 			  });
 			   
+//show contest list
+ $.ajax({
+            type: "GET",
+            url : "/contest/",
+            dataType: "html", 				
+            success: function (data) {
+				
+           	var data=(JSON.parse(data)).contests;
+				 var tr;
+			for (var i = 1; i < data.length+1; i++) {
+				tr = $('<tr id="'+i+'">');
+				tr.append('<td >' + i + "</td>");
+				tr.append('<td style="display:none">' + data[i-1].id + "</td>");
+				tr.append('<td>' + data[i-1].name + "</td>");			
+				tr.append('<td >' + data[i-1].owner.username + "</td>");
+				tr.append('<td style="display:none">' + data[i-1].owner.id + "</td>");
+				tr.append('<td>' + data[i-1].starts_on + "</td>");
+				tr.append('<td >' + data[i-1].ends_on + "</td></tr>");
+				
+				$('#contestinfo').append(tr);
+			
+			}
+				$('td').click(function(){
+					id = $(this).closest('tr').attr('id');
+					window.location.replace("/contest/"+data[id-1].name+"/");
+					
+				});				
+            },
+           error: function (request) {                
+				alert("this user not found");	      	      		
+      		}
+		});	
+		
+	    //logout	   
+$("#logout").click(function() { 
+	
+  $.ajax({
+            type: "GET",
+            url : '/user/logout/',
+            dataType: "html",  				
+            success: function () {
+           	window.location.replace("/user/");
+            },
+          error: function (request, status, error) { 
+			  if(request.status===405){    
+					alert("Please login first"); 
+				}            
+            }
+            
+    });
+  });
+      //contest of user
+$("#contest").click(function() { 
+	window.location.replace("/user/"+username+"/contest/");
+  });
+		$("#team").click(function() {
+			window.location.replace("/user/"+username+"/team/");
+		});
+  });
+  
+  
 	</script>
 
 </html>
