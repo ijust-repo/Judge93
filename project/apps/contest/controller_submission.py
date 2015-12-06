@@ -113,10 +113,11 @@ def submit (contest_id, team_id ,number, file_type):
 
 
 
-        problem_time_limit = get_problem_time_limit(contest_id, number)/1000.0 + 0.2 #yekam avanse delay in dastura :P
+        problem_time_limit = get_problem_time_limit(contest_id, number)/1000.0
         if not problem_time_limit:
                 delete_compile_files(upload_path, filename, file_type)
                 return jsonify(errors="Problem does not have time limit!"), 406
+        problem_time_limit += 1 #yekam avanse delay in dastura :P
         ### Run & Check...
         for testcase in [ i for i in os.listdir(testcases_folder) if i[-2:]=="in" ]:
                 if(file_type == "py"):
@@ -132,7 +133,7 @@ def submit (contest_id, team_id ,number, file_type):
                                                                 os.kill(pid, SIGTERM)
                                                         except OSError:
                                                                 pass
-                                                delete_compile_files(upload_path, filename, file_type)
+                                                delete_compile_files(upload_path, filename, file_type , True)
                                                 Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
@@ -155,7 +156,7 @@ def submit (contest_id, team_id ,number, file_type):
                                                                 os.kill(pid, SIGTERM)
                                                         except OSError:
                                                                 pass
-                                                delete_compile_files(upload_path, filename, file_type)
+                                                delete_compile_files(upload_path, filename, file_type , True)
                                                 Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
@@ -177,7 +178,7 @@ def submit (contest_id, team_id ,number, file_type):
                                                                 os.kill(pid, SIGTERM)
                                                         except OSError:
                                                                 pass
-                                                delete_compile_files(upload_path, filename, file_type)
+                                                delete_compile_files(upload_path, filename, file_type, True)
                                                 Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
@@ -193,7 +194,9 @@ def submit (contest_id, team_id ,number, file_type):
                 expected_out = expected_out_file.read()
                 expected_out_file.close()
 
-                #print out, expected_out
+                out = "".join( out.split('\r') )
+                #print out
+                #print expected_out
                 
                 if(not expected_out == out):
                         delete_compile_files(upload_path, filename, file_type)
@@ -204,18 +207,19 @@ def submit (contest_id, team_id ,number, file_type):
         Update_Result(contest_id, team_id, number ,"Accepted", True)
         return jsonify(status="Accepted"), 200
 
-def delete_compile_files(upload_path, filename, file_type):
+def delete_compile_files(upload_path, filename, file_type, isExceeded = False):
         try:
                 try:
                         os.remove(os.path.join(upload_path, filename))
                 except:
                         pass
 		if(file_type == "cpp"):
-			try:
-				subprocess.check_output("taskkill /IM %s.exe /T /F" %filename[:-4],shell=True,stderr=subprocess.STDOUT)
-			except:
-				pass
-			time.sleep(0.2)
+                        if(isExceeded):
+                                try:
+                                        subprocess.check_output("taskkill /IM %s.exe /T /F" %filename[:-4],shell=True,stderr=subprocess.STDOUT)
+                                except:
+                                        pass
+                                time.sleep(0.2)
 			os.remove(filename[:-4] + '.exe')
 		if(file_type == "java"):
 			os.remove( os.path.join(upload_path, filename[:-5]) + '.class' )
