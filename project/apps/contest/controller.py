@@ -310,6 +310,8 @@ def upload_tastecase (contest_id, number):
 def pending_teams (contest_id):
 	try:
 		contest_obj = Contest.objects().get(pk=contest_id)
+		if logged_in_user() != contest_obj.owner.username:
+			return jsonify(errors="User is not owner"), 403
 		pending =[]
 		for info in contest_obj.teams:
 			if (info.accepted == None):

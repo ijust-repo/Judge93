@@ -1281,4 +1281,33 @@ Example Response
 >- If everything goes well, response status code is **200**.
 >- If the requested contest does not exist in data base, status code will be **406**.
 >- If loged in user is not contest owner, status code will be **403** and you will have errors like **User is not owner'**.
+
+--------
+
+
+Accept and reject join request
+===============
+
+Resource URL
+>PATCH
+> **/contest/<string:contest_id>/team_acceptation/<string:team_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "acceptation" : "false"
+}
+```
+> **NOTE:**
+>- If team was accepted befor and acceptation value is **"false"**, response status code is **200** and team will reject.
+>-If team was accepted befor and acceptation value is **"true"**, response status code is** 409** and you will have errors like **'this team was accepted before!'**.
+>- If team rejected,response status code is** 409** and you will have errors like **'this team was rejected before!'**. 
+>- If the requested contest or team does not exist in data base, status code will be **406** and you will have errors like **'Team or Contest does not exist!'**. .
+>- If loged in user is not contest owner, status code will be **403** and you will have errors like **User is not owner'**.
+
 --------
