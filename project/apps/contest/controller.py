@@ -11,7 +11,7 @@ from project.apps.contest import contest
 
 from project.apps.contest.forms import CreateContest , AddProblem
 
-from project.apps.contest.forms import CreateContest , AddProblem, EditContest
+from project.apps.contest.forms import CreateContest , AddProblem, EditContest, AcceptTeam
 from project.utils.access import login_user, logout_user, logged_in_user
 from project.utils.date import datetime_to_str, str_to_datetime
 
@@ -410,27 +410,39 @@ def get_problem (contest_id, number):
 		return jsonify(errors="Contest does not exist!"), 406
 
 
-@contest.route('<string:contest_id>/team/<string:team_id>/accepted/<bolean:acc_rej>/', methods=['PATCH'])
-def accepting_rejecting (contest_id,team_id,acc_rej):
+@contest.route('<string:contest_id>/team_acceptation/<string:team_id>/', methods=['PATCH'])
+def accepting_rejecting (contest_id,team_id):
+
+	acceptation_form = AcceptTeam.from_json(request.json)
+	accepted = acceptation_form.data['acceptation']
+
+	if not (acceptation_form.validate()):
+		return "", 406
 	try:
 		contest_obj = Contest.objects().get(pk=contest_id)
 
 		if logged_in_user() != contest_obj.owner.username:
 			return jsonify(errors="User is not owner"), 403
-
 		team_obj = Team.objects().get(pk=team_id)
+
 		for info in contest_obj.teams:
-			if (Info.team == team_obj):
+
+			if (info.team == team_obj):
 				if (info.accepted == True):
-					return jsonify(errors = "this team was accepted before!") , 409
+					if (accepted):
+						return jsonify(errors = "this team was accepted before!") , 409
+					else:
+						info.accepted = False
+
 				elif (info.accepted == False):
 					return jsonify (errors = "this team was rejected before!") , 409
+
 				else:
-					if (acc_rej):
+					if (accepted):
 						info.accepted = True
 					else:
 						info.accepted = False
-		team_obj.save()
+		contest_obj.save()
 		return "" , 200
 	except DoesNotExist:
 		return jsonify(errors='Team or Contest does not exist!'), 406

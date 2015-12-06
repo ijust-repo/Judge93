@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Kia'
+__author__ = ['Kia' , 'SALAR']
 
 # flask imports
 from flask.ext.wtf import Form
-from wtforms import StringField, FloatField , DateTimeField, validators, FieldList, IntegerField, FormField
+from wtforms import StringField, FloatField , DateTimeField, validators, FieldList, IntegerField, FormField, BooleanField
 
 
 class CreateContest(Form):
@@ -49,3 +49,6 @@ class EditContest(Form):
 	name = StringField()
 	starts_on = FloatField()
 	ends_on = FloatField()
+
+class AcceptTeam(Form):
+	acceptation = BooleanField()
