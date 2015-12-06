@@ -602,6 +602,39 @@ Example Result
 
 ------- 
 
+Join request
+=================
+
+Resource URL
+>POST
+**/team/join_request/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "contest_id": "5661814323e3c023fc57aed8",
+  "team_id": "5662ba0823e3c01da4c9e2b1"
+}
+```
+
+> **NOTE:**
+>
+>- If response status code is **201** then team is successfully sends join request.
+>- If team owner or one of the team members is joined in contest, response code is **409** and you will have errors like **'user salar is in contest'**
+>- If join request has been sent before and waites for owner's answer, response code is **406** and you will have errors like **'please wait for checking your join request'**
+>- If the team  already exists in contest, status code will be **409** and you will have errors like **'team already exists in contest!'**.
+>- If join request has been sent for rejected team,join request will send again and status code will be **409** and you will have errors like **'join request not accepted -> Re_sent'**.
+>- If there are errors like a required field response status code will be **406**.
+>- If response status code is **201** then the join request sended successfully.
+
+--------
+
+
 
 Contest API
 ========

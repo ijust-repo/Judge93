@@ -173,7 +173,9 @@ def join_request():
 
 					if (info.accepted == False):
 						info.accepted = None
-						return jsonify(errors = "join request not accepted --> sent again") , 201
+						print info.accepted
+						contest_obj.save()
+						return jsonify(errors = "join request not accepted --> sent again") , 200
 
 					elif (info.accepted == True):
 						return jsonify(errors = 'team already exists in contest!'), 409
