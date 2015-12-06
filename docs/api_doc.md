@@ -1240,3 +1240,45 @@ Example Response
 >- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
 
 --------
+
+
+Pending request
+===============
+
+Resource URL
+>GET
+> **/contest/<string:contest_id>/pending_teams/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Response
+```
+{
+ [
+  {
+    "id": "5662ba0823e3c01da4c9e2b1",
+    "name": "new_team",
+    "owner": {
+                "id": "566179cb23e3c01f40fc6431",
+                "username": "admin"
+              }
+  },
+  {
+    "id": "5662d0a023e3c00a5cc9d8b4",
+    "name": "new_team2",
+    "owner": {
+                "id": "5662bca323e3c0208ce1cbd4",
+                "username": "admin2"
+    }
+  }
+  ]
+}
+
+> **NOTE:**
+>- If everything goes well, response status code is **200**.
+>- If the requested contest does not exist in data base, status code will be **406**.
+>- If loged in user is not contest owner, status code will be **403** and you will have errors like **User is not owner'**.
+--------
