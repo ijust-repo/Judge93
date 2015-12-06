@@ -33,6 +33,9 @@ import shutil
 def submit (contest_id, team_id ,number, file_type):
 	data = request.data
 
+	if len(data) >   1024 * 1024:  # 16 * 1024 * 1024 --> 16mb
+                return jsonify(errors="You Can Not Upload Files Larger Than "), 406
+
 	allowed_filetypes = ['py','cpp','java']
 	if( file_type not in allowed_filetypes ):
                 Update_Result(contest_id, team_id, number ,"Extension Error", False)
