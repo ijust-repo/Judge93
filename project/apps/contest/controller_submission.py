@@ -11,6 +11,7 @@ from project.apps.contest import contest
 
 from project.utils.access import logged_in_user
 from project.utils.Methods_Blacklist import python_methods_blacklist, java_methods_blacklist, cpp_methods_blacklist
+from project.utils.Get_OS import get_os
 
 #models import
 from project.apps.user.models import User
@@ -34,7 +35,7 @@ def submit (contest_id, team_id ,number, file_type):
 	data = request.data
 
 	if len(data) >   1024 * 1024:  # 16 * 1024 * 1024 --> 16mb
-                return jsonify(errors="You Can Not Upload Files Larger Than "), 406
+                return jsonify(errors="You Can Not Upload Files Larger Than 1MB"), 406
 
 	allowed_filetypes = ['py','cpp','java']
 	if( file_type not in allowed_filetypes ):
@@ -87,7 +88,9 @@ def submit (contest_id, team_id ,number, file_type):
                 delete_compile_files(upload_path, filename, file_type)
                 Update_Result(contest_id, team_id, number ,"Restricted Function", False)
                 return jsonify(status="Restricted Function"), 200
-        
+
+
+        __OS__ = get_os()
         ### Compile...
         if(file_type == "cpp"):
                 try:
