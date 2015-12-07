@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'mahnoosh','Amin Hosseini']
+__author__ = ['Kia' , 'mahnoosh','Amin Hosseini','SALAR']
 
 # flask imports
 from flask.ext.wtf import Form
@@ -16,3 +16,6 @@ class AddMember(Form):
 class ChangeName(Form):
 	new_name = StringField(validators=[validators.DataRequired()])
 
+class JoinRequest(Form):
+	contest_id = StringField(validators=[validators.DataRequired()])
+	team_id    = StringField(validators=[validators.DataRequired()])

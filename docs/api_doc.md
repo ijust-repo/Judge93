@@ -602,6 +602,39 @@ Example Result
 
 ------- 
 
+Join request
+=================
+
+Resource URL
+>POST
+**/team/join_request/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "contest_id": "5661814323e3c023fc57aed8",
+  "team_id": "5662ba0823e3c01da4c9e2b1"
+}
+```
+
+> **NOTE:**
+>
+>- If response status code is **200** then team is successfully sends join request.
+>- If team owner or one of the team members is joined in contest, response code is **409** and you will have errors like **'user salar is in contest'**
+>- If join request has been sent before and waites for owner's answer, response code is **406** and you will have errors like **'please wait for checking your join request'**
+>- If the team  already exists in contest, status code will be **409** and you will have errors like **'team already exists in contest!'**.
+>- If join request has been sent for rejected team,join request will send again and status code will be **409** and you will have errors like **'join request not accepted -> Re_sent'**.
+>- If there are errors like a required field response status code will be **406**.
+>- If response status code is **201** then the join request sended successfully.
+
+--------
+
+
 
 Contest API
 ========
@@ -1205,5 +1238,76 @@ Example Response
 >- If everything goes well, response status code is **200**.
 >- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
 >- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
+
+--------
+
+
+Pending request
+===============
+
+Resource URL
+>GET
+> **/contest/<string:contest_id>/pending_teams/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Response
+```
+{
+ [
+  {
+    "id": "5662ba0823e3c01da4c9e2b1",
+    "name": "new_team",
+    "owner": {
+                "id": "566179cb23e3c01f40fc6431",
+                "username": "admin"
+              }
+  },
+  {
+    "id": "5662d0a023e3c00a5cc9d8b4",
+    "name": "new_team2",
+    "owner": {
+                "id": "5662bca323e3c0208ce1cbd4",
+                "username": "admin2"
+    }
+  }
+  ]
+}
+
+> **NOTE:**
+>- If everything goes well, response status code is **200**.
+>- If the requested contest does not exist in data base, status code will be **406**.
+>- If loged in user is not contest owner, status code will be **403** and you will have errors like **User is not owner'**.
+
+--------
+
+
+Accept and reject join request
+===============
+
+Resource URL
+>PUT
+> **/contest/<string:contest_id>/team_acceptation/<string:team_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "acceptation" : false
+}
+```
+> **NOTE:**
+>- If team was accepted before or not, and acceptation value is **false**, response status code is **200** and team will reject.
+>-If team was accepted befor and acceptation value is **true**, response status code is** 409** and you will have errors like **'this team was accepted before!'**.
+>- If team rejected,response status code is** 409** and you will have errors like **'this team was rejected before!'**. 
+>- If the requested contest or team does not exist in data base, status code will be **406** and you will have errors like **'Team or Contest does not exist!'**. .
+>- If loged in user is not contest owner, status code will be **403** and you will have errors like **User is not owner'**.
 
 --------

@@ -11,7 +11,7 @@ from project.apps.contest import contest
 
 from project.apps.contest.forms import CreateContest , AddProblem
 
-from project.apps.contest.forms import CreateContest , AddProblem, EditContest
+from project.apps.contest.forms import CreateContest , AddProblem, EditContest, AcceptTeam
 from project.utils.access import login_user, logout_user, logged_in_user
 from project.utils.date import datetime_to_str, str_to_datetime
 
@@ -136,7 +136,7 @@ def edit(contest_id):
 	if starts_on and ends_on:
 		if (starts_on > ends_on) :
 			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be earlier than end date!'))
-			return jsonify(errors=form.errors), 406
+			return jsonify(errors=main_form.errors), 406
 		if contest_obj.created_on > datetime.fromtimestamp(starts_on) :
 			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be later than creation time!'))
 			return jsonify(errors=main_form.errors), 406
@@ -306,25 +306,20 @@ def upload_tastecase (contest_id, number):
 	return "", 200
 
 
-@contest.route('<string:contest_id>/add_team/<string:team_id>/', methods=['POST'])
-def add_team (contest_id,team_id):
-  try:
-    team_obj = Team.objects().get(pk=team_id)
-    contest_obj = Contest.objects().get(pk=contest_id)
-    for info in contest_obj.teams:
-      if (team_obj == info.team):
-        return jsonify(errors = 'team already exists!'), 409
+@contest.route('<string:contest_id>/pending_teams/', methods=['GET'])
+def pending_teams (contest_id):
+	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+		if logged_in_user() != contest_obj.owner.username:
+			return jsonify(errors="User is not owner"), 403
+		pending =[]
+		for info in contest_obj.teams:
+			if (info.accepted == None):
+				pending.append(info.team.to_json())
+		return jsonify(teams = pending) , 200
+	except DoesNotExist:
+		return "" , 406
 
-    team_info = TeamInfo (team = team_obj)
-    team_info.accepted = False
-    team_info.id = len (contest_obj.teams) + 1
-    lst = contest_obj.teams
-    lst.append(team_info)
-    contest_obj.teams = lst
-    contest_obj.save()
-    return "" , 200
-  except DoesNotExist:
-    return "" , 406
 
 @contest.route('<string:contest_id>/details/', methods=['GET'])
 def contest_details(contest_id):
@@ -415,3 +410,40 @@ def get_problem (contest_id, number):
 
 	except DoesNotExist:
 		return jsonify(errors="Contest does not exist!"), 406
+
+
+@contest.route('<string:contest_id>/team_acceptation/<string:team_id>/', methods=['PUT'])
+def accepting_rejecting (contest_id,team_id):
+
+	acceptation_form = AcceptTeam.from_json(request.json)
+
+	if not (acceptation_form.validate()):
+		return "", 406
+
+	accepted = acceptation_form.data['acceptation']
+	
+	try:
+		contest_obj = Contest.objects().get(pk=contest_id)
+
+		if logged_in_user() != contest_obj.owner.username:
+			return jsonify(errors="User is not owner"), 403
+		team_obj = Team.objects().get(pk=team_id)
+
+		for info in contest_obj.teams:
+
+			if (info.team == team_obj):
+				if (info.accepted == True):
+					if (accepted):
+						return jsonify(errors = "this team was accepted before!") , 409
+					else:
+						info.accepted = False
+
+				elif (info.accepted == False):
+					return jsonify (errors = "this team was rejected before!") , 409
+
+				else:
+						info.accepted = accepted
+		contest_obj.save()
+		return "" , 200
+	except DoesNotExist:
+		return jsonify(errors='Team or Contest does not exist!'), 406
