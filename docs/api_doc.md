@@ -1289,7 +1289,7 @@ Accept and reject join request
 ===============
 
 Resource URL
->PATCH
+>PUT
 > **/contest/<string:contest_id>/team_acceptation/<string:team_id>/**
 
 Resource Information
