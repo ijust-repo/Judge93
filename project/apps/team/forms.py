@@ -18,4 +18,4 @@ class ChangeName(Form):
 
 class JoinRequest(Form):
 	contest_id = StringField(validators=[validators.DataRequired()])
-	team_id    = StringField(validators=[validators.DataRequired()])
+	team_name    = StringField(validators=[validators.DataRequired()])

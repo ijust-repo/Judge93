@@ -315,7 +315,7 @@ def pending_teams (contest_id):
 		pending =[]
 		for info in contest_obj.teams:
 			if (info.accepted == None):
-				pending.append(info.team.to_json())
+				pending.append(info.team.to_json_complete())
 		return jsonify(teams = pending) , 200
 	except DoesNotExist:
 		return "" , 406
