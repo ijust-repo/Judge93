@@ -160,11 +160,11 @@ def join_request():
 	form = JoinRequest.from_json(request.json)
 	if form.validate():
 		contest_id = form.data['contest_id']
-		team_id = form.data['team_id']
+		team_name = form.data['team_name']
 		
 		try:
 			contest_obj = Contest.objects().get(pk=contest_id)
-			team_obj = Team.objects().get(pk=team_id)
+			team_obj = Team.objects().get(name=team_name)
 			team_members_with_owner = team_obj.members
 			team_members_with_owner.append(team_obj.owner)
 
@@ -173,7 +173,6 @@ def join_request():
 
 					if (info.accepted == False):
 						info.accepted = None
-						print info.accepted
 						contest_obj.save()
 						return jsonify(errors = "join request not accepted -> Re_sent") , 200
 

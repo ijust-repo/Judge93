@@ -618,7 +618,7 @@ Example Request
 ```
 {
   "contest_id": "5661814323e3c023fc57aed8",
-  "team_id": "5662ba0823e3c01da4c9e2b1"
+  "team_name": "new_team"
 }
 ```
 
