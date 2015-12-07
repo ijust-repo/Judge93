@@ -156,9 +156,9 @@ def edit(contest_id):
 		if name:
 			contest_obj.name = name
 		if starts_on:
-			contest_obj.starts_on = starts_on
+			contest_obj.starts_on = datetime.utcfromtimestamp(starts_on)
 		if ends_on:
-			contest_obj.ends_on = ends_on
+			contest_obj.ends_on = datetime.utcfromtimestamp(ends_on)
 	except NotUniqueError:
 		main_form.name.errors.append(main_form.name.gettext('Contest with this name already exists!'))
 		return jsonify(errors=main_form.errors), 409
