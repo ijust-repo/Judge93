@@ -156,9 +156,24 @@
 					  <a href="#" id="addtestcaseexample" ><i class="fa fa-plus-square-o" style="font-size:24px"></i></a><br>
 					 <input type="button" name="addproblemsubmitbtn" id="addproblemsubmitbtn" class="btn btn-primary "value="Add" /><br>        
 				</div>
-				<div id="contestquestion" class="CSSTableGenerator" style="display:none">
-				
+				<div id="contestquestion"  style="display:none">
+					<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
+					<div id="contestheaderdiv" class="row  "></div><hr>
+					<div id="contestbodydiv" class="row"></div><hr>
+					<div id="contestfooterdiv" class="row"></div><hr>
+					<div id="contesttestcaseexamplediv"  class="row"></div>
+					<div id="contestlanguageproblem"  class="row"></div>
+					</div>
+					<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" >
+						<span class="btn btn-primary btn-file">
+							Browse <input type="file" onchange='$("#upload-file-problem").html($(this).val());'>
+						</span>
+						<span class='label label-info' id="upload-file-problem"></span><br>
+						<input type="button" id="submitproblemtbtn" class="btn btn-primary" value="Submit your code"/>
+					        
+					</div>
 				</div>
+				
 				<div id="contestrank" class="CSSTableGenerator" style="display:none">
 				<table id="contestranklist">
                    <tr>
@@ -177,11 +192,13 @@
    	</div>  
 </body>
 <script>
+
 	var problemnumber=0;
 	var canedit="no";
 	var contestid =null;
 	var contestname=null;
 	var loc = window.location;
+	var flagproblemlist=false;
 	
     if(loc.pathname==="/contest/"){
 		
@@ -260,6 +277,59 @@
     var pathName = loc.pathname.substring(0, 9);
     return pathName;
 }
+	function loadquestiondiv(id){	
+	document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('contestinformation').style.display = 'none';
+	document.getElementById('contestquestions').style.display = 'none';
+	document.getElementById('contestquestion').style.display = 'block';
+	document.getElementById('contestrank').style.display = 'none';	
+	document.getElementById('contestaddquestions').style.display = 'none';
+	 document.getElementById('addproblemdiv').style.display = 'none';
+	 $('#contestteam').css('background-color', '#1B325F');
+	 $('#questions').css('background-color', '#355C7D');
+	 //show problem
+	 $.ajax({
+            type: "GET",
+            url :"/contest/"+contestid+"/problems/"+(parseInt(id)+1)+"/",
+            dataType: "html",  				
+            success: function (data) {
+			document.getElementById('titlePage').innerHTML=((JSON.parse(data)).order+"-"+(JSON.parse(data)).title) ;	
+			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
+			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit);
+			$("#contestheaderdiv").html((JSON.parse(data)).header);
+			$("#contestbodydiv").html((JSON.parse(data)).body);
+			$("#contestfooterdiv").html((JSON.parse(data)).footer);
+			$("#contesttestcaseexamplediv").html((JSON.parse(data)).testcases);				
+            },
+          error: function (request, status, error) { 
+			  if(request.status===403){    
+					alert("You can not see problems right now!"); 
+			   } 
+			   else if(request.status===406){    
+					alert("Contest or problem does not exist!"); 
+			   }            
+           }   
+    });
+}
+	//submition
+	/*$("#questions").click(function() { 
+	 $.ajax({
+            type: "GET",
+            url :"/submit/"+contestid+"/"+<string:team_id>+"/"+<int:number>+"/"+<string:file_type>+"/",
+            dataType: "html",  				
+            success: function (data) {
+				alert(data); 
+          error: function (request, status, error) { 
+			  if(request.status===403){    
+					alert("You can not see problems right now!"); 
+			   } 
+			   else if(request.status===406){    
+					alert("Contest or problem does not exist!"); 
+			   }            
+           }   
+    });
+	
+	});*/
 	//show contest menu
 	if(getAbsolutePath()==="/contest/"){
 	  contestid = '{{contest_id }}';
@@ -328,15 +398,28 @@ $("#questions").click(function() {
            	var data=(JSON.parse(data)).problems;
 				 var tr;
 				 problemnumber=data.length;
+				 if(flagproblemlist==false){
 			for (var i = 0; i < data.length; i++) {
-				tr = $('<tr/>');
+				tr = $('<tr id="Q'+i+'">');
+				tr.append('<td>' + i + "</td>");
 				tr.append('<td>' + data[i].id + "</td>");
 				tr.append("<td>" + data[i].order + "</td>");
-				tr.append("<td>" + data[i].title + "</td>");
+				tr.append("<td>" + data[i].title + "</td></tr>");
 				//tr.append("<td>" + data[i].contests.ends_on + "</td>");
 				//tr.append("<td>" + data[i].name + "</td>");
 				$('#contestquestionslist').append(tr);
 			}
+			
+		
+			
+				$('td').click(function(){
+					id = $(this).closest('tr').attr('id');
+					loadquestiondiv(id[1]);
+		
+					
+				});	
+				flagproblemlist=true;
+				}	
             },
           error: function (request, status, error) { 
 			  if(request.status===406){    
