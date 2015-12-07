@@ -624,7 +624,7 @@ Example Request
 
 > **NOTE:**
 >
->- If response status code is **201** then team is successfully sends join request.
+>- If response status code is **200** then team is successfully sends join request.
 >- If team owner or one of the team members is joined in contest, response code is **409** and you will have errors like **'user salar is in contest'**
 >- If join request has been sent before and waites for owner's answer, response code is **406** and you will have errors like **'please wait for checking your join request'**
 >- If the team  already exists in contest, status code will be **409** and you will have errors like **'team already exists in contest!'**.
@@ -1300,12 +1300,12 @@ Resource Information
 Example Request
 ```
 {
-  "acceptation" : "false"
+  "acceptation" : false
 }
 ```
 > **NOTE:**
->- If team was accepted befor and acceptation value is **"false"**, response status code is **200** and team will reject.
->-If team was accepted befor and acceptation value is **"true"**, response status code is** 409** and you will have errors like **'this team was accepted before!'**.
+>- If team was accepted before or not, and acceptation value is **false**, response status code is **200** and team will reject.
+>-If team was accepted befor and acceptation value is **true**, response status code is** 409** and you will have errors like **'this team was accepted before!'**.
 >- If team rejected,response status code is** 409** and you will have errors like **'this team was rejected before!'**. 
 >- If the requested contest or team does not exist in data base, status code will be **406** and you will have errors like **'Team or Contest does not exist!'**. .
 >- If loged in user is not contest owner, status code will be **403** and you will have errors like **User is not owner'**.
