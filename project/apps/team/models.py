@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'AminHP'
+__author__ = ['AminHP' , "SALAR"]
 
 # python imports
 from mongoengine import Document, StringField, ReferenceField, ListField
@@ -16,3 +16,13 @@ class Team(Document):
 			id=str(self.pk),
 			name=self.name,
 			owner=self.owner.to_json())
+
+	def to_json_complete(self):
+		members_list=[]
+		for user in self.members:
+			members_list.append(user.to_json())
+		return dict(
+			id=str(self.pk),
+			name=self.name,
+			owner=self.owner.to_json(),
+			members=members_list)

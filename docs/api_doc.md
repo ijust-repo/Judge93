@@ -1257,23 +1257,39 @@ Resource Information
 Example Response
 ```
 {
- [
-  {
-    "id": "5662ba0823e3c01da4c9e2b1",
-    "name": "new_team",
-    "owner": {
+  [
+    {
+      "id": "5662ba0823e3c01da4c9e2b1",
+      "members": [
+                   {
+                     "id": "5662b70823e3c01da4c9e2af",
+                     "username": "admin"
+                   },
+                   {
+                     "id": "5662b71023e3c01da4c9e2b0",
+                     "username": "admin3"
+                   }
+                 ],
+      "name": "new_team",
+      "owner": {
                 "id": "566179cb23e3c01f40fc6431",
-                "username": "admin"
-              }
-  },
-  {
-    "id": "5662d0a023e3c00a5cc9d8b4",
-    "name": "new_team2",
-    "owner": {
-                "id": "5662bca323e3c0208ce1cbd4",
                 "username": "admin2"
+               }
+    },
+    {
+      "id": "5662d0a023e3c00a5cc9d8b4",
+      "members": [
+                  {
+                    "id": "5662bca323e3c0208ce1cbd4",
+                    "username": "admin4"
+                  }
+                 ],
+      "name": "new_team6",
+      "owner": {
+                "id": "5662bca323e3c0208ce1cbd4",
+                "username": "admin4"
+               }
     }
-  }
   ]
 }
 
