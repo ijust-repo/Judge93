@@ -83,9 +83,17 @@
                     <label>Contest Name</label>
                 </div>
                 <label style="margin-top:10px;">starts</label>
+                <input type="date" required id="contest_start_date" style="width:100%;margin-top:-8px;" />
+                <input type="time" required id="contest_start_time" style="width:100%;margin-top:2px;" />
+                <!--
                 <input type="datetime-local" required id="contest_start" style="width:100%;margin-top:-8px;" />
+                -->
                 <label style="margin-top:10px;">ends</label>
+                <input type="date" required id="contest_end_date" style="width:100%;margin-top:-8px;" />
+                <input type="time" required id="contest_end_time" style="width:100%;margin-top:2px;" />
+                <!--
                 <input type="datetime-local" required id="contest_end" style="width:100%;margin-top:-8px;" />
+                -->
                 <button id="create_contest_button" type="submit" class="submit-button">Submit</button>
             </form>
         </div>
@@ -478,13 +486,23 @@ $(document).ready(function () {
 		$('#create_contest_button').click(function() {
 			var name = $("input#contest_name").val();
 
-			var start = $("input#contest_start").val();
-			var startDate = new Date(start);
+			var start_date = $("input#contest_start_date").val();
+			var start_time = $("input#contest_start_time").val();
+			var hour = start_time.split(':')[0];
+			var minute = start_time.split(':')[1];
+			var startDate = new Date(start_date);
+			startDate.setHours(hour);
+			startDate.setMinutes(minute);
 			startDate = new Date(startDate.toUTCString());
 			var startMillis = startDate.getTime()/1000 + (startDate.getTimezoneOffset() * 6);
 
-			var end = $("input#contest_end").val();
-			var endDate = new Date(end);
+			var end_date = $("input#contest_end_date").val();
+			var end_time = $("input#contest_end_time").val();
+			var hour1 = end_time.split(':')[0];
+			var minute1 = end_time.split(':')[1];
+			var endDate = new Date(end_date);
+			endDate.setHours(hour1);
+			endDate.setMinutes(minute1);
 			endDate = new Date(endDate.toUTCString());
 			var endMillis = endDate.getTime()/1000 + (endDate.getTimezoneOffset() * 6);
 
@@ -496,6 +514,7 @@ $(document).ready(function () {
           		data: '{"name" : "' + name + '", "starts_on" : "' + startMillis + '", "ends_on" : "' + endMillis + '"}',
           		success: function (data) {
               		alert(" Contest successfully Created ");
+              		window.location.replace("/contest/mycontest/");
           		},
           		error: function (request, status, error) {
             		if (request.status === 409) {

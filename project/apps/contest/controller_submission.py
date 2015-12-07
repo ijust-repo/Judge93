@@ -26,6 +26,7 @@ import subprocess
 import time
 import re
 from signal import SIGTERM
+import shutil
 
 
 @contest.route('submit/<string:contest_id>/<string:team_id>/<int:number>/<string:file_type>/', methods=['POST'])
@@ -65,9 +66,12 @@ def submit (contest_id, team_id ,number, file_type):
                 return jsonify(errors="Contest Is Finished!"), 406
         
         # Upload...
-	upload_path = "project/contests/" + str (contest_name) + "/testcases/" + str (number) + '/submission_codes/' 
+	upload_path = "project/contests/" + str (contest_name) + "/testcases/" + str (number) + '/submission_codes/%s/' %team_name 
 	filename = str('code_') + ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15)) + ".%s" %file_type
 	if not os.path.exists(upload_path):
+		os.makedirs(upload_path)
+	else :
+		shutil.rmtree (upload_path)
 		os.makedirs(upload_path)
 	with open(os.path.join(upload_path, filename), 'a') as file:
 		file.write(data)
@@ -210,7 +214,8 @@ def submit (contest_id, team_id ,number, file_type):
 def delete_compile_files(upload_path, filename, file_type, isExceeded = False):
         try:
                 try:
-                        os.remove(os.path.join(upload_path, filename))
+                        pass #fln tasmim bar ine k khode filo hazf nakonim :)
+                        #os.remove(os.path.join(upload_path, filename))
                 except:
                         pass
 		if(file_type == "cpp"):
