@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini", 'AminHP']
+__author__ = ['Kia' , 'mahnoosh','nargess',"Amin Hosseini", 'AminHP', "SALAR"]
 
 #flask import
 from flask import jsonify, request, render_template
@@ -13,7 +13,7 @@ from project.utils.access import login_user, logout_user, logged_in_user
 
 from project.apps.user.models import User
 from project.apps.team.models import Team
-from project.apps.contest.models import Contest
+from project.apps.contest.models import Contest, TeamInfo
 
 from mongoengine import DoesNotExist, NotUniqueError
 
@@ -155,6 +155,50 @@ def get_team_member(team_id):
 		return jsonify(errors='Team does not exist!'), 406
 
 
+@team.route('join_request/', methods=['POST'])
+def join_request():
+	form = JoinRequest.from_json(request.json)
+	if form.validate():
+		contest_id = form.data['contest_id']
+		team_id = form.data['team_id']
+		
+		try:
+			contest_obj = Contest.objects().get(pk=contest_id)
+			team_obj = Team.objects().get(pk=team_id)
+			team_members_with_owner = team_obj.members
+			team_members_with_owner.append(team_obj.owner)
+
+			for info in contest_obj.teams:
+				if (team_obj == info.team):
+
+					if (info.accepted == False):
+						info.accepted = None
+						print info.accepted
+						contest_obj.save()
+						return jsonify(errors = "join request not accepted -> Re_sent") , 200
+
+					elif (info.accepted == True):
+						return jsonify(errors = 'team already exists in contest!'), 409
+
+					else:
+						return jsonify(errors = " please wait for checking your join request") , 406
+
+				contest_teams_members_with_owner = info.team.members
+				contest_teams_members_with_owner.append(info.team.owner)
+				for member in contest_teams_members_with_owner:
+					if (member in team_members_with_owner):
+						return jsonify(errors = 'user %s is in contest' %member.username), 409
+
+			team_obj.contests.append(contest_obj)
+			team_info = TeamInfo (team = team_obj)
+			contest_obj.teams.append(team_info)
+			contest_obj.save()
+			team_obj.save()
+			return "" , 200
+
+		except DoesNotExist:
+			return "" , 406
+
 @team.route('<string:team_id>/member/<string:member_id>/', methods=['DELETE'])
 def member_member(team_id, member_id):
 	try:
@@ -169,4 +213,3 @@ def member_member(team_id, member_id):
 		return "", 200
 	except DoesNotExist:
 		return jsonify(errors='Team or member does not exist!'), 406
-
