@@ -6,9 +6,10 @@
     <title>Home</title>
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
+        <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
+    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>	
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -20,7 +21,7 @@
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 		
 		<li class=" usernameitem " id="usernameitem">
-			<a ><h4 id="getusername" class="leftmenuitem"></h4></a>
+			<a href="#"><h4 id="getusername" class="leftmenuitem"></h4></a>
 			<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 		</li>	
 		
@@ -83,7 +84,7 @@
 <script>
 	$(document).ready(function () {
 	     var id = '{{user_id }}'; 
-	     var username;
+	     var username=null;
 	 //change profile
 function changeprofile(username){
 		document.title = username;
@@ -112,7 +113,7 @@ function checkprofile(username){
 			   }				
             },
            error: function (request) {                
-				alert("this user not found");	      	      		
+				alert(request.errors);      	      		
       		}
 		});
 	}
@@ -133,10 +134,12 @@ function checkprofile(username){
 					
             },
            error: function (request) {                
-				alert("this user not found");	      	      		
+				alert(request.errors);	      	      		
       		}
 		});
-
+$("#getusername").click(function() {
+			window.location.replace("/user/"+username+"/");
+		});
 	// back to profile
 $("#backtoprofile").click(function() { 
 	 $.ajax({
@@ -148,7 +151,7 @@ $("#backtoprofile").click(function() {
 				window.location.replace("/user/"+userlogin+"/");         				
             },
            error: function (request) {                
-				alert("this user not found");	      	      		
+				alert(request.errors);      	      		
       		}
 		});
            	
@@ -190,7 +193,7 @@ $("#backtoprofile").click(function() {
 				});				
             },
            error: function (request) {                
-				alert("this user not found");	      	      		
+				alert(request.errors);	      	      		
       		}
 		});	
 		
@@ -206,7 +209,7 @@ $("#logout").click(function() {
             },
           error: function (request, status, error) { 
 			  if(request.status===405){    
-					alert("Please login first"); 
+					alert(request.errors); 
 				}            
             }
             

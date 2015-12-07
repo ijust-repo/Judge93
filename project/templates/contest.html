@@ -6,8 +6,10 @@
     <title>Contests</title>
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
+        <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
+
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>	
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
@@ -19,7 +21,7 @@
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 		
 		<li class=" usernameitem " id="usernameitem">
-			<a ><h4 id="getusername" class="leftmenuitem"></h4></a>
+			<a href="#"><h4 id="getusername" class="leftmenuitem"></h4></a>
 			<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 		</li>			
 		<li  id="contest"  >
@@ -56,7 +58,7 @@
 		
 		<li  id="questions" class=" usernameitem " >
 			
-		 	<a href="#questions" ><h4 class="leftmenuitem"><i  class="fa fa-code" style="width:20px; height:20px;"> </i> Questions</h4></a>
+		 	<a href="#questions" ><h4 class="leftmenuitem"><i  class="fa fa-code" style="width:20px; height:20px;"> </i> Problems</h4></a>
 		</li>
 		
 		<li  id="rank"  >
@@ -100,16 +102,23 @@
     </div>
     
 <div class="col-xs-offset-3 col-md-offset-2 row">
-	<div class="col-xs-9 col-md-10 maintitr">
+	<div id="maintitr" class="col-xs-9 col-md-10 maintitr">
 		<p id="titlePage">Contests</p>
 		<div id="createcontestdiv" ><a href="#createContest"><button class="hover-button close-page">Create  Contest</button></a></div>
 		<div id="addproblemdiv" style="display:none"><a href="#addProblem"><button id="addproblembtn" class="hover-button close-page">Add problem</button></a></div>
+	</div>
+	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none">
+		<input type="button" id="backtoproblemlistbtn" class="hover-button " value="Back to contest"/>
+		<div id="time"></div>
+		<p id="orderproblem" class="contestproblem " ></p>
+		<p id="titleproblem" class="contestproblem "></p>
+		
 	</div>
 </div>
    
 	<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents  " >
-				<div id="contestinfoforusers"class="CSSTableGenerator" >					
+			<div id="contestinfoforusers"class="CSSTableGenerator" >					
 					<table id="contestinfo">
 					   <tr>
 						   <td style="display:none"> id </td>
@@ -121,10 +130,11 @@
 						</tr>
 					</table>
                 </div>
-                <div id="contestinformation" class="CSSTableGenerator" style="display:none">
+            <div id="contestinformation" class="CSSTableGenerator" style="display:none">
 					<input type="button" id="editcontestbtn" class="btn btn-primary" value="edit" style="display:none"/>
+					<input type="button" id="jointocontestbtn" class="btn btn-primary" value="Join to this contest" style="display:none"/>
 				</div>            
-                <div id="contestquestions" class="CSSTableGenerator" style="display:none">
+            <div id="contestquestions" class="CSSTableGenerator" style="display:none">
 					<table id="contestquestionslist">
 					   <tr>
 						   <td > id </td>
@@ -133,56 +143,69 @@
 						</tr>
 					</table>
 				</div>
-				<div id="contestaddquestions" style="display:none; margin:3%;">
-					Problem details:
-					<hr>
-					 <label class="labelcss" for="problemtitle">Title: </label>
-					 <input type="text" name="problemtitle" id="problemtitle" style="width:85%"/><br>
-					 <div class="row"> 
-					 <label class="labelcss" for="problemtimelimit">Time limit: </label>
-					 <input type="text" name="problemtimelimit" id="problemtimelimit" style="margin-right:3%; width:35.5%"/>
-					 <label class="labelcss" for="problemspacelimit">Space limit: </label>
-					 <input type="text" name="problemspacelimit" id="problemspacelimit" style="width:35.5%"/><br>
-					 </div>
-					 <label class="labelcss" for="problemheader">Header: </label>
-					 <textarea class="textareacss" name="problemheader"  id="problemheader"></textarea><br>
-					 <label class="labelcss" for="problembody">Body: </label>
-					 <textarea class="textareacss" name="problembody" id="problembody" ></textarea><br>
-					 <label class="labelcss" for="problembody">Footer: </label>
-					 <textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
-					 <hr>
-					  
-				    Testcase example:
-					
-					 <div class="testcase" id="problemtestcase">
-						 <hr>
-					 <label class="labelcss" for="problemtestcaseinput">Input: </label>
-					 <textarea class="textareacss" name="problemtestcaseinput" id="problemtestcaseinput" ></textarea><br>
-					 <label class="labelcss" for="problemtestcaseoutput">Output: </label>
-					 <textarea class="textareacss" name="problemtestcaseoutput" id="problemtestcaseoutput" ></textarea><br>
-					 </div>
-					  <a href="#" id="addtestcaseexample" ><i class="fa fa-plus-square-o" style="font-size:24px"></i></a><br>
-					 <input type="button" name="addproblemsubmitbtn" id="addproblemsubmitbtn" class="btn btn-primary "value="Add" /><br>        
+			<div id="contestaddquestions" style="display:none; margin:3%;">
+				Problem details:
+				<hr>
+				<label class="labelcss" for="problemtitle">Title: </label>
+				<input type="text" name="problemtitle" id="problemtitle" style="width:85%"/><br>
+				<div class="row"> 
+					<label class="labelcss" for="problemtimelimit">Time limit: </label>
+					<input type="text" name="problemtimelimit" id="problemtimelimit" style="margin-right:3%; width:35.5%"/>
+					<label class="labelcss" for="problemspacelimit">Space limit: </label>
+					<input type="text" name="problemspacelimit" id="problemspacelimit" style="width:35.5%"/><br>
 				</div>
-				<div id="contestquestion"  style="display:none">
-					<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
+				<label class="labelcss" for="problemheader">Header: </label>
+				<textarea class="textareacss" name="problemheader"  id="problemheader"></textarea><br>
+				<label class="labelcss" for="problembody">Body: </label>
+				<textarea class="textareacss" name="problembody" id="problembody" ></textarea><br>
+				<label class="labelcss" for="problembody">Footer: </label>
+				<textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
+				<hr>
+				sample Testcase:<br>
+				
+				<div class="testcase" id="problemtestcase" >
+					<hr>
+					<label class="labelcss" for="problemtestcaseinput">Input: </label>
+					<textarea class="textareacss" name="problemtestcaseinput" id="problemtestcaseinput" ></textarea><br>
+					<label class="labelcss" for="problemtestcaseoutput">Output: </label>
+					<textarea class="textareacss" name="problemtestcaseoutput" id="problemtestcaseoutput" ></textarea><br>
+				</div>
+				<hr>	  				
+					<input type="button" name="addproblemsubmitbtn" id="addproblemsubmitbtn" class="btn btn-primary "value="Add" /><br>        
+					<input type="button"  name="editproblemsubmitbtn" id="editproblemsubmitbtn" class="btn btn-primary "value="Submit edit" /><br>
+				
+			</div>
+			<div id="contestquestion"  style="display:none">
+				<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
+					<p  >: محدودیت حافظه</p>
+					<div id="contestspacelimitdiv" class="row  "></div><hr>
+					<p  >: محدودیت زمانی</p>
+					<div id="contesttimelimitdiv" class="row  "></div><hr>
 					<div id="contestheaderdiv" class="row  "></div><hr>
 					<div id="contestbodydiv" class="row"></div><hr>
-					<div id="contestfooterdiv" class="row"></div><hr>
-					<div id="contesttestcaseexamplediv"  class="row"></div>
+					<div id="contestfooterdiv" class="row"></div><hr>						
 					<div id="contestlanguageproblem"  class="row"></div>
-					</div>
-					<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" >
-						<span class="btn btn-primary btn-file">
-							Browse <input type="file" onchange='$("#upload-file-problem").html($(this).val());'>
-						</span>
-						<span class='label label-info' id="upload-file-problem"></span><br>
-						<input type="button" id="submitproblemtbtn" class="btn btn-primary" value="Submit your code"/>
-					        
-					</div>
+				</div>
+				<div class="row" id="contesttestcaseexamplediv" >
+					<hr>
+					<label class="labelcss" for="problemtestcaseinput">Input: </label>
+					<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput" readonly></textarea><br>
+					<label class="labelcss" for="problemtestcaseoutput">Output: </label>
+					<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput" readonly></textarea><br>
 				</div>
 				
-				<div id="contestrank" class="CSSTableGenerator" style="display:none">
+				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
+					<span class="btn btn-primary btn-file">
+						Browse <input type="file" onchange='$("#upload-file-problem").html($(this).val());'>
+					</span>
+					<span class='label label-info' id="upload-file-problem"></span><br>
+					<input type="button" id="submitproblemtbtn" class="btn btn-primary" value="Submit your code"/>					        
+				</div>
+				<div id="contesteditproblems" class="col-xs-12 col-md-11  row" style="display:none">
+					<input type="button" id="editproblemtbtn" class="btn btn-primary" value="Edit problem"/>					        
+				</div>
+			</div>
+			<div id="contestrank" class="CSSTableGenerator" style="display:none">
 				<table id="contestranklist">
                    <tr>
 					   <td style="display:none"> id </td>
@@ -193,7 +216,7 @@
 					</tr>
                 </table>
 				</div>
-				<div id="contestteam" class="team">
+			<div id="contestteam" class="team">
 				
 				</div>					 
 	    </div>	  
@@ -207,32 +230,37 @@
 	var contestname=null;
 	var loc = window.location;
 	var flagproblemlist=false;
-	
-    if(loc.pathname==="/contest/"){
-		
-	}
-	function checkifadmin(username){
-		 $.ajax({
+	var userlogin=null;
+	var username=null;
+	var problemid=null;
+	// get userlogin
+	$.ajax({
             type: "GET",
             url : '/user/get_profile/',
             dataType: "html", 				
             success: function (data) {
-				var userlogin=(JSON.parse(data)).username;
-           if(username===userlogin){
-           document.getElementById('contestteam').style.display = 'block';	
-           document.getElementById('editcontestbtn').style.display = 'block';
-			canedit="yes";
-			}
-           else{
-			  //changeprofile(username);
-			   
-			   }				
+			 userlogin=(JSON.parse(data)).username;
+          		
             },
            error: function (request) {                
-				alert("this user not found");	      	      		
+				alert(request.errors);	      	      		
       		}
 		
 		});
+		
+	function checkifadmin(username){
+		 if(username===userlogin){
+           document.getElementById('contestteam').style.display = 'block';
+           document.getElementById('contesteditproblems').style.display = 'block';		
+           document.getElementById('editcontestbtn').style.display = 'block';
+           document.getElementById('jointocontestbtn').style.display = 'none';
+			canedit="yes";
+			}
+           else{
+			  document.getElementById('contestquestionsubmit').style.display = 'block';
+			  document.getElementById('jointocontestbtn').style.display = 'block';
+			   
+			   }		 
 	}
 	//change profile
 	function changeprofile(username){
@@ -250,7 +278,7 @@
             url : '/user/get_profile/',
             dataType: "html", 				
             success: function (data) {
-				var userlogin=(JSON.parse(data)).username;
+			 userlogin=(JSON.parse(data)).username;
            if(username===userlogin){
           /* document.getElementById('info').style.display = 'none';*/	}
            else{
@@ -259,7 +287,7 @@
 			   }				
             },
            error: function (request) {                
-				alert("this user not found");	      	      		
+				alert(request.errors);	      	      		
       		}
 		
 		});
@@ -287,12 +315,15 @@
 }
 	function loadquestiondiv(id){	
 	document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('maintitr').style.display = 'none';
+	document.getElementById('problemhead').style.display = 'block';
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
 	document.getElementById('contestquestion').style.display = 'block';
 	document.getElementById('contestrank').style.display = 'none';	
 	document.getElementById('contestaddquestions').style.display = 'none';
 	 document.getElementById('addproblemdiv').style.display = 'none';
+	 problemid=(parseInt(id)+1);
 	 $('#contestteam').css('background-color', '#1B325F');
 	 $('#questions').css('background-color', '#355C7D');
 	 //show problem
@@ -301,21 +332,20 @@
             url :"/contest/"+contestid+"/problems/"+(parseInt(id)+1)+"/",
             dataType: "html",  				
             success: function (data) {
-			document.getElementById('titlePage').innerHTML=((JSON.parse(data)).order+"-"+(JSON.parse(data)).title) ;	
+			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
+			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order)
 			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
-			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit);
+			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit );
 			$("#contestheaderdiv").html((JSON.parse(data)).header);
 			$("#contestbodydiv").html((JSON.parse(data)).body);
 			$("#contestfooterdiv").html((JSON.parse(data)).footer);
-			$("#contesttestcaseexamplediv").html((JSON.parse(data)).testcases);				
+			$("#testcaseinput").html(((JSON.parse(data)).testcases[0]).input);
+			$("#testcaseoutput").html(((JSON.parse(data)).testcases[0]).output);					
             },
           error: function (request, status, error) { 
-			  if(request.status===403){    
-					alert("You can not see problems right now!"); 
-			   } 
-			   else if(request.status===406){    
-					alert("Contest or problem does not exist!"); 
-			   }            
+			    
+					alert(request.error); 
+			         
            }   
     });
 }
@@ -328,17 +358,14 @@
             success: function (data) {
 				alert(data); 
           error: function (request, status, error) { 
-			  if(request.status===403){    
-					alert("You can not see problems right now!"); 
-			   } 
-			   else if(request.status===406){    
-					alert("Contest or problem does not exist!"); 
-			   }            
+		   
+					alert(request.errors); 			              
            }   
     });
 	
 	});*/
 	//show contest menu
+
 	if(getAbsolutePath()==="/contest/"){
 	  contestid = '{{contest_id }}';
 	 $( '#getidcontest ' ).html(contestid);	
@@ -354,7 +381,7 @@
 				 changecontestpage(contestname);				
             },
            error: function (request) {                
-				alert("this contest not found");	      	      		
+				alert(request.errors);	      	      		
       		}
 		}); 
 		 	
@@ -366,7 +393,7 @@
             url : "/user/get_profile/by_id/"+id+"/",
             dataType: "html", 				
             success: function (data) {
-				var username=(JSON.parse(data)).username;
+		        username=(JSON.parse(data)).username;
 				checkprofile(username);
 				$( '#getusername ' ).html(username);
 				$( '#getidprof ' ).html(id);
@@ -376,7 +403,7 @@
 				});
             },
            error: function (request) {                
-				alert("this user not found");	      	      		
+				alert(request.errors);	      	      		
       		}
 		});
  $('#contest').css('background-color', '#355C7D');
@@ -386,7 +413,9 @@
 $("#questions").click(function() { 
 	document.getElementById('titlePage').innerHTML="Problems" ;
 	document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('maintitr').style.display = 'block';
 	document.getElementById('contestinformation').style.display = 'none';
+	document.getElementById('problemhead').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'block';
 	document.getElementById('contestquestion').style.display = 'none';
 	document.getElementById('contestrank').style.display = 'none';	
@@ -394,8 +423,7 @@ $("#questions").click(function() {
 	 $('#contestteam').css('background-color', '#1B325F');
 	 $('#questions').css('background-color', '#355C7D');
 	 if (canedit==="yes"){
-		 document.getElementById('addproblemdiv').style.display = 'block';
-		
+		 document.getElementById('addproblemdiv').style.display = 'block';		
 	 }
   $.ajax({
             type: "GET",
@@ -416,25 +444,78 @@ $("#questions").click(function() {
 				//tr.append("<td>" + data[i].contests.ends_on + "</td>");
 				//tr.append("<td>" + data[i].name + "</td>");
 				$('#contestquestionslist').append(tr);
-			}
-			
-		
-			
+			}		
 				$('td').click(function(){
 					id = $(this).closest('tr').attr('id');
-					loadquestiondiv(id[1]);
-		
-					
+					loadquestiondiv(id[1]);						
 				});	
 				flagproblemlist=true;
 				}	
             },
-          error: function (request, status, error) { 
-			  if(request.status===406){    
-					alert("Contest does not exists"); 
-			   }            
+          error: function (request) {    
+				alert(request.errors);    			               
            }   
     });
+ });
+ 
+ $("#editproblemtbtn").click(function() {
+	 document.getElementById('maintitr').style.display = 'block';
+	 document.getElementById('problemhead').style.display = 'none';
+	document.getElementById('titlePage').innerHTML="Edit Problems" ;
+	document.getElementById('addproblemsubmitbtn').style.display = 'none';
+	document.getElementById('editproblemsubmitbtn').style.display = 'edit';
+	document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('contestinformation').style.display = 'none';
+	document.getElementById('contestquestions').style.display = 'none';
+	document.getElementById('contestaddquestions').style.display = 'block';
+	document.getElementById('contestquestion').style.display = 'none';
+	document.getElementById('contestrank').style.display = 'none';	
+	 $('#contestteam').css('background-color', '#1B325F');
+	 $('#questions').css('background-color', '#355C7D');		
+			//$("#contesttestcaseexamplediv").val();
+	 $("#problemtitle").val($("#titleproblem").text());
+	 $("#problemtimelimit").val($("#contesttimelimitdiv").text());
+	 $("#problemspacelimit").val($("#contestspacelimitdiv").text());
+	 $("#problemheader").val($("#contestheaderdiv").text());
+	 $("#problembody").val($("#contestbodydiv").text());
+	 $("#problemfooter").val($("#contestfooterdiv").text()); 
+	// $("#problemtestcaseinput").val();  
+	// $("#problemtestcaseoutput").val(); 			
+		 
+ });
+ $("#editproblemsubmitbtn").click(function() {
+	var problemtitle = $("#problemtitle").val();
+	var problemtimelimit = $("#problemtimelimit").val();
+	var problemspacelimit = $("#problemspacelimit").val();
+	var problemheader = $("#problemheader").val();
+	var problembody = $("#problembody").val();
+	var problemfooter = $("#problemfooter").val(); 
+	var problemtestcaseinput = $("#problemtestcaseinput").val();  
+	var problemtestcaseoutput = $("#problemtestcaseoutput").val();  
+
+  $.ajax({
+            type: "PUT",
+            url : "/contest/"+contestid+"/",
+           contentType: "application/json",
+            dataType: "html",			
+            data: '{"problems":[{"id":"'+problemid+'","title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}]}',
+            success: function (data) {
+                alert("Edit problem successfully");
+				  $("#problemtitle").val('');
+				  $("#problemtimelimit").val('');
+				  $("#problemspacelimit").val('');
+				  $("#problemheader").val('');
+				  $("#problembody").val('');
+				  $("#problemfooter").val(''); 
+				  $("#problemtestcaseinput").val('');  
+				  $("#problemtestcaseoutput").val(''); 
+                window.location.replace("/contest/"+contestname+"/");
+            },
+            error: function (request, status, error) {
+				alert(request.errors);
+            }
+              });
+  
  });
  //show contest of user
   function getidprofile(id){    		   		
@@ -457,7 +538,7 @@ $("#questions").click(function() {
 
             },
            error: function (request) {                
-				alert("this user not found");	      	      		
+				alert(request.errors);	      	      		
       		}
 		});
   } 
@@ -517,11 +598,7 @@ $(document).ready(function () {
               		window.location.replace("/contest/mycontest/");
           		},
           		error: function (request, status, error) {
-            		if (request.status === 409) {
-              			alert(" Contest with this name already exists! ");
-            		} else if (request.status === 406) {
-              			alert(" Start date must be earlier than end date! or Start date must be later than now! or fields required ");
-            		}
+            		alert(request.errors);
           		}
         	});
 			
@@ -539,9 +616,7 @@ $("#logout").click(function() {
            	window.location.replace("/user/");
             },
           error: function (request, status, error) { 
-			  if(request.status===405){    
-					alert("Please login first"); 
-				}            
+			  alert(request.errors);           
             }
             
     });
@@ -566,14 +641,16 @@ $(".backtoprofile").click(function() {
 //add problem
 $("#addproblembtn").click(function() { 
 	document.getElementById('titlePage').innerHTML="Add Problems" ;
-	document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('contestinfoforusers').style.display = 'none';	
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
 	document.getElementById('contestaddquestions').style.display = 'block';
+	document.getElementById('addproblemsubmitbtn').style.display = 'block';
+	document.getElementById('editproblemsubmitbtn').style.display = 'none';
 	document.getElementById('contestquestion').style.display = 'none';
 	document.getElementById('contestrank').style.display = 'none';	
 	 $('#contestteam').css('background-color', '#1B325F');
-	 $('#questions').css('background-color', '#355C7D');	
+	 $('#questions').css('background-color', '#355C7D');
 });
 $("#addproblemsubmitbtn").click(function() { 
 	var problemtitle = $("#problemtitle").val();
@@ -584,33 +661,22 @@ $("#addproblemsubmitbtn").click(function() {
 	var problemfooter = $("#problemfooter").val(); 
 	var problemtestcaseinput = $("#problemtestcaseinput").val();  
 	var problemtestcaseoutput = $("#problemtestcaseoutput").val();  
+	var problemtestcaseinput = $("#problemtestcaseinput").val();
+	var problemtestcaseoutput = $("#problemtestcaseoutput").val();
 
   $.ajax({
             type: "POST",
             url : "/contest/"+contestid+"/problem/",
            contentType: "application/json",
             dataType: "html",			
-            data: '{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}',
+            data: '{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '","testcases": [ { "input":"'+problemtestcaseinput+'" ,"output":"'+problemtestcaseoutput+'" } ]}',
             success: function (data) {
                 alert("add problem successfully");
                 window.location.replace("/contest/"+contestname+"/");
             },
             error: function (request, status, error) {
-                    
-      		 if (request.status===500) 
-             {
-					alert("The admin not found , please login first");             
-             } 	
-				else if (request.status===403) 
-             {
-					alert("Sorry, only admin can add a problem");             
-             }
-             else if (request.status===406) 
-             {
-					alert("Please fill in all fields");             
-             }
+             alert(request.errors);
               
-
             }
               });
   $("#problemtitle").val('');
@@ -623,12 +689,64 @@ $("#addproblemsubmitbtn").click(function() {
   $("#problemtestcaseoutput").val('');  
 
 });	
-$("#addtestcaseexample").click(function() { 
-	var container = document.getElementById('contestaddquestions');
-	var clonedDiv = $('#problemtestcase').clone();
-	clonedDiv.attr("id", "problemtestcase1");
-	$('#problemtestcase1').after(cloneDiv);
-});
 
+//go to user profile
+$("#getusername").click(function() {
+			window.location.replace("/user/"+username+"/");
+		});
+
+$("#jointocontestbtn").click(function() {
+	swal({
+  title: " ",
+  text: "Please wirte your team name",
+  type: "input",
+  showCancelButton: true,
+  closeOnConfirm: false,
+  animation: "slide-from-top",
+  inputPlaceholder: "Team name"
+},
+function(inputValue){
+  if (inputValue === false) return false;
+  
+  if (inputValue === "") {
+    swal.showInputError("You need to write something!");
+    return false;
+  }
+  /*$.ajax({
+            type: "GET",
+            url :"/team/"+inputValue+"/",
+           // data: '{"contest_id": "' + username + '", "team_id" : "' + password + '"}',
+            dataType: "html",  				
+            success: function (data) {
+				$.ajax({
+            type: "POST",
+            url :"/team/join_request/",
+             data: '{"contest_id": "' + contestid + '", "team_id" : "' +data + '"}',
+            dataType: "html",  				
+            success: function (data) {				
+			swal("Good !", " Your join request sent successfully", "success");
+			} ,
+          error: function (request, status, error) { 
+		   
+					alert(request.errors); 			              
+           }   
+    });
+
+				
+			} ,
+          error: function (request, status, error) { 
+		   
+					alert(request.errors); 			              
+           }  
+    });*/
+  
+
+  
+});
+	
+ });
+$("#backtoproblemlistbtn").click(function() {
+	 location.reload();
+});	
 </script>
 </html>
