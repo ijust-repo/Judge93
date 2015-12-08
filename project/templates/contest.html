@@ -264,13 +264,13 @@
 	function checkifadmin(username){
 		 if(username===userlogin){
            document.getElementById('contestteam').style.display = 'block';
-           document.getElementById('contesteditproblems').style.display = 'block';		
-           document.getElementById('editcontestbtn').style.display = 'block';
+           $('#contesteditproblems').show(1000);
+           $('#editcontestbtn').show(1000);
            document.getElementById('jointocontestbtn').style.display = 'none';
 			canedit="yes";
 			}
            else{
-			  document.getElementById('contestquestionsubmit').style.display = 'block';
+			   $('#contestquestionsubmit').show(1000);
 			  document.getElementById('jointocontestbtn').style.display = 'block';
 			   
 			   }		 
@@ -351,8 +351,8 @@
 	function changecontestpage(contestname){		
 		document.title = contestname;
 		$( '#getcontestname ' ).html(contestname);
-		document.getElementById('contestleftmenu').style.display = 'block';
-		document.getElementById('contestinformation').style.display = 'block';
+		$('#contestleftmenu').show(1000);
+		$('#contestinformation').show(1000);
 		document.getElementById('leftmenu').style.display = 'none';
 		document.getElementById('contestinfoforusers').style.display = 'none';
 		document.getElementById('createcontestdiv').style.display = 'none';
@@ -372,10 +372,10 @@
 	function loadquestiondiv(id){	
 	document.getElementById('contestinfoforusers').style.display = 'none';
 	document.getElementById('maintitr').style.display = 'none';
-	document.getElementById('problemhead').style.display = 'block';
+	$('#problemhead').show(1000);
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
-	document.getElementById('contestquestion').style.display = 'block';
+	$('#contestquestion').show(1000);
 	document.getElementById('contestrank').style.display = 'none';	
 	document.getElementById('contestaddquestions').style.display = 'none';
 	 document.getElementById('addproblemdiv').style.display = 'none';
@@ -437,10 +437,10 @@ $("#questions").click(function() {
             success: function (data) {
 				  document.getElementById('titlePage').innerHTML="Problems" ;
 	document.getElementById('contestinfoforusers').style.display = 'none';
-	document.getElementById('maintitr').style.display = 'block';
+	$('#maintitr').show(1000);
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('problemhead').style.display = 'none';
-	document.getElementById('contestquestions').style.display = 'block';
+	$('#contestquestions').show(1000);
 	document.getElementById('contestquestion').style.display = 'none';
 	document.getElementById('contestrank').style.display = 'none';	
 		document.getElementById('contestteams').style.display = 'none';	
@@ -472,7 +472,7 @@ $("#questions").click(function() {
 				}	
             },
          		error: function (request, status,error) {					
-			  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") 
+			  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 
 			  
 					               
            }   
@@ -481,15 +481,15 @@ $("#questions").click(function() {
  });
  
  $("#editproblemtbtn").click(function() {
-	 document.getElementById('maintitr').style.display = 'block';
+	$('#maintitr').show(1000);
 	 document.getElementById('problemhead').style.display = 'none';
 	document.getElementById('titlePage').innerHTML="Edit Problems" ;
 	document.getElementById('addproblemsubmitbtn').style.display = 'none';
-	document.getElementById('editproblemsubmitbtn').style.display = 'edit';
+	document.getElementById('editproblemsubmitbtn').style.display = 'block';
 	document.getElementById('contestinfoforusers').style.display = 'none';
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
-	document.getElementById('contestaddquestions').style.display = 'block';
+	$('#contestaddquestions').show(1000);
 	document.getElementById('contestquestion').style.display = 'none';
 	document.getElementById('contestrank').style.display = 'none';	
 	document.getElementById('contestteams').style.display = 'none';	
@@ -668,6 +668,7 @@ $(".backtoprofile").click(function() {
             dataType: "html", 				
             success: function (data) {
 				var userlogin=(JSON.parse(data)).username; 
+				
 				window.location.replace("/user/"+userlogin+"/");         				
             },
            error: function (request) {                
@@ -691,7 +692,7 @@ $("#addproblembtn").click(function() {
 	document.getElementById('contestinfoforusers').style.display = 'none';	
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
-	document.getElementById('contestaddquestions').style.display = 'block';
+	$('#contestaddquestions').show(1000);
 	document.getElementById('addproblemsubmitbtn').style.display = 'block';
 	document.getElementById('editproblemsubmitbtn').style.display = 'none';
 	document.getElementById('contestquestion').style.display = 'none';

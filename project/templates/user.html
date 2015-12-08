@@ -89,7 +89,7 @@ if (password===password2) {
      					window.location.replace("/user/");
             },
             error: function (request, status, error) {            
-				alert(request.errors);
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
           }
               
 
@@ -121,7 +121,7 @@ var password = $("input#password_login").val();
             },
             error: function (request, status, error) {
                     
-      		 alert(request.errors);
+      		swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
               
 
             }

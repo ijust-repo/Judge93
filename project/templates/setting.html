@@ -99,7 +99,7 @@
             $('#change_email').val((JSON.parse(data)).email);
         },
         error: function(request, status, error) {
-				swal("Sorry!",request.errors, "error");
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 
         }
     });
     
@@ -124,7 +124,7 @@
           
         },
         error: function (request, status, error) {
-         swal("Sorry!",request.errors, "error");
+         swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 
         }
 
 
@@ -145,7 +145,7 @@
              swal("Good!", "Password changed successfully!", "success");
           },
           error: function (request, status, error) {
-			  swal("Sorry!",request.errors, "error");
+			 swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 
             
           }
 
@@ -173,7 +173,7 @@ $("#logout").click(function() {
            	window.location.replace("/user/");
             },
           error: function (request, status, error) { 
-			   swal("Sorry!",request.errors, "error");           
+			  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");           
             }
             
     });
@@ -187,7 +187,9 @@ $("#team").click(function() {
 		});
   });
   
-     
+$(document).ready(function() {
+    $("html").niceScroll({cursorwidth: '10px', autohidemode: true, zindex: 999 });
+});     
 </script>
 </html>
 

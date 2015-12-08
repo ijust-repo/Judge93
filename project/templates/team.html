@@ -21,7 +21,7 @@
 <ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 
 	<li class=" usernameitem " id="usernameitem">
-		<a ><h4 id="getusername" class="leftmenuitem"></h4></a>
+		<a href="#" ><h4 id="getusername" class="leftmenuitem"></h4></a>
 		<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 	</li>
 
@@ -143,16 +143,17 @@
 								url: myUrl,
 								dataType: "html",
 								success: function(data2){
-									alert('removed');
+									swal("Good!", "removed successfully", "success");
+									
 									$(this).addClass('addable').removeClass('removable');
 								},
 								error: function (request, status, error){
-									alert(error + request + status);
+									swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 								}
 							});
 						},
 						error: function (request, status, error){
-							alert(error + request + status);
+							swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 						}
 					});
 				}
@@ -174,10 +175,10 @@
 						data: JSON.stringify(myData),
 						success: function (data) {
 							$obj.replaceWith($('<p class="removable">' + $obj.val() + '</p>'));
-							alert($obj.val() + " added");
+							swal("Good!",$obj.val() + " added", "success");
 						},
 						error: function (request, status, error) {
-							alert(error + request + status);
+							swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 						}
 					});
 				}
@@ -197,10 +198,11 @@
 						contentType: "application/json",
 						data: '{"new_name": "' + new_name +'"}',
 						success: function(data){
-							alert($("#editTeamButton").data("teamName") + " changed");
+							swal("Good!",$("#editTeamButton").data("teamName") + " changed", "success");
+						
 						},
 						error: function (request, status, error){
-							alert(error + request + status);
+							swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 						}
 					});
 				}
@@ -279,7 +281,7 @@
 										setTimeout(function(){ window.location = "/user/" + username + "/team/"; }, 1000);
 									},
 									error: function (request, status, error){
-										alert(request.errors);
+										swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 									}
 								});
 							});
@@ -293,7 +295,7 @@
 						}
 					},
 					error: function (request) {
-						alert(request.errors);
+						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 					}
 				});
 
@@ -360,7 +362,7 @@
 						});
 					},
 					error: function (request, status, error) {
-						alert(request.errors);
+						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 					}
 
 				});
@@ -369,59 +371,65 @@
 				$( '#getidprof ' ).html(id);
 			},
 			error: function (request) {
-				alert("this user not found");
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 			}
 		});
 
-		// back to profile
-		$("#backtoprofile").click(function() {
-			$.ajax({
-				type: "GET",
-				url : '/user/get_profile/',
-				dataType: "html",
-				success: function (data) {
-					var userlogin=(JSON.parse(data)).username;
-					window.location.replace("/user/"+userlogin+"/");
-				},
-				error: function (request) {
-					alert(request.errors);
-				}
-			});
 
-			document.title = "home";
-			document.getElementById('usernameitem').style.display = 'block';
-			document.getElementById('usernameprofitem').style.display = 'none';
-			document.getElementById('backtoprofile').style.display = 'none';
-			document.getElementById('logout').style.display = 'block';
-			document.getElementById('users').style.display = 'block';
-			document.getElementById('setting').style.display = 'block';
+
+	$("#contest").click(function() { 
+	window.location.replace("/user/"+username+"/contest/");
+  });
+$("#team").click(function() {
+	window.location.replace("/user/"+username+"/team/");
+  });
+  //logout
+$("#logout").click(function() { 
+	
+  $.ajax({
+            type: "GET",
+            url : '/user/logout/',
+            dataType: "html",  				
+            success: function () {
+           	window.location.replace("/user/");
+            },
+          error: function (request, status, error) { 
+			  window.location.replace("/user/");           
+            }
+            
+    });
+  });
+//go to user profile
+$("#getusername").click(function() {
+	
+		window.location.replace("/user/"+username+"/");
+		alert("in");
+	});
+// back to profile
+$("#backtoprofile").click(function() { 
+	 $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 				
+            success: function (data) {
+				var userlogin=(JSON.parse(data)).username; 
+				window.location.replace("/user/"+userlogin+"/");         				
+            },
+           error: function (request) {                
+				window.location.replace("/user/");  	      	      		
+      		}
 		});
-
-
+		});
 /**************************************************************************************************/
 
 
 
 		$("#loneTeamPage").hide();
 		$('.close-page').removeClass('close-page').addClass('open-page');
-		$("#logout").click(function() {
-			$.ajax({
-				type: "GET",
-				url : '/user/logout/',
-				dataType: "html",
-				success: function () {
-					window.location.replace("/user/");
-				},
-				error: function (request, status, error) {
-					alert(request.errors);
-				}
-
-			});
-		});
 		$('#team').css('background-color', '#355C7D');
 
 	});
-	
+
 </script>
 </html>
 

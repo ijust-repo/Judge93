@@ -86,7 +86,8 @@
 function changeprofile(username){
 		document.title = username;
 			document.getElementById('backtoprofile').style.display = 'block';
-			document.getElementById('info').style.display = 'block';
+			$('#info').show(1000);
+
 			document.getElementById('logout').style.display = 'none';
 			document.getElementById('users').style.display = 'none';
 			document.getElementById('setting').style.display = 'none';
@@ -190,11 +191,11 @@ $("#backtoprofile").click(function() {
 				});				
             },
            error: function (request) {                
-				alert(request.errors);	      	      		
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 	      	      		
       		}
 		});	
 		
-	    //logout	   
+//logout
 $("#logout").click(function() { 
 	
   $.ajax({
@@ -205,23 +206,40 @@ $("#logout").click(function() {
            	window.location.replace("/user/");
             },
           error: function (request, status, error) { 
-			  if(request.status===405){    
-					alert(request.errors); 
-				}            
+			  window.location.replace("/user/");           
             }
             
     });
   });
+ 
+// back to profile
+$("#backtoprofile").click(function() { 
+	 $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 				
+            success: function (data) {
+				var userlogin=(JSON.parse(data)).username; 
+				window.location.replace("/user/"+userlogin+"/");         				
+            },
+           error: function (request) {                
+				window.location.replace("/user/");  	      	      		
+      		}
+		});
+		});
+
       //contest of user
 $("#contest").click(function() { 
 	window.location.replace("/user/"+username+"/contest/");
   });
-		$("#team").click(function() {
-			window.location.replace("/user/"+username+"/team/");
-		});
+$("#team").click(function() {
+	window.location.replace("/user/"+username+"/team/");
+  });
   });
   
-  
+  $(document).ready(function() {
+    $("html").niceScroll({cursorwidth: '10px', autohidemode:true, zindex: 999 });
+});
 	</script>
 
 </html>
