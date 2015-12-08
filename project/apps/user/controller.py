@@ -74,11 +74,9 @@ def login():
 				login_user(username)
 				return "", 200
 			else:
-				form.password.errors.append(form.password.gettext('Wrong password.'))
-				return jsonify(errors=form.errors), 401
+				return jsonify(errors='Wrong password.'), 401
 		except DoesNotExist:
-			form.username.errors.append(form.username.gettext('Username does not exists.'))
-			return jsonify(errors=form.errors), 401
+			return jsonify(errors='Username does not exists.'), 401
 	return "", 406
 
 
@@ -148,8 +146,7 @@ def change_password():
                         obj.save()
                         return "", 200
                 else:
-                        form.old_password.errors.append(form.old_password.gettext('Wrong password.'))
-                        return jsonify(errors=form.errors), 401
+                        return jsonify(errors='Wrong password.'), 401
         return "", 406
 
                         

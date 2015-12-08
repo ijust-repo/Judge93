@@ -57,11 +57,9 @@ def create():
 		starts_on = form.data ['starts_on']
 		ends_on = form.data ['ends_on']
 		if (starts_on > ends_on) :
-			form.starts_on.errors.append(form.starts_on.gettext('Start date must be earlier than end date!'))
-			return jsonify(errors=form.errors), 406
+			return jsonify(errors='Start date must be earlier than end date!'), 406
 		if (datetime.utcnow() > datetime.fromtimestamp(starts_on) ) :
-			form.starts_on.errors.append(form.starts_on.gettext('Start date must be later than now!'))
-			return jsonify(errors=form.errors), 406
+			return jsonify(errors='Start date must be later than now!'), 406
 		try:
 			contest_obj = Contest(name=name)
 			contest_obj.owner = User.objects().get(username=logged_in_user())
@@ -71,8 +69,7 @@ def create():
 			contest_obj.save()
 			return "", 201
 		except NotUniqueError:
-			form.name.errors.append(form.name.gettext('Contest with this name already exists!'))
-			return jsonify(errors=form.errors), 409
+			return jsonify(errors='Contest with this name already exists!'), 409
 	return "", 406
 
 
@@ -135,22 +132,17 @@ def edit(contest_id):
 	
 	if starts_on and ends_on:
 		if (starts_on > ends_on) :
-			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be earlier than end date!'))
-			return jsonify(errors=main_form.errors), 406
+			return jsonify(errors='Start date must be earlier than end date!'), 406
 		if contest_obj.created_on > datetime.fromtimestamp(starts_on) :
-			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be later than creation time!'))
-			return jsonify(errors=main_form.errors), 406
+			return jsonify(errors='Start date must be later than creation time!'), 406
 	if starts_on and not(ends_on):
 		if (datetime.fromtimestamp(starts_on) > contest_obj.ends_on) :
-			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be earlier than end date!'))
-			return jsonify(errors=main_form.errors), 406
+			return jsonify(errors='Start date must be earlier than end date!'), 406
 		if contest_obj.created_on > datetime.fromtimestamp(starts_on) :
-			main_form.starts_on.errors.append(main_form.starts_on.gettext('Start date must be later than creation time!'))
-			return jsonify(errors=main_form.errors), 406
+			return jsonify(errors='Start date must be later than creation time!'), 406
 	if not(starts_on) and ends_on:
 		if (datetime.fromtimestamp(ends_on) < contest_obj.starts_on) :
-			main_form.starts_on.errors.append(main_form.starts_on.gettext('End date must be later than start date!'))
-			return jsonify(errors=main_form.errors), 406
+			return jsonify(errors='End date must be later than start date!'), 406
 
 	try:
 		if name:
@@ -160,8 +152,7 @@ def edit(contest_id):
 		if ends_on:
 			contest_obj.ends_on = datetime.utcfromtimestamp(ends_on)
 	except NotUniqueError:
-		main_form.name.errors.append(main_form.name.gettext('Contest with this name already exists!'))
-		return jsonify(errors=main_form.errors), 409
+		return jsonify(errors='Contest with this name already exists!'), 409
 
 	#checking owner
 	if contest_obj.owner.username != logged_in_user():
@@ -191,8 +182,7 @@ def edit(contest_id):
 			if problem_form['order']:
 				problem.order = problem_form['order']
 		except NotUniqueError:
-			main_form.problems.errors.append(main_form.problems.gettext('problem order already exists!'))
-			return jsonify(errors=main_form.errors), 409
+			return jsonify(errors='problem order already exists!'), 409
 		for testcase_form in problem_form['testcases']:
 			for sub_obj in problem.testcases:
 				if sub_obj.id == testcase_form['id']:
@@ -207,8 +197,7 @@ def edit(contest_id):
 				if testcase_form['order']:
 					case.order = testcase_form['order'] 
 			except NotUniqueError:
-				main_form.problems.errors.append(main_form.problems.gettext('testcase order already exists!'))
-				return jsonify(errors=main_form.errors), 409
+				return jsonify(errors='testcase order already exists!'), 409
 			if case:
 				case.save ()
 		problem.save()
