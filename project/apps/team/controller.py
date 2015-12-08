@@ -154,6 +154,8 @@ def join_request():
 		try:
 			contest_obj = Contest.objects().get(pk=contest_id)
 			team_obj = Team.objects().get(name=team_name)
+			if logged_in_user() != team_obj.owner.username:
+				return jsonify(errors = "user is not team owner") , 403
 			team_members_with_owner = team_obj.members
 			team_members_with_owner.append(team_obj.owner)
 
