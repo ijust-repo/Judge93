@@ -494,7 +494,7 @@ Example Request
 
 >- Team_id is the Id of the team in database.
 >- If response status code is **200** then the team name successfully changed.
->- If response status code is **406** then the user is not owner of the team or team does not exist.
+>- If response status code is **406** then the user is not owner of the team or team does not exist or team has ON contest.
 >- If response status code is **409** then the new name does not exist.
 >- If there are errors like a required field response status code will be **406** .
 
@@ -527,6 +527,7 @@ Example Request
 >- If response status code is **200** then members added to the team successfully.
 >- If response status code is **406** then team does not exists or the team owner are in the members list or someone in members list are repeated twice or sum of the team members be greater than 3 or the username in the members list does not exists. 
 >- If there are errors like a required field response status code will be **406**.
+>- If response status code is **406** then team has ON contest.
 >- If response status code is **403** the user is not owner of the team.
 
 
@@ -554,7 +555,7 @@ team/5662c01a7431e90c36c8bd26/member/56s2bf4e743sd90b4ecc985e/
 >- `team_id` is the Id of the team in database.
 >- `member_id` is the Id of the member in database.
 >- If response status code is **200** then member removed from team successfully.
->- If response status code is **406** then team does not exists.
+>- If response status code is **406** then team does not exists or team has ON contest.
 >- If response status code is **403** the user is not owner of the team.
 
 -------
@@ -810,7 +811,6 @@ Example Request
 
 
 
-
 Contests List
 ===============
 
@@ -982,31 +982,6 @@ Resource Information
 >- If number is bigger than number of problems or it is lower than 1 the response status code will be **406** and you have errors like "Invalid problem number!".
 >- If the extinsion of uploading  file is not **.zip** , response status code will be **406** and there will be errors like "Bad zip file!".
 >- Zipped document will get unziped automatically and any thing except **.txt** files or **.tc** files will be removed, including zip file itself.
-
---------
-
-
-add team to contest
-===============
-
-Resource URL
->POST
-> **/contest/<contest_id>/add_team/<team_id>/**
-
-Resource Information
->|Response formats|Requires authentication?|
-|:-:|:-:|
-|NULL|YES (must be authenticated)|
-
-Example Request
-```
-/contest/565dfe6823e3c00e88c0f18c/add_team/565df1df23e3c00dfca5f8b5/
-```
-
-> **NOTE:**
->- If response status code is **200** then the team is successfully added to contest.
->- If the team already exists, status code will be **409** and you will have errors with adding team like **'team with this name already exists!' ** .
->- If there are errors like team or contest does not exists response status code will be **406**.
 
 --------
 
