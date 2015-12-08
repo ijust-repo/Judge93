@@ -201,7 +201,7 @@ def get_users_teams(user_id):
 				contests_info = {}
 				contests_info ["name"] = contest.name
 				contests_info ["id"] = str(contest.pk)
-				contests_info ["start_on"] = datetime_to_str(contest.starts_on)
+				contests_info ["starts_on"] = datetime_to_str(contest.starts_on)
 				contests_info ["ends_on"] = datetime_to_str(contest.ends_on)
 				contests_list.append(contests_info)
 			
