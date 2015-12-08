@@ -75,11 +75,9 @@ def login():
 				login_user(username)
 				return "", 200
 			else:
-				form.password.errors.append(form.password.gettext('Wrong password.'))
-				return jsonify(errors=form.errors), 401
+				return jsonify(errors='Wrong password.'), 401
 		except DoesNotExist:
-			form.username.errors.append(form.username.gettext('Username does not exists.'))
-			return jsonify(errors=form.errors), 401
+			return jsonify(errors='Username does not exists.'), 401
 	return "", 406
 
 
@@ -139,6 +137,7 @@ def change_profile():
 
 @user.route('change_password/', methods=['PUT'])
 def change_password():
+<<<<<<< HEAD
 	form = ChangePassword.from_json(request.json)
 	if form.validate():
 		old_password = form.data['old_password']
@@ -153,7 +152,6 @@ def change_password():
 			return jsonify(errors=form.errors), 401
 	return "", 406
 
-                        
 @user.route('get_profile/by_username/<string:username>/', methods=['GET'])
 def get_user_profile_by_username(username):
 	try:
@@ -174,15 +172,14 @@ def get_user_profile_by_id(user_id):
 		return jsonify(resp), 200
 	except DoesNotExist:
 		return jsonify(errors="User does not exists!"), 406
-		
-			
+
 @user.route('get_profile/', methods=['GET'])
 def get_current_user():
 	
 	obj = User.objects().get(username=logged_in_user())
 	resp = obj.to_json_profile()
 	return jsonify(resp) ,200
-	
+
 
 @user.route('<string:user_id>/teams/', methods=['GET'])
 def get_users_teams(user_id):
@@ -205,9 +202,9 @@ def get_users_teams(user_id):
 				contests_info = {}
 				contests_info ["name"] = contest.name
 				contests_info ["id"] = str(contest.pk)
-				contests_info ["start_on"] = datetime_to_str(contest.starts_on)
-				contests_info ["ends_on"] = datetime_to_str(contests.ends_on)
-				contests_list.append(contests_info)				
+				contests_info ["starts_on"] = datetime_to_str(contest.starts_on)
+				contests_info ["ends_on"] = datetime_to_str(contest.ends_on)
+				contests_list.append(contests_info)
 			
 			team_info["contests"] = contests_list
 			team_info["id"]= str(team.pk)	

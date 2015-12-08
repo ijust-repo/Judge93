@@ -13,7 +13,12 @@
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>	
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
 
 </head>
 
@@ -33,7 +38,7 @@
 		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
 		</li>
 		
-		<li  id="users"  >
+		<li  id="users"  style="display:none" >
 		 	<a href="#users"><h4 class="leftmenuitem"><i class="fa fa-user" style="width:20px; height:20px; "></i> Users</h4></a>
 		</li>
 		
@@ -85,15 +90,39 @@
                     <label>Contest Name</label>
                 </div>
                 <label style="margin-top:10px;">starts</label>
+                <div class='input-group date' id='contest_start'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+		        <script type="text/javascript">
+		            $(function () {
+		                $('#contest_start').datetimepicker();
+		            });
+		        </script>
+                <!--
                 <input type="date" required id="contest_start_date" style="width:100%;margin-top:-8px;" />
                 <input type="time" required id="contest_start_time" style="width:100%;margin-top:2px;" />
-                <!--
+                
                 <input type="datetime-local" required id="contest_start" style="width:100%;margin-top:-8px;" />
                 -->
                 <label style="margin-top:10px;">ends</label>
+                <div class='input-group date' id='contest_end'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+		        <script type="text/javascript">
+		            $(function () {
+		                $('#contest_end').datetimepicker();
+		            });
+		        </script>
+                <!--
                 <input type="date" required id="contest_end_date" style="width:100%;margin-top:-8px;" />
                 <input type="time" required id="contest_end_time" style="width:100%;margin-top:2px;" />
-                <!--
+                
                 <input type="datetime-local" required id="contest_end" style="width:100%;margin-top:-8px;" />
                 -->
                 <button id="create_contest_button" type="submit" class="submit-button">Submit</button>
@@ -112,21 +141,21 @@
 		<div id="time"></div>
 		<p id="orderproblem" class="contestproblem " ></p>
 		<p id="titleproblem" class="contestproblem "></p>
+		<p id="idproblem" class="contestproblem " style="display:none"></p>
 		
 	</div>
 </div>
    
 	<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents  " >
-			<div id="contestinfoforusers"class="CSSTableGenerator" >					
+			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">					
 					<table id="contestinfo">
 					   <tr>
 						   <td style="display:none"> id </td>
 						   <td > Name </td>
 						   <td > Sart on </td>
 						   <td> End on </td>
-						   <td > Your team</td>
-						   <td > Your rank</td>					     
+						   <td >Team</td>				     
 						</tr>
 					</table>
                 </div>
@@ -136,9 +165,9 @@
 				</div>            
             <div id="contestquestions" class="CSSTableGenerator" style="display:none">
 					<table id="contestquestionslist">
-					   <tr>
-						   <td > id </td>
-						   <td > Number</td>
+					   <tr> 
+					   	   <td style="display:none"> order </td>
+						   <td > order </td>
 						   <td > Title </td>							 
 						</tr>
 					</table>
@@ -170,9 +199,13 @@
 					<label class="labelcss" for="problemtestcaseoutput">Output: </label>
 					<textarea class="textareacss" name="problemtestcaseoutput" id="problemtestcaseoutput" ></textarea><br>
 				</div>
-				<hr>	  				
-					<input type="button" name="addproblemsubmitbtn" id="addproblemsubmitbtn" class="btn btn-primary "value="Add" /><br>        
-					<input type="button"  name="editproblemsubmitbtn" id="editproblemsubmitbtn" class="btn btn-primary "value="Submit edit" /><br>
+				<hr>
+				<div>
+					<button type="submit" id="cancleproblemsubmitbtn" class="btn btn-primary" style="width:15.5%"> Cancle</button>
+					<button type="submit"id="addproblemsubmitbtn"  class="btn btn-primary" style="width:15.5%"> Add</button>
+									
+					<button type="submit" id="editproblemsubmitbtn" class="btn btn-primary" style="width:15.5%"> Submit edit</button>
+				</div>
 				
 			</div>
 			<div id="contestquestion"  style="display:none">
@@ -216,9 +249,16 @@
 					</tr>
                 </table>
 				</div>
-			<div id="contestteam" class="team">
-				
-				</div>					 
+			<div id="contestteams" class="CSSTableGenerator" style="display:none">
+				<table id="contestteamstbl">
+					<tr>						  
+						<td > Team name </td>
+						<td > Admin </td>
+						<td > Members </td>
+						<td> Accept or Reject </td>	
+					</tr>
+				</table>
+			</div>						 
 	    </div>	  
    	</div>  
 </body>
@@ -230,6 +270,7 @@
 	var contestname=null;
 	var loc = window.location;
 	var flagproblemlist=false;
+	var flagteamlist=false;
 	var userlogin=null;
 	var username=null;
 	var problemid=null;
@@ -243,7 +284,7 @@
           		
             },
            error: function (request) {                
-				alert(request.errors);	      	      		
+				sswal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;        	      		
       		}
 		
 		});
@@ -251,13 +292,13 @@
 	function checkifadmin(username){
 		 if(username===userlogin){
            document.getElementById('contestteam').style.display = 'block';
-           document.getElementById('contesteditproblems').style.display = 'block';		
-           document.getElementById('editcontestbtn').style.display = 'block';
+           $('#contesteditproblems').show(1000);
+           $('#editcontestbtn').show(1000);
            document.getElementById('jointocontestbtn').style.display = 'none';
 			canedit="yes";
 			}
            else{
-			  document.getElementById('contestquestionsubmit').style.display = 'block';
+			   $('#contestquestionsubmit').show(1000);
 			  document.getElementById('jointocontestbtn').style.display = 'block';
 			   
 			   }		 
@@ -280,6 +321,7 @@
             success: function (data) {
 			 userlogin=(JSON.parse(data)).username;
            if(username===userlogin){
+			   
           /* document.getElementById('info').style.display = 'none';*/	}
            else{
 			  changeprofile(username);
@@ -287,16 +329,87 @@
 			   }				
             },
            error: function (request) {                
-				alert(request.errors);	      	      		
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  	      	      		
       		}
 		
 		});
 	}
+	if(getAbsolutePath()==="/contest/"){
+	  contestid = '{{contest_id }}';
+	 $( '#getidcontest ' ).html(contestid);	
+	  $.ajax({
+            type: "GET",
+            url : "/contest/by_id/"+contestid+"/",
+            dataType: "html", 				
+            success: function (data) {
+				$('#contestinformation').append(data);
+				 contestname=(JSON.parse(data)).name;
+				var contestadmin=(JSON.parse(data)).owner.username;
+				checkifadmin(contestadmin);
+				 changecontestpage(contestname);				
+            },
+           error: function (request) {                
+				swal("Sorry", request.errors) ;  	      	      		
+      		}
+		}); 
+		 	
+	}
+	else{
+		$('#contestinfoforusers').show(1000);
+		var id = '{{user_id }}'; 
+		
+		 $.ajax({
+            type: "GET",
+            url : "/user/get_profile/by_id/"+id+"/",
+            dataType: "html",
+            contentType: "application/json", 				
+            success: function (data) {
+		        username=(JSON.parse(data)).username;
+				checkprofile(username);
+				$( '#getusername ' ).html(username);
+				$( '#getidprof ' ).html(id);	
+            },
+           error: function (request) { 
+			    swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
+      		}
+		});
+		 $.ajax({
+            type: "GET",
+            url : "/user/"+id+"/teams/",
+            dataType: "html", 				
+            success: function (data) {
+				alert(data);			
+		        var data=(JSON.parse(data)).teams;
+		        for (var i = 0; i < data.length; i++) {
+					var teamname=data[i].name;
+					var teamitem=data[i].contests;
+					for (var i = 0; i < teamitem.length; i++) {
+						var strurl="/team/"+teamname+"/";
+						tr = $('<tr id="Q'+i+'">');		
+						tr.append('<td  style="display:none">' + data[i].id + "</td>");
+						tr.append("<td>" + teamitem[i].name + "</td>");
+						tr.append("<td>" + teamitem[i].starts_on + "</td>");
+						tr.append("<td>" + teamitem[i].ends_on + "</td>");
+						tr.append('<td><a id="'+teamname+'">' + teamname + '</a></td></tr>');
+						$("#"+teamname).attr("href",strurl);
+						
+						//tr.append("<td>" + data[i].name + "</td>");
+						$('#contestinfo').append(tr);
+					}
+				}
+            },
+           error: function (request) { 
+			    swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
+      		}
+		});
+ 
+ $('#contest').css('background-color', '#355C7D');
+ }
 	function changecontestpage(contestname){		
 		document.title = contestname;
 		$( '#getcontestname ' ).html(contestname);
-		document.getElementById('contestleftmenu').style.display = 'block';
-		document.getElementById('contestinformation').style.display = 'block';
+		$('#contestleftmenu').show();
+		$('#contestinformation').show(1000);
 		document.getElementById('leftmenu').style.display = 'none';
 		document.getElementById('contestinfoforusers').style.display = 'none';
 		document.getElementById('createcontestdiv').style.display = 'none';
@@ -316,10 +429,10 @@
 	function loadquestiondiv(id){	
 	document.getElementById('contestinfoforusers').style.display = 'none';
 	document.getElementById('maintitr').style.display = 'none';
-	document.getElementById('problemhead').style.display = 'block';
+	$('#problemhead').show(1000);
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
-	document.getElementById('contestquestion').style.display = 'block';
+	$('#contestquestion').show(1000);
 	document.getElementById('contestrank').style.display = 'none';	
 	document.getElementById('contestaddquestions').style.display = 'none';
 	 document.getElementById('addproblemdiv').style.display = 'none';
@@ -333,7 +446,8 @@
             dataType: "html",  				
             success: function (data) {
 			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
-			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order)
+			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);
+			problemid=((JSON.parse(data)).id);
 			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
 			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit );
 			$("#contestheaderdiv").html((JSON.parse(data)).header);
@@ -344,10 +458,11 @@
             },
           error: function (request, status, error) { 
 			    
-					alert(request.error); 
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  
 			         
            }   
     });
+   
 }
 	//submition
 	/*$("#questions").click(function() { 
@@ -357,88 +472,49 @@
             dataType: "html",  				
             success: function (data) {
 				alert(data); 
+			},
           error: function (request, status, error) { 
 		   
-					alert(request.errors); 			              
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 			              
            }   
     });
 	
 	});*/
 	//show contest menu
 
-	if(getAbsolutePath()==="/contest/"){
-	  contestid = '{{contest_id }}';
-	 $( '#getidcontest ' ).html(contestid);	
-	  $.ajax({
-            type: "GET",
-            url : "/contest/by_id/"+contestid+"/",
-            dataType: "html", 				
-            success: function (data) {
-				$('#contestinformation').append(data);
-				 contestname=(JSON.parse(data)).name;
-				var contestadmin=(JSON.parse(data)).owner.username;
-				checkifadmin(contestadmin);
-				 changecontestpage(contestname);				
-            },
-           error: function (request) {                
-				alert(request.errors);	      	      		
-      		}
-		}); 
-		 	
-	}
-	else{
-		var id = '{{user_id }}'; 
-		 $.ajax({
-            type: "GET",
-            url : "/user/get_profile/by_id/"+id+"/",
-            dataType: "html", 				
-            success: function (data) {
-		        username=(JSON.parse(data)).username;
-				checkprofile(username);
-				$( '#getusername ' ).html(username);
-				$( '#getidprof ' ).html(id);
-
-				$("#team").click(function() {
-					window.location.replace("/user/"+username+"/team/");
-				});
-            },
-           error: function (request) {                
-				alert(request.errors);	      	      		
-      		}
-		});
- $('#contest').css('background-color', '#355C7D');
- }
+	
 
 //show question list
 $("#questions").click(function() { 
-	document.getElementById('titlePage').innerHTML="Problems" ;
-	document.getElementById('contestinfoforusers').style.display = 'none';
-	document.getElementById('maintitr').style.display = 'block';
-	document.getElementById('contestinformation').style.display = 'none';
-	document.getElementById('problemhead').style.display = 'none';
-	document.getElementById('contestquestions').style.display = 'block';
-	document.getElementById('contestquestion').style.display = 'none';
-	document.getElementById('contestrank').style.display = 'none';	
-	document.getElementById('contestaddquestions').style.display = 'none';
-	 $('#contestteam').css('background-color', '#1B325F');
-	 $('#questions').css('background-color', '#355C7D');
-	 if (canedit==="yes"){
-		 document.getElementById('addproblemdiv').style.display = 'block';		
-	 }
+	
   $.ajax({
             type: "GET",
             url :"/contest/"+contestid+"/problems/",
             dataType: "html",  				
             success: function (data) {
-				//alert(data);
+			document.getElementById('titlePage').innerHTML="Problems" ;
+			document.getElementById('contestinfoforusers').style.display = 'none';
+			$('#maintitr').show(1000);
+			document.getElementById('contestinformation').style.display = 'none';
+			document.getElementById('problemhead').style.display = 'none';
+			$('#contestquestions').show(1000);
+			document.getElementById('contestquestion').style.display = 'none';
+			document.getElementById('contestrank').style.display = 'none';	
+			document.getElementById('contestteams').style.display = 'none';	
+			document.getElementById('contestaddquestions').style.display = 'none';
+			 $('#contestteam').css('background-color', '#1B325F');
+			 $('#questions').css('background-color', '#355C7D');
+			 if (canedit==="yes"){
+				 document.getElementById('addproblemdiv').style.display = 'block';		
+			 }
            	var data=(JSON.parse(data)).problems;
 				 var tr;
 				 problemnumber=data.length;
 				 if(flagproblemlist==false){
 			for (var i = 0; i < data.length; i++) {
 				tr = $('<tr id="Q'+i+'">');
-				tr.append('<td>' + i + "</td>");
-				tr.append('<td>' + data[i].id + "</td>");
+		
+				tr.append('<td  style="display:none">' + data[i].id + "</td>");
 				tr.append("<td>" + data[i].order + "</td>");
 				tr.append("<td>" + data[i].title + "</td></tr>");
 				//tr.append("<td>" + data[i].contests.ends_on + "</td>");
@@ -452,24 +528,28 @@ $("#questions").click(function() {
 				flagproblemlist=true;
 				}	
             },
-          error: function (request) {    
-				alert(request.errors);    			               
+         		error: function (request, status,error) {					
+			  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 
+			  
+					               
            }   
     });
+  
  });
  
  $("#editproblemtbtn").click(function() {
-	 document.getElementById('maintitr').style.display = 'block';
+	$('#maintitr').show(1000);
 	 document.getElementById('problemhead').style.display = 'none';
 	document.getElementById('titlePage').innerHTML="Edit Problems" ;
 	document.getElementById('addproblemsubmitbtn').style.display = 'none';
-	document.getElementById('editproblemsubmitbtn').style.display = 'edit';
+	document.getElementById('editproblemsubmitbtn').style.display = 'block';
 	document.getElementById('contestinfoforusers').style.display = 'none';
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
-	document.getElementById('contestaddquestions').style.display = 'block';
+	$('#contestaddquestions').show(1000);
 	document.getElementById('contestquestion').style.display = 'none';
 	document.getElementById('contestrank').style.display = 'none';	
+	document.getElementById('contestteams').style.display = 'none';	
 	 $('#contestteam').css('background-color', '#1B325F');
 	 $('#questions').css('background-color', '#355C7D');		
 			//$("#contesttestcaseexamplediv").val();
@@ -479,8 +559,8 @@ $("#questions").click(function() {
 	 $("#problemheader").val($("#contestheaderdiv").text());
 	 $("#problembody").val($("#contestbodydiv").text());
 	 $("#problemfooter").val($("#contestfooterdiv").text()); 
-	// $("#problemtestcaseinput").val();  
-	// $("#problemtestcaseoutput").val(); 			
+	 $("#problemtestcaseinput").val($("#testcaseinput").text());  
+	 $("#problemtestcaseoutput").val($("#testcaseoutput").text()); 			
 		 
  });
  $("#editproblemsubmitbtn").click(function() {
@@ -491,14 +571,25 @@ $("#questions").click(function() {
 	var problembody = $("#problembody").val();
 	var problemfooter = $("#problemfooter").val(); 
 	var problemtestcaseinput = $("#problemtestcaseinput").val();  
-	var problemtestcaseoutput = $("#problemtestcaseoutput").val();  
+	var problemtestcaseoutput = $("#problemtestcaseoutput").val();
+	//var problemid=$("#idproblem").val();
+	var datawotestcase='{"problems": [{ "id":"'+problemid+'" ,"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}]}';
+	var datawtestcase='{"problems": [{"id":"'+problemid+'","title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '","testcases": [ {"id":"1" ,"order":"1" , "input":"'+problemtestcaseinput+'" ,"output":"'+problemtestcaseoutput+'" } ]}]}';
+	if(problemtestcaseinput=="" && problemtestcaseoutput==""){
+		var obj = datawotestcase;
+	}
+	else{	
+		var obj = datawtestcase;
 
+	}
+	alert(obj);
   $.ajax({
+	  
             type: "PUT",
             url : "/contest/"+contestid+"/",
            contentType: "application/json",
             dataType: "html",			
-            data: '{"problems":[{"id":"'+problemid+'","title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}]}',
+            data: obj,
             success: function (data) {
                 alert("Edit problem successfully");
 				  $("#problemtitle").val('');
@@ -512,11 +603,13 @@ $("#questions").click(function() {
                 window.location.replace("/contest/"+contestname+"/");
             },
             error: function (request, status, error) {
-				alert(request.errors);
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
+				
             }
               });
   
  });
+
  //show contest of user
   function getidprofile(id){    		   		
   $.ajax({
@@ -525,6 +618,7 @@ $("#questions").click(function() {
             dataType: "html", 				
             success: function (data) {
 				var data=(JSON.parse(data)).teams;
+				
 				 var tr;
         for (var i = 0; i < data.length; i++) {
             tr = $('<tr/>');
@@ -538,7 +632,7 @@ $("#questions").click(function() {
 
             },
            error: function (request) {                
-				alert(request.errors);	      	      		
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;       	      		
       		}
 		});
   } 
@@ -566,7 +660,11 @@ $(document).ready(function () {
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#create_contest_button').click(function() {
 			var name = $("input#contest_name").val();
-
+			var c_s = $("#contest_start").find("input").val();
+			var c_e = $("#contest_end").find("input").val();
+			var start_date = new Date(c_s);
+			var end_date = new Date(c_e);
+			/*
 			var start_date = $("input#contest_start_date").val();
 			var start_time = $("input#contest_start_time").val();
 			var hour = start_time.split(':')[0];
@@ -574,9 +672,11 @@ $(document).ready(function () {
 			var startDate = new Date(start_date);
 			startDate.setHours(hour);
 			startDate.setMinutes(minute);
-			startDate = new Date(startDate.toUTCString());
-			var startMillis = startDate.getTime()/1000 + (startDate.getTimezoneOffset() * 6);
+			*/
 
+			start_date = new Date(start_date.toUTCString());
+			var startMillis = start_date.getTime()/1000 + (start_date.getTimezoneOffset() * 6);
+			/*
 			var end_date = $("input#contest_end_date").val();
 			var end_time = $("input#contest_end_time").val();
 			var hour1 = end_time.split(':')[0];
@@ -584,9 +684,10 @@ $(document).ready(function () {
 			var endDate = new Date(end_date);
 			endDate.setHours(hour1);
 			endDate.setMinutes(minute1);
-			endDate = new Date(endDate.toUTCString());
-			var endMillis = endDate.getTime()/1000 + (endDate.getTimezoneOffset() * 6);
-
+			*/
+			end_date = new Date(end_date.toUTCString());
+			var endMillis = end_date.getTime()/1000 + (end_date.getTimezoneOffset() * 6);
+			
 			$.ajax({
           		type: "POST",
           		url : '/contest/',
@@ -594,14 +695,22 @@ $(document).ready(function () {
           		dataType: "html",
           		data: '{"name" : "' + name + '", "starts_on" : "' + startMillis + '", "ends_on" : "' + endMillis + '"}',
           		success: function (data) {
-              		alert(" Contest successfully Created ");
-              		window.location.replace("/contest/mycontest/");
+					swal({
+					  title: "Good!",
+					  text: "Contest successfully Created",
+					  type: "success",
+					  showCancelButton: true,
+					  closeOnConfirm: false,
+					  showLoaderOnConfirm: true,
+					},
+					function(){
+					 window.location.replace("/contest/" + name + "/");
+					});             		
           		},
           		error: function (request, status, error) {
-            		alert(request.errors);
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 	
           		}
-        	});
-			
+        	});			
 		});
 	});
 
@@ -616,7 +725,7 @@ $("#logout").click(function() {
            	window.location.replace("/user/");
             },
           error: function (request, status, error) { 
-			  alert(request.errors);           
+			  window.location.replace("/user/");           
             }
             
     });
@@ -630,6 +739,7 @@ $(".backtoprofile").click(function() {
             dataType: "html", 				
             success: function (data) {
 				var userlogin=(JSON.parse(data)).username; 
+				
 				window.location.replace("/user/"+userlogin+"/");         				
             },
            error: function (request) {                
@@ -640,19 +750,30 @@ $(".backtoprofile").click(function() {
 
 //add problem
 $("#addproblembtn").click(function() { 
+	$("#problemtitle").val('');
+  $("#problemtimelimit").val('');
+  $("#problemspacelimit").val('');
+  $("#problemheader").val('');
+  $("#problembody").val('');
+  $("#problemfooter").val(''); 
+  $("#problemtestcaseinput").val('');  
+  $("#problemtestcaseoutput").val('');  
+
 	document.getElementById('titlePage').innerHTML="Add Problems" ;
 	document.getElementById('contestinfoforusers').style.display = 'none';	
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
-	document.getElementById('contestaddquestions').style.display = 'block';
+	$('#contestaddquestions').show(1000);
 	document.getElementById('addproblemsubmitbtn').style.display = 'block';
 	document.getElementById('editproblemsubmitbtn').style.display = 'none';
 	document.getElementById('contestquestion').style.display = 'none';
 	document.getElementById('contestrank').style.display = 'none';	
+	document.getElementById('contestteams').style.display = 'none';	
 	 $('#contestteam').css('background-color', '#1B325F');
 	 $('#questions').css('background-color', '#355C7D');
 });
 $("#addproblemsubmitbtn").click(function() { 
+	
 	var problemtitle = $("#problemtitle").val();
 	var problemtimelimit = $("#problemtimelimit").val();
 	var problemspacelimit = $("#problemspacelimit").val();
@@ -663,33 +784,56 @@ $("#addproblemsubmitbtn").click(function() {
 	var problemtestcaseoutput = $("#problemtestcaseoutput").val();  
 	var problemtestcaseinput = $("#problemtestcaseinput").val();
 	var problemtestcaseoutput = $("#problemtestcaseoutput").val();
+	var datawotestcase='{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}';
+	var datawtestcase='{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '","testcases": [ { "input":"'+problemtestcaseinput+'" ,"output":"'+problemtestcaseoutput+'" } ]}';
+	if(problemtestcaseinput=="" && problemtestcaseoutput==""){
+		var obj = datawotestcase;
 
-  $.ajax({
+	}
+	else{	
+		var obj = datawtestcase;
+
+	}
+	
+
+	$.ajax({
             type: "POST",
             url : "/contest/"+contestid+"/problem/",
            contentType: "application/json",
             dataType: "html",			
-            data: '{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '","testcases": [ { "input":"'+problemtestcaseinput+'" ,"output":"'+problemtestcaseoutput+'" } ]}',
+            data: obj,
             success: function (data) {
-                alert("add problem successfully");
+         
+                swal("Good!", "add problem successfully", "success");
+				  $("#problemtitle").val('');
+				  $("#problemtimelimit").val('');
+				  $("#problemspacelimit").val('');
+				  $("#problemheader").val('');
+				  $("#problembody").val('');
+				  $("#problemfooter").val(''); 
+				  $("#problemtestcaseinput").val('');  
+				  $("#problemtestcaseoutput").val('');  
                 window.location.replace("/contest/"+contestname+"/");
             },
             error: function (request, status, error) {
-             alert(request.errors);
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
+            
               
             }
-              });
-  $("#problemtitle").val('');
-  $("#problemtimelimit").val('');
-  $("#problemspacelimit").val('');
-  $("#problemheader").val('');
-  $("#problembody").val('');
-  $("#problemfooter").val(''); 
-  $("#problemtestcaseinput").val('');  
-  $("#problemtestcaseoutput").val('');  
+     });
+});	
+$("#cancleproblemsubmitbtn").click(function() { 
+	$("#problemtitle").val('');
+	$("#problemtimelimit").val('');
+	$("#problemspacelimit").val('');
+	$("#problemheader").val('');
+	$("#problembody").val('');
+	$("#problemfooter").val(''); 
+	$("#problemtestcaseinput").val('');  
+	$("#problemtestcaseoutput").val(''); 
+	window.location.replace("/contest/"+contestname+"/"); 
 
 });	
-
 //go to user profile
 $("#getusername").click(function() {
 			window.location.replace("/user/"+username+"/");
@@ -712,33 +856,21 @@ function(inputValue){
     swal.showInputError("You need to write something!");
     return false;
   }
-  /*$.ajax({
-            type: "GET",
-            url :"/team/"+inputValue+"/",
-           // data: '{"contest_id": "' + username + '", "team_id" : "' + password + '"}',
-            dataType: "html",  				
-            success: function (data) {
-				$.ajax({
+  //alert('{"contest_id": "' + contestid + '", "team_name" : "' + inputValue + '"}');
+  $.ajax({
             type: "POST",
-            url :"/team/join_request/",
-             data: '{"contest_id": "' + contestid + '", "team_id" : "' +data + '"}',
-            dataType: "html",  				
-            success: function (data) {				
-			swal("Good !", " Your join request sent successfully", "success");
+            url :'/team/join_request/',
+            data: '{"contest_id": "' + contestid + '", "team_name" : "' + inputValue + '"}',
+            dataType: "html",
+            contentType: "application/json",
+            success: function (data) {
+				swal("Good!","Your request submit successfully" , "success") ; 
 			} ,
           error: function (request, status, error) { 
 		   
-					alert(request.errors); 			              
-           }   
-    });
-
-				
-			} ,
-          error: function (request, status, error) { 
-		   
-					alert(request.errors); 			              
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
            }  
-    });*/
+    });
   
 
   
@@ -748,5 +880,83 @@ function(inputValue){
 $("#backtoproblemlistbtn").click(function() {
 	 location.reload();
 });	
+function acceptorrejectteam(id,flag){
+		
+		 $.ajax({
+	  
+            type: "PUT",
+            url : "/contest/"+contestid+"/team_acceptation/"+id+"/",
+            contentType: "application/json",
+            dataType: "html",			
+            data: '{ "acceptation":"'+flag+'"}',
+            success: function (data) {
+              swal("Good!", "Your change submit successfully", "success");  
+            },
+            error: function (request, status, error) {
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
+				
+            }
+              });
+	
+
+}	
+
+$("#contestteam").click(function() { 
+	
+	  $.ajax({
+            type: "GET",
+            url :"/contest/"+contestid+"/pending_teams/",
+            dataType: "html",  				
+            success: function (data) {
+				document.getElementById('titlePage').innerHTML="Teams request" ;
+				$('#contestteams').show(1000);	
+				document.getElementById('contestinfoforusers').style.display = 'none';
+				$('#maintitr').show(1000);
+				document.getElementById('contestinformation').style.display = 'none';
+				document.getElementById('problemhead').style.display = 'none';
+				document.getElementById('addproblemdiv').style.display = 'none';
+				document.getElementById('addproblemsubmitbtn').style.display = 'none';
+				document.getElementById('editproblemsubmitbtn').style.display = 'none';
+				document.getElementById('contestquestions').style.display = 'none';
+				document.getElementById('contestquestion').style.display = 'none';
+				document.getElementById('contestrank').style.display = 'none';	
+				document.getElementById('contestaddquestions').style.display = 'none';
+				 $('#contestteam').css('background-color', '#355C7D');
+				 $('#questions').css('background-color', '#1B325F');
+				 if(flagteamlist==false){
+					var data=(JSON.parse(data)).teams;
+					
+					 var tr;
+					for (var i = 0; i < data.length; i++) {
+						tr = $('<tr id="'+data[i].id+'">');								
+						tr.append("<td>" + data[i].name + "</td>");
+						tr.append("<td>" + data[i].owner.username + "</td>");	
+						tr.append("<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>");		
+						tr.append('<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>');
+						//tr.append("<td>" + data[i].name + "</td>");
+						$('#contestteams').append(tr);
+					}
+					$('.rejectteam').click(function(){
+					id = $(this).closest('tr').attr('id');
+					acceptorrejectteam(id,false);
+										
+					});
+					$('.submitteam').click(function(){
+					id = $(this).closest('tr').attr('id');
+					acceptorrejectteam(id,true);
+									
+					});			
+					flagteamlist=true;
+			}	
+				
+            },
+          error: function (request, status, error) { 
+		   
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
+           }  
+    });
+	
+});
+
 </script>
 </html>

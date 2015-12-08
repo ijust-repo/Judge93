@@ -88,8 +88,12 @@ if (password===password2) {
             success: function (data) {
      					window.location.replace("/user/");
             },
-            error: function (request, status, error) {            
-				alert(request.errors);
+            error: function (request, status, error) {  
+				if(request.status===409) {         
+				swal("Sorry!", "Username or email alredy exists", "error") ; 
+				}else if(request.status===406){
+					swal("Sorry!", "Please fill required field", "error") ; 
+				}
           }
               
 
@@ -121,7 +125,7 @@ var password = $("input#password_login").val();
             },
             error: function (request, status, error) {
                     
-      		 alert(request.errors);
+      		swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
               
 
             }
