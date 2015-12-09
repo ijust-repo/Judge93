@@ -24,8 +24,8 @@ def running_contests(team_obj):
 	started_contests=[]
 	for contest in team_obj.contests:
 		if contest.starts_on < datetime.utcnow() and datetime.utcnow() < contest.ends_on:
-			started_contests.append(contest.to_json)
-	return len(started_contests)
+			return True
+	return False
 
 
 
@@ -88,9 +88,8 @@ def add_member():
 		members = form.data ['members']
 		try:
 			team_obj = Team.objects.get(name=team_name)
-			is_running_contest = running_contests(team_obj)
-			if is_running_contest:
-				return jsonify(errors="you have %s contests ON"%is_running_contest) , 406
+			if running_contests(team_obj):
+				return jsonify(errors="you have contest running") , 406
 
 		except DoesNotExist:
 			return jsonify(errors='Team does not exists!'), 406
@@ -130,9 +129,8 @@ def change_team_name(team_id):
 		new_name = form.data['new_name']
 		try:
 			obj = Team.objects().get(pk=team_id)
-			is_running_contest = running_contests(obj)
-			if is_running_contest:
-				return jsonify(errors="you have %s contests ON"%is_running_contest) , 406
+			if running_contests(obj):
+				return jsonify(errors="you have contest running") , 406
 
 			if obj.owner.username == logged_in_user():
 				obj.name = new_name
@@ -230,9 +228,8 @@ def join_request():
 def remove_member(team_id, member_id):
 	try:
 		team = Team.objects().get(pk=team_id)
-		is_running_contest = running_contests(team)
-		if is_running_contest:
-			return jsonify(errors="you have %s contests ON"%is_running_contest) , 406
+		if running_contests(team):
+			return jsonify(errors="you have contests running") , 406
 
 		if logged_in_user() != team.owner.username:
 			return jsonify(errors="User is not owner"), 403
