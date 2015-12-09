@@ -364,7 +364,7 @@ Example Response:
 	{
   	  "id": "5210e3923ac198af54156118",
   	  "name": "mycontest",
-  	  "starts_on": "2015-11-20 13:00:00",
+  	  "start_on": "2015-11-20 13:00:00",
   	  "ends_on": "2015-11-20 17:00:00"
 	}
       ], 
@@ -618,19 +618,20 @@ Example Request
 ```
 {
   "contest_id": "5661814323e3c023fc57aed8",
-  "team_id": "5662ba0823e3c01da4c9e2b1"
+  "team_name": "new_team"
 }
 ```
 
 > **NOTE:**
 >
 >- If response status code is **200** then team is successfully sends join request.
+>- If the person who has sent join request is not team owner response status code is **403** and you will have errors like **'user is not team owner'**
 >- If team owner or one of the team members is joined in contest, response code is **409** and you will have errors like **'user salar is in contest'**
 >- If join request has been sent before and waites for owner's answer, response code is **406** and you will have errors like **'please wait for checking your join request'**
 >- If the team  already exists in contest, status code will be **409** and you will have errors like **'team already exists in contest!'**.
 >- If join request has been sent for rejected team,join request will send again and status code will be **409** and you will have errors like **'join request not accepted -> Re_sent'**.
 >- If there are errors like a required field response status code will be **406**.
->- If response status code is **201** then the join request sended successfully.
+>- If response status code is **201** then the join request sent successfully.
 
 --------
 
@@ -829,31 +830,31 @@ Example Request
 Example Response
 ```
 {
-  [
-    {
-      "created_on": "2014-02-04 08:02:27",
-      "starts_on": "2017-07-14 07:10:00", 
-      "ends_on": "2027-01-15 11:30:00", 
-      "id": "566179cb23e3c01f40fc6432", 
-      "name": "new_contest", 
-      "owner": {
-                "id": "566179cb23e3c01f40fc6431", 
-                "username": "admin2"
-                }   
-    }, 
-    {
-      "created_on": "2015-12-04 12:04:19", 
-      "starts_on": "2017-07-14 07:10:00",
-      "ends_on": "2027-01-15 11:30:00", 
-      "id": "5661814323e3c023fc57aed8", 
-      "name": "another_contest", 
-      "owner": {
-                "id": "566179cb23e3c01f40fc6431", 
-                "username": "admin2"
-               } 
-      
-    }
-  ]
+  "contests":[
+              {
+                "created_on": "2014-02-04 08:02:27",
+                "starts_on": "2017-07-14 07:10:00", 
+                "ends_on": "2027-01-15 11:30:00", 
+                "id": "566179cb23e3c01f40fc6432", 
+                "name": "new_contest", 
+                "owner": {
+                          "id": "566179cb23e3c01f40fc6431", 
+                          "username": "admin2"
+                          }   
+              }, 
+              {
+                "created_on": "2015-12-04 12:04:19", 
+                "starts_on": "2017-07-14 07:10:00",
+                "ends_on": "2027-01-15 11:30:00", 
+                "id": "5661814323e3c023fc57aed8", 
+                "name": "another_contest", 
+                "owner": {
+                          "id": "566179cb23e3c01f40fc6431", 
+                          "username": "admin2"
+                         } 
+                
+              }
+            ]
 }
 ```
 
@@ -1029,79 +1030,79 @@ Example Request
 Example Response
 ```
 {
-  [
-    {
-      "penalty": 459, 
-      "problems_list": [{
-                          "order": 1, 
-                          "problem_id": 1, 
-                          "solved": true,
-                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
-                          "failed_tries": 15
-                        }, 
-                        {
-                          "order": 2, 
-                          "problem_id": 2, 
-                          "solved": true, 
-                          "solved_on": "Wed, 02 Dec 2015 14:30:00 GMT",
-                          "failed_tries": 0
-                        }, 
-                        {
-                          "order": 3, 
-                          "problem_id": 3, 
-                          "solved": true, 
-                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
-                          "failed_tries": 0
-                        }], 
+  "teams": [
+            {
+              "penalty": 459, 
+              "problems_list": [{
+                                  "order": 1, 
+                                  "problem_id": 1, 
+                                  "solved": true,
+                                  "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
+                                  "failed_tries": 15
+                                }, 
+                                {
+                                  "order": 2, 
+                                  "problem_id": 2, 
+                                  "solved": true, 
+                                  "solved_on": "Wed, 02 Dec 2015 14:30:00 GMT",
+                                  "failed_tries": 0
+                                }, 
+                                {
+                                  "order": 3, 
+                                  "problem_id": 3, 
+                                  "solved": true, 
+                                  "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
+                                  "failed_tries": 0
+                                }], 
 
-      "solved_problem_counter": 3, 
+              "solved_problem_counter": 3, 
 
-      "team": {
-              "id": "565ee15223e3c01ca02e0a7a", 
-              "name": "new_team3", 
-              "owner": {
-                        "id": "565df07323e3c00dfca5f8af", 
-                        "username": "admin"
-                       }
-              }
-    }, 
+              "team": {
+                      "id": "565ee15223e3c01ca02e0a7a", 
+                      "name": "new_team3", 
+                      "owner": {
+                                "id": "565df07323e3c00dfca5f8af", 
+                                "username": "admin"
+                               }
+                      }
+            }, 
 
-    {
-      "penalty": 299, 
-      "problems_list": [{
-                          "order": 1, 
-                          "problem_id": 1, 
-                          "solved": true,
-                          "solved_on": "Wed, 02 Dec 2015 13:30:00 GMT", 
-                          "failed_tries": 4
-                        }, 
-                        {
-                          "order": 2, 
-                          "problem_id": 2, 
-                          "solved": true,
-                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
-                          "failed_tries": 0
-                        }, 
-                        {
-                          "order": 3, 
-                          "problem_id": 3, 
-                          "solved": false,
-                          "solved_on": null,
-                          "failed_tries": 6
-                        }],
+            {
+              "penalty": 299, 
+              "problems_list": [{
+                                  "order": 1, 
+                                  "problem_id": 1, 
+                                  "solved": true,
+                                  "solved_on": "Wed, 02 Dec 2015 13:30:00 GMT", 
+                                  "failed_tries": 4
+                                }, 
+                                {
+                                  "order": 2, 
+                                  "problem_id": 2, 
+                                  "solved": true,
+                                  "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
+                                  "failed_tries": 0
+                                }, 
+                                {
+                                  "order": 3, 
+                                  "problem_id": 3, 
+                                  "solved": false,
+                                  "solved_on": null,
+                                  "failed_tries": 6
+                                }],
 
-      "solved_problem_counter": 2, 
+              "solved_problem_counter": 2, 
 
-      "team": {
-              "id": "565df1df23e3c00dfca5f8b5", 
-              "name": "new_team", 
-              "owner": {
-                        "id": "565df07323e3c00dfca5f8af", 
-                        "username": "admin"
-                       }
-              } 
-    }
-  ]
+              "team": {
+                      "id": "565df1df23e3c00dfca5f8b5", 
+                      "name": "new_team", 
+                      "owner": {
+                                "id": "565df07323e3c00dfca5f8af", 
+                                "username": "admin"
+                               }
+                      } 
+            }
+           ]
 }
 ```
 
@@ -1257,24 +1258,40 @@ Resource Information
 Example Response
 ```
 {
- [
-  {
-    "id": "5662ba0823e3c01da4c9e2b1",
-    "name": "new_team",
-    "owner": {
-                "id": "566179cb23e3c01f40fc6431",
-                "username": "admin"
-              }
-  },
-  {
-    "id": "5662d0a023e3c00a5cc9d8b4",
-    "name": "new_team2",
-    "owner": {
-                "id": "5662bca323e3c0208ce1cbd4",
-                "username": "admin2"
-    }
-  }
-  ]
+  "teams": [
+            {
+              "id": "5662ba0823e3c01da4c9e2b1",
+              "members": [
+                           {
+                             "id": "5662b70823e3c01da4c9e2af",
+                             "username": "admin"
+                           },
+                           {
+                             "id": "5662b71023e3c01da4c9e2b0",
+                             "username": "admin3"
+                           }
+                         ],
+              "name": "new_team",
+              "owner": {
+                        "id": "566179cb23e3c01f40fc6431",
+                        "username": "admin2"
+                       }
+            },
+            {
+              "id": "5662d0a023e3c00a5cc9d8b4",
+              "members": [
+                          {
+                            "id": "5662bca323e3c0208ce1cbd4",
+                            "username": "admin4"
+                          }
+                         ],
+              "name": "new_team6",
+              "owner": {
+                        "id": "5662bca323e3c0208ce1cbd4",
+                        "username": "admin4"
+                       }
+            }
+          ]
 }
 
 > **NOTE:**

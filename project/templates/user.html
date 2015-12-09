@@ -7,6 +7,8 @@
     <title>Login</title>
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} "rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} "rel="stylesheet" />
+        <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
+    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
@@ -86,18 +88,12 @@ if (password===password2) {
             success: function (data) {
      					window.location.replace("/user/");
             },
-            error: function (request, status, error) {            
-         
-        
-              
-      		 if (request.status===409) 
-             {
-					alert(" this username or is already taken ");             
-             }
-				else if (request.status===406) 
-             {
-					alert("Please fill in all fields");             
-             }
+            error: function (request, status, error) {  
+				if(request.status===409) {         
+				swal("Sorry!", "Username or email alredy exists", "error") ; 
+				}else if(request.status===406){
+					swal("Sorry!", "Please fill required field", "error") ; 
+				}
           }
               
 
@@ -129,14 +125,7 @@ var password = $("input#password_login").val();
             },
             error: function (request, status, error) {
                     
-      		 if (request.status===401) 
-             {
-					alert(" Username or password is incorrect ");             
-             }
-				else if (request.status===406) 
-             {
-					alert("Please fill in all fields");             
-             }
+      		swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
               
 
             }

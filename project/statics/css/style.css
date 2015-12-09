@@ -178,7 +178,7 @@ z-index: 2;
 	position: relative;
 	float:left;
     margin: 2% 50px 20px 2%;
-    padding: 0;
+    padding: 2%;
 	width: 96%;
 	overflow-x:hidden;
 	top:60px;
@@ -207,6 +207,33 @@ margin:0;
     color:white;
 
 }
+.contestproblem 
+{
+float:right;
+margin-right:2% !important ;
+margin-left:2% !important ;
+text-align: right;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
 #signup
 {
 	display:none;
@@ -250,6 +277,7 @@ margin : 0 20px 20px 20px;
 width:170px;
 
 }
+
 /***** team page css *****/
 .close-page
 {
@@ -357,7 +385,6 @@ width:170px;
 .sector-block-team div.subset a:hover, .sector-block-team2 div.subset a:hover
 {
     color: #265a88;
-    margin-left: 10%;
 }
 
 .sector-block-team2 div.subset label
@@ -403,6 +430,11 @@ width:170px;
     height: 5vh;
     width: 12vw;
     margin-top: -5px;
+}
+
+.sortable
+{
+    list-style-type: none;
 }
 
 .form-dialog {
@@ -738,6 +770,10 @@ padding: 12px;
         font-size: 4px;
     }
 }
+
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+#sortable li span { position: absolute; margin-left: -1.3em; }
 /******************************slideshow*************************/
 
 /******************************slideshow*************************/
