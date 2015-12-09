@@ -19,6 +19,7 @@ from project.apps.contest.models import Contest, TeamInfo
 #other
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
+
 def ON_contests(team_obj):
 	started_contests=[]
 	for contest in team_obj.contests:

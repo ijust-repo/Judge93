@@ -137,7 +137,6 @@ def change_profile():
 
 @user.route('change_password/', methods=['PUT'])
 def change_password():
-<<<<<<< HEAD
 	form = ChangePassword.from_json(request.json)
 	if form.validate():
 		old_password = form.data['old_password']
@@ -218,3 +217,20 @@ def get_users_teams(user_id):
 	except DoesNotExist:
 		return jsonify(errors="User does not exists!"), 406
 	
+
+@user.route('<string:user_id>/contest/<string:contest_id>/', methods=['GET'])
+def get_user_team(user_id,contest_id):
+	try:
+		user_obj = User.objects().get(pk=user_id)
+		contest_obj = Contest.objects().get(pk=contest_id)
+
+		for info in contest_obj.teams:
+			if (info.team.owner == user_obj):
+				return jsonify(info.team.to_json()) , 200
+			for member in info.team.members:
+				if (member == user_obj):
+					return jsonify(info.team.to_json()) , 200
+		return jsonify(errors="user is not in contest!") , 406
+	except DoesNotExist:
+		return jsonify(errors="user or contest does not exists!") , 406
+
