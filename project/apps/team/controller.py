@@ -227,7 +227,7 @@ def join_request():
 			return "" , 406
 
 @team.route('<string:team_id>/member/<string:member_id>/', methods=['DELETE'])
-def member_member(team_id, member_id):
+def remove_member(team_id, member_id):
 	try:
 		team = Team.objects().get(pk=team_id)
 		is_running_contest = running_contests(team)
