@@ -91,6 +91,7 @@
 </body>
 
 <script>
+
 	$backToTeamPage = function(){
 		$("#loneTeamPage").slideUp(500);
 		setTimeout(function(){ $("#teamPage").slideDown(1000); }, 700);
@@ -137,6 +138,7 @@
 						url: '/user/get_profile/by_username/' + $(this).data("member") + '/',
 						dataType: "html",
 						success: function(data){
+							
 							var myUrl = '/team/' + $('.idTeam').val() + '/member/' + (JSON.parse(data)).id + '/';
 							$.ajax({
 								type: "DELETE",

@@ -166,6 +166,21 @@ def get_team_member(team_id):
 		return jsonify(errors='Team does not exist!'), 406
 
 
+@team.route('<string:team_id>/info/', methods=['GET'])
+def get_team_info(team_id):
+	try:
+		team_obj = Team.objects().get(pk=team_id)
+		res = {}
+		res['name'] = team_obj.name
+		res['owner'] = team_obj.owner.to_json()
+		res['members'] = [member.to_json() for member in team_obj.members]
+		res['contests'] = [contest.name for contest in team_obj.contests]
+		return jsonify(res), 200
+
+	except DoesNotExist:
+		return jsonify(errors='Team does not exist!'), 406
+
+
 @team.route('join_request/', methods=['POST'])
 def join_request():
 	form = JoinRequest.from_json(request.json)
