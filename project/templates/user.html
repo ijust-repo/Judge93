@@ -67,7 +67,18 @@ if (password===password2) {
             dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
             success: function (data) {
-     					window.location.replace("/user/");
+				swal({
+					  title: "Good!",
+					  text: "Your account create successfully",
+					  type: "success",
+					 
+					  closeOnConfirm: false,
+					  showLoaderOnConfirm: true,
+					},
+					function(){
+					 window.location.replace("/user/");
+					});         
+     					
             },
             error: function (request, status, error) {  
 				if(request.status===409) {         
@@ -82,7 +93,7 @@ if (password===password2) {
       }
       else
       {
-			alert(" passwords don't match");      
+			swal("Sorry!", "Passwords don't match ", "error") ;      
       }
         $("#username_signup").val('');
 		 $("#password_signup").val('');  
