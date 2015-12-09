@@ -20,7 +20,7 @@ from project.apps.contest.models import Contest, TeamInfo
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
 
-def ON_contests(team_obj):
+def running_contests(team_obj):
 	started_contests=[]
 	for contest in team_obj.contests:
 		if contest.starts_on < datetime.utcnow() and datetime.utcnow() < contest.ends_on:
@@ -88,9 +88,9 @@ def add_member():
 		members = form.data ['members']
 		try:
 			team_obj = Team.objects.get(name=team_name)
-			is_on_contest = ON_contests(team_obj)
-			if is_on_contest:
-				return jsonify(errors="you have %s contests ON"%is_on_contest) , 406
+			is_running_contest = running_contests(team_obj)
+			if is_running_contest:
+				return jsonify(errors="you have %s contests ON"%is_running_contest) , 406
 
 		except DoesNotExist:
 			return jsonify(errors='Team does not exists!'), 406
@@ -130,9 +130,9 @@ def change_team_name(team_id):
 		new_name = form.data['new_name']
 		try:
 			obj = Team.objects().get(pk=team_id)
-			is_on_contest = ON_contests(obj)
-			if is_on_contest:
-				return jsonify(errors="you have %s contests ON"%is_on_contest) , 406
+			is_running_contest = running_contests(obj)
+			if is_running_contest:
+				return jsonify(errors="you have %s contests ON"%is_running_contest) , 406
 
 			if obj.owner.username == logged_in_user():
 				obj.name = new_name
@@ -230,9 +230,9 @@ def join_request():
 def member_member(team_id, member_id):
 	try:
 		team = Team.objects().get(pk=team_id)
-		is_on_contest = ON_contests(team)
-		if is_on_contest:
-			return jsonify(errors="you have %s contests ON"%is_on_contest) , 406
+		is_running_contest = running_contests(team)
+		if is_running_contest:
+			return jsonify(errors="you have %s contests ON"%is_running_contest) , 406
 
 		if logged_in_user() != team.owner.username:
 			return jsonify(errors="User is not owner"), 403

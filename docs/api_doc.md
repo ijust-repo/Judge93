@@ -527,7 +527,7 @@ Example Request
 
 >- Team_id is the Id of the team in database.
 >- If response status code is **200** then the team name successfully changed.
->- If response status code is **406** then the user is not owner of the team or team does not exist or team has ON contest.
+>- If response status code is **406** then the user is not owner of the team or team does not exist or team has running contest.
 >- If response status code is **409** then the new name does not exist.
 >- If there are errors like a required field response status code will be **406** .
 
@@ -560,7 +560,7 @@ Example Request
 >- If response status code is **200** then members added to the team successfully.
 >- If response status code is **406** then team does not exists or the team owner are in the members list or someone in members list are repeated twice or sum of the team members be greater than 3 or the username in the members list does not exists. 
 >- If there are errors like a required field response status code will be **406**.
->- If response status code is **406** then team has ON contest.
+>- If response status code is **406** then team has running contest.
 >- If response status code is **403** the user is not owner of the team.
 
 
@@ -588,7 +588,7 @@ team/5662c01a7431e90c36c8bd26/member/56s2bf4e743sd90b4ecc985e/
 >- `team_id` is the Id of the team in database.
 >- `member_id` is the Id of the member in database.
 >- If response status code is **200** then member removed from team successfully.
->- If response status code is **406** then team does not exists or team has ON contest.
+>- If response status code is **406** then team does not exists or team has running contest.
 >- If response status code is **403** the user is not owner of the team.
 
 -------
