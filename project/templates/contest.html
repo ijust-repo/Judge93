@@ -148,15 +148,14 @@
    
 	<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents  " >
-			<div id="contestinfoforusers"class="CSSTableGenerator" >					
+			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">					
 					<table id="contestinfo">
 					   <tr>
 						   <td style="display:none"> id </td>
 						   <td > Name </td>
 						   <td > Sart on </td>
 						   <td> End on </td>
-						   <td > Your team</td>
-						   <td > Your rank</td>					     
+						   <td >Team</td>				     
 						</tr>
 					</table>
                 </div>
@@ -322,6 +321,7 @@
             success: function (data) {
 			 userlogin=(JSON.parse(data)).username;
            if(username===userlogin){
+			   
           /* document.getElementById('info').style.display = 'none';*/	}
            else{
 			  changeprofile(username);
@@ -355,32 +355,60 @@
 		 	
 	}
 	else{
+		$('#contestinfoforusers').show(1000);
 		var id = '{{user_id }}'; 
+		
 		 $.ajax({
             type: "GET",
             url : "/user/get_profile/by_id/"+id+"/",
-            dataType: "html", 				
+            dataType: "html",
+            contentType: "application/json", 				
             success: function (data) {
 		        username=(JSON.parse(data)).username;
 				checkprofile(username);
 				$( '#getusername ' ).html(username);
-				$( '#getidprof ' ).html(id);
-
-				$("#team").click(function() {
-					window.location.replace("/user/"+username+"/team/");
-				});
+				$( '#getidprof ' ).html(id);	
             },
            error: function (request) { 
-			   swal("Sorry", request.errors) ;              
-			      	      		
+			    swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
       		}
 		});
+		 $.ajax({
+            type: "GET",
+            url : "/user/"+id+"/teams/",
+            dataType: "html", 				
+            success: function (data) {
+				alert(data);			
+		        var data=(JSON.parse(data)).teams;
+		        for (var i = 0; i < data.length; i++) {
+					var teamname=data[i].name;
+					var teamitem=data[i].contests;
+					for (var i = 0; i < teamitem.length; i++) {
+						var strurl="/team/"+teamname+"/";
+						tr = $('<tr id="Q'+i+'">');		
+						tr.append('<td  style="display:none">' + data[i].id + "</td>");
+						tr.append("<td>" + teamitem[i].name + "</td>");
+						tr.append("<td>" + teamitem[i].starts_on + "</td>");
+						tr.append("<td>" + teamitem[i].ends_on + "</td>");
+						tr.append('<td><a id="'+teamname+'">' + teamname + '</a></td></tr>');
+						$("#"+teamname).attr("href",strurl);
+						
+						//tr.append("<td>" + data[i].name + "</td>");
+						$('#contestinfo').append(tr);
+					}
+				}
+            },
+           error: function (request) { 
+			    swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
+      		}
+		});
+ 
  $('#contest').css('background-color', '#355C7D');
  }
 	function changecontestpage(contestname){		
 		document.title = contestname;
 		$( '#getcontestname ' ).html(contestname);
-		$('#contestleftmenu').show(1000);
+		$('#contestleftmenu').show();
 		$('#contestinformation').show(1000);
 		document.getElementById('leftmenu').style.display = 'none';
 		document.getElementById('contestinfoforusers').style.display = 'none';
@@ -447,7 +475,7 @@
 			},
           error: function (request, status, error) { 
 		   
-					alert(request.errors); 			              
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 			              
            }   
     });
 	
@@ -464,21 +492,21 @@ $("#questions").click(function() {
             url :"/contest/"+contestid+"/problems/",
             dataType: "html",  				
             success: function (data) {
-				  document.getElementById('titlePage').innerHTML="Problems" ;
-	document.getElementById('contestinfoforusers').style.display = 'none';
-	$('#maintitr').show(1000);
-	document.getElementById('contestinformation').style.display = 'none';
-	document.getElementById('problemhead').style.display = 'none';
-	$('#contestquestions').show(1000);
-	document.getElementById('contestquestion').style.display = 'none';
-	document.getElementById('contestrank').style.display = 'none';	
-		document.getElementById('contestteams').style.display = 'none';	
-	document.getElementById('contestaddquestions').style.display = 'none';
-	 $('#contestteam').css('background-color', '#1B325F');
-	 $('#questions').css('background-color', '#355C7D');
-	 if (canedit==="yes"){
-		 document.getElementById('addproblemdiv').style.display = 'block';		
-	 }
+			document.getElementById('titlePage').innerHTML="Problems" ;
+			document.getElementById('contestinfoforusers').style.display = 'none';
+			$('#maintitr').show(1000);
+			document.getElementById('contestinformation').style.display = 'none';
+			document.getElementById('problemhead').style.display = 'none';
+			$('#contestquestions').show(1000);
+			document.getElementById('contestquestion').style.display = 'none';
+			document.getElementById('contestrank').style.display = 'none';	
+			document.getElementById('contestteams').style.display = 'none';	
+			document.getElementById('contestaddquestions').style.display = 'none';
+			 $('#contestteam').css('background-color', '#1B325F');
+			 $('#questions').css('background-color', '#355C7D');
+			 if (canedit==="yes"){
+				 document.getElementById('addproblemdiv').style.display = 'block';		
+			 }
            	var data=(JSON.parse(data)).problems;
 				 var tr;
 				 problemnumber=data.length;
@@ -581,7 +609,7 @@ $("#questions").click(function() {
               });
   
  });
-$
+
  //show contest of user
   function getidprofile(id){    		   		
   $.ajax({
@@ -590,6 +618,7 @@ $
             dataType: "html", 				
             success: function (data) {
 				var data=(JSON.parse(data)).teams;
+				
 				 var tr;
         for (var i = 0; i < data.length; i++) {
             tr = $('<tr/>');
@@ -666,16 +695,22 @@ $(document).ready(function () {
           		dataType: "html",
           		data: '{"name" : "' + name + '", "starts_on" : "' + startMillis + '", "ends_on" : "' + endMillis + '"}',
           		success: function (data) {
-					swal("Good!", "Contest successfully Created", "success");
-              		
-              		window.location.replace("/contest/" + name + "/");
+					swal({
+					  title: "Good!",
+					  text: "Contest successfully Created",
+					  type: "success",
+					  showCancelButton: true,
+					  closeOnConfirm: false,
+					  showLoaderOnConfirm: true,
+					},
+					function(){
+					 window.location.replace("/contest/" + name + "/");
+					});             		
           		},
           		error: function (request, status, error) {
-					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
-            		
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 	
           		}
-        	});
-			
+        	});			
 		});
 	});
 

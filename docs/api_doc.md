@@ -364,7 +364,7 @@ Example Response:
 	{
   	  "id": "5210e3923ac198af54156118",
   	  "name": "mycontest",
-  	  "starts_on": "2015-11-20 13:00:00",
+  	  "start_on": "2015-11-20 13:00:00",
   	  "ends_on": "2015-11-20 17:00:00"
 	}
       ], 

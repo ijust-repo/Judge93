@@ -57,7 +57,7 @@
 	</div>
 	<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents " >
-			<div id="contestinfoforusers"class="CSSTableGenerator" >							
+			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">							
 				<table id="contestinfo">
                    <tr>
 					   <td > Row number </td>
@@ -70,10 +70,15 @@
 					    <td > Your team</td>
 					</tr>
                 </table>
-             </div>
-		
-			<div id="info"></div>
+             </div>		
+			<div id="info">
+				<label for="usernamecontact">Username:</label>
+				<h4 id="usernamecontact" name="usernamecontact"></h4>
+				<hr>
+				<label for="emailcontact">Email:</label>
+				<h4 name="emailcontact" id="emailcontact"></h4>
 			</div>
+		</div>
    	</div>
    
 
@@ -103,7 +108,10 @@ function checkprofile(username){
             success: function (data) {
 				var userlogin=(JSON.parse(data)).username;
            if(username===userlogin){
-           document.getElementById('info').style.display = 'none';	}
+
+           $('#info').hide();
+           $('#contestinfoforusers').show(1000);
+           	}
            else{
 			   
 			  changeprofile(username);
@@ -116,19 +124,19 @@ function checkprofile(username){
 		});
 	}
 	
-	//show username
-	
+	//show username	
      $.ajax({
             type: "GET",
             url : "/user/get_profile/by_id/"+id+"/",
             dataType: "html", 				
             success: function (data) {
-				$('#info').html(data);
+		
 			 username=(JSON.parse(data)).username;
 				checkprofile(username);
 				$( '#getusername ' ).html(username);
 				$( '#getidprof ' ).html(id);  
-				$('#info').html(data);	
+				$('#usernamecontact').html((JSON.parse(data)).username);
+				$('#emailcontact').html((JSON.parse(data)).email);	
 					
             },
            error: function (request) {                
@@ -237,9 +245,7 @@ $("#team").click(function() {
   });
   });
   
-  $(document).ready(function() {
-    $("html").niceScroll({cursorwidth: '10px', autohidemode:true, zindex: 999 });
-});
+  
 	</script>
 
 </html>
