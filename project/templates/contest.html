@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Contests</title>
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
+	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
+	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}" /></script>
+	<script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>	
-    <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
+	<link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
@@ -114,7 +118,7 @@
 					   <tr>
 						   <td style="display:none"> id </td>
 						   <td > Name </td>
-						   <td > Sart on </td>
+						   <td > Start on </td>
 						   <td> End on </td>
 						   <td > Your team</td>
 						   <td > Your rank</td>					     
@@ -122,8 +126,7 @@
 					</table>
                 </div>
                 <div id="contestinformation" class="CSSTableGenerator" style="display:none">
-					<input type="button" id="editcontestbtn" class="btn btn-primary" value="edit" style="display:none"/>
-				</div>            
+				</div>
                 <div id="contestquestions" class="CSSTableGenerator" style="display:none">
 					<table id="contestquestionslist">
 					   <tr>
@@ -185,6 +188,116 @@
    	</div>  
 </body>
 <script>
+
+	$editContest = function()
+	{
+		if ($("#editContestButton").html() == 'Edit')
+		{
+			$("#editContestButton").data('name', $('.editable').html());
+			$('.editable').replaceWith($('<input class="editable" value="' + $('.editable').html() + '">'));
+
+			$(".sector-block-contest").each(function()
+			{
+				if ($(this).find('div').html() == 'starts on')
+				{
+					$(this).data('data', $(this).find('p').html());
+					$(this).find('p').replaceWith($('<input type="text" class="form-control" id="datetimepicker" value="' + $(this).find('p').html() + '" />'));
+				}
+				else if ($(this).find('div').html() == 'ends on')
+				{
+					$(this).data('data', $(this).find('p').html());
+					$(this).find('p').replaceWith($('<input type="text" class="form-control" id="datetimepicker2" value="' + $(this).find('p').html() + '" />'));
+				}
+			});
+			$("#datetimepicker").datetimepicker();
+			$("#datetimepicker2").datetimepicker();
+			document.getElementById("cancelContestButton").style.display = 'block';
+			$("#editContestButton").html("Submit");
+		}
+		else
+		{
+			var myData = {};
+			var isSend = false;
+			if($("#datetimepicker").parent().data('data') != $("#datetimepicker").val())
+			{
+				var myRawData = $("#datetimepicker").val().split(' ');
+				alert(myRawData);
+				var myDate;
+				myDate = new Date;
+				myDate.setYear(myRawData[0].split('/')[2]);
+				myDate.setMonth(myRawData[0].split('/')[0]);
+				myDate.setDate(myRawData[0].split('/')[1]);
+				if (myRawData[2] == 'PM')
+				{
+					myDate.setHours(myRawData[1].split(':')[0] + 12);
+				}
+				else
+				{
+					myDate.setHours(myRawData[1].split(':')[0]);
+				}
+				myDate.setMinutes(myRawData[1].split(':')[1]);
+				myDate = new Date(myDate.toUTCString());
+				myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				isSend = true;
+			}
+			if ($("#datetimepicker2").parent().data('data') != $("#datetimepicker2").val())
+			{
+				var myRawData = $("#datetimepicker2").val().split(' ');
+				var myDate;
+				myDate = new Date;
+				myDate.setYear(myRawData[0].split('/')[2]);
+				myDate.setMonth(myRawData[0].split('/')[0]);
+				myDate.setDate(myRawData[0].split('/')[1]);
+				if (myRawData[2] == 'PM')
+				{
+					myDate.setHours(myRawData[1].split(':')[0] + 12);
+				}
+				else
+				{
+					myDate.setHours(myRawData[1].split(':')[0]);
+				}
+				myDate.setMinutes(myRawData[1].split(':')[1]);
+				myDate = new Date(myDate.toUTCString());
+				myData["ends_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				isSend = true;
+			}
+			if ($(".editable").val() != $("#editContestButton").data('name'))
+			{
+				myData["name"] = $(".editable").val();
+				isSend = true;
+			}
+			if (isSend)
+			{
+				$.ajax({
+					type: "PUT",
+					url: '/contest/' + $(".contest-id").val() +'/',
+					dataType: "html",
+					contentType: "application/json",
+					data: JSON.stringify(myData),
+					success: function (data) {
+						alert("Edited");
+						location.reload();
+					},
+					error: function (request, status, error) {
+						alert(error + request + status);
+					}
+				});
+			}
+		}
+	};
+
+	$cancelContest = function()
+	{
+		$('.editable').replaceWith($('<p class="editable">' + $('.editable').val() + '</p>'));
+		$(".sector-block-contest").each(function(){
+			if ($(this).find('div').html() == 'starts on' || $(this).find('div').html() == 'ends on')
+			{
+				$(this).find('input').replaceWith($('<p>' + $(this).data('data') + '</p>'));
+			}
+		});
+		document.getElementById("cancelContestButton").style.display = 'none';
+	}
+
 	var problemnumber=0;
 	var canedit="no";
 	var contestid =null;
@@ -277,7 +390,8 @@
             url : "/contest/by_id/"+contestid+"/",
             dataType: "html", 				
             success: function (data) {
-				$('#contestinformation').append(data);
+				$myData = (JSON.parse(data));
+				$('#contestinformation').append('<div class="open-page info-contest"><div class="row header-team"><div class="col-sm-3"><button id="cancelContestButton" onclick="$cancelContest();" class="hover-button" style="display: none">Cancel</button></div><div class="col-sm-6"><div><p class="editable">' + $myData.name + '</p></div></div><div class="col-sm-3"><button id="editContestButton" onclick="$editContest();" class="hover-button">Edit</button></div></div><div class="body-team"><div class="sector-block-contest"><div class="title">owner</div><p>' + $myData.owner.username + '</p></div><div class="sector-block-contest"><div class="title">created on</div><p>' + $myData.created_on + '</p></div><div class="sector-block-contest"><div class="title">starts on</div><p>' + $myData.starts_on + '</p></div><div class="sector-block-contest"><div class="title">ends on</div><p>' + $myData.ends_on + '</p></div></div><input class="contest-id" type="hidden" value="' + $myData.id + '"></div>');
 				 contestname=(JSON.parse(data)).name;
 				var contestadmin=(JSON.parse(data)).owner.username;
 				checkifadmin(contestadmin);

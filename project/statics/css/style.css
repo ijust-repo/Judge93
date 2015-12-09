@@ -306,6 +306,15 @@ width:170px;
     text-align: center;
 }
 
+.sector-block-contest
+{
+    vertical-align: top;
+    width: 22%;
+    margin: 1%;
+    display: inline-block;
+    text-align: center;
+}
+
 .sector-block-team-middle
 {
     width: 15vw;
@@ -317,7 +326,7 @@ width:170px;
     border-right: solid 1px #FFFFFF;
 }
 
-.sector-block-team div, .sector-block-team a, .sector-block-team2 div, .sector-block-team2 a
+.sector-block-team div.title, .sector-block-team a.title, .sector-block-team2 div.title, .sector-block-team2 a.title, .sector-block-contest a.title
 {
     color: #080808;
     font-size: 16px;
@@ -328,16 +337,30 @@ width:170px;
     padding-bottom: 3%;
 }
 
-.sector-block-team p, .sector-block-team-middle p, .sector-block-team2 p, .sector-block-team2 input
+.sector-block-team div.subset, .sector-block-team-middle div.subset, .sector-block-team2 div.subset, .sector-block-team2 input, .sector-block-contest input ,.sector-block-contest p
 {
     font-size: 14px;
     text-align: center;
     display: block;
     margin: 0 auto 3%;
-    width: 10vw;
+    width: 13vw;
 }
 
-.sector-block-team2 p label
+.sector-block-team div.subset a, .sector-block-team2 div.subset a
+{
+    color: #080808;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.sector-block-team div.subset a:hover, .sector-block-team2 div.subset a:hover
+{
+    color: #265a88;
+    margin-left: 10%;
+}
+
+.sector-block-team2 div.subset label
 {
     color: #F26C4F;
     font-size: 12px;
@@ -353,7 +376,7 @@ width:170px;
     width: 100%;
 }
 
-.info-team2
+.info-team2, .info-contest
 {
     display: block;
     border-bottom: solid 20px #E9E9E9;
@@ -593,8 +616,10 @@ width:170px;
 
 
 .CSSTableGenerator {
-	margin:0px;padding:0px;
+	margin:0px;
+    padding:0px;
 	width:100%;
+    min-height: 50vh;
 	border-bottom:1px solid #ffffff;
 	
 }.CSSTableGenerator table{
@@ -644,8 +669,9 @@ width:170px;
   p,.btn,input,div,span,h4 {
     font-size: 15px;
   }
-  input[type=text]{
+  input{
   width:100px;
+      font-size: 15px;
   }
   .labelcss{
   font-size: 5px;
@@ -680,13 +706,14 @@ padding: 12px;
         font-size: 14px;
     }
 
-    input[type=text] {
-        width: 150px;
+    input
+    {
+        width: 90px;
+        font-size: 12px;
     }
 
     .labelcss {
         font-size: 11px;
-
     }
 
     .maintitr {
