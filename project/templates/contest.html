@@ -378,12 +378,12 @@
             url : "/user/"+id+"/teams/",
             dataType: "html", 				
             success: function (data) {
-				alert(data);			
+				//alert(data);			
 		        var data=(JSON.parse(data)).teams;
 		        for (var i = 0; i < data.length; i++) {
 					var teamname=data[i].name;
 					var teamitem=data[i].contests;
-					for (var i = 0; i < teamitem.length; i++) {
+					for (var j = 0;j < teamitem.length; j++) {
 						var strurl="/team/"+teamname+"/";
 						tr = $('<tr id="Q'+i+'">');		
 						tr.append('<td  style="display:none">' + data[i].id + "</td>");
