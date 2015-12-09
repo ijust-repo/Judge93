@@ -89,7 +89,7 @@ def add_member():
 		try:
 			team_obj = Team.objects.get(name=team_name)
 			if running_contests(team_obj):
-				return jsonify(errors="you have contest running") , 406
+				return jsonify(errors="you have contest running") , 403
 
 		except DoesNotExist:
 			return jsonify(errors='Team does not exists!'), 406
@@ -130,7 +130,7 @@ def change_team_name(team_id):
 		try:
 			obj = Team.objects().get(pk=team_id)
 			if running_contests(obj):
-				return jsonify(errors="you have contest running") , 406
+				return jsonify(errors="you have contest running") , 403
 
 			if obj.owner.username == logged_in_user():
 				obj.name = new_name
@@ -229,7 +229,7 @@ def remove_member(team_id, member_id):
 	try:
 		team = Team.objects().get(pk=team_id)
 		if running_contests(team):
-			return jsonify(errors="you have contests running") , 406
+			return jsonify(errors="you have contests running") , 403
 
 		if logged_in_user() != team.owner.username:
 			return jsonify(errors="User is not owner"), 403
