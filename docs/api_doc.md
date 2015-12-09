@@ -565,7 +565,7 @@ GetMembers
 
 Resource URL
 >GET
-> **/user/members/```string:team_id```/**
+> **/team/members/```string:team_id```/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -601,6 +601,42 @@ Example Result
 >- If response status code is **406** then the user is not owner of the team or team does not exist.
 
 ------- 
+
+
+Get full info
+===============
+
+Resource URL
+>GET
+> **/team/```string:team_id```/info/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+
+Example Result
+```
+{
+  "contests": [],
+  "members": [],
+  "name": "team2",
+  "owner": {
+    "id": "563e43527431e9113e479849",
+    "username": "admin"
+  }
+}
+```
+
+
+> **NOTE:**
+
+>- `team_id` is the Id of the team in database.
+>- If response status code is **406** then the team does not exist.
+
+------- 
+
 
 Join request
 =================
