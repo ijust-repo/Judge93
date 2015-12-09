@@ -246,12 +246,3 @@ def member_member(team_id, member_id):
 		return "", 200
 	except DoesNotExist:
 		return jsonify(errors='Team or member does not exist!'), 406
-
-
-@team.route('<string:team_name>/info_name/', methods=['GET'])
-def get_team_info(team_name):
-	try:
-		team = Team.objects().get(name=team_name)
-		return jsonify(team.to_json_complete()), 200
-	except DoesNotExist:
-		return jsonify(errors="Team does not exist!"),406

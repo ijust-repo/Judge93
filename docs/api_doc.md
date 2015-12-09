@@ -706,52 +706,6 @@ Example Request
 --------
 
 
-Team info by name
-===============
-
-Resource URL
->GET
-> **/team/<string: team_name>/info_name/**
-
-Resource Information
->|Response formats|Requires authentication?|
-|:-:|:-:|
-|NULL|YES (must be authenticated)|
-
-
-Example Result
-```
-{
-  "id": "5662ba0823e3c01da4c9e2b1",
-  "members": [
-              {
-                "id": "5662b70823e3c01da4c9e2af",
-                "username": "admin"
-              },
-              {
-                "id": "5662b71023e3c01da4c9e2b0",
-                "username": "admin3"
-              }
-             ],
-  "name": "new_team9",
-  "owner": {
-            "id": "566179cb23e3c01f40fc6431",
-            "username": "admin2"
-           }
-}
-```
-
-
-> **NOTE:**
-
->- Team_name is the name of the team in database.
->- If response status code is **200** then the team info successfully returned.
->- If response status code is **406** then the team does not exist and there will be errors like **'Team does not exist!** .
-
-------- 
-
-
-
 Contest API
 ========
 

@@ -225,12 +225,9 @@ def get_user_team(user_id,contest_id):
 		contest_obj = Contest.objects().get(pk=contest_id)
 
 		for info in contest_obj.teams:
-			if (info.team.owner == user_obj):
+			if (info.team.owner == user_obj) or (user_obj in info.team.members):
 				return jsonify(info.team.to_json()) , 200
-			for member in info.team.members:
-				if (member == user_obj):
-					return jsonify(info.team.to_json()) , 200
-					
+				
 		return jsonify(errors="user is not in contest!") , 406
 	except DoesNotExist:
 		return jsonify(errors="user or contest does not exists!") , 406
