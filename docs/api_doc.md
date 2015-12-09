@@ -407,6 +407,39 @@ Example Response:
 >- If response status code is **406** then the user id does not exist.
 
 
+Get team by contest id
+===============
+
+Resource URL
+>GET
+> **/user/<string: user_id>/contest/<string:contest_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Response:
+```
+{
+  "id": "5662ba0823e3c01da4c9e2b1",
+  "name": "new_team9",
+  "owner": {
+            "id": "566179cb23e3c01f40fc6431",
+            "username": "admin2"
+           }
+}
+```
+
+> **NOTE**
+>- If response status code is **200** then team have been successfully found and information have been returned.
+>- If response status code is **406** then the user or contest does not exist and you will have errors like **'user or contest does not exists!' **, or user is not in contest and you will have errors like **'user is not in contest!' **.
+
+-------
+
+
+
+
 Team API
 ========
 
@@ -463,7 +496,7 @@ Example Request
 >- If response status code is **201** then new team is successfully created.
 >- If there are more than two members in the request, response status code will be **406** and you will have errors with creating team like  **'Number of members must be under three!' ** .
 >- If owner is found in the members of the request, status code will be **406** and and you will have errors with creating team like  **'Owner can not be added to the team!' ** .
->- If the members in the request are the same, status code will be **406** and and you will have errors with creating team like **'No one can be added twice!' ** .
+>- If the members in the request are the same, status code will be **406** and you will have errors with creating team like **'No one can be added twice!' ** .
 >- If the requested members do not exist in data base, status code will be **406** and you will have errors with creating team like  **'User does not exist!' ** .
 >- If the name of team already exists, status code will be **409** .
 >- If there are errors like a required field response status code will be **406** .
@@ -680,6 +713,8 @@ Example Result
 >- If response status code is **406** then the team does not exist and there will be errors like **'Team does not exist!** .
 
 ------- 
+
+
 
 Contest API
 ========
