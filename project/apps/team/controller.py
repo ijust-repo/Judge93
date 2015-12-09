@@ -19,8 +19,6 @@ from project.apps.contest.models import Contest, TeamInfo
 #other
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
-
-
 def ON_contests(team_obj):
 	started_contests=[]
 	for contest in team_obj.contests:
@@ -217,8 +215,8 @@ def member_member(team_id, member_id):
 	try:
 		team = Team.objects().get(pk=team_id)
 		is_on_contest = ON_contests(team)
-			if is_on_contest:
-				return jsonify(errors="you have %s contests ON"%is_on_contest) , 406
+		if is_on_contest:
+			return jsonify(errors="you have %s contests ON"%is_on_contest) , 406
 
 		if logged_in_user() != team.owner.username:
 			return jsonify(errors="User is not owner"), 403
@@ -232,3 +230,12 @@ def member_member(team_id, member_id):
 		return "", 200
 	except DoesNotExist:
 		return jsonify(errors='Team or member does not exist!'), 406
+
+
+@team.route('<string:team_name>/info_name/', methods=['GET'])
+def get_team_info(team_name):
+	try:
+		team = Team.objects().get(name=team_name)
+		return jsonify(team.to_json_complete()), 200
+	except DoesNotExist:
+		return jsonify(errors="Team does not exist!"),406
