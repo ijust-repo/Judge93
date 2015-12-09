@@ -147,8 +147,7 @@ def change_password():
 			obj.save()
  			return "", 200
 		else:
-			form.old_password.errors.append(form.old_password.gettext('Wrong password.'))
-			return jsonify(errors=form.errors), 401
+			return jsonify(errors='Wrong password.'), 401
 	return "", 406
 
 @user.route('get_profile/by_username/<string:username>/', methods=['GET'])
