@@ -374,7 +374,7 @@ width:170px;
     width: 13vw;
 }
 
-.sector-block-team div.subset a, .sector-block-team2 div.subset a
+.sector-block-team div.subset a, .sector-block-team2 div.subset a, .sector-block-team-middle a, .editable a
 {
     color: #080808;
     -webkit-transition: all 0.5s;
@@ -382,7 +382,7 @@ width:170px;
     transition: all 0.5s;
 }
 
-.sector-block-team div.subset a:hover, .sector-block-team2 div.subset a:hover
+.sector-block-team div.subset a:hover, .sector-block-team2 div.subset a:hover, .sector-block-team-middle a:hover, .editable a:hover
 {
     color: #265a88;
 }
@@ -432,9 +432,49 @@ width:170px;
     margin-top: -5px;
 }
 
-.sortable
+#contestquestions ul
 {
-    list-style-type: none;
+    list-style-type: none; margin: 0; padding: 0; width: 60%;
+}
+
+#contestquestions li
+{
+    padding-bottom: 2%;
+    padding-top: 2%;
+    border-bottom:1px solid #ffffff;
+    border-top: 1px solid #ffffff;
+}
+
+.subset-question
+{
+    vertical-align: top;
+    width: 45%;
+    margin: 1%;
+    display: inline-block;
+    text-align: center;
+}
+
+.sortable li span
+{
+    position: absolute; margin-left: -1.3em;
+}
+
+tr.ui-sortable-handle span
+{
+    position: absolute; margin-left: -1.3em;
+}
+
+tr.ui-sortable-handle td
+{
+    margin: 0 3px 3px 3px;
+    padding: 0.4em 0.4em 0.4em 1.5em;
+    font-size: 1.4em; height: 18px;
+}
+
+.edit-order
+{
+    margin-left: 1%;
+    margin-bottom: 1%;
 }
 
 .form-dialog {
