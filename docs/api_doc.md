@@ -527,7 +527,8 @@ Example Request
 
 >- Team_id is the Id of the team in database.
 >- If response status code is **200** then the team name successfully changed.
->- If response status code is **403** then the user is not owner of the team or team does not exist or team has running contest and you will have errors like  **'you are in a running contest' ** .
+>- If response status code is **406** then the user is not owner of the team or team does not exist.
+>- If response status code is **403** then team has running contest and you will have errors like  **'you are in a running contest' ** .
 >- If response status code is **409** then the new name does not exist.
 >- If there are errors like a required field response status code will be **406** .
 
