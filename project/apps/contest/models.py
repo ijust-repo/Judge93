@@ -39,7 +39,7 @@ class Problem(EmbeddedDocument):
 			order = self.order,
 			title = self.title)
 
-	def to_json_compelete(self):
+	def to_json_complete(self):
 		testcases_list = []
 		for testcase in self.testcases:
 			testcases_list.append(testcase.to_json())
