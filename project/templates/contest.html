@@ -666,29 +666,14 @@ $(document).ready(function () {
 			var c_e = $("#contest_end").find("input").val();
 			var start_date = new Date(c_s);
 			var end_date = new Date(c_e);
-			/*
-			var start_date = $("input#contest_start_date").val();
-			var start_time = $("input#contest_start_time").val();
-			var hour = start_time.split(':')[0];
-			var minute = start_time.split(':')[1];
-			var startDate = new Date(start_date);
-			startDate.setHours(hour);
-			startDate.setMinutes(minute);
-			*/
+			
+			function convertDateToUTC(date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
 
-			start_date = new Date(start_date.toUTCString());
-			var startMillis = start_date.getTime()/1000 + (start_date.getTimezoneOffset() * 6);
-			/*
-			var end_date = $("input#contest_end_date").val();
-			var end_time = $("input#contest_end_time").val();
-			var hour1 = end_time.split(':')[0];
-			var minute1 = end_time.split(':')[1];
-			var endDate = new Date(end_date);
-			endDate.setHours(hour1);
-			endDate.setMinutes(minute1);
-			*/
-			end_date = new Date(end_date.toUTCString());
-			var endMillis = end_date.getTime()/1000 + (end_date.getTimezoneOffset() * 6);
+			start_date = convertDateToUTC(start_date);
+			var startMillis = start_date.getTime()/1000;
+			
+			end_date = convertDateToUTC(end_date);
+			var endMillis = end_date.getTime()/1000;
 			
 			$.ajax({
           		type: "POST",
