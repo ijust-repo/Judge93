@@ -589,8 +589,8 @@ team/5662c01a7431e90c36c8bd26/member/56s2bf4e743sd90b4ecc985e/
 >- `team_id` is the Id of the team in database.
 >- `member_id` is the Id of the member in database.
 >- If response status code is **200** then member removed from team successfully.
->- If response status code is **403** then team does not exists or team has running contest and you will have errors like  **'you are in a running contest' ** .
->- If response status code is **403** the user is not owner of the team.
+>- If response status code is **403** then the user is not owner of the team or team has running contest and you will have errors like  **'you are in a running contest' ** .
+>- If response status code is **406** then team does not exists.
 
 -------
 
