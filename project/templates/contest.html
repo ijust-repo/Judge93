@@ -385,25 +385,24 @@
             type: "GET",
             url : "/user/"+id+"/teams/",
             dataType: "html", 				
-            success: function (data) {
-				//alert(data);			
+            success: function (data) {			
 		        var data=(JSON.parse(data)).teams;
 		        for (var i = 0; i < data.length; i++) {
 					var teamname=data[i].name;
-					var teamitem=data[i].contests;
-					for (var j = 0;j < teamitem.length; j++) {
+					var teamitem=data[i].contests;	
+					for (var j = 0;j < teamitem.length; j++) {							
 						var strurl="/team/"+teamname+"/";
 						tr = $('<tr id="Q'+i+'">');		
 						tr.append('<td  style="display:none">' + data[i].id + "</td>");
-						tr.append("<td>" + teamitem[i].name + "</td>");
-						tr.append("<td>" + teamitem[i].starts_on + "</td>");
-						tr.append("<td>" + teamitem[i].ends_on + "</td>");
+						tr.append("<td>" + teamitem[j].name + "</td>");
+						tr.append("<td>" + teamitem[j].starts_on + "</td>");
+						tr.append("<td>" + teamitem[j].ends_on + "</td>");
 						tr.append('<td><a id="'+teamname+'">' + teamname + '</a></td></tr>');
 						$("#"+teamname).attr("href",strurl);
-						
-						//tr.append("<td>" + data[i].name + "</td>");
 						$('#contestinfo').append(tr);
+					
 					}
+					
 				}
             },
            error: function (request) { 
@@ -895,7 +894,20 @@ function acceptorrejectteam(id,flag){
             dataType: "html",			
             data: '{ "acceptation":"'+flag+'"}',
             success: function (data) {
-              swal("Good!", "Your change submit successfully", "success");  
+				swal({
+					  title: "Good!",
+					  text: "Your change submit successfully",
+					  type: "success",
+					 
+					  closeOnConfirm: false,
+					  showLoaderOnConfirm: true,
+					},
+					function(){
+					  
+						location.reload();
+					});    
+             
+              
             },
             error: function (request, status, error) {
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
