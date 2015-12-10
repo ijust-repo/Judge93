@@ -193,7 +193,13 @@
 				<textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
 				<hr>
 				sample Testcase:<br>
+				<div>
+					<input id ="file_input" type="file" >
+				<!--<input type="submit">-->
+
+					<button id = "sub">submit testcase</button>
 				
+				</div>
 				<div class="testcase" id="problemtestcase" >
 					<hr>
 					<label class="labelcss" for="problemtestcaseinput">Input: </label>
@@ -1027,6 +1033,46 @@ function milad(){//written by milad ############################################
 	}
  
  
+ 
+var file;
+		$("#file_input").change(function(event){
+			file = event.target.files[0];
+		});
+		
+	
+	$("#sub").click(submit);
+	//var a = new FormData 
+	function submit(){
+		//alert(file);
+		//console.log(file);
+		//var data = new FormData ()
+		//$.each(files, function(key, value)
+		//{
+		//	data.append(key, value);
+		//});
+		//console.log(data);
+		$.ajax({
+			url: '/contest/5666b511dd3ff31ae86bed6c/testcase/1/',
+			type: 'POST',
+			data: file,
+			//cache: false,
+
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			//beforeSend: function (request) {
+              //      request.setRequestHeader("Content-Type", file.type);
+                //},
+			success: function(data, textStatus, jqXHR)
+			{
+				// success
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+				
+				console.log('ERRORS: ' + textStatus);
+			}
+		});
+	}
  }
 </script>
 </html>
