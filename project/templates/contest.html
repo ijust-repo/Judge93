@@ -9,18 +9,17 @@
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/jquery.countdown.css') }} " rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
-
+    <script src="{{ url_for('static', filename='../statics/js/jquery.countdown.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
-     <script src="{{ url_for('static', filename='../statics/js/jquery.countdown.min.js') }}" /></script>
-      <script src="{{ url_for('static', filename='../statics/js/jquery.plugin.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}" /></script>	    
 	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }} " rel="stylesheet" />
+
 
 
 </head>
@@ -69,9 +68,9 @@
 		 	<a href="#questions" ><h4 class="leftmenuitem"><i  class="fa fa-code" style="width:20px; height:20px;"> </i> Problems</h4></a>
 		</li>
 		
-		<li  id="rank"  >
+		<li  id="rank" >
 			
-		 	<a ><h4 class="leftmenuitem"><i  class="fa fa-area-chart" style="width:20px; height:20px;"> </i> Rank list</h4></a>
+		 	<a href="#ranking"><h4 class="leftmenuitem"><i  class="fa fa-area-chart" style="width:20px; height:20px;"> </i> Rank list</h4></a>
 		</li>
 		
 		<li  id="contestteam"  style="display:none">
@@ -141,42 +140,40 @@
 	</div>
 	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none">
 		<input type="button" id="backtoproblemlistbtn" class="hover-button " value="Back to contest"/>
-		 <div class="countdown">Limited Time Only!
-		 <span id="clock"></span>
-	</div>
+		<div id="time"></div>
 		<p id="orderproblem" class="contestproblem " ></p>
 		<p id="titleproblem" class="contestproblem "></p>
 		<p id="idproblem" class="contestproblem " style="display:none"></p>
-		<span id="year">2014</span>
+		
 	</div>
 </div>
    
 	<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents  " >
 			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">					
-					<table id="contestinfo">
-					   <tr>
-						   <td style="display:none"> id </td>
-						   <td > Name </td>
-						   <td > Sart on </td>
-						   <td> End on </td>
-						   <td >Team</td>				     
-						</tr>
-					</table>
-                </div>
+				<table id="contestinfo">
+				   <tr>
+					   <td style="display:none"> id </td>
+					   <td > Name </td>
+					   <td > Sart on </td>
+					   <td> End on </td>
+					   <td >Team</td>				     
+					</tr>
+				</table>
+			</div>
             <div id="contestinformation" class="CSSTableGenerator" style="display:none">
 					<input type="button" id="editcontestbtn" class="btn btn-primary" value="edit" style="display:none"/>
 					<input type="button" id="jointocontestbtn" class="btn btn-primary" value="Join to this contest" style="display:none"/>
 				</div>            
             <div id="contestquestions" class="CSSTableGenerator" style="display:none">
-					<table id="contestquestionslist">
-					   <tr> 
-					   	   <td style="display:none"> order </td>
-						   <td > order </td>
-						   <td > Title </td>							 
-						</tr>
-					</table>
-				</div>
+				<table id="contestquestionslist">
+				   <tr> 
+					   <td style="display:none"> order </td>
+					   <td > order </td>
+					   <td > Title </td>							 
+					</tr>
+				</table>
+			</div>
 			<div id="contestaddquestions" style="display:none; margin:3%;">
 				Problem details:
 				<hr>
@@ -196,7 +193,13 @@
 				<textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
 				<hr>
 				sample Testcase:<br>
+				<div>
+					<input id ="file_input" type="file" >
+				<!--<input type="submit">-->
+
+					<button id = "sub">submit testcase</button>
 				
+				</div>
 				<div class="testcase" id="problemtestcase" >
 					<hr>
 					<label class="labelcss" for="problemtestcaseinput">Input: </label>
@@ -248,8 +251,8 @@
                    <tr>
 					   <td style="display:none"> id </td>
 					   <td > Team name</td>
-					   <td >Q1 </td>
-					   <td> Q2 </td>
+					   <td > Problems Solved </td>
+					   <td> Rank </td>
 					     
 					</tr>
                 </table>
@@ -431,14 +434,7 @@
     var pathName = loc.pathname.substring(0, 9);
     return pathName;
 }
-	function loadquestiondiv(id){
-		$(function () {
-	var austDay = new Date();
-	austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
-	$('#clock').countdown({until: austDay});
-	$('#year').text(austDay.getFullYear());
-}); 
-		
+	function loadquestiondiv(id){	
 	document.getElementById('contestinfoforusers').style.display = 'none';
 	document.getElementById('maintitr').style.display = 'none';
 	$('#problemhead').show(1000);
@@ -504,6 +500,7 @@ $("#questions").click(function() {
             url :"/contest/"+contestid+"/problems/",
             dataType: "html",  				
             success: function (data) {
+			reset();//added by milad
 			document.getElementById('titlePage').innerHTML="Problems" ;
 			document.getElementById('contestinfoforusers').style.display = 'none';
 			$('#maintitr').show(1000);
@@ -511,8 +508,8 @@ $("#questions").click(function() {
 			document.getElementById('problemhead').style.display = 'none';
 			$('#contestquestions').show(1000);
 			document.getElementById('contestquestion').style.display = 'none';
-			document.getElementById('contestrank').style.display = 'none';	
-			document.getElementById('contestteams').style.display = 'none';	
+			//document.getElementById('contestrank').style.display = 'none';	
+			//document.getElementById('contestteams').style.display = 'none';	
 			document.getElementById('contestaddquestions').style.display = 'none';
 			 $('#contestteam').css('background-color', '#1B325F');
 			 $('#questions').css('background-color', '#355C7D');
@@ -669,6 +666,7 @@ $("#questions").click(function() {
 }
 
 $(document).ready(function () {
+		milad();//call 
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#create_contest_button').click(function() {
 			var name = $("input#contest_name").val();
@@ -676,29 +674,14 @@ $(document).ready(function () {
 			var c_e = $("#contest_end").find("input").val();
 			var start_date = new Date(c_s);
 			var end_date = new Date(c_e);
-			/*
-			var start_date = $("input#contest_start_date").val();
-			var start_time = $("input#contest_start_time").val();
-			var hour = start_time.split(':')[0];
-			var minute = start_time.split(':')[1];
-			var startDate = new Date(start_date);
-			startDate.setHours(hour);
-			startDate.setMinutes(minute);
-			*/
+			
+			function convertDateToUTC(date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
 
-			start_date = new Date(start_date.toUTCString());
-			var startMillis = start_date.getTime()/1000 + (start_date.getTimezoneOffset() * 6);
-			/*
-			var end_date = $("input#contest_end_date").val();
-			var end_time = $("input#contest_end_time").val();
-			var hour1 = end_time.split(':')[0];
-			var minute1 = end_time.split(':')[1];
-			var endDate = new Date(end_date);
-			endDate.setHours(hour1);
-			endDate.setMinutes(minute1);
-			*/
-			end_date = new Date(end_date.toUTCString());
-			var endMillis = end_date.getTime()/1000 + (end_date.getTimezoneOffset() * 6);
+			start_date = convertDateToUTC(start_date);
+			var startMillis = start_date.getTime()/1000;
+			
+			end_date = convertDateToUTC(end_date);
+			var endMillis = end_date.getTime()/1000;
 			
 			$.ajax({
           		type: "POST",
@@ -930,6 +913,7 @@ $("#contestteam").click(function() {
             url :"/contest/"+contestid+"/pending_teams/",
             dataType: "html",  				
             success: function (data) {
+			reset();//added by milad
 				document.getElementById('titlePage').innerHTML="Teams request" ;
 				$('#contestteams').show(1000);	
 				document.getElementById('contestinfoforusers').style.display = 'none';
@@ -943,8 +927,8 @@ $("#contestteam").click(function() {
 				document.getElementById('contestquestion').style.display = 'none';
 				document.getElementById('contestrank').style.display = 'none';	
 				document.getElementById('contestaddquestions').style.display = 'none';
+				
 				 $('#contestteam').css('background-color', '#355C7D');
-				 $('#questions').css('background-color', '#1B325F');
 				 if(flagteamlist==false){
 					var data=(JSON.parse(data)).teams;
 					
@@ -979,6 +963,101 @@ $("#contestteam").click(function() {
     });
 	
 });
+function reset(){
+//reset menu
+	$('#contestteam').css('background-color', '#1B325F');
+	$('#questions').css('background-color', '#1B325F');
+	$('#rank').css('background-color', '#1B325F');
+//reset main div
+	$("#contestrank").hide();
+	$("#contestinformation").hide();
+	$("#addproblemdiv").hide();
+	$("#contestquestions").hide();
+	$("#contestteams").hide()
+	$("#contestaddquestions").hide()
+	$("#contestquestion").hide()
+	
+	$("#problemhead").hide()
+	$("#maintitr").show()
+	///
+	//document.getElementById('contestinformation').style.display = 'none';
+		//		document.getElementById('problemhead').style.display = 'none';
+			//	document.getElementById('addproblemdiv').style.display = 'none';
+				//document.getElementById('addproblemsubmitbtn').style.display = 'none';
+		//		document.getElementById('editproblemsubmitbtn').style.display = 'none';
+		//		document.getElementById('contestquestions').style.display = 'none';
+		//		document.getElementById('contestquestion').style.display = 'none';
+		//		document.getElementById('contestrank').style.display = 'none';	
+			//	document.getElementById('contestaddquestions').style.display = 'none';
+	
+}
+function milad(){//written by milad #########################################################################
+	$("#rank").click(function(){
+		$.ajax({
+			type : "get",
+			url : "/contest/" + contestid + "/details/",
+			success : function(data ){
+					SetToTable((data).contests);
+					
+					//window.location.replace("#ranklist");
+				}
+			});
+	});
+	function SetToTable(rankList){
+		//var tableHtml = $("#contestranklist tr").html();//.replace(/<\/?tbody>/g, '');
+		var tableHtml = '<tr><td style="display:none"> id </td><td > Team name</td> <td >Problems Solved </td><td> Penalty </td></tr>';
+		$.each(rankList, function(key, value){
+			var team = value.team;
+			tableHtml += '<tr><td >' + team.name + '</td> <td > ' + value.solved_problem_counter + ' </td><td> ' +  value.penalty + ' </td></tr>';
+		});
+		$("#contestranklist").html(tableHtml);
+		reset();
+		$('#rank').css('background-color', '#355C7D');
+		$("#contestrank").show(1000);
+		$("#titlePage").text("Ranking");
+	}
  
+ 
+ 
+var file;
+		$("#file_input").change(function(event){
+			file = event.target.files[0];
+		});
+		
+	
+	$("#sub").click(submit);
+	//var a = new FormData 
+	function submit(){
+		//alert(file);
+		//console.log(file);
+		//var data = new FormData ()
+		//$.each(files, function(key, value)
+		//{
+		//	data.append(key, value);
+		//});
+		//console.log(data);
+		$.ajax({
+			url: '/contest/5666b511dd3ff31ae86bed6c/testcase/1/',
+			type: 'POST',
+			data: file,
+			//cache: false,
+
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			//beforeSend: function (request) {
+              //      request.setRequestHeader("Content-Type", file.type);
+                //},
+			success: function(data, textStatus, jqXHR)
+			{
+				// success
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+				
+				console.log('ERRORS: ' + textStatus);
+			}
+		});
+	}
+ }
 </script>
 </html>
