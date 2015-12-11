@@ -342,6 +342,11 @@
 		
 		});
 	}
+	function convertUTCDateToLocalDate(date) {
+		var d=moment.utc(date).local();
+		var s = d.format("YYYY-MM-DD HH:mm:ss");	
+		return (s);   
+	}
 	if(getAbsolutePath()==="/contest/"){
 	  contestid = '{{contest_id }}';
 	 $( '#getidcontest ' ).html(contestid);	
@@ -390,17 +395,16 @@
 		        for (var i = 0; i < data.length; i++) {
 					var teamname=data[i].name;
 					var teamitem=data[i].contests;	
-					for (var j = 0;j < teamitem.length; j++) {							
-						var strurl="/team/"+teamname+"/";
+					for (var j = 0;j < teamitem.length; j++) {				
 						tr = $('<tr id="Q'+i+'">');		
 						tr.append('<td  style="display:none">' + data[i].id + "</td>");
-						tr.append("<td>" + teamitem[j].name + "</td>");
-						tr.append("<td>" + teamitem[j].starts_on + "</td>");
-						tr.append("<td>" + teamitem[j].ends_on + "</td>");
-						tr.append('<td><a id="'+teamname+'">' + teamname + '</a></td></tr>');
-						$("#"+teamname).attr("href",strurl);
+						tr.append('<td> <a href="#"  id="'+teamitem[j].name+'">' + teamitem[j].name + "</a></td>");
+						tr.append("<td>" +convertUTCDateToLocalDate(teamitem[j].starts_on) + "</td>");
+						tr.append("<td>" + convertUTCDateToLocalDate(teamitem[j].ends_on) + "</td>");
+						tr.append('<td><a href="#" id="'+teamname+'">' + teamname + '</a></td></tr>');
 						$('#contestinfo').append(tr);
-					
+					$(("#" + teamname)).attr("href",("/team/"+teamname+"/"));
+					$(("#" + teamitem[j].name)).attr("href",("/contest/"+teamitem[j].name+"/"));
 					}
 					
 				}
