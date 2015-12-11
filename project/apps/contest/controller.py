@@ -365,7 +365,7 @@ def contest_details(contest_id):
 			problems_list=[]
 		final_list.sort(key = lambda detailsdictionary :detailsdictionary["penalty"])
 		final_list.sort(key = lambda detailsdictionary :detailsdictionary["solved_problem_counter"] , reverse = True)
-		return jsonify(contests = final_list) , 200
+		return jsonify(teams = final_list) , 200
 	except DoesNotExist:
 		return "" , 406
 
@@ -395,7 +395,7 @@ def get_problem (contest_id, number):
 				break
 		if requested_problem == None:
 			return jsonify (errors="Problem does not exist!" ), 406
-		return jsonify (requested_problem.to_json_compelete()), 200
+		return jsonify (requested_problem.to_json_complete()), 200
 
 	except DoesNotExist:
 		return jsonify(errors="Contest does not exist!"), 406
