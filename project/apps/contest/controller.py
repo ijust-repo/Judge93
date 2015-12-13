@@ -365,7 +365,8 @@ def contest_details(contest_id):
 			problems_list=[]
 		final_list.sort(key = lambda detailsdictionary :detailsdictionary["penalty"])
 		final_list.sort(key = lambda detailsdictionary :detailsdictionary["solved_problem_counter"] , reverse = True)
-		return jsonify(teams = final_list) , 200
+
+		return jsonify(teams = final_list, problems=len(contest_obj.problems)) , 200
 	except DoesNotExist:
 		return "" , 406
 
