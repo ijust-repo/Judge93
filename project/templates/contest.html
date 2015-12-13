@@ -73,7 +73,7 @@
 		
 		<li  id="rank" >
 			
-		 	<a href="#ranking"><h4 class="leftmenuitem"><i  class="fa fa-area-chart" style="width:20px; height:20px;"> </i> Rank list</h4></a>
+		 	<a href=""><h4 class="leftmenuitem"><i  class="fa fa-area-chart" style="width:20px; height:20px;"> </i> Rank list</h4></a>
 		</li>
 		
 		<li  id="contestteam"  style="display:none">
@@ -723,7 +723,7 @@ $("#questions").click(function() {
 }
 
 $(document).ready(function () {
-		milad();//call 
+		
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#create_contest_button').click(function() {
 			var name = $("input#contest_name").val();
@@ -764,6 +764,7 @@ $(document).ready(function () {
           		}
         	});			
 		});
+		milad();//call 
 	});
 
  //logout
@@ -1062,17 +1063,31 @@ function reset(){
 	
 }
 function milad(){//written by milad #########################################################################
-	$("#rank").click(function(){
+	if($(location).attr('pathname') == "/contest/con1/details_page/"){
+		alert("details page");
+		rankPage();
+	}
+	
+	$("#rank").click(rankPage);
+	function rankPage(event){
+	event.preventDefault();
+	window.history.pushState("object or string", "title", "/contest/" + contestname + "/details_page/");
+		
 		$.ajax({
 			type : "get",
-			url : "/contest/" + contestid + "/details/",
+			url : "/contest/" + '5666b511dd3ff31ae86bed6c' + "/details/",
 			success : function(data ){
-					SetToTable((data).contests);
+			
+			console.log(data);
+					SetToTable((data).teams);
 					
 					//window.location.replace("#ranklist");
-				}
+				},
+			error : function(error ){
+				alert ("error");
+			}
 			});
-	});
+	}
 	function SetToTable(rankList){
 		//var tableHtml = $("#contestranklist tr").html();//.replace(/<\/?tbody>/g, '');
 		var tableHtml = '<tr><td style="display:none"> id </td><td > Team name</td> <td >Problems Solved </td><td> Penalty </td></tr>';
