@@ -723,7 +723,7 @@ $("#questions").click(function() {
 }
 
 $(document).ready(function () {
-		
+		milad();//call 
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#create_contest_button').click(function() {
 			var name = $("input#contest_name").val();
@@ -764,7 +764,7 @@ $(document).ready(function () {
           		}
         	});			
 		});
-		milad();//call 
+		
 	});
 
  //logout
@@ -1064,14 +1064,18 @@ function reset(){
 }
 function milad(){//written by milad #########################################################################
 	if($(location).attr('pathname') == "/contest/con1/details_page/"){
-		alert("details page");
+		//alert("details page");
 		rankPage();
 	}
 	
-	$("#rank").click(rankPage);
+	$("#rank").click(function(){
+		event.preventDefault();
+		window.history.pushState("SADASD", "title", "/contest/" + contestname + "/details_page/");
+		rankPage()
+	});
 	function rankPage(event){
-	event.preventDefault();
-	window.history.pushState("object or string", "title", "/contest/" + contestname + "/details_page/");
+	alert(contestname);
+	
 		
 		$.ajax({
 			type : "get",
