@@ -1063,14 +1063,15 @@ function reset(){
 	
 }
 function milad(){//written by milad #########################################################################
-	if($(location).attr('pathname') == "/contest/con1/details_page/"){
+	alert($(location).attr('pathname'));
+	if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
 		//alert("details page");
 		rankPage();
 	}
 	
 	$("#rank").click(function(){
-		event.preventDefault();
-		window.history.pushState("SADASD", "title", "/contest/" + contestname + "/details_page/");
+		//event.preventDefault();
+		window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");
 		rankPage()
 	});
 	function rankPage(event){

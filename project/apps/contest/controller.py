@@ -45,7 +45,8 @@ def contest_page(contest_name):
 def details_page(contestName):
 	try:
 		obj  = Contest.objects().get(name = contestName)
-		return render_template('contest.html' )
+		pk = obj.pk
+		return render_template('contest.html' , contest_id=pk )
 	except DoesNotExist:
 		return jsonify(errors="contest does not exists!"), 406
 
