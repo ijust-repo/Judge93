@@ -77,10 +77,17 @@ def create():
 def add_problem(contest_id):
 	main_form = AddProblem.from_json(request.json)
 	#checking  forms validation
+	
+
+
 	if not (main_form.validate()):
 		return "", 406
-	
+		
 	contest_obj = Contest.objects().get(pk = contest_id)
+	
+	if contest_obj.starts_on < datetime.utcnow():
+		return jsonify(errors="Problem can not be added right now!"), 406
+
 	#checking owner
 	if contest_obj.owner.username != logged_in_user():
 		return  jsonify(errors="User is not owner!"), 403
@@ -161,9 +168,11 @@ def edit(contest_id):
 	problem_forms = []
 	for problem_form in main_form.data['problems'] :
 		#problem_forms.append (problem_form)
+		problem_found = False
 		for obj in contest_obj.problems:
 			if obj.id == problem_form['id']:
 				problem = obj
+				problem_found = True
 				break
 		#alan problem ba id dar omade
 		if problem_form['title']:
@@ -200,7 +209,8 @@ def edit(contest_id):
 				return jsonify(errors='testcase order already exists!'), 409
 			if case:
 				case.save ()
-		problem.save()
+		if problem_found:
+			problem.save()
 	contest_obj.save()
 	return "", 200
 
@@ -281,7 +291,7 @@ def upload_tastecase (contest_id, number):
 		shutil.rmtree (upload_path)
 		return jsonify(errors="Bad zip file!"), 406
 	
-	allowed_extensions = ['txt', 'tc']
+	allowed_extensions = ['txt', 'tc', 'in', 'out']
 	unziped_files = os.listdir (upload_path)
 	unziped_files.remove (filename)
 	os.remove (upload_path + filename)
@@ -437,3 +447,5 @@ def accepting_rejecting (contest_id,team_id):
 		return "" , 200
 	except DoesNotExist:
 		return jsonify(errors='Team or Contest does not exist!'), 406
+
+
