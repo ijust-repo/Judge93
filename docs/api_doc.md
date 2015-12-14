@@ -803,6 +803,7 @@ Example Request
 > **NOTE:**
 >
 >- If response status code is **201** then new problem is successfully added to contest.
+>- Problems can not be added to contest after its start time and there will be errors like "Problem can not be added right now!" and status code will be **406** .
 >- The header, footer and tastcases fields are optional (but if there is a test case, both of its fields are required.)
 >- Just the owner of contest can add new problems, if the loged in user is not the owner of contest, status code will be **403**.
 >- If there are errors like a required field response status code will be **406** .
@@ -1074,6 +1075,7 @@ Example Request
 Example Response
 ```
 {
+  "problem_num": 3,
   "teams": [
             {
               "penalty": 459, 
