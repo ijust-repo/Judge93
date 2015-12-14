@@ -1074,7 +1074,7 @@ Example Request
 Example Response
 ```
 {
-  "problems": 3,
+  "problem_num": 3,
   "teams": [
             {
               "penalty": 459, 
