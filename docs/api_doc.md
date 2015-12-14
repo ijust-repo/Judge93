@@ -364,7 +364,7 @@ Example Response:
 	{
   	  "id": "5210e3923ac198af54156118",
   	  "name": "mycontest",
-  	  "starts_on": "2015-11-20 13:00:00",
+  	  "start_on": "2015-11-20 13:00:00",
   	  "ends_on": "2015-11-20 17:00:00"
 	}
       ], 
@@ -405,6 +405,39 @@ Example Response:
 >- user_id is the Id of the user in database.
 >- If response status code is **200** then user id have been successfully found and information have been returned.
 >- If response status code is **406** then the user id does not exist.
+
+
+Get team by contest id
+===============
+
+Resource URL
+>GET
+> **/user/<string: user_id>/contest/<string:contest_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Response:
+```
+{
+  "id": "5662ba0823e3c01da4c9e2b1",
+  "name": "new_team9",
+  "owner": {
+            "id": "566179cb23e3c01f40fc6431",
+            "username": "admin2"
+           }
+}
+```
+
+> **NOTE**
+>- If response status code is **200** then team have been successfully found and information have been returned.
+>- If response status code is **406** then the user or contest does not exist and you will have errors like **'user or contest does not exists!' **, or user is not in contest and you will have errors like **'user is not in contest!' **.
+
+-------
+
+
 
 
 Team API
@@ -463,7 +496,7 @@ Example Request
 >- If response status code is **201** then new team is successfully created.
 >- If there are more than two members in the request, response status code will be **406** and you will have errors with creating team like  **'Number of members must be under three!' ** .
 >- If owner is found in the members of the request, status code will be **406** and and you will have errors with creating team like  **'Owner can not be added to the team!' ** .
->- If the members in the request are the same, status code will be **406** and and you will have errors with creating team like **'No one can be added twice!' ** .
+>- If the members in the request are the same, status code will be **406** and you will have errors with creating team like **'No one can be added twice!' ** .
 >- If the requested members do not exist in data base, status code will be **406** and you will have errors with creating team like  **'User does not exist!' ** .
 >- If the name of team already exists, status code will be **409** .
 >- If there are errors like a required field response status code will be **406** .
@@ -495,6 +528,7 @@ Example Request
 >- Team_id is the Id of the team in database.
 >- If response status code is **200** then the team name successfully changed.
 >- If response status code is **406** then the user is not owner of the team or team does not exist.
+>- If response status code is **403** then team has running contest and you will have errors like  **'you are in a running contest' ** .
 >- If response status code is **409** then the new name does not exist.
 >- If there are errors like a required field response status code will be **406** .
 
@@ -527,6 +561,7 @@ Example Request
 >- If response status code is **200** then members added to the team successfully.
 >- If response status code is **406** then team does not exists or the team owner are in the members list or someone in members list are repeated twice or sum of the team members be greater than 3 or the username in the members list does not exists. 
 >- If there are errors like a required field response status code will be **406**.
+>- If response status code is **403** then team has running contest and you will have errors like  **'you are in a running contest' ** .
 >- If response status code is **403** the user is not owner of the team.
 
 
@@ -554,8 +589,8 @@ team/5662c01a7431e90c36c8bd26/member/56s2bf4e743sd90b4ecc985e/
 >- `team_id` is the Id of the team in database.
 >- `member_id` is the Id of the member in database.
 >- If response status code is **200** then member removed from team successfully.
+>- If response status code is **403** then the user is not owner of the team or team has running contest and you will have errors like  **'you are in a running contest' ** .
 >- If response status code is **406** then team does not exists.
->- If response status code is **403** the user is not owner of the team.
 
 -------
 
@@ -565,7 +600,7 @@ GetMembers
 
 Resource URL
 >GET
-> **/user/members/```string:team_id```/**
+> **/team/members/```string:team_id```/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -601,6 +636,75 @@ Example Result
 >- If response status code is **406** then the user is not owner of the team or team does not exist.
 
 ------- 
+
+
+Get full info
+===============
+
+Resource URL
+>GET
+> **/team/```string:team_id```/info/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|NULL|YES (must be authenticated)|
+
+
+Example Result
+```
+{
+  "contests": [],
+  "members": [],
+  "name": "team2",
+  "owner": {
+    "id": "563e43527431e9113e479849",
+    "username": "admin"
+  }
+}
+```
+
+
+> **NOTE:**
+
+>- `team_id` is the Id of the team in database.
+>- If response status code is **406** then the team does not exist.
+
+------- 
+
+
+Join request
+=================
+
+Resource URL
+>POST
+**/team/join_request/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "contest_id": "5661814323e3c023fc57aed8",
+  "team_name": "new_team"
+}
+```
+
+> **NOTE:**
+>
+>- If response status code is **200** then team is successfully sends join request.
+>- If the person who has sent join request is not team owner response status code is **403** and you will have errors like **'user is not team owner'**
+>- If team owner or one of the team members is joined in contest, response code is **409** and you will have errors like **'user salar is in contest'**
+>- If join request has been sent before and waites for owner's answer, response code is **406** and you will have errors like **'please wait for checking your join request'**
+>- If the team  already exists in contest, status code will be **409** and you will have errors like **'team already exists in contest!'**.
+>- If join request has been sent for rejected team,join request will send again and status code will be **409** and you will have errors like **'join request not accepted -> Re_sent'**.
+>- If there are errors like a required field response status code will be **406**.
+>- If response status code is **201** then the join request sent successfully.
+
+--------
 
 
 Contest API
@@ -699,6 +803,7 @@ Example Request
 > **NOTE:**
 >
 >- If response status code is **201** then new problem is successfully added to contest.
+>- Problems can not be added to contest after its start time and there will be errors like "Problem can not be added right now!" and status code will be **406** .
 >- The header, footer and tastcases fields are optional (but if there is a test case, both of its fields are required.)
 >- Just the owner of contest can add new problems, if the loged in user is not the owner of contest, status code will be **403**.
 >- If there are errors like a required field response status code will be **406** .
@@ -776,7 +881,6 @@ Example Request
 
 
 
-
 Contests List
 ===============
 
@@ -796,31 +900,31 @@ Example Request
 Example Response
 ```
 {
-  [
-    {
-      "created_on": "2014-02-04 08:02:27",
-      "starts_on": "2017-07-14 07:10:00", 
-      "ends_on": "2027-01-15 11:30:00", 
-      "id": "566179cb23e3c01f40fc6432", 
-      "name": "new_contest", 
-      "owner": {
-                "id": "566179cb23e3c01f40fc6431", 
-                "username": "admin2"
-                }   
-    }, 
-    {
-      "created_on": "2015-12-04 12:04:19", 
-      "starts_on": "2017-07-14 07:10:00",
-      "ends_on": "2027-01-15 11:30:00", 
-      "id": "5661814323e3c023fc57aed8", 
-      "name": "another_contest", 
-      "owner": {
-                "id": "566179cb23e3c01f40fc6431", 
-                "username": "admin2"
-               } 
-      
-    }
-  ]
+  "contests":[
+              {
+                "created_on": "2014-02-04 08:02:27",
+                "starts_on": "2017-07-14 07:10:00", 
+                "ends_on": "2027-01-15 11:30:00", 
+                "id": "566179cb23e3c01f40fc6432", 
+                "name": "new_contest", 
+                "owner": {
+                          "id": "566179cb23e3c01f40fc6431", 
+                          "username": "admin2"
+                          }   
+              }, 
+              {
+                "created_on": "2015-12-04 12:04:19", 
+                "starts_on": "2017-07-14 07:10:00",
+                "ends_on": "2027-01-15 11:30:00", 
+                "id": "5661814323e3c023fc57aed8", 
+                "name": "another_contest", 
+                "owner": {
+                          "id": "566179cb23e3c01f40fc6431", 
+                          "username": "admin2"
+                         } 
+                
+              }
+            ]
 }
 ```
 
@@ -952,31 +1056,6 @@ Resource Information
 --------
 
 
-add team to contest
-===============
-
-Resource URL
->POST
-> **/contest/<contest_id>/add_team/<team_id>/**
-
-Resource Information
->|Response formats|Requires authentication?|
-|:-:|:-:|
-|NULL|YES (must be authenticated)|
-
-Example Request
-```
-/contest/565dfe6823e3c00e88c0f18c/add_team/565df1df23e3c00dfca5f8b5/
-```
-
-> **NOTE:**
->- If response status code is **200** then the team is successfully added to contest.
->- If the team already exists, status code will be **409** and you will have errors with adding team like **'team with this name already exists!' ** .
->- If there are errors like team or contest does not exists response status code will be **406**.
-
---------
-
-
 contest detail
 ===============
 
@@ -996,79 +1075,80 @@ Example Request
 Example Response
 ```
 {
-  [
-    {
-      "penalty": 459, 
-      "problems_list": [{
-                          "order": 1, 
-                          "problem_id": 1, 
-                          "solved": true,
-                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
-                          "failed_tries": 15
-                        }, 
-                        {
-                          "order": 2, 
-                          "problem_id": 2, 
-                          "solved": true, 
-                          "solved_on": "Wed, 02 Dec 2015 14:30:00 GMT",
-                          "failed_tries": 0
-                        }, 
-                        {
-                          "order": 3, 
-                          "problem_id": 3, 
-                          "solved": true, 
-                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
-                          "failed_tries": 0
-                        }], 
+  "problem_num": 3,
+  "teams": [
+            {
+              "penalty": 459, 
+              "problems_list": [{
+                                  "order": 1, 
+                                  "problem_id": 1, 
+                                  "solved": true,
+                                  "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
+                                  "failed_tries": 15
+                                }, 
+                                {
+                                  "order": 2, 
+                                  "problem_id": 2, 
+                                  "solved": true, 
+                                  "solved_on": "Wed, 02 Dec 2015 14:30:00 GMT",
+                                  "failed_tries": 0
+                                }, 
+                                {
+                                  "order": 3, 
+                                  "problem_id": 3, 
+                                  "solved": true, 
+                                  "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
+                                  "failed_tries": 0
+                                }], 
 
-      "solved_problem_counter": 3, 
+              "solved_problem_counter": 3, 
 
-      "team": {
-              "id": "565ee15223e3c01ca02e0a7a", 
-              "name": "new_team3", 
-              "owner": {
-                        "id": "565df07323e3c00dfca5f8af", 
-                        "username": "admin"
-                       }
-              }
-    }, 
+              "team": {
+                      "id": "565ee15223e3c01ca02e0a7a", 
+                      "name": "new_team3", 
+                      "owner": {
+                                "id": "565df07323e3c00dfca5f8af", 
+                                "username": "admin"
+                               }
+                      }
+            }, 
 
-    {
-      "penalty": 299, 
-      "problems_list": [{
-                          "order": 1, 
-                          "problem_id": 1, 
-                          "solved": true,
-                          "solved_on": "Wed, 02 Dec 2015 13:30:00 GMT", 
-                          "failed_tries": 4
-                        }, 
-                        {
-                          "order": 2, 
-                          "problem_id": 2, 
-                          "solved": true,
-                          "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
-                          "failed_tries": 0
-                        }, 
-                        {
-                          "order": 3, 
-                          "problem_id": 3, 
-                          "solved": false,
-                          "solved_on": null,
-                          "failed_tries": 6
-                        }],
+            {
+              "penalty": 299, 
+              "problems_list": [{
+                                  "order": 1, 
+                                  "problem_id": 1, 
+                                  "solved": true,
+                                  "solved_on": "Wed, 02 Dec 2015 13:30:00 GMT", 
+                                  "failed_tries": 4
+                                }, 
+                                {
+                                  "order": 2, 
+                                  "problem_id": 2, 
+                                  "solved": true,
+                                  "solved_on": "Wed, 02 Dec 2015 16:30:00 GMT", 
+                                  "failed_tries": 0
+                                }, 
+                                {
+                                  "order": 3, 
+                                  "problem_id": 3, 
+                                  "solved": false,
+                                  "solved_on": null,
+                                  "failed_tries": 6
+                                }],
 
-      "solved_problem_counter": 2, 
+              "solved_problem_counter": 2, 
 
-      "team": {
-              "id": "565df1df23e3c00dfca5f8b5", 
-              "name": "new_team", 
-              "owner": {
-                        "id": "565df07323e3c00dfca5f8af", 
-                        "username": "admin"
-                       }
-              } 
-    }
-  ]
+              "team": {
+                      "id": "565df1df23e3c00dfca5f8b5", 
+                      "name": "new_team", 
+                      "owner": {
+                                "id": "565df07323e3c00dfca5f8af", 
+                                "username": "admin"
+                               }
+                      } 
+            }
+           ]
 }
 ```
 
@@ -1205,5 +1285,92 @@ Example Response
 >- If everything goes well, response status code is **200**.
 >- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
 >- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
+
+--------
+
+
+Pending request
+===============
+
+Resource URL
+>GET
+> **/contest/<string:contest_id>/pending_teams/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Response
+```
+{
+  "teams": [
+            {
+              "id": "5662ba0823e3c01da4c9e2b1",
+              "members": [
+                           {
+                             "id": "5662b70823e3c01da4c9e2af",
+                             "username": "admin"
+                           },
+                           {
+                             "id": "5662b71023e3c01da4c9e2b0",
+                             "username": "admin3"
+                           }
+                         ],
+              "name": "new_team",
+              "owner": {
+                        "id": "566179cb23e3c01f40fc6431",
+                        "username": "admin2"
+                       }
+            },
+            {
+              "id": "5662d0a023e3c00a5cc9d8b4",
+              "members": [
+                          {
+                            "id": "5662bca323e3c0208ce1cbd4",
+                            "username": "admin4"
+                          }
+                         ],
+              "name": "new_team6",
+              "owner": {
+                        "id": "5662bca323e3c0208ce1cbd4",
+                        "username": "admin4"
+                       }
+            }
+          ]
+}
+
+> **NOTE:**
+>- If everything goes well, response status code is **200**.
+>- If the requested contest does not exist in data base, status code will be **406**.
+>- If loged in user is not contest owner, status code will be **403** and you will have errors like **User is not owner'**.
+
+--------
+
+
+Accept and reject join request
+===============
+
+Resource URL
+>PUT
+> **/contest/<string:contest_id>/team_acceptation/<string:team_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "acceptation" : false
+}
+```
+> **NOTE:**
+>- If team was accepted before or not, and acceptation value is **false**, response status code is **200** and team will reject.
+>-If team was accepted befor and acceptation value is **true**, response status code is** 409** and you will have errors like **'this team was accepted before!'**.
+>- If team rejected,response status code is** 409** and you will have errors like **'this team was rejected before!'**. 
+>- If the requested contest or team does not exist in data base, status code will be **406** and you will have errors like **'Team or Contest does not exist!'**. .
+>- If loged in user is not contest owner, status code will be **403** and you will have errors like **User is not owner'**.
 
 --------

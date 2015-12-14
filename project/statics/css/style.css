@@ -87,7 +87,7 @@ input{
 {
     position: relative;
 float: right;
-margin:  100px  80px 50px 0;
+margin:  7%  ;
 }
 
 .leftmenu{
@@ -178,7 +178,7 @@ z-index: 2;
 	position: relative;
 	float:left;
     margin: 2% 50px 20px 2%;
-    padding: 0;
+    padding: 2%;
 	width: 96%;
 	overflow-x:hidden;
 	top:60px;
@@ -207,14 +207,34 @@ margin:0;
     color:white;
 
 }
-#signup
+.contestproblem 
 {
-	display:none;
+float:right;
+margin-right:2% !important ;
+margin-left:2% !important ;
+text-align: right;
 }
-#login
-{
-	display:block;
+.btn-file {
+    position: relative;
+    overflow: hidden;
 }
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+
 .usernameitem
 {
 	background-color: #355C7D;
@@ -250,6 +270,7 @@ margin : 0 20px 20px 20px;
 width:170px;
 
 }
+
 /***** team page css *****/
 .close-page
 {
@@ -564,6 +585,99 @@ width:170px;
 {
     color: #E9F2F9;
 }
+/*----- Tabs -----*/
+
+.tabs {
+    /*width:100%;*/
+    display:inline-block;
+   
+}
+ 
+    /*----- Tab Links -----*/
+    /* Clearfix */
+    .tab-links:after {
+        display:block;
+        clear:both;
+        content:'';    
+    }
+ 
+    .tab-links li {
+        margin:0px 5px;
+        float:left;
+        list-style:none;
+  
+    }
+ 
+        .tab-links a {
+            padding:9px 15px;
+            display:inline-block;
+            border-radius:3px 3px 0px 0px;
+            background:#7FB5DA;
+            font-size:16px;
+            font-weight:600;
+           color:#4c4c4c;
+            transition:all linear 0.15s;
+  ;
+        }
+ 
+        .tab-links a:hover {
+       
+            background:#a7cce5;
+            text-decoration:none;
+        }
+ 
+    li.active a, li.active a:hover {
+       background-color:#1B325F;
+        color:#fff;
+    }
+   .nav-tabs > li.active >  a {
+    color:#fff;
+    background-color:#1B325F;
+    }
+    .nav-pills > li.active >  a {
+    color:#fff;
+    background-color:#1B325F;
+    }
+     .nav-pills > li >  a {
+    color:#fff;
+    background-color:#3A89C9;
+    }
+    .nav-pills > li.active > a:focus{
+     color:#fff;
+    background-color:#1B325F;
+    }
+    .nav-pills > li > a:hover{
+     color:#fff;
+    background-color:#1B325F;
+    }
+
+    .nav-tabs > li.active > a:focus{
+     color:#fff;
+    background-color:#1B325F;
+    }
+	.nav-tabs > li >  a {
+    color:#1B325F;
+    background-color:#9CC4E4;
+    }
+    /*----- Content of Tabs -----*/
+    .tab-content {
+        padding-top:10px ;
+        padding-bottom:30px ;
+        padding-left:40px;
+        border-radius:3px;
+        box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+        background:#1B325F;
+    }
+ 
+        .tab {
+            display:none;
+      
+        }
+ 
+        .tab.active {
+            display:block;
+           
+        }
 /****************************/
 
 .btn-file
@@ -711,6 +825,7 @@ padding: 12px;
         font-size: 4px;
     }
 }
+
 /******************************slideshow*************************/
 
 /******************************slideshow*************************/
