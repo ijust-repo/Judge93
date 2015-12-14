@@ -77,10 +77,17 @@ def create():
 def add_problem(contest_id):
 	main_form = AddProblem.from_json(request.json)
 	#checking  forms validation
+	
+
+
 	if not (main_form.validate()):
 		return "", 406
-	
+		
 	contest_obj = Contest.objects().get(pk = contest_id)
+	
+	if contest_obj.starts_on < datetime.utcnow():
+		return jsonify(errors="Problem can not be added right now!"), 406
+
 	#checking owner
 	if contest_obj.owner.username != logged_in_user():
 		return  jsonify(errors="User is not owner!"), 403
@@ -437,3 +444,5 @@ def accepting_rejecting (contest_id,team_id):
 		return "" , 200
 	except DoesNotExist:
 		return jsonify(errors='Team or Contest does not exist!'), 406
+
+
