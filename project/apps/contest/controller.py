@@ -168,9 +168,11 @@ def edit(contest_id):
 	problem_forms = []
 	for problem_form in main_form.data['problems'] :
 		#problem_forms.append (problem_form)
+		problem_found = False
 		for obj in contest_obj.problems:
 			if obj.id == problem_form['id']:
 				problem = obj
+				problem_found = True
 				break
 		#alan problem ba id dar omade
 		if problem_form['title']:
@@ -207,7 +209,8 @@ def edit(contest_id):
 				return jsonify(errors='testcase order already exists!'), 409
 			if case:
 				case.save ()
-		problem.save()
+		if problem_found:
+			problem.save()
 	contest_obj.save()
 	return "", 200
 
@@ -288,7 +291,7 @@ def upload_tastecase (contest_id, number):
 		shutil.rmtree (upload_path)
 		return jsonify(errors="Bad zip file!"), 406
 	
-	allowed_extensions = ['txt', 'tc']
+	allowed_extensions = ['txt', 'tc', 'in', 'out']
 	unziped_files = os.listdir (upload_path)
 	unziped_files.remove (filename)
 	os.remove (upload_path + filename)
