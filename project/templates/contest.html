@@ -4,6 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contests</title>
+
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
 	<link href="{{ url_for('static', filename='../statics/css/bootstrap.min.css') }} " rel="stylesheet" />
@@ -20,10 +21,11 @@
 	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
 	<link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
 	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}" /></script>
-	<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }}" rel="stylesheet" />
 	<link href="{{ url_for('static', filename='../statics/css/bootstrap-glyphicons.css') }}" rel="stylesheet" />
 	<link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
-
+    <link href="{{ url_for('static', filename='../statics/css/jquery.countdown.css') }} " rel="stylesheet" />
+    <script src="{{ url_for('static', filename='../statics/js/jquery.countdown.min.js') }}" /></script>
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -168,7 +170,7 @@
 			</div>
 			<div id="contestquestions" class="CSSTableGenerator" style="display:none">
 				<div class="edit-order">
-					<button class="hover-button close-page">Edit Order</button>
+					<button class="hover-button">Edit Order</button>
 				</div>
 				<ul>
 					<li>
@@ -182,9 +184,9 @@
 				Problem details:
 				<hr>
 				<label class="labelcss" for="problemtitle">Title: </label>
-				<input type="text" name="problemtitle" id="problemtitle" style="width:85%"/><br>
+				<input type="text" name="problemtitle" id="problemtitle" style="width:85%"/><br><br>
 				<div class="row">
-					<label class="labelcss" for="problemtimelimit">Time limit: </label>
+				<label class="labelcss" for="problemtimelimit">Time limit: </label>
 					<input type="text" name="problemtimelimit" id="problemtimelimit" style="margin-right:3%; width:35.5%"/>
 					<label class="labelcss" for="problemspacelimit">Space limit: </label>
 					<input type="text" name="problemspacelimit" id="problemspacelimit" style="width:35.5%"/><br>
@@ -490,12 +492,11 @@
             url : "/user/"+id+"/teams/",
             dataType: "html",
             success: function (data) {
-				alert(data);
 		        var data=(JSON.parse(data)).teams;
 		        for (var i = 0; i < data.length; i++) {
 					var teamname=data[i].name;
 					var teamitem=data[i].contests;
-					for (var i = 0; i < teamitem.length; i++) {
+					for (var j = 0;j < teamitem.length; j++) {
 						var strurl="/team/"+teamname+"/";
 						tr = $('<tr id="Q'+i+'">');
 						tr.append('<td  style="display:none">' + data[i].id + "</td>");
@@ -769,7 +770,6 @@ $("#questions").click(function() {
 }
 
 $(document).ready(function () {
-
 	$('.edit-order').click(function(){
 		if ($(this).find('button').html() == 'Edit Order')
 		{
@@ -853,7 +853,7 @@ $(document).ready(function () {
 					  title: "Good!",
 					  text: "Contest successfully Created",
 					  type: "success",
-					  showCancelButton: true,
+					 
 					  closeOnConfirm: false,
 					  showLoaderOnConfirm: true,
 					},
@@ -957,9 +957,16 @@ $("#addproblemsubmitbtn").click(function() {
             dataType: "html",
             data: obj,
             success: function (data) {
+				swal({
+						title: "Good!",
+						text: "add problem successfully",
+						type: "success",
 
-                swal("Good!", "add problem successfully", "success");
-				  $("#problemtitle").val('');
+						closeOnConfirm: false,
+						showLoaderOnConfirm: true,
+					},
+					function(){
+						$("#problemtitle").val('');
 				  $("#problemtimelimit").val('');
 				  $("#problemspacelimit").val('');
 				  $("#problemheader").val('');
@@ -968,6 +975,9 @@ $("#addproblemsubmitbtn").click(function() {
 				  $("#problemtestcaseinput").val('');
 				  $("#problemtestcaseoutput").val('');
                 window.location.replace("/contest/"+contestname+"/");
+					});    
+             
+				 
             },
             error: function (request, status, error) {
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;

@@ -91,6 +91,7 @@
 </body>
 
 <script>
+
 	$backToTeamPage = function(){
 		$('.removable').each(function(){
 			$(this).html($(this).data("member"));
@@ -136,6 +137,7 @@
 						url: '/user/get_profile/by_username/' + $(this).data("member") + '/',
 						dataType: "html",
 						success: function(data){
+							
 							var myUrl = '/team/' + $('.idTeam').val() + '/member/' + (JSON.parse(data)).id + '/';
 							$.ajax({
 								type: "DELETE",
