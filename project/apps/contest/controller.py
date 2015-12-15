@@ -264,7 +264,6 @@ def contest_info_by_name(contest_name):
 @contest.route('<string:contest_id>/testcase/<int:number>/', methods=['POST'])
 def upload_tastecase (contest_id, number):
 	data = request.data
-
 	try:
 		contest = Contest.objects().get(pk = contest_id)
 		contest_name = contest.name

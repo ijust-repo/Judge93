@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Contests</title>
-
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='../statics/img/j.png') }} " sizes="32x32">
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
@@ -254,13 +254,10 @@
 					
 					<input id="input-700" name="kartik-input-700[]" type="file" multiple class="file-loading">	        
 				</div>
-				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
-					
-					<input id="input-700" name="kartik-input-700[]" type="file" multiple class="file-loading">	        
-				</div>
+
 				<div id="addtestcase" >
 						<p style="text-align:left;">Add testcase file for this problem. Please apload your ZIP file </p>
-					<input id="input-41" name="kartik-input-41[]" type="file" multiple class="file-loading">	
+					<input id="input-43" name="kartik-input-43[]" type="file" multiple class="file-loading">	
 				
 					</div>	
 				<div id="contesteditproblems" class="col-xs-12 col-md-11  row" style="display:none">
@@ -310,7 +307,8 @@
 	$.ajax({
             type: "GET",
             url : '/user/get_profile/',
-            dataType: "html", 				
+            dataType: "html", 
+            async:false,				
             success: function (data) {
 			 userlogin=(JSON.parse(data)).username;
           	userloginid=(JSON.parse(data)).id;	
@@ -561,38 +559,49 @@
 						
 			},
           error: function (request, status, error) { 
+			  if(canedit==="no"){
 		   swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+	   }
 							              
            }  
     });
     
-  $("#input-41").fileinput({		
-						showUpload: true,
-						 uploadUrl: "/contest/" + contestid + "/testcase/" +problemid + "/",
-						 uploadAsync: true,
-						 //enable: "true",
-						// previewClass: "bg-warning",
-						previewFileType: "zip",
-						allowedFileExtensions: ["zip"],
-						 maxFileCount: 1,
-						 
+  $("#input-43").fileinput({		
+		showUpload: true,
+		uploadUrl: " ",
+		uploadAsync: true,
+		 //uploadProcessData: false,
+		//enable: "true",
+		// previewClass: "bg-warning",
+		previewFileType: "zip",
+		allowedFileExtensions: ["zip"],
+		maxFileCount: 1,
+		//elErrorContainer: '#kv-error-1'				 
 													
-					}); 
-		
-						$('#input-41').on('fileuploaded', function(event, data, previewId, index) {
-								var response = data.response;
-								if(response.status !="Accepted"){
-								 swal("OoOops!!!", "You have:"+response.status, "error");
-								}else{
-									swal("Accepted!","Your answer submit successfully", "success");
-								}
-									 $('#input-41').fileinput('clear');
-
+	}); 
+	$('#input-43').on('filepreupload', function(event, data, previewId, index) {
+		var file = event.target.files[0];
+		alert(file);
+		   $.ajax({
+            type: "POST",
+            url : "/contest/" + contestid + "/testcase/" +problemid + "/",
+           contentType: false,
+           processData: false,
+            dataType: "html",			
+            data:file,
+            success: function (data) {
+                swal("Good!", "add testcase successfully", "success");
+				  
+            },
+            error: function (request, status, error) {
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+				 $('#input-43').fileinput('clear');
+            }
+              });
+	
 							
-						});
-						$('#input-41').on('fileuploaderror', function(event, data, previewId, index) {
-							  
-						});		
+		});	
+			
    
    
 }
@@ -1174,11 +1183,7 @@ function reset(){
 			//	document.getElementById('contestaddquestions').style.display = 'none';
 	
 }
-//written by milad #########################################################################
-	//var pathname=$(location).attr('pathname');
-	//alert("details page");
 
-	
 	$("#rank").click(function( ){
 		
 		//event.preventDefault();
@@ -1202,43 +1207,6 @@ function reset(){
 		$("#titlePage").text("Ranking");
 	}
  
- 
- 
-var file;
-		$("#file_input").change(function(event){
-			file = event.target.files[0];
-		});
-		
-	
-	$("#sub").click(submit);
-	//var a = new FormData 
-	function submit(){
-		//alert(file);
-		//console.log(file);
-		//var data = new FormData ()
-		//$.each(files, function(key, value)
-		//{
-		//	data.append(key, value);
-		//});
-		//console.log(data);
-		$.ajax({
-			url: '/contest/' + contestid + '/testcase/' +problemid + '/',
-			type: 'POST',
-			data: file,
-			processData: false, 
-			contentType: false,
-			success: function(data, textStatus, jqXHR)
-			{
-				// success
-			},
-			error: function(jqXHR, textStatus, errorThrown)
-			{
-				
-				console.log('ERRORS: ' + textStatus);
-			}
-		});
-	}
-
 
 $('#getcontestname').click(function( ){
 	window.location.replace("/contest/"+contestname+"/"); 
