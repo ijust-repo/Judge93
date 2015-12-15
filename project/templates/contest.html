@@ -15,8 +15,7 @@
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/fileinput.min.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/jquery.countdown.min.js') }}" /></script>
-	
+    <script src="{{ url_for('static', filename='../statics/js/jquery.countdown.min.js') }}" /></script>	
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
@@ -62,7 +61,7 @@
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="contestleftmenu" style="display:none">
 		
 		<li class=" usernameitem " id="contestnameitem">
-			<a ><h4 id="getcontestname" class="leftmenuitem"></h4></a>
+			<a href="" ><h4 id="getcontestname" class="leftmenuitem"></h4></a>
 			<h4 id="getidcontest" style="display:none"></h4>
 		</li>	
 		
@@ -197,13 +196,7 @@
 				<textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
 				<hr>
 				sample Testcase:<br>
-				<div>
-					<input id ="file_input" type="file" >
-				<!--<input type="submit">-->
-
-					<button id = "sub">submit testcase</button>
 				
-				</div>
 				<div class="testcase" id="problemtestcase" >
 					<hr>
 					<label class="labelcss" for="problemtestcaseinput">Input: </label>
@@ -230,7 +223,7 @@
 					<div id="contestbodydiv" class="row"></div><hr>
 					<div id="contestfooterdiv" class="row"></div><hr>
 					
-					<div id="contestlanguageproblem"  class="row">
+					<div id="contestlanguageproblem"  class="row" style="display:none">
 						
 					 <ul class="nav nav-pills">
 						 
@@ -239,7 +232,12 @@
 						  <li id="java" data-toggle="pill"><a href="#">JAVA</a></li>
 						</ul>
 						
-					</div>											
+					</div>	
+					<div id="addtestcase" style="display:none">
+						<p style="text-align:left;">Add testcase file for this problem. Please apload your ZIP file </p>
+					<input id="input-41" name="kartik-input-41[]" type="file" multiple class="file-loading">	
+				
+				</div>										
 				</div>
 				
 				<div class="row" id="contesttestcaseexamplediv" >
@@ -317,10 +315,16 @@
            document.getElementById('contestteam').style.display = 'block';
            $('#contesteditproblems').show(1000);
            $('#editcontestbtn').show(1000);
+           $('#addtestcase').show();
+           $('#contestlanguageproblem').hide();
+           $('#contesttestcaseexamplediv').hide();
            document.getElementById('jointocontestbtn').style.display = 'none';
 			canedit="yes";
 			}
            else{
+			$('#addtestcase').hide();
+           $('#contestlanguageproblem').show();
+           $('#contesttestcaseexamplediv').show();
 			   $('#contestquestionsubmit').show(1000);
 			  document.getElementById('jointocontestbtn').style.display = 'block';
 			   
@@ -362,13 +366,15 @@
 		var s = d.format("YYYY-MM-DD HH:mm:ss");	
 		return (s);   
 	}
+	
 	if(getAbsolutePath()==="/contest/"){
 	  contestid = '{{contest_id }}';
 	 $( '#getidcontest ' ).html(contestid);	
 	  $.ajax({
             type: "GET",
             url : "/contest/by_id/"+contestid+"/",
-            dataType: "html", 				
+            dataType: "html", 
+             async: false,				
             success: function (data) {
 				$('#contestinformation').append(data);
 				 contestname=(JSON.parse(data)).name;
@@ -498,7 +504,7 @@
            }   
     });
    
-
+//submit code for user
     $.ajax({
             type: "GET",
             url :"/user/"+userloginid+"/contest/"+contestid+"/",
@@ -543,15 +549,42 @@
 							              
            }  
     });
-    
-  
+  // add testcase for admin  
+  //alert("/contest/" + contestid + "/testcase/" +problemid + "/");
+				$("#input-41").fileinput({		
+						showUpload: true,
+						 uploadUrl: "/contest/" + contestid + "/testcase/" +problemid + "/",
+						 uploadAsync: true,
+						 //enable: "true",
+						// previewClass: "bg-warning",
+						previewFileType: "zip",
+						allowedFileExtensions: ["zip"],
+						 maxFileCount: 1,
+						 
+													
+					}); 
+		
+						$('#input-41').on('fileuploaded', function(event, data, previewId, index) {
+								var response = data.response;
+								if(response.status !="Accepted"){
+								 swal("OoOops!!!", "You have:"+response.status, "error");
+								}else{
+									swal("Accepted!","Your answer submit successfully", "success");
+								}
+									 $('#input-41').fileinput('clear');
+
+							
+						});
+						$('#input-41').on('fileuploaderror', function(event, data, previewId, index) {
+							  
+						});		
    
 }
 
 
 //show question list
 $("#questions").click(function() { 
-	
+	window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
   $.ajax({
             type: "GET",
             url :"/contest/"+contestid+"/problems/",
@@ -626,7 +659,9 @@ $("#questions").click(function() {
 	 $("#problembody").val($("#contestbodydiv").text());
 	 $("#problemfooter").val($("#contestfooterdiv").text()); 
 	 $("#problemtestcaseinput").val($("#testcaseinput").text());  
-	 $("#problemtestcaseoutput").val($("#testcaseoutput").text()); 			
+	 $("#problemtestcaseoutput").val($("#testcaseoutput").text()); 	
+	 
+	
 		 
  });
  $("#editproblemsubmitbtn").click(function() {
@@ -723,7 +758,6 @@ $("#questions").click(function() {
 }
 
 $(document).ready(function () {
-		milad();//call 
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#create_contest_button').click(function() {
 			var name = $("input#contest_name").val();
@@ -764,7 +798,24 @@ $(document).ready(function () {
           		}
         	});			
 		});
-		
+
+		if($(location).attr('pathname') == "/contest/"+contestname+"/details/"){
+
+				$.ajax({
+					type : "GET",
+					url : "/contest/" + contestid + "/details/",
+					dataType: "html",
+					contentType: "application/json",
+					success : function(data ){
+					
+					console.log(data);
+							SetToTable((data).teams);
+						},
+					error : function(error ){
+						swal("Sorry!", "406", "error") ; 
+					}
+			});
+	}
 	});
 
  //logout
@@ -978,7 +1029,7 @@ function acceptorrejectteam(id,flag){
 }	
 
 $("#contestteam").click(function() { 
-	
+	window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
 	  $.ajax({
             type: "GET",
             url :"/contest/"+contestid+"/pending_teams/",
@@ -1062,37 +1113,16 @@ function reset(){
 			//	document.getElementById('contestaddquestions').style.display = 'none';
 	
 }
-function milad(){//written by milad #########################################################################
-	alert($(location).attr('pathname'));
-	if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
-		//alert("details page");
+
+
+	
+	$("#rank").click(function( ){		
+		window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details/");
 		rankPage();
-	}
-	
-	$("#rank").click(function(){
-		//event.preventDefault();
-		window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");
-		rankPage()
 	});
-	function rankPage(event){
-	alert(contestname);
 	
-		
-		$.ajax({
-			type : "get",
-			url : "/contest/" + '5666b511dd3ff31ae86bed6c' + "/details/",
-			success : function(data ){
-			
-			console.log(data);
-					SetToTable((data).teams);
-					
-					//window.location.replace("#ranklist");
-				},
-			error : function(error ){
-				alert ("error");
-			}
-			});
-	}
+	
+
 	function SetToTable(rankList){
 		//var tableHtml = $("#contestranklist tr").html();//.replace(/<\/?tbody>/g, '');
 		var tableHtml = '<tr><td style="display:none"> id </td><td > Team name</td> <td >Problems Solved </td><td> Penalty </td></tr>';
@@ -1108,13 +1138,7 @@ function milad(){//written by milad ############################################
 	}
  
  
- 
-var file;
-		$("#file_input").change(function(event){
-			file = event.target.files[0];
-		});
-		
-	
+			
 	$("#sub").click(submit);
 	//var a = new FormData 
 	function submit(){
@@ -1130,13 +1154,8 @@ var file;
 			url: '/contest/' + contestid + '/testcase/' +problemid + '/',
 			type: 'POST',
 			data: file,
-			//cache: false,
-
-			processData: false, // Don't process the files
-			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-			//beforeSend: function (request) {
-              //      request.setRequestHeader("Content-Type", file.type);
-                //},
+			processData: false, 
+			contentType: false,
 			success: function(data, textStatus, jqXHR)
 			{
 				// success
@@ -1148,9 +1167,11 @@ var file;
 			}
 		});
 	}
- }
 
-//submition	
+
+$('#getcontestname').click(function( ){
+	window.location.replace("/contest/"+contestname+"/"); 
+});
 
 
 
