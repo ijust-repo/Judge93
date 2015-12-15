@@ -427,7 +427,7 @@ width:170px;
 
 #contestquestions ul
 {
-    list-style-type: none; margin: 0; padding: 0; width: 60%;
+    list-style-type: none; margin: 0; padding: 0; width: 100%;
 }
 
 #contestquestions li
@@ -441,7 +441,7 @@ width:170px;
 .subset-question
 {
     vertical-align: top;
-    width: 45%;
+    width: 30%;
     margin: 1%;
     display: inline-block;
     text-align: center;
