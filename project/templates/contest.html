@@ -7,6 +7,7 @@
 
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
+<<<<<<< HEAD
 	<link href="{{ url_for('static', filename='../statics/css/bootstrap.min.css') }} " rel="stylesheet" />
 	<link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
 	<link href="{{ url_for('static', filename='../statics/css/jquery-ui.css') }} " rel="stylesheet" />
@@ -16,7 +17,7 @@
 	<script src="{{ url_for('static', filename='../statics/js/JavaS.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
 	<link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
-    <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
+	<script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
 	<link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
@@ -27,6 +28,8 @@
     <script src="{{ url_for('static', filename='../statics/js/jquery.countdown.min.js') }}" /></script>
 	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
+ 
+
 
 <body>
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
@@ -71,11 +74,10 @@
 
 		 	<a href="#questions" ><h4 class="leftmenuitem"><i  class="fa fa-code" style="width:20px; height:20px;"> </i> Problems</h4></a>
 		</li>
-
 		<li  id="rank"  >
 
 		 	<a ><h4 class="leftmenuitem"><i  class="fa fa-area-chart" style="width:20px; height:20px;"> </i> Rank list</h4></a>
-		</li>
+		 </li>
 
 		<li  id="contestteam"  style="display:none">
 		 	<a href="#teams"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
@@ -148,12 +150,15 @@
 		<p id="orderproblem" class="contestproblem " ></p>
 		<p id="titleproblem" class="contestproblem "></p>
 		<p id="idproblem" class="contestproblem " style="display:none"></p>
+		<p id="idteam" class="contestproblem " style="display:none"></p>
+		
 
 	</div>
 </div>
 
 	<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents  " >
+
 			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">
 					<table id="contestinfo">
 					   <tr>
@@ -180,6 +185,32 @@
 				</ul>
 				<ul class="sortable"></ul>
 				</div>
+
+			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">					
+				<table id="contestinfo">
+				   <tr>
+					   <td style="display:none"> id </td>
+					   <td > Name </td>
+					   <td > Sart on </td>
+					   <td> End on </td>
+					   <td >Team</td>				     
+					</tr>
+				</table>
+			</div>
+            <div id="contestinformation" class="CSSTableGenerator" style="display:none">
+					<input type="button" id="editcontestbtn" class="btn btn-primary" value="edit" style="display:none"/>
+					<input type="button" id="jointocontestbtn" class="btn btn-primary" value="Join to this contest" style="display:none"/>
+				</div>            
+            <div id="contestquestions" class="CSSTableGenerator" style="display:none">
+				<table id="contestquestionslist">
+				   <tr> 
+					   <td style="display:none"> order </td>
+					   <td > order </td>
+					   <td > Title </td>							 
+					</tr>
+				</table>
+			</div>
+
 			<div id="contestaddquestions" style="display:none; margin:3%;">
 				Problem details:
 				<hr>
@@ -199,6 +230,14 @@
 				<textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
 				<hr>
 				sample Testcase:<br>
+
+				<div>
+					<input id ="file_input" type="file" >
+				<!--<input type="submit">-->
+
+					<button id = "sub">submit testcase</button>
+				
+				</div>
 
 				<div class="testcase" id="problemtestcase" >
 					<hr>
@@ -225,14 +264,24 @@
 					<div id="contestheaderdiv" class="row  "></div><hr>
 					<div id="contestbodydiv" class="row"></div><hr>
 					<div id="contestfooterdiv" class="row"></div><hr>
-					<div id="contestlanguageproblem"  class="row"></div>
+					<div id="contestlanguageproblem"  class="row">
+						
+					 <ul class="nav nav-pills">
+						 
+						  <li id="cpp" data-toggle="pill" ><a href="#">C++</a></li>
+						  <li id="py" data-toggle="pill" ><a href="#">PYTHON</a></li>
+						  <li id="java" data-toggle="pill"><a href="#">JAVA</a></li>
+						</ul>
+						
+					</div>											
 				</div>
+				
 				<div class="row" id="contesttestcaseexamplediv" >
 					<hr>
 					<label class="labelcss" for="problemtestcaseinput">Input: </label>
-					<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput" readonly></textarea><br>
+					<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput" ></textarea><br>
 					<label class="labelcss" for="problemtestcaseoutput">Output: </label>
-					<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput" readonly></textarea><br>
+					<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput" ></textarea><br>
 				</div>
 
 				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
@@ -241,6 +290,8 @@
 					</span>
 					<span class='label label-info' id="upload-file-problem"></span><br>
 					<input type="button" id="submitproblemtbtn" class="btn btn-primary" value="Submit your code"/>
+					
+					<input id="input-700" name="kartik-input-700[]" type="file" multiple class="file-loading">	        
 				</div>
 				<div id="contesteditproblems" class="col-xs-12 col-md-11  row" style="display:none">
 					<input type="button" id="editproblemtbtn" class="btn btn-primary" value="Edit problem"/>
@@ -253,7 +304,8 @@
 					   <td > Team name</td>
 					   <td >Q1 </td>
 					   <td> Q2 </td>
-
+					   <td > Problems Solved </td>
+					   <td> Rank </td>
 					</tr>
                 </table>
 				</div>
@@ -270,6 +322,7 @@
 	    </div>
    	</div>
 </body>
+
 <script>
 	$editContest = function()
 	{
@@ -386,8 +439,10 @@
 	var flagproblemlist=false;
 	var flagteamlist=false;
 	var userlogin=null;
+	var userloginid=null;
 	var username=null;
 	var problemid=null;
+	var teamid=null;
 	// get userlogin
 	$.ajax({
             type: "GET",
@@ -395,7 +450,7 @@
             dataType: "html",
             success: function (data) {
 			 userlogin=(JSON.parse(data)).username;
-
+          	userloginid=(JSON.parse(data)).id;	
             },
            error: function (request) {
 				sswal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
@@ -446,6 +501,11 @@
       		}
 
 		});
+	}
+	function convertUTCDateToLocalDate(date) {
+		var d=moment.utc(date).local();
+		var s = d.format("YYYY-MM-DD HH:mm:ss");	
+		return (s);   
 	}
 	if(getAbsolutePath()==="/contest/"){
 	  contestid = '{{contest_id }}';
@@ -508,7 +568,10 @@
 
 						//tr.append("<td>" + data[i].name + "</td>");
 						$('#contestinfo').append(tr);
+					$(("#" + teamname)).attr("href",("/team/"+teamname+"/"));
+					$(("#" + teamitem[j].name)).attr("href",("/contest/"+teamitem[j].name+"/"));
 					}
+					
 				}
             },
            error: function (request) {
@@ -568,6 +631,17 @@
 			$("#contestfooterdiv").html((JSON.parse(data)).footer);
 			$("#testcaseinput").html(((JSON.parse(data)).testcases[0]).input);
 			$("#testcaseoutput").html(((JSON.parse(data)).testcases[0]).output);
+			if(((JSON.parse(data)).testcases)!=""){
+		
+				$("#testcaseinput").html(((JSON.parse(data)).testcases[0]).input);
+				$("#testcaseoutput").html(((JSON.parse(data)).testcases[0]).output);
+			}
+			else{
+				$("#contesttestcaseexamplediv").hide();
+				
+			}
+			$("#idproblem").html((JSON.parse(data)).id);					
+							
             },
           error: function (request, status, error) {
 
@@ -596,6 +670,55 @@
 	//show contest menu
 
 
+    $.ajax({
+            type: "GET",
+            url :"/user/"+userloginid+"/contest/"+contestid+"/",
+            dataType: "html",
+            contentType: "application/json",		 				
+            success: function (data) {
+				teamid=((JSON.parse(data)).id);
+				$("#idteam").html((JSON.parse(data)).id);
+				//alert("/submit/"+contestid+"/"+((JSON.parse(data)).id)+"/"+(parseInt(id)+1)+"/"++"/");
+				var filetype=null;
+				$('ul.nav-pills li a').click(function (e) {
+					filetype=( $(this).parent('li').attr('id'));
+
+					$("#input-700").fileinput({		
+						showUpload: true,
+						 uploadUrl: "/contest/submit/"+contestid+"/"+((JSON.parse(data)).id)+"/"+(parseInt(id)+1)+"/"+filetype+"/",
+						 uploadAsync: true,
+						 //enable: "true",
+						 maxFileCount: 1
+													
+					}); 
+		
+						$('#input-700').on('fileuploaded', function(event, data, previewId, index) {
+								var response = data.response;
+								if(response.status !="Accepted"){
+								 swal("OoOops!!!", "You have:"+response.status, "error");
+								}else{
+									swal("Accepted!","Your answer submit successfully", "success");
+								}
+									 $('#input-700').fileinput('clear');
+
+							
+						});
+						$('#input-700').on('fileuploaderror', function(event, data, previewId, index) {
+							  
+						});
+				});
+						
+			},
+          error: function (request, status, error) { 
+		   swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+							              
+           }  
+    });
+    
+  
+   
+}
+
 
 //show question list
 $("#questions").click(function() {
@@ -605,6 +728,7 @@ $("#questions").click(function() {
             url :"/contest/"+contestid+"/problems/",
             dataType: "html",
             success: function (data) {
+			reset();//added by milad
 			document.getElementById('titlePage').innerHTML="Problems" ;
 			document.getElementById('contestinfoforusers').style.display = 'none';
 			$('#maintitr').show(1000);
@@ -695,7 +819,7 @@ $("#questions").click(function() {
 		var obj = datawtestcase;
 
 	}
-	alert(obj);
+
   $.ajax({
 
             type: "PUT",
@@ -811,6 +935,7 @@ $(document).ready(function () {
 		}
 	});
 
+		milad();//call 
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#create_contest_button').click(function() {
 			var name = $("input#contest_name").val();
@@ -842,6 +967,15 @@ $(document).ready(function () {
 			end_date = new Date(end_date.toUTCString());
 			var endMillis = end_date.getTime()/1000 + (end_date.getTimezoneOffset() * 6);
 
+			
+			function convertDateToUTC(date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
+
+			start_date = convertDateToUTC(start_date);
+			var startMillis = start_date.getTime()/1000;
+			
+			end_date = convertDateToUTC(end_date);
+			var endMillis = end_date.getTime()/1000;
+			
 			$.ajax({
           		type: "POST",
           		url : '/contest/',
@@ -866,6 +1000,7 @@ $(document).ready(function () {
           		}
         	});
 		});
+		
 	});
 
  //logout
@@ -1054,7 +1189,19 @@ function acceptorrejectteam(id,flag){
             dataType: "html",
             data: '{ "acceptation":"'+flag+'"}',
             success: function (data) {
-              swal("Good!", "Your change submit successfully", "success");
+				swal({
+					  title: "Good!",
+					  text: "Your change submit successfully",
+					  type: "success",
+					 
+					  closeOnConfirm: false,
+					  showLoaderOnConfirm: true,
+					},
+					function(){
+					  
+						location.reload();
+					});    
+             
             },
             error: function (request, status, error) {
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
@@ -1072,6 +1219,7 @@ $("#contestteam").click(function() {
             url :"/contest/"+contestid+"/pending_teams/",
             dataType: "html",
             success: function (data) {
+			reset();//added by milad
 				document.getElementById('titlePage').innerHTML="Teams request" ;
 				$('#contestteams').show(1000);
 				document.getElementById('contestinfoforusers').style.display = 'none';
@@ -1085,8 +1233,8 @@ $("#contestteam").click(function() {
 				document.getElementById('contestquestion').style.display = 'none';
 				document.getElementById('contestrank').style.display = 'none';
 				document.getElementById('contestaddquestions').style.display = 'none';
+				
 				 $('#contestteam').css('background-color', '#355C7D');
-				 $('#questions').css('background-color', '#1B325F');
 				 if(flagteamlist==false){
 					var data=(JSON.parse(data)).teams;
 
@@ -1121,6 +1269,124 @@ $("#contestteam").click(function() {
     });
 
 });
+function reset(){
+//reset menu
+	$('#contestteam').css('background-color', '#1B325F');
+	$('#questions').css('background-color', '#1B325F');
+	$('#rank').css('background-color', '#1B325F');
+//reset main div
+	$("#contestrank").hide();
+	$("#contestinformation").hide();
+	$("#addproblemdiv").hide();
+	$("#contestquestions").hide();
+	$("#contestteams").hide()
+	$("#contestaddquestions").hide()
+	$("#contestquestion").hide()
+	
+	$("#problemhead").hide()
+	$("#maintitr").show()
+	///
+	//document.getElementById('contestinformation').style.display = 'none';
+		//		document.getElementById('problemhead').style.display = 'none';
+			//	document.getElementById('addproblemdiv').style.display = 'none';
+				//document.getElementById('addproblemsubmitbtn').style.display = 'none';
+		//		document.getElementById('editproblemsubmitbtn').style.display = 'none';
+		//		document.getElementById('contestquestions').style.display = 'none';
+		//		document.getElementById('contestquestion').style.display = 'none';
+		//		document.getElementById('contestrank').style.display = 'none';	
+			//	document.getElementById('contestaddquestions').style.display = 'none';
+	
+}
+function milad(){//written by milad #########################################################################
+	if($(location).attr('pathname') == "/contest/con1/details_page/"){
+		//alert("details page");
+		rankPage();
+	}
+	
+	$("#rank").click(function(){
+		event.preventDefault();
+		window.history.pushState("SADASD", "title", "/contest/" + contestname + "/details_page/");
+		rankPage()
+	});
+	function rankPage(event){
+	alert(contestname);
+	
+		
+		$.ajax({
+			type : "get",
+			url : "/contest/" + '5666b511dd3ff31ae86bed6c' + "/details/",
+			success : function(data ){
+			
+			console.log(data);
+					SetToTable((data).teams);
+					
+					//window.location.replace("#ranklist");
+				},
+			error : function(error ){
+				alert ("error");
+			}
+			});
+	}
+	function SetToTable(rankList){
+		//var tableHtml = $("#contestranklist tr").html();//.replace(/<\/?tbody>/g, '');
+		var tableHtml = '<tr><td style="display:none"> id </td><td > Team name</td> <td >Problems Solved </td><td> Penalty </td></tr>';
+		$.each(rankList, function(key, value){
+			var team = value.team;
+			tableHtml += '<tr><td >' + team.name + '</td> <td > ' + value.solved_problem_counter + ' </td><td> ' +  value.penalty + ' </td></tr>';
+		});
+		$("#contestranklist").html(tableHtml);
+		reset();
+		$('#rank').css('background-color', '#355C7D');
+		$("#contestrank").show(1000);
+		$("#titlePage").text("Ranking");
+	}
+ 
+ 
+ 
+var file;
+		$("#file_input").change(function(event){
+			file = event.target.files[0];
+		});
+		
+	
+	$("#sub").click(submit);
+	//var a = new FormData 
+	function submit(){
+		//alert(file);
+		//console.log(file);
+		//var data = new FormData ()
+		//$.each(files, function(key, value)
+		//{
+		//	data.append(key, value);
+		//});
+		//console.log(data);
+		$.ajax({
+			url: '/contest/' + contestid + '/testcase/' +problemid + '/',
+			type: 'POST',
+			data: file,
+			//cache: false,
+
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			//beforeSend: function (request) {
+              //      request.setRequestHeader("Content-Type", file.type);
+                //},
+			success: function(data, textStatus, jqXHR)
+			{
+				// success
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+				
+				console.log('ERRORS: ' + textStatus);
+			}
+		});
+	}
+ }
+
+//submition	
+
+
 
 </script>
 </html>
