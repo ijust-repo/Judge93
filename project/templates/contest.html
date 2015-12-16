@@ -382,6 +382,7 @@
 	
 	if(getAbsolutePath()==="/contest/"){
 	  contestid = '{{contest_id }}';
+	  //alert(contestid);
 	 $( '#getidcontest ' ).html(contestid);	
 	  $.ajax({
             type: "GET",
@@ -569,7 +570,7 @@
   $("#input-43").fileinput({		
 		showUpload: true,
 		uploadUrl: " ",
-		uploadAsync: true,
+		uploadAsync: false,
 		 //uploadProcessData: false,
 		//enable: "true",
 		// previewClass: "bg-warning",
@@ -869,7 +870,7 @@ $(document).ready(function () {
         	});			
 		});
 
-		if($(location).attr('pathname') == "/contest/"+contestname+"/details/"){
+		if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
 
 				$.ajax({
 					type : "GET",
@@ -1185,9 +1186,8 @@ function reset(){
 }
 
 	$("#rank").click(function( ){
-		
-		//event.preventDefault();
-		window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details/");
+
+		window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");
 		rankPage();
 	});
 	
