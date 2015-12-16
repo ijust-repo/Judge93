@@ -247,7 +247,7 @@ def contests_list():
 @contest.route('by_id/<string:contest_id>/', methods=['GET'])
 def contest_info_by_id(contest_id):
 	try:
-		contest = Contest.objects().get(id=contest_id)
+		contest = Contest.objects().get(pk=contest_id)
 		return jsonify(contest.to_json()) , 200
 	except DoesNotExist:
 		return "" , 406
@@ -336,7 +336,7 @@ def contest_details(contest_id):
 		return penalty , solved_problem_counter
 
 	try:
-		contest_obj = Contest.objects().get(id=contest_id)
+		contest_obj = Contest.objects().get(pk=contest_id)
 		start_time = contest_obj.starts_on
 
 		#[details_dict,details_dict,details_dict,...] sort keys (penalty,solved_problem_counter)
