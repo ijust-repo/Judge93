@@ -1,9 +1,8 @@
-﻿body
+﻿html,body
 {
     background-color: #E9E9E9;
-    
+   height:100%;
 }
-
 
 a
 {
@@ -20,13 +19,29 @@ width: 10% ;
 }
 
 .top-menu{
-    height:55px;
-    background-color:#413040;
-    padding: 15px ;
+width:100%;
+ height:10%;
+background-color:#1B325F;
+   /* height:55px;*/
+    padding: 1% ;
     color: white;
- 	 margin: 8px ;
+ 	 margin: 0 ;
  	 
  	}
+ 	.footer{
+ 	width:100%;
+	height:8%;
+	background-color:#1B325F;
+    padding: 1% ;
+    color: white;
+ 	 position:absolute;
+ 	  bottom: 0;
+text-align: center;
+ 	 
+ 	}
+ 	.content {
+	padding-bottom:100px; /* Height of the footer element */
+}
  .textareacss {
 	width: 85%;
 	height:100px;
@@ -51,6 +66,7 @@ select {
   font-family: Helvetica;
   font-size: 17px;
   color: #4c4c4c;
+  bottom:0;
 }
 
 input{
@@ -71,23 +87,31 @@ input{
 
 
 .user{
-    /*background-color:#312736;*/
-    margin: 8px ; 
- 
+   min-height:100% ;
+	position:relative;
   color:white;
 }
 .left
 {
  
 	position: relative;
-	float: left;
-	margin:   100px 0 50px 60px  ;
+	float:left;
+	margin-top:7% ;
+	margin-left:1% ;
+/*margin-top:7%;*/
+
 }
 .right
 {
     position: relative;
-float: right;
-margin:  7%  ;
+	margin-left:9% ;
+	/*margin-right:5% ;*/
+	margin-top:7%;
+	float:left;
+
+}
+.center{
+text-align: center;
 }
 
 .leftmenu{
@@ -734,6 +758,7 @@ tr.ui-sortable-handle td
         border-radius:3px;
         box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
         background:#1B325F;
+        /*width:85%;*/
     }
  
         .tab {
@@ -827,7 +852,7 @@ tr.ui-sortable-handle td
   p,.btn,input,div,span,h4 {
     font-size: 15px;
   }
-  input{
+  input[type=button]{
   width:100px;
       font-size: 15px;
   }
@@ -859,12 +884,12 @@ padding: 12px;
 }
 
 @media screen and (max-width: 768px) {
-    /*****************************slideshow*************************/
+  
     p, .btn, input, div, span, h4, label {
         font-size: 14px;
     }
 
-    input
+    input[type=button]
     {
         width: 90px;
         font-size: 12px;
@@ -897,5 +922,58 @@ padding: 12px;
     }
 }
 /******************************slideshow*************************/
+  /* jssor slider bullet navigator skin 05 css */
+        /*
+        .jssorb05 div           (normal)
+        .jssorb05 div:hover     (normal mouseover)
+        .jssorb05 .av           (active)
+        .jssorb05 .av:hover     (active mouseover)
+        .jssorb05 .dn           (mousedown)
+        */
+        .jssorb05 {
+            position: absolute;
+        }
+        .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
+            position: absolute;
+            /* size of bullet elment */
+            width: 16px;
+            height: 16px;
+            background: url('img/b05.png') no-repeat;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .jssorb05 div { background-position: -7px -7px; }
+        .jssorb05 div:hover, .jssorb05 .av:hover { background-position: -37px -7px; }
+        .jssorb05 .av { background-position: -67px -7px; }
+        .jssorb05 .dn, .jssorb05 .dn:hover { background-position: -97px -7px; }
 
+        /* jssor slider arrow navigator skin 12 css */
+        /*
+        .jssora12l                  (normal)
+        .jssora12r                  (normal)
+        .jssora12l:hover            (normal mouseover)
+        .jssora12r:hover            (normal mouseover)
+        .jssora12l.jssora12ldn      (mousedown)
+        .jssora12r.jssora12rdn      (mousedown)
+        */
+        .jssora12l, .jssora12r {
+        text-align: center;
+            display: block;
+            position: absolute;
+            /* size of arrow element */
+            width: 30px;
+            height: 46px;
+            cursor: pointer;
+          
+            overflow: hidden;
+      
+        }
+        .jssora12l { background-position: -16px -37px; }
+        .jssora12r { background-position: -75px -37px; }
+        .jssora12l:hover { background-position: -136px -37px; }
+        .jssora12r:hover { background-position: -195px -37px; }
+        .jssora12l.jssora12ldn { background-position: -256px -37px; }
+        .jssora12r.jssora12rdn { background-position: -315px -37px; }
+        
+        
 /******************************slideshow*************************/
