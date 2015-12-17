@@ -542,7 +542,7 @@ if(canedit==="no"){
 								}else{
 									swal("Accepted!","Your answer submit successfully", "success");
 								}
-									 $('#input-700').fileinput('clear');
+									 $('#input-2').fileinput('clear');
 
 							
 						});
@@ -565,11 +565,6 @@ if(canedit==="no"){
 		showUpload: true,
 		uploadUrl:  " ",
 		uploadAsync: false,
-		 //uploadProcessData: false,
-		//enable: "true",
-		// previewClass: "bg-warning",
-		//allowedpreviewFileType: "zip",
-		//allowedFileExtensions: ["zip"],
 		maxFileCount: 1,
 			 
 													
@@ -717,7 +712,7 @@ window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
             dataType: "html",			
             data: obj,
             success: function (data) {
-                alert("Edit problem successfully");
+				swal("Sorry!","Edit problem successfully", "success") ; 
 				  $("#problemtitle").val('');
 				  $("#problemtimelimit").val('');
 				  $("#problemspacelimit").val('');
@@ -774,7 +769,7 @@ window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
                 return function() { 
                                         var cell = row.getElementsByTagName("td")[0];
                                         var id = cell.innerHTML;
-                                        alert("id:" + id);
+                                        //alert("id:" + id);
                                  };
             };
 
@@ -787,7 +782,7 @@ $(document).ready(function () {
 
 		if ($(this).find('button').html() == 'Edit Order')
 		{
-					alert("in click");
+					//alert("in click");
 			$( ".sortable" ).sortable();
 			$( ".sortable" ).disableSelection();
 			$(this).find('button').html('Submit');
