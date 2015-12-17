@@ -169,7 +169,6 @@
 				</table>
 			</div>
             <div id="contestinformation" class="CSSTableGenerator" style="display:none">
-					<input type="button" id="jointocontestbtn" class="btn btn-primary" value="Join to this contest" style="display:none"/>
 				</div>            
             <div id="contestquestions" class="CSSTableGenerator" style="display:none">
 				<div class="edit-order" style="display:none">
@@ -247,17 +246,17 @@
 						
 					</div>											
 				</div>
-				
+				<hr>
 
 
 				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
 					
-					<input id="input-700" name="kartik-input-700[]" type="file" multiple class="file-loading">	        
+					<input id="input-2" name="kartik-input-2[]"  type="file" class=" file-loading">	        
 				</div>
 
-				<div id="addtestcase" >
-						<p style="text-align:left;">Add testcase file for this problem. Please apload your ZIP file </p>
-					<input id="input-43" name="kartik-input-43[]" type="file" multiple class="file-loading">	
+				<div id="addtestcase" class="col-xs-12 col-md-11  row" style="display:none">
+						<p style="text-align:left;">Add testcase file for this problem. Please upload your ZIP file </p>
+					<input id="input-1" name="kartik-input-1[]" type="file"  class="file-loading">	
 				
 					</div>	
 				<div id="contesteditproblems" class="col-xs-12 col-md-11  row" style="display:none">
@@ -316,8 +315,8 @@
 	function checkifadmin(username){
 		 if(username===userlogin){
            document.getElementById('contestteam').style.display = 'block';
-           $('#contesteditproblems').show(1000);
-           $('#editcontestbtn').show(1000);
+           $('#contesteditproblems').show();
+           $('#editcontestbtn').show();
            $('#addtestcase').show();
            $('#contestlanguageproblem').hide();
            $('#contesttestcaseexamplediv').hide();
@@ -385,7 +384,7 @@
              async: false,				
             success: function (data) {
 				$myData = (JSON.parse(data));
-				$('#contestinformation').append('<div class="open-page info-contest" "><div class="row header-team"><div class="col-sm-3"><button  id="cancelContestButton" onclick="$cancelContest();" class="hover-button" style="display: none">Cancel</button></div><div class="col-sm-6"><div><p class="editable">' + $myData.name + '</p></div></div><div class="col-sm-3"><button id="editContestButton" onclick="$editContest();" style="display:none; class="hover-button">Edit</button></div></div><div class="body-team"><div class="sector-block-contest"><div class="title">owner</div><p>' + $myData.owner.username + '</p></div><div class="sector-block-contest"><div class="title">created on</div><p>' + $myData.created_on + '</p></div><div class="sector-block-contest"><div class="title">starts on</div><p>' + $myData.starts_on + '</p></div><div class="sector-block-contest"><div class="title">ends on</div><p>' + $myData.ends_on + '</p></div></div><input class="contest-id" type="hidden" value="' + $myData.id + '"></div>');
+				$('#contestinformation').append('<div class="open-page info-contest" "><div class="row header-team"><div class="col-sm-3"><button  id="cancelContestButton" onclick="$cancelContest();" class="hover-button" style="display: none">Cancel</button></div><div class="col-sm-6"><div><p class="editable">' + $myData.name + '</p></div></div><div class="col-sm-3"><button id="editContestButton" onclick="$editContest();" style="display:none"; class="hover-button">Edit</button></div></div><div class="body-team"><div class="sector-block-contest"><div class="title">owner</div><p>' + $myData.owner.username + '</p></div><div class="sector-block-contest"><div class="title">created on</div><p>' + convertUTCDateToLocalDate($myData.created_on )+ '</p></div><div class="sector-block-contest"><div class="title">starts on</div><p>' + convertUTCDateToLocalDate($myData.starts_on) + '</p></div><div class="sector-block-contest"><div class="title">ends on</div><p>' + convertUTCDateToLocalDate($myData.ends_on) + '</p></div></div><input class="contest-id" type="hidden" value="' + $myData.id + '"></div>					<input type="button" id="jointocontestbtn" class="btn btn-primary" value="Join to this contest" style="display:none"/>');
 				 contestname=(JSON.parse(data)).name;
 				var contestadmin=(JSON.parse(data)).owner.username;
 				checkifadmin(contestadmin);
@@ -398,7 +397,7 @@
 		 	
 	}
 	else{
-		$('#contestinfoforusers').show(1000);
+		$('#contestinfoforusers').show();
 		var id = '{{user_id }}'; 
 		
 		 $.ajax({
@@ -450,7 +449,7 @@
 		document.title = contestname;
 		$( '#getcontestname ' ).html(contestname);
 		$('#contestleftmenu').show();
-		$('#contestinformation').show(1000);
+		$('#contestinformation').show();
 		document.getElementById('leftmenu').style.display = 'none';
 		document.getElementById('contestinfoforusers').style.display = 'none';
 		document.getElementById('createcontestdiv').style.display = 'none';
@@ -470,10 +469,10 @@
 	function loadquestiondiv(id){	
 	document.getElementById('contestinfoforusers').style.display = 'none';
 	document.getElementById('maintitr').style.display = 'none';
-	$('#problemhead').show(1000);
+	$('#problemhead').show();
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
-	$('#contestquestion').show(1000);
+	$('#contestquestion').show();
 	document.getElementById('contestrank').style.display = 'none';	
 	document.getElementById('contestaddquestions').style.display = 'none';
 	 document.getElementById('addproblemdiv').style.display = 'none';
@@ -513,7 +512,7 @@
            }   
     });
    
-
+if(canedit==="no"){
     $.ajax({
             type: "GET",
             url :"/user/"+userloginid+"/contest/"+contestid+"/",
@@ -527,7 +526,7 @@
 				$('ul.nav-pills li a').click(function (e) {
 					filetype=( $(this).parent('li').attr('id'));
 
-					$("#input-700").fileinput({		
+					$("#input-2").fileinput({		
 						showUpload: true,
 						 uploadUrl: "/contest/submit/"+contestid+"/"+((JSON.parse(data)).id)+"/"+(parseInt(id)+1)+"/"+filetype+"/",
 						 uploadAsync: true,
@@ -536,7 +535,7 @@
 													
 					}); 
 		
-						$('#input-700').on('fileuploaded', function(event, data, previewId, index) {
+						$('#input-2').on('fileuploaded', function(event, data, previewId, index) {
 								var response = data.response;
 								if(response.status !="Accepted"){
 								 swal("OoOops!!!", "You have:"+response.status, "error");
@@ -547,36 +546,38 @@
 
 							
 						});
-						$('#input-700').on('fileuploaderror', function(event, data, previewId, index) {
+						$('#input-2').on('fileuploaderror', function(event, data, previewId, index) {
 							  
 						});
 				});
 						
 			},
           error: function (request, status, error) { 
-			  if(canedit==="no"){
+			  
 		   swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 	   }
 							              
-           }  
+             
     });
-    
-  $("#input-43").fileinput({		
+  }else{  
+  $("#input-1").fileinput({
+			
 		showUpload: true,
-		uploadUrl: " ",
+		uploadUrl:  " ",
 		uploadAsync: false,
 		 //uploadProcessData: false,
 		//enable: "true",
 		// previewClass: "bg-warning",
-		previewFileType: "zip",
-		allowedFileExtensions: ["zip"],
+		//allowedpreviewFileType: "zip",
+		//allowedFileExtensions: ["zip"],
 		maxFileCount: 1,
-		//elErrorContainer: '#kv-error-1'				 
+			 
 													
 	}); 
-	$('#input-43').on('filepreupload', function(event, data, previewId, index) {
+	       
+
+	$('#input-1').on('filebatchpreupload', function(event, data, previewId, index, jqXHR) {
 		var file = event.target.files[0];
-		alert(file);
 		   $.ajax({
             type: "POST",
             url : "/contest/" + contestid + "/testcase/" +problemid + "/",
@@ -586,11 +587,12 @@
             data:file,
             success: function (data) {
                 swal("Good!", "add testcase successfully", "success");
+                $('#input-1').fileinput('clear');
 				  
             },
             error: function (request, status, error) {
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
-				 $('#input-43').fileinput('clear');
+				 $('#input-1').fileinput('clear');
             }
               });
 	
@@ -598,7 +600,7 @@
 		});	
 			
    
-   
+}
 }
 
 
@@ -613,10 +615,10 @@ window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
 			reset();//added by milad
 			document.getElementById('titlePage').innerHTML="Problems" ;
 			document.getElementById('contestinfoforusers').style.display = 'none';
-			$('#maintitr').show(1000);
+			$('#maintitr').show();
 			document.getElementById('contestinformation').style.display = 'none';
 			document.getElementById('problemhead').style.display = 'none';
-			$('#contestquestions').show(1000);
+			$('#contestquestions').show();
 			document.getElementById('contestquestion').style.display = 'none';
 			document.getElementById('contestrank').style.display = 'none';
 			document.getElementById('contestteams').style.display = 'none';
@@ -662,7 +664,7 @@ window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
  });
  
  $("#editproblemtbtn").click(function() {
-	$('#maintitr').show(1000);
+	$('#maintitr').show();
 	 document.getElementById('problemhead').style.display = 'none';
 	document.getElementById('titlePage').innerHTML="Edit Problems" ;
 	document.getElementById('addproblemsubmitbtn').style.display = 'none';
@@ -670,7 +672,7 @@ window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
 	document.getElementById('contestinfoforusers').style.display = 'none';
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
-	$('#contestaddquestions').show(1000);
+	$('#contestaddquestions').show();
 	document.getElementById('contestquestion').style.display = 'none';
 	document.getElementById('contestrank').style.display = 'none';	
 	document.getElementById('contestteams').style.display = 'none';	
@@ -878,56 +880,44 @@ $(document).ready(function () {
 					dataType: "html",
 					contentType: "application/json",
 					success : function(data ){
-					alert(data);
-					//alert((JSON.parse(data)).teams);
-					var num=(JSON.parse(data)).problem_num;
-					//alert(num);
-					var data=(JSON.parse(data)).teams;
-					//var num=data[0].problems_list;
-					//alert(num.length);
-					var tr;
-					tr = $('<tr id="0"><td>Rank</td><td>Team name</td><td>Solved problem</td><td>Penalty</td>');
-					for(var j=1;j<=num;j++){						
-						tr.append('<td >Problem '+j+'</td>');
-					}
-						tr.append('</tr>');
-					$('#contestranklist').append(tr);
-					for (var i = 0; i < data.length; i++) {
-						//var teamname=data[i].name;
-						//var teamitem=data[i].contests;	
-										
-							tr = $('<tr id="TR'+i+'">');
-							tr.append('<td>' + (i+1) + '</td>');
-							tr.append('<td> <a href="#"  id="'+data[i].team.name+'">' + data[i].team.name + "</a></td></tr>");																
-							tr.append("<td>" +data[i].solved_problem_counter+ "</td>");
-							tr.append("<td>" +data[i].penalty+ "</td>");
-							var problemtry=data[i].problems_list;
-							for(var j=1;j<=num;j++){
-								if(problemtry.length==0){
-									tr.append('<td > </td>');
-								}								
-								for(var k=0;k<problemtry.length;k++){																		
-									if(problemtry[k].order==j){
-										if(problemtry[k].solved=="true"){
-										tr.append('<td style="background-color:#88A65E;">Failed tries:  ' +problemtry[k].failed_tries + '</td>');
-										}else{
-										tr.append('<td style="background-color:#F26C4F;">Failed tries:   ' +problemtry[k].failed_tries + '</td>');
-										}
-									}else{
-										tr.append('<td > </td>');
-									}
-							}
+						var num=(JSON.parse(data)).problem_num;
+						var data=(JSON.parse(data)).teams;
+						var tr;
+						tr = $('<tr id="0"><td>Rank</td><td>Team name</td><td>Solved problem</td><td>Penalty</td>');
+						for(var j=1;j<=num;j++){						
+							tr.append('<td >Problem '+j+'</td>');
 						}
-							//tr.append('<td><a href="#" id="'+teamname+'">' + teamname + '</a></td></tr>');
-							$('#contestranklist').append(tr);
-						$(("#" +data[i].team.name)).attr("href",("/team/"+data[i].team.name+"/"));
-
-						
-						
-					}
-						},
+							tr.append('</tr>');
+						$('#contestranklist').append(tr);
+						for (var i = 0; i < data.length; i++) {
+								tr = $('<tr id="TR'+i+'">');
+								tr.append('<td>' + (i+1) + '</td>');
+								tr.append('<td> <a href="#"  id="'+data[i].team.name+'">' + data[i].team.name + "</a></td></tr>");																
+								tr.append("<td>" +data[i].solved_problem_counter+ "</td>");
+								tr.append("<td>" +data[i].penalty+ "</td>");
+								var problemtry=data[i].problems_list;
+								for(var j=1;j<=num;j++){
+									if(problemtry.length==0){
+										tr.append('<td > </td>');
+									}								
+									for(var k=0;k<problemtry.length;k++){																		
+										if(problemtry[k].order==j){
+											if(problemtry[k].solved=="true"){
+											tr.append('<td style="background-color:#88A65E;">Failed tries:  ' +problemtry[k].failed_tries + '</td>');
+											}else{
+											tr.append('<td style="background-color:#F26C4F;">Failed tries:   ' +problemtry[k].failed_tries + '</td>');
+											}
+										}else{
+											tr.append('<td > </td>');
+										}
+									}
+								}
+								$('#contestranklist').append(tr);
+							$(("#" +data[i].team.name)).attr("href",("/team/"+data[i].team.name+"/"));
+						}
+					},
 					error : function(error ){
-						swal("Sorry!", "406", "error") ; 
+						swal("Sorry!", "Contest does not exist!", "error") ; 
 					}
 			});
 	}
@@ -1237,8 +1227,8 @@ function reset(){
 	
 	
 
-$('#getcontestname').click(function( ){
-	window.location.replace("/contest/"+contestname+"/"); 
+$('#contestnameitem').click(function( ){
+	window.history.pushState("SADASD", "title", "/contest/"+contestname+"/"); 
 });
 
 
