@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Contests</title>
-	<link rel="icon" type="image/png" href="{{ url_for('static', filename='../statics/img/j.png') }} " sizes="32x32">
+	<link  href="{{ url_for('static', filename='../statics/img/J.png') }} " rel="icon" >
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
@@ -34,7 +34,7 @@
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 		
 		<li class=" usernameitem " id="usernameitem">
-			<a href="#"><h4 id="getusername" class="leftmenuitem"></h4></a>
+			<a href="#"><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>  </h4></a>
 			<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 		</li>			
 		<li  id="contest"  >
@@ -65,7 +65,7 @@
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="contestleftmenu" style="display:none">
 		
 		<li class=" usernameitem " id="contestnameitem">
-			<a href="" ><h4 id="getcontestname" class="leftmenuitem"></h4></a>
+			<a href="" ><h4 id="getcontestname" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>  </h4></a>
 			<h4 id="getidcontest" style="display:none"></h4>
 		</li>	
 		
@@ -408,7 +408,7 @@
             success: function (data) {
 		        username=(JSON.parse(data)).username;
 				checkprofile(username);
-				$( '#getusername ' ).html(username);
+				$( '#getusername ' ).append(username);
 				$( '#getidprof ' ).html(id);	
             },
            error: function (request) { 
@@ -447,7 +447,7 @@
  }
 	function changecontestpage(contestname){		
 		document.title = contestname;
-		$( '#getcontestname ' ).html(contestname);
+		$( '#getcontestname ' ).append(contestname);
 		$('#contestleftmenu').show();
 		$('#contestinformation').show();
 		document.getElementById('leftmenu').style.display = 'none';

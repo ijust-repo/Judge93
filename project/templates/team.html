@@ -3,7 +3,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Home</title>
+	<title>Teams</title>
+	<link  href="{{ url_for('static', filename='../statics/img/J.png') }} " rel="icon" >
 	<link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
 	<link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
 	    <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
@@ -21,7 +22,7 @@
 <ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 
 	<li class=" usernameitem " id="usernameitem">
-		<a href="#" ><h4 id="getusername" class="leftmenuitem"></h4></a>
+		<a href="#" ><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>  </h4></a>
 		<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 	</li>
 
@@ -373,7 +374,7 @@
 
 				});
 
-				$( '#getusername ' ).html(username);
+				$( '#getusername ' ).append(username);
 				$( '#getidprof ' ).html(id);
 			},
 			error: function (request) {
@@ -423,7 +424,7 @@
 								$("#team").hide();
 								$("#createTeam").hide();
 								$(".maintitr").find('div').hide();
-								$( '#getusername ' ).html('Team Info');
+								$( '#getusername ' ).append('Team Info');
 								$( '#titlePage ' ).html($myDataTeam.name);
 								$("#teamPage").html(addHtml);
 							},
