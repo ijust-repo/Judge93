@@ -5,22 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Contests</title>
 	<link  href="{{ url_for('static', filename='../statics/img/J.png') }} " rel="icon" >
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
-    <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
-     
-    
-    <link href="{{ url_for('static', filename='../statics/css/jquery.countdown.css') }} " rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} " rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />     
     <link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }} " rel="stylesheet" />  
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />   
     <link href="{{ url_for('static', filename='../statics/css/fileinput.min.css') }}" rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/jquery-ui.css') }} " rel="stylesheet" />   
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
+    <script src="{{ url_for('static', filename='../statics/js/bootstrap.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/fileinput.min.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/jquery-ui.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/jquery.countdown.min.js') }}" /></script>	
-    <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
+    <script src="{{ url_for('static', filename='../statics/js/jquery-ui.js') }}" /></script>   
+    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>   	
 	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}" /></script>	    
@@ -65,7 +60,13 @@
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="contestleftmenu" style="display:none">
 		
 		<li class=" usernameitem " id="contestnameitem">
-			<a href="" ><h4 id="getcontestname" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>  </h4></a>
+			<a href="" ><h4 id="getcontestname" class="leftmenuitem">
+				<img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>
+				
+				  </h4>
+				  
+				  </a>
+				  
 			<h4 id="getidcontest" style="display:none"></h4>
 		</li>	
 		
@@ -81,6 +82,9 @@
 		
 		<li  id="contestteam"  style="display:none">
 		 	<a href="#teams"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
+		</li>
+		<li  id="time"  >
+		 	<h4 class="leftmenuitem"><i class="fa fa-clock-o" style=" width:20px; height:20px; "></i> <span id="countdown" class="countdown"></span></h4>
 		</li>
 		
 		<li  id="backtoprofile" class="backtoprofile" >
@@ -144,9 +148,9 @@
 		<div id="createcontestdiv" ><a href="#createContest"><button class="hover-button close-page">Create  Contest</button></a></div>
 		<div id="addproblemdiv" style="display:none"><a href="#addProblem"><button id="addproblembtn" class="hover-button close-page">Add problem</button></a></div>
 	</div>
-	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none">
+	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none ; ">
 		<input type="button" id="backtoproblemlistbtn" class="hover-button " value="Back to contest"/>
-		<div id="time"></div>
+		
 		<p id="orderproblem" class="contestproblem " ></p>
 		<p id="titleproblem" class="contestproblem "></p>
 		<p id="idproblem" class="contestproblem " style="display:none"></p>
@@ -296,6 +300,34 @@
 	var username=null;
 	var problemid=null;
 	var teamid=null;
+function countdown(time){
+var target_date =moment(convertUTCDateToLocalDate(time));
+var days, hours, minutes, seconds;
+var countdown = document.getElementById("countdown");
+var myVar =setInterval(function () {
+    var current_date = new Date().getTime();
+    var seconds_left = (target_date - current_date) / 1000;
+    days = parseInt(seconds_left / 86400);
+    seconds_left = seconds_left % 86400;     
+    hours = parseInt(seconds_left / 3600);
+    seconds_left = seconds_left % 3600;     
+    minutes = parseInt(seconds_left / 60);
+    seconds = parseInt(seconds_left % 60);
+    countdown.innerHTML = days + "d, " + hours + "h, "
+    + minutes + "m, " + seconds + "s"; 
+    if(days==0 && hours==0 && minutes==0 && seconds==0){
+		swal({
+  title: "Time is over!",
+  text: " ",
+  timer: 2000,
+  showConfirmButton: false
+});
+
+	} 
+}, 1000);
+
+
+}
 	// get userlogin
 	$.ajax({
             type: "GET",
@@ -388,7 +420,8 @@
 				 contestname=(JSON.parse(data)).name;
 				var contestadmin=(JSON.parse(data)).owner.username;
 				checkifadmin(contestadmin);
-				 changecontestpage(contestname);;				
+				 changecontestpage(contestname);
+				  countdown($myData.ends_on);				
             },
            error: function (request) {                
 				swal("Sorry", request.errors) ;  	      	      		
@@ -467,6 +500,7 @@
     return pathName;
 }
 	function loadquestiondiv(id){	
+
 	 //show problem
 	 $.ajax({
             type: "GET",
@@ -475,6 +509,7 @@
             success: function (data) {
 			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
 			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);
+			
 			problemid=((JSON.parse(data)).id);
 			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
 			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit );
@@ -617,7 +652,7 @@ if(canedit==="no"){
    
 }
 }
-
+ 
 
 //show question list
 $("#questions").click(function() {
@@ -794,6 +829,8 @@ window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
 }
 
 $(document).ready(function () {
+
+
 	$('.edit-order').click(function(){
 
 		if ($(this).find('button').html() == 'Edit Order')
