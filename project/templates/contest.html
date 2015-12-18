@@ -174,11 +174,11 @@
 				<div class="edit-order" style="display:none">
 					<button class="hover-button" >Edit Order</button>
 				</div>
-				<ul>
+				<ul >
 					<li>
 						<div class="subset-question">Order</div>
 						<div class="subset-question">Title</div>
-						<div class="subset-question"> </div>
+
 					</li>
 				</ul>
 				<ul class="sortable"></ul>
@@ -467,18 +467,6 @@
     return pathName;
 }
 	function loadquestiondiv(id){	
-	document.getElementById('contestinfoforusers').style.display = 'none';
-	document.getElementById('maintitr').style.display = 'none';
-	$('#problemhead').show();
-	document.getElementById('contestinformation').style.display = 'none';
-	document.getElementById('contestquestions').style.display = 'none';
-	$('#contestquestion').show();
-	document.getElementById('contestrank').style.display = 'none';	
-	document.getElementById('contestaddquestions').style.display = 'none';
-	 document.getElementById('addproblemdiv').style.display = 'none';
-	 problemid=(parseInt(id)+1);
-	 $('#contestteam').css('background-color', '#1B325F');
-	 $('#questions').css('background-color', '#355C7D');
 	 //show problem
 	 $.ajax({
             type: "GET",
@@ -519,9 +507,21 @@ if(canedit==="no"){
             dataType: "html",
             contentType: "application/json",		 				
             success: function (data) {
+				document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('maintitr').style.display = 'none';
+	$('#problemhead').show();
+	document.getElementById('contestinformation').style.display = 'none';
+	document.getElementById('contestquestions').style.display = 'none';
+	$('#contestquestion').show();
+	document.getElementById('contestrank').style.display = 'none';	
+	document.getElementById('contestaddquestions').style.display = 'none';
+	 document.getElementById('addproblemdiv').style.display = 'none';
+	 problemid=(parseInt(id)+1);
+	 $('#contestteam').css('background-color', '#1B325F');
+	 $('#questions').css('background-color', '#355C7D');
 				teamid=((JSON.parse(data)).id);
 				$("#idteam").html((JSON.parse(data)).id);
-				//alert("/submit/"+contestid+"/"+((JSON.parse(data)).id)+"/"+(parseInt(id)+1)+"/"++"/");
+
 				var filetype=null;
 				$('ul.nav-pills li a').click(function (e) {
 					filetype=( $(this).parent('li').attr('id'));
@@ -539,16 +539,21 @@ if(canedit==="no"){
 								var response = data.response;
 								if(response.status !="Accepted"){
 								 swal("OoOops!!!", "You have:"+response.status, "error");
+								 	
 								}else{
 									swal("Accepted!","Your answer submit successfully", "success");
 								}
 									 $('#input-2').fileinput('clear');
+									 $('#input-2').fileinput('enable');
 
 							
 						});
 						$('#input-2').on('fileuploaderror', function(event, data, previewId, index) {
 							  
 						});
+					
+
+
 				});
 						
 			},
@@ -560,6 +565,18 @@ if(canedit==="no"){
              
     });
   }else{  
+	  document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('maintitr').style.display = 'none';
+	$('#problemhead').show();
+	document.getElementById('contestinformation').style.display = 'none';
+	document.getElementById('contestquestions').style.display = 'none';
+	$('#contestquestion').show();
+	document.getElementById('contestrank').style.display = 'none';	
+	document.getElementById('contestaddquestions').style.display = 'none';
+	 document.getElementById('addproblemdiv').style.display = 'none';
+	 problemid=(parseInt(id)+1);
+	 $('#contestteam').css('background-color', '#1B325F');
+	 $('#questions').css('background-color', '#355C7D');
   $("#input-1").fileinput({
 			
 		showUpload: true,
@@ -593,6 +610,9 @@ if(canedit==="no"){
 	
 							
 		});	
+		$('#input-1').fileinput('enable');
+
+
 			
    
 }
@@ -639,13 +659,9 @@ window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
 			}
 				$('.viewproblem').click(function(){
 					
-					id = $('.viewproblem').attr('id');
+					id = $(this).attr('id');
 					loadquestiondiv(id);
 				});
-				/*$('td').click(function(){
-					id = $(this).closest('tr').attr('id');
-					loadquestiondiv(id[1]);
-				});*/
 				flagproblemlist=true;
 				}
             },
@@ -875,39 +891,47 @@ $(document).ready(function () {
 					dataType: "html",
 					contentType: "application/json",
 					success : function(data ){
+						//alert(data);
 						var num=(JSON.parse(data)).problem_num;
 						var data=(JSON.parse(data)).teams;
 						var tr;
-						tr = $('<tr id="0"><td>Rank</td><td>Team name</td><td>Solved problem</td><td>Penalty</td>');
+						tr = '<tr id="0"><td>Rank</td><td>Team name</td><td>Solved problem</td><td>Penalty</td>';
 						for(var j=1;j<=num;j++){						
-							tr.append('<td >Problem '+j+'</td>');
+							tr+='<td >Problem '+j+'</td>';
 						}
-							tr.append('</tr>');
+							tr+='</tr>';
 						$('#contestranklist').append(tr);
 						for (var i = 0; i < data.length; i++) {
-								tr = $('<tr id="TR'+i+'">');
-								tr.append('<td>' + (i+1) + '</td>');
-								tr.append('<td> <a href="#"  id="'+data[i].team.name+'">' + data[i].team.name + "</a></td></tr>");																
-								tr.append("<td>" +data[i].solved_problem_counter+ "</td>");
-								tr.append("<td>" +data[i].penalty+ "</td>");
+								tr = '<tr id="TR'+i+'">';
+								tr+='<td>' + (i+1) + '</td>';
+								tr+='<td> <a href="#"  id="'+data[i].team.name+'">' + data[i].team.name + "</a></td>";																
+								tr+="<td>" +data[i].solved_problem_counter+ "</td>";
+								tr+="<td>" +data[i].penalty+ "</td>";
 								var problemtry=data[i].problems_list;
+								var trk=[];
 								for(var j=1;j<=num;j++){
-									if(problemtry.length==0){
-										tr.append('<td > </td>');
-									}								
-									for(var k=0;k<problemtry.length;k++){																		
-										if(problemtry[k].order==j){
-											if(problemtry[k].solved=="true"){
-											tr.append('<td style="background-color:#88A65E;">Failed tries:  ' +problemtry[k].failed_tries + '</td>');
-											}else{
-											tr.append('<td style="background-color:#F26C4F;">Failed tries:   ' +problemtry[k].failed_tries + '</td>');
+									trk[j]='<td> </td>';
+								}																
+									for(var k=0;k<problemtry.length;k++){
+										for(var j=1;j<=num;j++){																	
+											if(problemtry[k].order==j){
+																							
+												if(problemtry[k].solved===true){
+												trk[j]='<td style="background-color:#88A65E;">Failed tries:  ' +problemtry[k].failed_tries + '</td>';
+												}else{
+														
+												trk[j]='<td style="background-color:#F26C4F;">Failed tries:   ' +problemtry[k].failed_tries + '</td>';
+												}
 											}
-										}else{
-											tr.append('<td > </td>');
 										}
+									
+									
 									}
-								}
+								tr+=trk;	
+								tr+='</tr>';
 								$('#contestranklist').append(tr);
+								
+								
 							$(("#" +data[i].team.name)).attr("href",("/team/"+data[i].team.name+"/"));
 						}
 					},
