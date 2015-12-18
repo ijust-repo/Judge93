@@ -16,7 +16,6 @@
     <script src="{{ url_for('static', filename='../statics/js/fileinput.min.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/jquery-ui.js') }}" /></script>   
     <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>   	
-	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}" /></script>	    
 	<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
@@ -53,7 +52,7 @@
 		 	<a href="#logout"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
 		</li>
 		<li  id="backtoprofile" class="backtoprofile" style="display:none" >
-		 	<a ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
+		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
 		</li>
 
 	</ul>
@@ -313,8 +312,8 @@ var myVar =setInterval(function () {
     seconds_left = seconds_left % 3600;     
     minutes = parseInt(seconds_left / 60);
     seconds = parseInt(seconds_left % 60);
-    countdown.innerHTML = days + "d, " + hours + "h, "
-    + minutes + "m, " + seconds + "s"; 
+    countdown.innerHTML = days + "d," + hours + "h,"
+    + minutes + "m," + seconds + "s"; 
     if(days==0 && hours==0 && minutes==0 && seconds==0){
 		swal({
   title: "Time is over!",
