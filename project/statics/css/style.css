@@ -1,9 +1,8 @@
-﻿body
+﻿html,body
 {
     background-color: #E9E9E9;
-    
+   height:100%;
 }
-
 
 a
 {
@@ -20,13 +19,29 @@ width: 10% ;
 }
 
 .top-menu{
-    height:55px;
-    background-color:#413040;
-    padding: 15px ;
+width:100%;
+ height:10%;
+background-color:#1B325F;
+   /* height:55px;*/
+    padding: 1% ;
     color: white;
- 	 margin: 8px ;
+ 	 margin: 0 ;
  	 
  	}
+ 	.footer{
+ 	width:100%;
+	height:8%;
+	background-color:#1B325F;
+    padding: 1% ;
+    color: white;
+ 	 position:absolute;
+ 	  bottom: 0;
+text-align: center;
+ 	 
+ 	}
+ 	.content {
+	padding-bottom:100px; /* Height of the footer element */
+}
  .textareacss {
 	width: 85%;
 	height:100px;
@@ -51,6 +66,7 @@ select {
   font-family: Helvetica;
   font-size: 17px;
   color: #4c4c4c;
+  bottom:0;
 }
 
 input{
@@ -71,23 +87,31 @@ input{
 
 
 .user{
-    /*background-color:#312736;*/
-    margin: 8px ; 
- 
+   min-height:100% ;
+	position:relative;
   color:white;
 }
 .left
 {
  
 	position: relative;
-	float: left;
-	margin:   100px 0 50px 60px  ;
+	float:left;
+	margin-top:7% ;
+	margin-left:1% ;
+/*margin-top:7%;*/
+
 }
 .right
 {
     position: relative;
-float: right;
-margin:  7%  ;
+	margin-left:9% ;
+	/*margin-right:5% ;*/
+	margin-top:7%;
+	float:left;
+
+}
+.center{
+text-align: center;
 }
 
 .leftmenu{
@@ -238,6 +262,7 @@ text-align: right;
 .usernameitem
 {
 	background-color: #355C7D;
+	
 }
 
 #changeProfileSetting
@@ -327,6 +352,15 @@ width:170px;
     text-align: center;
 }
 
+.sector-block-contest
+{
+    vertical-align: top;
+    width: 22%;
+    margin: 1%;
+    display: inline-block;
+    text-align: center;
+}
+
 .sector-block-team-middle
 {
     width: 15vw;
@@ -338,7 +372,7 @@ width:170px;
     border-right: solid 1px #FFFFFF;
 }
 
-.sector-block-team div, .sector-block-team a, .sector-block-team2 div, .sector-block-team2 a
+.sector-block-team div.title, .sector-block-team a.title, .sector-block-team2 div.title, .sector-block-team2 a.title, .sector-block-contest a.title
 {
     color: #080808;
     font-size: 16px;
@@ -349,16 +383,29 @@ width:170px;
     padding-bottom: 3%;
 }
 
-.sector-block-team p, .sector-block-team-middle p, .sector-block-team2 p, .sector-block-team2 input
+.sector-block-team div.subset, .sector-block-team-middle div.subset, .sector-block-team2 div.subset, .sector-block-team2 input, .sector-block-contest input ,.sector-block-contest p
 {
     font-size: 14px;
     text-align: center;
     display: block;
     margin: 0 auto 3%;
-    width: 10vw;
+    width: 13vw;
 }
 
-.sector-block-team2 p label
+.sector-block-team div.subset a, .sector-block-team2 div.subset a, .sector-block-team-middle a, .editable a
+{
+    color: #080808;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.sector-block-team div.subset a:hover, .sector-block-team2 div.subset a:hover, .sector-block-team-middle a:hover, .editable a:hover
+{
+    color: #265a88;
+}
+
+.sector-block-team2 div.subset label
 {
     color: #F26C4F;
     font-size: 12px;
@@ -374,7 +421,7 @@ width:170px;
     width: 100%;
 }
 
-.info-team2
+.info-team2, .info-contest
 {
     display: block;
     border-bottom: solid 20px #E9E9E9;
@@ -401,6 +448,51 @@ width:170px;
     height: 5vh;
     width: 12vw;
     margin-top: -5px;
+}
+
+#contestquestions ul
+{
+    list-style-type: none; margin: 0; padding: 0; width: 100%;
+}
+
+#contestquestions li
+{
+    padding-bottom: 2%;
+    padding-top: 2%;
+    border-bottom:1px solid #ffffff;
+    border-top: 1px solid #ffffff;
+}
+
+.subset-question
+{
+    vertical-align: top;
+    width: 30%;
+    margin: 1%;
+    display: inline-block;
+    text-align: center;
+}
+
+.sortable li span
+{
+    position: absolute; margin-left: -1.3em;
+}
+
+tr.ui-sortable-handle span
+{
+    position: absolute; margin-left: -1.3em;
+}
+
+tr.ui-sortable-handle td
+{
+    margin: 0 3px 3px 3px;
+    padding: 0.4em 0.4em 0.4em 1.5em;
+    font-size: 1.4em; height: 18px;
+}
+
+.edit-order
+{
+    margin-left: 1%;
+    margin-bottom: 1%;
 }
 
 .form-dialog {
@@ -667,6 +759,7 @@ width:170px;
         border-radius:3px;
         box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
         background:#1B325F;
+        /*width:85%;*/
     }
  
         .tab {
@@ -707,8 +800,10 @@ width:170px;
 
 
 .CSSTableGenerator {
-	margin:0px;padding:0px;
+	margin:0px;
+    padding:0px;
 	width:100%;
+    min-height: 50vh;
 	border-bottom:1px solid #ffffff;
 	
 }.CSSTableGenerator table{
@@ -756,10 +851,11 @@ width:170px;
 }
 @media screen and (max-width: 992px) {
   p,.btn,input,div,span,h4 {
-    font-size: 15px;
+    font-size: 12px;
   }
-  input[type=text]{
+  input[type=button]{
   width:100px;
+      font-size: 15px;
   }
   .labelcss{
   font-size: 5px;
@@ -789,18 +885,19 @@ padding: 12px;
 }
 
 @media screen and (max-width: 768px) {
-    /*****************************slideshow*************************/
+  
     p, .btn, input, div, span, h4, label {
-        font-size: 14px;
+        font-size: 9px;
     }
 
-    input[type=text] {
-        width: 150px;
+    input[type=button]
+    {
+        width: 90px;
+        font-size: 12px;
     }
 
     .labelcss {
         font-size: 11px;
-
     }
 
     .maintitr {
@@ -825,7 +922,59 @@ padding: 12px;
         font-size: 4px;
     }
 }
-
 /******************************slideshow*************************/
+  /* jssor slider bullet navigator skin 05 css */
+        /*
+        .jssorb05 div           (normal)
+        .jssorb05 div:hover     (normal mouseover)
+        .jssorb05 .av           (active)
+        .jssorb05 .av:hover     (active mouseover)
+        .jssorb05 .dn           (mousedown)
+        */
+        .jssorb05 {
+            position: absolute;
+        }
+        .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
+            position: absolute;
+            /* size of bullet elment */
+            width: 16px;
+            height: 16px;
+            background: url('img/b05.png') no-repeat;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .jssorb05 div { background-position: -7px -7px; }
+        .jssorb05 div:hover, .jssorb05 .av:hover { background-position: -37px -7px; }
+        .jssorb05 .av { background-position: -67px -7px; }
+        .jssorb05 .dn, .jssorb05 .dn:hover { background-position: -97px -7px; }
 
+        /* jssor slider arrow navigator skin 12 css */
+        /*
+        .jssora12l                  (normal)
+        .jssora12r                  (normal)
+        .jssora12l:hover            (normal mouseover)
+        .jssora12r:hover            (normal mouseover)
+        .jssora12l.jssora12ldn      (mousedown)
+        .jssora12r.jssora12rdn      (mousedown)
+        */
+        .jssora12l, .jssora12r {
+        text-align: center;
+            display: block;
+            position: absolute;
+            /* size of arrow element */
+            width: 30px;
+            height: 46px;
+            cursor: pointer;
+          
+            overflow: hidden;
+      
+        }
+        .jssora12l { background-position: -16px -37px; }
+        .jssora12r { background-position: -75px -37px; }
+        .jssora12l:hover { background-position: -136px -37px; }
+        .jssora12r:hover { background-position: -195px -37px; }
+        .jssora12l.jssora12ldn { background-position: -256px -37px; }
+        .jssora12r.jssora12rdn { background-position: -315px -37px; }
+        
+        
 /******************************slideshow*************************/

@@ -4,24 +4,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Contests</title>
-
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap.css') }} " rel="stylesheet" />
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap/bootstrap-theme.css') }} " rel="stylesheet" />
-    <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
-    <link href="{{ url_for('static', filename='../statics/css/jquery.countdown.css') }} " rel="stylesheet" />
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }} " rel="stylesheet" />
-    <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
+	<link  href="{{ url_for('static', filename='../statics/img/J.png') }} " rel="icon" >
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} " rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />     
+    <link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }} " rel="stylesheet" />  
+    <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />   
     <link href="{{ url_for('static', filename='../statics/css/fileinput.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='../statics/css/jquery-ui.css') }} " rel="stylesheet" />   
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
+    <script src="{{ url_for('static', filename='../statics/js/bootstrap.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/fileinput.min.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/jquery.countdown.min.js') }}" /></script>
-	
-    <script src="{{ url_for('static', filename='../statics/js/bootstrap/bootstrap.js') }}" /></script>
-	<script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
+    <script src="{{ url_for('static', filename='../statics/js/jquery-ui.js') }}" /></script>   
+    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>   	
 	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}" /></script>	    
-	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
 
 </head>
  
@@ -31,7 +28,7 @@
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 		
 		<li class=" usernameitem " id="usernameitem">
-			<a href="#"><h4 id="getusername" class="leftmenuitem"></h4></a>
+			<a href="#"><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>  </h4></a>
 			<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 		</li>			
 		<li  id="contest"  >
@@ -55,14 +52,20 @@
 		 	<a href="#logout"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
 		</li>
 		<li  id="backtoprofile" class="backtoprofile" style="display:none" >
-		 	<a ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
+		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
 		</li>
 
 	</ul>
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="contestleftmenu" style="display:none">
 		
 		<li class=" usernameitem " id="contestnameitem">
-			<a ><h4 id="getcontestname" class="leftmenuitem"></h4></a>
+			<a href="" ><h4 id="getcontestname" class="leftmenuitem">
+				<img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>
+				
+				  </h4>
+				  
+				  </a>
+				  
 			<h4 id="getidcontest" style="display:none"></h4>
 		</li>	
 		
@@ -78,6 +81,9 @@
 		
 		<li  id="contestteam"  style="display:none">
 		 	<a href="#teams"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
+		</li>
+		<li  id="time"  >
+		 	<h4 class="leftmenuitem"><i class="fa fa-clock-o" style=" width:20px; height:20px; "></i> <span id="countdown" class="countdown"></span></h4>
 		</li>
 		
 		<li  id="backtoprofile" class="backtoprofile" >
@@ -141,9 +147,9 @@
 		<div id="createcontestdiv" ><a href="#createContest"><button class="hover-button close-page">Create  Contest</button></a></div>
 		<div id="addproblemdiv" style="display:none"><a href="#addProblem"><button id="addproblembtn" class="hover-button close-page">Add problem</button></a></div>
 	</div>
-	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none">
+	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none ; ">
 		<input type="button" id="backtoproblemlistbtn" class="hover-button " value="Back to contest"/>
-		<div id="time"></div>
+		
 		<p id="orderproblem" class="contestproblem " ></p>
 		<p id="titleproblem" class="contestproblem "></p>
 		<p id="idproblem" class="contestproblem " style="display:none"></p>
@@ -166,17 +172,19 @@
 				</table>
 			</div>
             <div id="contestinformation" class="CSSTableGenerator" style="display:none">
-					<input type="button" id="editcontestbtn" class="btn btn-primary" value="edit" style="display:none"/>
-					<input type="button" id="jointocontestbtn" class="btn btn-primary" value="Join to this contest" style="display:none"/>
 				</div>            
             <div id="contestquestions" class="CSSTableGenerator" style="display:none">
-				<table id="contestquestionslist">
-				   <tr> 
-					   <td style="display:none"> order </td>
-					   <td > order </td>
-					   <td > Title </td>							 
-					</tr>
-				</table>
+				<div class="edit-order" style="display:none">
+					<button class="hover-button" >Edit Order</button>
+				</div>
+				<ul >
+					<li>
+						<div class="subset-question">Order</div>
+						<div class="subset-question">Title</div>
+
+					</li>
+				</ul>
+				<ul class="sortable"></ul>
 			</div>
 			<div id="contestaddquestions" style="display:none; margin:3%;">
 				Problem details:
@@ -197,13 +205,7 @@
 				<textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
 				<hr>
 				sample Testcase:<br>
-				<div>
-					<input id ="file_input" type="file" >
-				<!--<input type="submit">-->
-
-					<button id = "sub">submit testcase</button>
 				
-				</div>
 				<div class="testcase" id="problemtestcase" >
 					<hr>
 					<label class="labelcss" for="problemtestcaseinput">Input: </label>
@@ -229,44 +231,44 @@
 					<div id="contestheaderdiv" class="row  "></div><hr>
 					<div id="contestbodydiv" class="row"></div><hr>
 					<div id="contestfooterdiv" class="row"></div><hr>
-					
+					<div class="row" id="contesttestcaseexamplediv" >
+						<hr>
+						<label class="labelcss" for="problemtestcaseinput">Input: </label>
+						<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput" ></textarea><br>
+						<label class="labelcss" for="problemtestcaseoutput">Output: </label>
+						<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput" ></textarea><br>
+					</div>
 					<div id="contestlanguageproblem"  class="row">
 						
 					 <ul class="nav nav-pills">
 						 
-						  <li id="cpp" data-toggle="pill" ><a href="#">C++</a></li>
-						  <li id="py" data-toggle="pill" ><a href="#">PYTHON</a></li>
-						  <li id="java" data-toggle="pill"><a href="#">JAVA</a></li>
+						  <li class="active" data-toggle="pill" ><a id="cpp" href="#">C++</a></li>
+						  <li  data-toggle="pill" ><a id="py" href="#">PYTHON</a></li>
+						  <li  data-toggle="pill"><a id="java" href="#">JAVA</a></li>
 						</ul>
 						
 					</div>											
 				</div>
-				
-				<div class="row" id="contesttestcaseexamplediv" >
-					<hr>
-					<label class="labelcss" for="problemtestcaseinput">Input: </label>
-					<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput" ></textarea><br>
-					<label class="labelcss" for="problemtestcaseoutput">Output: </label>
-					<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput" ></textarea><br>
-				</div>
+				<hr>
+
 
 				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
 					
-					<input id="input-700" name="kartik-input-700[]" type="file" multiple class="file-loading">	        
+					<input id="input-2" name="kartik-input-2[]"  type="file" class=" file-loading">	        
 				</div>
+
+				<div id="addtestcase" class="col-xs-12 col-md-11  row" style="display:none">
+						<p style="text-align:left;">Add testcase file for this problem. Please upload your ZIP file </p>
+					<input id="input-1" name="kartik-input-1[]" type="file"  class="file-loading">	
+				
+					</div>	
 				<div id="contesteditproblems" class="col-xs-12 col-md-11  row" style="display:none">
 					<input type="button" id="editproblemtbtn" class="btn btn-primary" value="Edit problem"/>					        
 				</div>
 			</div>
 			<div id="contestrank" class="CSSTableGenerator" style="display:none">
 				<table id="contestranklist">
-                   <tr>
-					   <td style="display:none"> id </td>
-					   <td > Team name</td>
-					   <td > Problems Solved </td>
-					   <td> Rank </td>
-					     
-					</tr>
+                  
                 </table>
 				</div>
 			<div id="contestteams" class="CSSTableGenerator" style="display:none">
@@ -297,11 +299,40 @@
 	var username=null;
 	var problemid=null;
 	var teamid=null;
+function countdown(time){
+var target_date =moment(convertUTCDateToLocalDate(time));
+var days, hours, minutes, seconds;
+var countdown = document.getElementById("countdown");
+var myVar =setInterval(function () {
+    var current_date = new Date().getTime();
+    var seconds_left = (target_date - current_date) / 1000;
+    days = parseInt(seconds_left / 86400);
+    seconds_left = seconds_left % 86400;     
+    hours = parseInt(seconds_left / 3600);
+    seconds_left = seconds_left % 3600;     
+    minutes = parseInt(seconds_left / 60);
+    seconds = parseInt(seconds_left % 60);
+    countdown.innerHTML = days + "d," + hours + "h,"
+    + minutes + "m," + seconds + "s"; 
+    if(days==0 && hours==0 && minutes==0 && seconds==0){
+		swal({
+  title: "Time is over!",
+  text: " ",
+  timer: 2000,
+  showConfirmButton: false
+});
+
+	} 
+}, 1000);
+
+
+}
 	// get userlogin
 	$.ajax({
             type: "GET",
             url : '/user/get_profile/',
-            dataType: "html", 				
+            dataType: "html", 
+            async:false,				
             success: function (data) {
 			 userlogin=(JSON.parse(data)).username;
           	userloginid=(JSON.parse(data)).id;	
@@ -315,13 +346,23 @@
 	function checkifadmin(username){
 		 if(username===userlogin){
            document.getElementById('contestteam').style.display = 'block';
-           $('#contesteditproblems').show(1000);
-           $('#editcontestbtn').show(1000);
+           $('#contesteditproblems').show();
+           $('#editcontestbtn').show();
+           $('#addtestcase').show();
+           $('#contestlanguageproblem').hide();
+           $('#contesttestcaseexamplediv').hide();
            document.getElementById('jointocontestbtn').style.display = 'none';
+           
+           $("#editContestButton").show();
+           $(".edit-order").show();
 			canedit="yes";
 			}
            else{
+			   $('#addtestcase').hide();
+           $('#contestlanguageproblem').show();
+           $('#contesttestcaseexamplediv').show();
 			   $('#contestquestionsubmit').show(1000);
+			
 			  document.getElementById('jointocontestbtn').style.display = 'block';
 			   
 			   }		 
@@ -362,19 +403,24 @@
 		var s = d.format("YYYY-MM-DD HH:mm:ss");	
 		return (s);   
 	}
+	
 	if(getAbsolutePath()==="/contest/"){
 	  contestid = '{{contest_id }}';
+	  //alert(contestid);
 	 $( '#getidcontest ' ).html(contestid);	
 	  $.ajax({
             type: "GET",
             url : "/contest/by_id/"+contestid+"/",
-            dataType: "html", 				
+            dataType: "html", 
+             async: false,				
             success: function (data) {
-				$('#contestinformation').append(data);
+				$myData = (JSON.parse(data));
+				$('#contestinformation').append('<div class="open-page info-contest" "><div class="row header-team"><div class="col-sm-3"><button  id="cancelContestButton" onclick="$cancelContest();" class="hover-button" style="display: none">Cancel</button></div><div class="col-sm-6"><div><p class="editable">' + $myData.name + '</p></div></div><div class="col-sm-3"><button id="editContestButton" onclick="$editContest();" style="display:none"; class="hover-button">Edit</button></div></div><div class="body-team"><div class="sector-block-contest"><div class="title">owner</div><p>' + $myData.owner.username + '</p></div><div class="sector-block-contest"><div class="title">created on</div><p>' + convertUTCDateToLocalDate($myData.created_on )+ '</p></div><div class="sector-block-contest"><div class="title">starts on</div><p>' + convertUTCDateToLocalDate($myData.starts_on) + '</p></div><div class="sector-block-contest"><div class="title">ends on</div><p>' + convertUTCDateToLocalDate($myData.ends_on) + '</p></div></div><input class="contest-id" type="hidden" value="' + $myData.id + '"></div>					<input type="button" id="jointocontestbtn" class="btn btn-primary" value="Join to this contest" style="display:none"/>');
 				 contestname=(JSON.parse(data)).name;
 				var contestadmin=(JSON.parse(data)).owner.username;
 				checkifadmin(contestadmin);
-				 changecontestpage(contestname);				
+				 changecontestpage(contestname);
+				  countdown($myData.ends_on);				
             },
            error: function (request) {                
 				swal("Sorry", request.errors) ;  	      	      		
@@ -383,7 +429,7 @@
 		 	
 	}
 	else{
-		$('#contestinfoforusers').show(1000);
+		$('#contestinfoforusers').show();
 		var id = '{{user_id }}'; 
 		
 		 $.ajax({
@@ -394,7 +440,7 @@
             success: function (data) {
 		        username=(JSON.parse(data)).username;
 				checkprofile(username);
-				$( '#getusername ' ).html(username);
+				$( '#getusername ' ).append(username);
 				$( '#getidprof ' ).html(id);	
             },
            error: function (request) { 
@@ -433,9 +479,9 @@
  }
 	function changecontestpage(contestname){		
 		document.title = contestname;
-		$( '#getcontestname ' ).html(contestname);
+		$( '#getcontestname ' ).append(contestname);
 		$('#contestleftmenu').show();
-		$('#contestinformation').show(1000);
+		$('#contestinformation').show();
 		document.getElementById('leftmenu').style.display = 'none';
 		document.getElementById('contestinfoforusers').style.display = 'none';
 		document.getElementById('createcontestdiv').style.display = 'none';
@@ -453,18 +499,7 @@
     return pathName;
 }
 	function loadquestiondiv(id){	
-	document.getElementById('contestinfoforusers').style.display = 'none';
-	document.getElementById('maintitr').style.display = 'none';
-	$('#problemhead').show(1000);
-	document.getElementById('contestinformation').style.display = 'none';
-	document.getElementById('contestquestions').style.display = 'none';
-	$('#contestquestion').show(1000);
-	document.getElementById('contestrank').style.display = 'none';	
-	document.getElementById('contestaddquestions').style.display = 'none';
-	 document.getElementById('addproblemdiv').style.display = 'none';
-	 problemid=(parseInt(id)+1);
-	 $('#contestteam').css('background-color', '#1B325F');
-	 $('#questions').css('background-color', '#355C7D');
+
 	 //show problem
 	 $.ajax({
             type: "GET",
@@ -473,6 +508,7 @@
             success: function (data) {
 			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
 			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);
+			
 			problemid=((JSON.parse(data)).id);
 			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
 			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit );
@@ -498,113 +534,184 @@
            }   
     });
    
-
+if(canedit==="no"){
     $.ajax({
             type: "GET",
             url :"/user/"+userloginid+"/contest/"+contestid+"/",
             dataType: "html",
             contentType: "application/json",		 				
             success: function (data) {
-				teamid=((JSON.parse(data)).id);
-				$("#idteam").html((JSON.parse(data)).id);
-				//alert("/submit/"+contestid+"/"+((JSON.parse(data)).id)+"/"+(parseInt(id)+1)+"/"++"/");
-				var filetype=null;
-				$('ul.nav-pills li a').click(function (e) {
-					filetype=( $(this).parent('li').attr('id'));
-
-					$("#input-700").fileinput({		
+				document.getElementById('contestinfoforusers').style.display = 'none';
+			document.getElementById('maintitr').style.display = 'none';
+			$('#problemhead').show();
+			document.getElementById('contestinformation').style.display = 'none';
+			document.getElementById('contestquestions').style.display = 'none';
+			$('#contestquestion').show();
+			document.getElementById('contestrank').style.display = 'none';	
+			document.getElementById('contestaddquestions').style.display = 'none';
+			 document.getElementById('addproblemdiv').style.display = 'none';
+			 problemid=(parseInt(id)+1);
+			 $('#contestteam').css('background-color', '#1B325F');
+			 $('#questions').css('background-color', '#355C7D');
+			teamid=((JSON.parse(data)).id);
+			$("#idteam").html((JSON.parse(data)).id);
+			
+			$("#input-2").fileinput({			
 						showUpload: true,
-						 uploadUrl: "/contest/submit/"+contestid+"/"+((JSON.parse(data)).id)+"/"+(parseInt(id)+1)+"/"+filetype+"/",
-						 uploadAsync: true,
-						 //enable: "true",
-						 maxFileCount: 1
-													
-					}); 
-		
-						$('#input-700').on('fileuploaded', function(event, data, previewId, index) {
-								var response = data.response;
-								if(response.status !="Accepted"){
-								 swal("OoOops!!!", "You have:"+response.status, "error");
+						uploadUrl:  " ",
+						//uploadAsync: false,
+						maxFileCount: 1,														
+					}); 	       
+			$('#input-2').on('filebatchpreupload', function(event, data, previewId, index, jqXHR) {
+			var filetype= $('.nav-pills > li.active a').attr("id");
+			$('#input-2').fileinput('enable');
+			var file1 = event.target.files[0];
+				//alert(filetype);
+		   $.ajax({
+            type: "POST",
+            url : "/contest/submit/"+contestid+"/"+teamid+"/"+(parseInt(id)+1)+"/"+filetype+"/",
+           contentType: false,
+           processData: false,
+            dataType: "html",			
+            data:file1,
+            success: function (data) {
+                if((JSON.parse(data)).status !="Accepted"){
+								 swal("OoOops!!!", "You have:"+(JSON.parse(data)).status, "error");
+								 	
 								}else{
 									swal("Accepted!","Your answer submit successfully", "success");
 								}
-									 $('#input-700').fileinput('clear');
-
+                $('#input-2').fileinput('clear');
+				  
+            },
+            error: function (request, status, error) {
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+				 $('#input-2').fileinput('clear');
+            }
+              });	
 							
-						});
-						$('#input-700').on('fileuploaderror', function(event, data, previewId, index) {
-							  
-						});
-				});
-						
+		});	
+		$('#input-2').fileinput('enable');		
 			},
           error: function (request, status, error) { 
+			  
 		   swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+	   }
 							              
-           }  
+           
     });
-    
-  
+  }else{  
+	  document.getElementById('contestinfoforusers').style.display = 'none';
+	document.getElementById('maintitr').style.display = 'none';
+	$('#problemhead').show();
+	document.getElementById('contestinformation').style.display = 'none';
+	document.getElementById('contestquestions').style.display = 'none';
+	$('#contestquestion').show();
+	document.getElementById('contestrank').style.display = 'none';	
+	document.getElementById('contestaddquestions').style.display = 'none';
+	 document.getElementById('addproblemdiv').style.display = 'none';
+	 problemid=(parseInt(id)+1);
+	 $('#contestteam').css('background-color', '#1B325F');
+	 $('#questions').css('background-color', '#355C7D');
+  $("#input-1").fileinput({
+			
+		showUpload: true,
+		uploadUrl:  " ",
+		uploadAsync: false,
+		maxFileCount: 1,
+			 
+													
+	}); 
+	       
+
+	$('#input-1').on('filebatchpreupload', function(event, data, previewId, index, jqXHR) {
+		var file = event.target.files[0];
+		   $.ajax({
+            type: "POST",
+            url : "/contest/" + contestid + "/testcase/" +problemid + "/",
+           contentType: false,
+           processData: false,
+            dataType: "html",			
+            data:file,
+            success: function (data) {
+                swal("Good!", "add testcase successfully", "success");
+                $('#input-1').fileinput('clear');
+				  
+            },
+            error: function (request, status, error) {
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+				 $('#input-1').fileinput('clear');
+            }
+              });
+	
+							
+		});	
+		$('#input-1').fileinput('enable');
+
+
+			
    
 }
-
+}
+ 
 
 //show question list
-$("#questions").click(function() { 
-	
+$("#questions").click(function() {
+window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
   $.ajax({
             type: "GET",
             url :"/contest/"+contestid+"/problems/",
-            dataType: "html",  				
+            dataType: "html",
             success: function (data) {
 			reset();//added by milad
 			document.getElementById('titlePage').innerHTML="Problems" ;
 			document.getElementById('contestinfoforusers').style.display = 'none';
-			$('#maintitr').show(1000);
+			$('#maintitr').show();
 			document.getElementById('contestinformation').style.display = 'none';
 			document.getElementById('problemhead').style.display = 'none';
-			$('#contestquestions').show(1000);
+			$('#contestquestions').show();
 			document.getElementById('contestquestion').style.display = 'none';
-			//document.getElementById('contestrank').style.display = 'none';	
-			//document.getElementById('contestteams').style.display = 'none';	
+			document.getElementById('contestrank').style.display = 'none';
+			document.getElementById('contestteams').style.display = 'none';
 			document.getElementById('contestaddquestions').style.display = 'none';
 			 $('#contestteam').css('background-color', '#1B325F');
 			 $('#questions').css('background-color', '#355C7D');
 			 if (canedit==="yes"){
-				 document.getElementById('addproblemdiv').style.display = 'block';		
+				 document.getElementById('addproblemdiv').style.display = 'block';
 			 }
            	var data=(JSON.parse(data)).problems;
 				 var tr;
 				 problemnumber=data.length;
 				 if(flagproblemlist==false){
 			for (var i = 0; i < data.length; i++) {
-				tr = $('<tr id="Q'+i+'">');
-		
-				tr.append('<td  style="display:none">' + data[i].id + "</td>");
-				tr.append("<td>" + data[i].order + "</td>");
-				tr.append("<td>" + data[i].title + "</td></tr>");
-				//tr.append("<td>" + data[i].contests.ends_on + "</td>");
+				li = $('<li id="Q'+i+'">');
+
+				li.append('<input type="hidden" value="' + data[i].id + '" />');
+				li.append('<div class="subset-question order">' + data[i].order + '</div>');
+				li.append('<div class="subset-question title">' + data[i].title + '</div>');
+				li.append('<div class="subset-question title"><button id="'+i +'" class="hover-button viewproblem">Show</button></div>');
 				//tr.append("<td>" + data[i].name + "</td>");
-				$('#contestquestionslist').append(tr);
-			}		
-				$('td').click(function(){
-					id = $(this).closest('tr').attr('id');
-					loadquestiondiv(id[1]);						
-				});	
+				$('.sortable').append(li);
+			}
+				$('.viewproblem').click(function(){
+					
+					id = $(this).attr('id');
+					loadquestiondiv(id);
+				});
 				flagproblemlist=true;
-				}	
+				}
             },
-         		error: function (request, status,error) {					
-			  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 
-			  
-					               
-           }   
+         		error: function (request, status,error) {
+			  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+
+
+           }
     });
-  
+
  });
  
  $("#editproblemtbtn").click(function() {
-	$('#maintitr').show(1000);
+	$('#maintitr').show();
 	 document.getElementById('problemhead').style.display = 'none';
 	document.getElementById('titlePage').innerHTML="Edit Problems" ;
 	document.getElementById('addproblemsubmitbtn').style.display = 'none';
@@ -612,7 +719,7 @@ $("#questions").click(function() {
 	document.getElementById('contestinfoforusers').style.display = 'none';
 	document.getElementById('contestinformation').style.display = 'none';
 	document.getElementById('contestquestions').style.display = 'none';
-	$('#contestaddquestions').show(1000);
+	$('#contestaddquestions').show();
 	document.getElementById('contestquestion').style.display = 'none';
 	document.getElementById('contestrank').style.display = 'none';	
 	document.getElementById('contestteams').style.display = 'none';	
@@ -657,7 +764,7 @@ $("#questions").click(function() {
             dataType: "html",			
             data: obj,
             success: function (data) {
-                alert("Edit problem successfully");
+				swal("Sorry!","Edit problem successfully", "success") ; 
 				  $("#problemtitle").val('');
 				  $("#problemtimelimit").val('');
 				  $("#problemspacelimit").val('');
@@ -714,7 +821,7 @@ $("#questions").click(function() {
                 return function() { 
                                         var cell = row.getElementsByTagName("td")[0];
                                         var id = cell.innerHTML;
-                                        alert("id:" + id);
+                                        //alert("id:" + id);
                                  };
             };
 
@@ -723,7 +830,50 @@ $("#questions").click(function() {
 }
 
 $(document).ready(function () {
-		milad();//call 
+
+
+	$('.edit-order').click(function(){
+
+		if ($(this).find('button').html() == 'Edit Order')
+		{
+					//alert("in click");
+			$( ".sortable" ).sortable();
+			$( ".sortable" ).disableSelection();
+			$(this).find('button').html('Submit');
+		}
+		else
+		{
+			var myInfoList = [];
+			var counter = 1;
+			$('.sortable').find('li').each(function(){
+				myInfoList.push(JSON.stringify({"id": parseInt($(this).find('input').val()), "order": counter, "title": $(this).find('div.title').text()}));
+				counter += 1;
+			});
+			$.ajax({
+				type: "PUT",
+				url : '/contest/' + '{{contest_id}}' + '/',
+				contentType: "application/json",
+				dataType: "html",
+				data: JSON.stringify({"problems" : myInfoList}),
+				success: function (data) {
+					swal({
+								title: "Good!",
+								text: "Order successfully Edited",
+								type: "success",
+								showCancelButton: true,
+								closeOnConfirm: false,
+								showLoaderOnConfirm: true,
+							},
+							function(){
+								location.reload();
+							});
+				},
+				error: function (request, status, error) {
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+				}
+			});
+		}
+	});
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#create_contest_button').click(function() {
 			var name = $("input#contest_name").val();
@@ -764,7 +914,70 @@ $(document).ready(function () {
           		}
         	});			
 		});
-		
+
+		if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
+				$('#rank').css('background-color', '#355C7D');
+		$("#contestrank").show(1000);
+		$("#contestinformation").hide();
+		$("#contestquestions").hide();
+		$("#contestquestion").hide();
+		$("#contestteams").hide();
+		$("#titlePage").text("Ranking");
+				$.ajax({
+					type : "GET",
+					url : "/contest/" + contestid + "/details/",
+					dataType: "html",
+					contentType: "application/json",
+					success : function(data ){
+						//alert(data);
+						var num=(JSON.parse(data)).problem_num;
+						var data=(JSON.parse(data)).teams;
+						var tr;
+						tr = '<tr id="0"><td>Rank</td><td>Team name</td><td>Solved problem</td><td>Penalty</td>';
+						for(var j=1;j<=num;j++){						
+							tr+='<td >Problem '+j+'</td>';
+						}
+							tr+='</tr>';
+						$('#contestranklist').append(tr);
+						for (var i = 0; i < data.length; i++) {
+								tr = '<tr id="TR'+i+'">';
+								tr+='<td>' + (i+1) + '</td>';
+								tr+='<td> <a href="#"  id="'+data[i].team.name+'">' + data[i].team.name + "</a></td>";																
+								tr+="<td>" +data[i].solved_problem_counter+ "</td>";
+								tr+="<td>" +data[i].penalty+ "</td>";
+								var problemtry=data[i].problems_list;
+								var trk=[];
+								for(var j=1;j<=num;j++){
+									trk[j]='<td> </td>';
+								}																
+									for(var k=0;k<problemtry.length;k++){
+										for(var j=1;j<=num;j++){																	
+											if(problemtry[k].order==j){
+																							
+												if(problemtry[k].solved===true){
+												trk[j]='<td style="background-color:#88A65E;">Failed tries:  ' +problemtry[k].failed_tries + '</td>';
+												}else{
+														
+												trk[j]='<td style="background-color:#F26C4F;">Failed tries:   ' +problemtry[k].failed_tries + '</td>';
+												}
+											}
+										}
+									
+									
+									}
+								tr+=trk;	
+								tr+='</tr>';
+								$('#contestranklist').append(tr);
+								
+								
+							$(("#" +data[i].team.name)).attr("href",("/team/"+data[i].team.name+"/"));
+						}
+					},
+					error : function(error ){
+						swal("Sorry!", "Contest does not exist!", "error") ; 
+					}
+			});
+	}
 	});
 
  //logout
@@ -978,7 +1191,7 @@ function acceptorrejectteam(id,flag){
 }	
 
 $("#contestteam").click(function() { 
-	
+	window.history.pushState("SADASD", "title", "/contest/"+contestname+"/");
 	  $.ajax({
             type: "GET",
             url :"/contest/"+contestid+"/pending_teams/",
@@ -1062,96 +1275,128 @@ function reset(){
 			//	document.getElementById('contestaddquestions').style.display = 'none';
 	
 }
-function milad(){//written by milad #########################################################################
-	if($(location).attr('pathname') == "/contest/con1/details_page/"){
-		//alert("details page");
+
+	$("#rank").click(function( ){
+
+		window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");
 		rankPage();
-	}
-	
-	$("#rank").click(function(){
-		event.preventDefault();
-		window.history.pushState("SADASD", "title", "/contest/" + contestname + "/details_page/");
-		rankPage()
 	});
-	function rankPage(event){
-	alert(contestname);
 	
-		
-		$.ajax({
-			type : "get",
-			url : "/contest/" + '5666b511dd3ff31ae86bed6c' + "/details/",
-			success : function(data ){
-			
-			console.log(data);
-					SetToTable((data).teams);
-					
-					//window.location.replace("#ranklist");
-				},
-			error : function(error ){
-				alert ("error");
-			}
+$("#team").click(function() {
+	window.location.replace("/user/"+username+"/team/");
+  });	
+
+$('#contestnameitem').click(function( ){
+	window.history.pushState("SADASD", "title", "/contest/"+contestname+"/"); 
+});
+
+
+	$editContest = function()
+	{
+		if ($("#editContestButton").html() == 'Edit')
+		{
+			$("#editContestButton").data('name', $('.editable').html());
+			$('.editable').replaceWith($('<input class="editable" value="' + $('.editable').html() + '">'));
+
+			$(".sector-block-contest").each(function()
+			{
+				if ($(this).find('div').html() == 'starts on')
+				{
+					$(this).data('data', $(this).find('p').html());
+					$(this).find('p').replaceWith($('<input type="text" class="form-control" id="datetimepicker" value="' + $(this).find('p').html() + '" />'));
+				}
+				else if ($(this).find('div').html() == 'ends on')
+				{
+					$(this).data('data', $(this).find('p').html());
+					$(this).find('p').replaceWith($('<input type="text" class="form-control" id="datetimepicker2" value="' + $(this).find('p').html() + '" />'));
+				}
 			});
-	}
-	function SetToTable(rankList){
-		//var tableHtml = $("#contestranklist tr").html();//.replace(/<\/?tbody>/g, '');
-		var tableHtml = '<tr><td style="display:none"> id </td><td > Team name</td> <td >Problems Solved </td><td> Penalty </td></tr>';
-		$.each(rankList, function(key, value){
-			var team = value.team;
-			tableHtml += '<tr><td >' + team.name + '</td> <td > ' + value.solved_problem_counter + ' </td><td> ' +  value.penalty + ' </td></tr>';
-		});
-		$("#contestranklist").html(tableHtml);
-		reset();
-		$('#rank').css('background-color', '#355C7D');
-		$("#contestrank").show(1000);
-		$("#titlePage").text("Ranking");
-	}
- 
- 
- 
-var file;
-		$("#file_input").change(function(event){
-			file = event.target.files[0];
-		});
-		
-	
-	$("#sub").click(submit);
-	//var a = new FormData 
-	function submit(){
-		//alert(file);
-		//console.log(file);
-		//var data = new FormData ()
-		//$.each(files, function(key, value)
-		//{
-		//	data.append(key, value);
-		//});
-		//console.log(data);
-		$.ajax({
-			url: '/contest/' + contestid + '/testcase/' +problemid + '/',
-			type: 'POST',
-			data: file,
-			//cache: false,
+			$("#datetimepicker").datetimepicker();
+			$("#datetimepicker2").datetimepicker();
+			document.getElementById("cancelContestButton").style.display = 'block';
+			$("#editContestButton").html("Submit");
+		}
+		else
+		{
+			var myData = {};
+			var isSend = false;
+			if($("#datetimepicker").parent().data('data') != $("#datetimepicker").val() && $("#datetimepicker").val() != "")
+			{
+				var myRawData = $("#datetimepicker").val().split(' ');
+				var myDate;
+				myDate = new Date;
+				myDate.setYear(myRawData[0].split('/')[2]);
+				myDate.setMonth(myRawData[0].split('/')[0]);
+				myDate.setDate(myRawData[0].split('/')[1]);
+				if (myRawData[2] == 'PM')
+				{
+					myDate.setHours(myRawData[1].split(':')[0] + 12);
+				}
+				else
+				{
+					myDate.setHours(myRawData[1].split(':')[0]);
+				}
+				myDate.setMinutes(myRawData[1].split(':')[1]);
+				myDate = new Date(myDate.toUTCString());
+				myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				isSend = true;
+			}
+			if ($("#datetimepicker2").parent().data('data') != $("#datetimepicker2").val() && $("#datetimepicker2").val() != "")
+			{
+				var myRawData = $("#datetimepicker2").val().split(' ');
+				var myDate;
+				myDate = new Date;
+				myDate.setYear(myRawData[0].split('/')[2]);
+				myDate.setMonth(myRawData[0].split('/')[0]);
+				myDate.setDate(myRawData[0].split('/')[1]);
+				if (myRawData[2] == 'PM')
+				{
+					myDate.setHours(myRawData[1].split(':')[0] + 12);
+				}
+				else
+				{
+					myDate.setHours(myRawData[1].split(':')[0]);
+				}
+				myDate.setMinutes(myRawData[1].split(':')[1]);
+				myDate = new Date(myDate.toUTCString());
+				myData["ends_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				isSend = true;
+			}
+			if ($(".editable").val() != $("#editContestButton").data('name'))
+			{
+				myData["name"] = $(".editable").val();
+				isSend = true;
+			}
+			if (isSend)
+			{
+				$.ajax({
+					type: "PUT",
+					url: '/contest/' + $(".contest-id").val() +'/',
+					dataType: "html",
+					contentType: "application/json",
+					data: JSON.stringify(myData),
+					success: function (data) {
+						swal("Good!","edited", "success");
+						setTimeout(function(){ window.location = "/contest/" + $(".editable").val() + "/"; }, 2000);
+					},
+					error: function (request, status, error) {
+						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
+					}
+				});
+			}
+		}
+	};
 
-			processData: false, // Don't process the files
-			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-			//beforeSend: function (request) {
-              //      request.setRequestHeader("Content-Type", file.type);
-                //},
-			success: function(data, textStatus, jqXHR)
+	$cancelContest = function()
+	{
+		$('.editable').replaceWith($('<p class="editable">' + $('.editable').val() + '</p>'));
+		$(".sector-block-contest").each(function(){
+			if ($(this).find('div').html() == 'starts on' || $(this).find('div').html() == 'ends on')
 			{
-				// success
-			},
-			error: function(jqXHR, textStatus, errorThrown)
-			{
-				
-				console.log('ERRORS: ' + textStatus);
+				$(this).find('input').replaceWith($('<p>' + $(this).data('data') + '</p>'));
 			}
 		});
+		document.getElementById("cancelContestButton").style.display = 'none';
 	}
- }
-
-//submition	
-
-
-
 </script>
 </html>
