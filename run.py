@@ -16,14 +16,14 @@ def run_test():
 	from mongoengine import connect
 
 	# flask import
-	from flask import Flask, session, request
+	from flask import Flask, session, request, redirect, url_for
 	import wtforms_json
 
 
 	def authenticate():
 		if not request.endpoint:
 			return "ERROR 404", 404
-		without_login_url_list = ('static', 'user.user_page', 'user.login', 'user.exists', 'user.signup', 'user.forgot_password')
+		without_login_url_list = ('static', 'index', 'user.user_page', 'user.login', 'user.exists', 'user.signup', 'user.forgot_password')
 		if request.endpoint not in without_login_url_list:
 			if not logged_in_user():
 				return "ERROR 405", 405
@@ -39,6 +39,14 @@ def run_test():
 	app.config['WTF_CSRF_ENABLED'] = False
 	app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 	app.before_request(authenticate)
+
+	@app.route('/')
+	def index():
+		user = logged_in_user()
+		if user:
+			return redirect(url_for('user.user_home_page', Username=user))
+		return redirect(url_for('user.user_page'))
+
 	app.run(host='0.0.0.0', debug=True)
 
 
