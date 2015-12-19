@@ -18,15 +18,14 @@ def run_test():
 	from mongoengine import connect
 
 	# flask import
-	from flask import Flask, session, request
+	from flask import Flask, session, request, redirect, url_for
 	import wtforms_json
 
-	make_ssl_devcert('key', host='localhost')
 
 	def authenticate():
 		if not request.endpoint:
 			return "ERROR 404", 404
-		without_login_url_list = ('static', 'user.user_page', 'user.login', 'user.exists', 'user.signup', 'user.forgot_password')
+		without_login_url_list = ('static', 'index', 'user.user_page', 'user.login', 'user.exists', 'user.signup', 'user.forgot_password')
 		if request.endpoint not in without_login_url_list:
 			if not logged_in_user():
 				return "ERROR 405", 405
@@ -43,6 +42,14 @@ def run_test():
 	app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 	app.before_request(authenticate)
 
+	@app.route('/')
+	def index():
+		user = logged_in_user()
+		if user:
+			return redirect(url_for('user.user_home_page', Username=user))
+		return redirect(url_for('user.user_page'))
+
+	make_ssl_devcert('key', host='0.0.0.0')
 	app.run(host='0.0.0.0', debug=True, ssl_context=('key.crt','key.key'))
 
 
