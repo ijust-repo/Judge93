@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'AminHP'
+__author__ = ['AminHP','SALAR']
 
 #python import
 import sys
@@ -8,6 +8,8 @@ import subprocess
 
 
 def run_test():
+	from werkzeug.serving import make_ssl_devcert
+
 	#project import
 	from project.apps.user import user
 	from project.apps.team import team
@@ -19,6 +21,7 @@ def run_test():
 	from flask import Flask, session, request
 	import wtforms_json
 
+	make_ssl_devcert('key', host='localhost')
 
 	def authenticate():
 		if not request.endpoint:
@@ -39,7 +42,8 @@ def run_test():
 	app.config['WTF_CSRF_ENABLED'] = False
 	app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 	app.before_request(authenticate)
-	app.run(host='0.0.0.0', debug=True)
+
+	app.run(host='0.0.0.0', debug=True, ssl_context=('key.crt','key.key'))
 
 
 def help():
