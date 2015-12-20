@@ -256,6 +256,36 @@ Example Request
 
 -------
 
+ForgotPassword
+======
+
+Resource URL
+>PUT
+> **/user/forgot_password/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+
+Example Request
+```
+{
+  "username": "admin",
+  "email": "n.abdollahi@gmail.com"
+}
+```
+
+
+> **NOTE:**
+>
+>- If response status code is **200** then you have successfully changed password.
+>- If response status code is **409** then you have errors with changing Profile like `Username already exist.` or 'Email already exist.' .
+>- If there are errors like a required field response status code will be **406**.
+
+-------
+
 
 Get user profile by username
 ============================

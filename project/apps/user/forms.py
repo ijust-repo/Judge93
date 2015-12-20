@@ -25,3 +25,8 @@ class ChangeProfile(Form):
 class ChangePassword(Form):
     old_password = PasswordField(validators=[validators.DataRequired()])
     new_password = PasswordField(validators=[validators.DataRequired()])
+
+class ForgotPassword(Form):
+    username = StringField()
+    email = StringField()
+

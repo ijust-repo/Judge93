@@ -4,10 +4,10 @@ __author__ = ['AminHP','SALAR', 'mahnoosh', 'Aref']
 
 #flask import
 from flask import jsonify, request, render_template
-
+import uuid,smtplib
 #project import
 from project.apps.user import user
-from project.apps.user.forms import Login, Signup, ChangePassword, ChangeProfile
+from project.apps.user.forms import Login, Signup, ChangePassword, ChangeProfile ,ForgotPassword
 from project.utils.access import login_user, logout_user ,logged_in_user
 from project.utils.date import datetime_to_str
 
@@ -230,4 +230,61 @@ def get_user_team(user_id,contest_id):
 		return jsonify(errors="user is not in contest!") , 406
 	except DoesNotExist:
 		return jsonify(errors="user or contest does not exists!") , 406
+
+
+@user.route('forgot_password/', methods=['PUT'])
+
+def forgot_password():
+        form = ForgotPassword.from_json(request.json)
+        if form.validate():
+                username = form.data['username']
+                email = form.data['email']
+                try:
+                        if username:
+				if email:
+					try:
+						obj = User.objects().get(username=username , email=email )				
+						sendmail(obj)
+                      				return "", 200
+                			except DoesNotExist:
+						return 	jsonify(errors="Email dose not currect"), 406
+				else :
+					try:
+						obj = User.objects().get(username=username)
+                        	        	sendmail(obj)
+                      				return "", 200
+                			except DoesNotExist:
+						return 	jsonify(errors="User does not exists!"), 406
+			if email:
+				try:
+					obj = User.objects().get(email=email)
+					sendmail(obj)
+                      			return "", 200
+                		except DoesNotExist:
+					return 	jsonify(errors="Email does not exists!"), 406 
+				
+
+
+		except:                      
+			return "", 409
+        
+def sendmail(obj):
+	obj.reset_password()
+	random = str(uuid.uuid4())
+   	random = random.upper() 
+   	random = random.replace("-","") 
+ 	new_password= random[0:6] 
+	obj.set_password(new_password)
+        obj.save()
+	session = smtplib.SMTP('smtp.gmail.com', 587)
+	session.ehlo()
+	session.starttls()
+	session.login('iustjudge@gmail.com','iustjudge93')
+	headers = "\r\n".join(["from: " + 'iustjudge@gmail.comm',
+                       		"subject: " + "reset_password",
+                     		"to: " + obj.email,
+                       		"mime-version: 1.0",
+                       		"content-type: text/html"])                  
+	content = headers + "\r\n\r\n" + "Hi"+"\r\n\r\n"+" the new password is  "+new_password
+	session.sendmail('iustjudge@gmail.com',obj.email, content)
 
