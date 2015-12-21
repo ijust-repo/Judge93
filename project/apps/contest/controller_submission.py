@@ -127,10 +127,10 @@ def submit (contest_id, team_id ,number, file_type):
         if not problem_time_limit:
                 delete_compile_files(upload_path, filename, file_type)
                 return jsonify(errors="Problem does not have time limit!"), 406
-        problem_time_limit += 1 #yekam avanse delay in dastura :P
         ### Run & Check...
         for testcase in [ i for i in os.listdir(testcases_folder) if i[-2:]=="in" ]:
                 if(file_type == "py"):
+                        problem_time_limit *= 5
                         try:
                                 p = subprocess.Popen("python %s <%s " %(os.path.join(upload_path, filename), os.path.join(testcases_folder, testcase)) ,shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
                                 start_time = time.time()
@@ -154,6 +154,7 @@ def submit (contest_id, team_id ,number, file_type):
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return jsonify(status="Runtime Error"), 200
                 elif(file_type == "cpp"):
+                        problem_time_limit += 1
                         try:
                                 p = subprocess.Popen("%s.exe <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
                                 start_time = time.time()
@@ -176,6 +177,7 @@ def submit (contest_id, team_id ,number, file_type):
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
                                 return jsonify(status="Runtime Error"), 200
                 elif(file_type == "java"):
+                        problem_time_limit *= 2
                         try:
                                 p = subprocess.Popen("java -classpath %s %s <%s " %(upload_path, filename[:-5] ,os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
                                 start_time = time.time()
