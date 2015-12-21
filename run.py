@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-__author__ = 'AminHP'
+__author__ = ['AminHP','SALAR']
 
 #python import
 import sys
@@ -8,6 +8,8 @@ import subprocess
 
 
 def run_test():
+	from werkzeug.serving import make_ssl_devcert
+
 	#project import
 	from project.apps.user import user
 	from project.apps.team import team
@@ -47,7 +49,8 @@ def run_test():
 			return redirect(url_for('user.user_home_page', Username=user))
 		return redirect(url_for('user.user_page'))
 
-	app.run(host='0.0.0.0', debug=True)
+	make_ssl_devcert('key', host='0.0.0.0')
+	app.run(host='0.0.0.0', debug=True, ssl_context=('key.crt','key.key'))
 
 
 def help():
