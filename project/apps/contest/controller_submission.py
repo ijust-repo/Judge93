@@ -156,7 +156,11 @@ def submit (contest_id, team_id ,number, file_type):
                 elif(file_type == "cpp"):
                         problem_time_limit += 1
                         try:
-                                p = subprocess.Popen("%s.exe <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                                if( __OS__ == "Windows" ):
+                                        p = subprocess.Popen("%s.exe <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                                elif( __OS__ == "Linux" ):
+                                        subprocess.check_output("chmod +x ./%s.out" %(filename[:-4]), shell=True,stderr=subprocess.STDOUT)
+                                        p = subprocess.Popen("./%s.out <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
                                 start_time = time.time()
                                 while p.poll() is None:
                                         if(time.time() - start_time > problem_time_limit):
