@@ -21,14 +21,14 @@ width: 10% ;
 .top-menu{
 width:100%;
  height:10%;
-background-color:#9CC4E4;
+/*background-color:#9CC4E4;*/
    /* height:55px;*/
     padding: 1% ;
     color:#1B325F;
-    /*border-bottom: 2px solid #1B325F;*/
+    border-bottom: 2px inset #BCBCBC;
  	 margin: 0 ;
  
- 	/* text-align: center;*/
+ 	text-align: center;
  	 
  	}
 
@@ -38,7 +38,7 @@ background-color:#9CC4E4;
 	/*background-color:#1B325F;*/
     padding: 1% ;
     color: black;
-    border-top: 2px solid #1B325F;
+    border-top: 2px inset #BCBCBC;
  	 position:absolute;
  	  bottom: 0;
 text-align: center;
@@ -94,7 +94,7 @@ input{
 .user{
    min-height:100% ;
 	position:relative;
-  color:white;
+  background: #F0F2EB;
 }
 .left
 {
@@ -723,13 +723,13 @@ tr.ui-sortable-handle td
             text-decoration:none;
         }
  
-    li.active a, li.active a:hover {
+   /* li.active a, li.active a:hover {
        background-color:#1B325F;
         color:#fff;
-    }
+    }*/
    .nav-tabs > li.active >  a {
-    color:#fff;
-    background-color:#1B325F;
+    color:#1B325F;
+    background-color:#fff;
     }
     .nav-pills > li.active >  a {
     color:#fff;
@@ -748,13 +748,13 @@ tr.ui-sortable-handle td
     background-color:#1B325F;
     }
 
-    .nav-tabs > li.active > a:focus{
+   /* .nav-tabs > li.active > a:focus{
      color:#fff;
     background-color:#1B325F;
-    }
+    }*/
 	.nav-tabs > li >  a {
     color:#1B325F;
-    background-color:#9CC4E4;
+    background-color:#E9E9E9;
     }
     /*----- Content of Tabs -----*/
     .tab-content {
@@ -763,7 +763,7 @@ tr.ui-sortable-handle td
         padding-left:40px;
         border-radius:3px;
         box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
-        background:#1B325F;
+        background:#fff;
         /*width:85%;*/
     }
  
