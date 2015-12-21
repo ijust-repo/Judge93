@@ -232,7 +232,7 @@ def get_user_team(user_id,contest_id):
 		return jsonify(errors="user or contest does not exists!") , 406
 
 
-@user.route('forgot_password/', methods=['PUT'])
+@user.route('forgot_password/', methods=['POST'])
 
 def forgot_password():
         form = ForgotPassword.from_json(request.json)
@@ -247,7 +247,7 @@ def forgot_password():
 						sendmail(obj)
                       				return "", 200
                 			except DoesNotExist:
-						return 	jsonify(errors="Email dose not currect"), 406
+						return 	jsonify(errors="Username or email does not exists!"), 406
 				else :
 					try:
 						obj = User.objects().get(username=username)
@@ -266,7 +266,7 @@ def forgot_password():
 
 
 		except:                      
-			return "", 409
+			return "", 406
         
 def sendmail(obj):
 	obj.reset_password()

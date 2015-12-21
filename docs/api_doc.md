@@ -260,7 +260,7 @@ ForgotPassword
 ======
 
 Resource URL
->PUT
+>POST
 > **/user/forgot_password/**
 
 Resource Information
@@ -282,7 +282,6 @@ Example Request
 >
 >- If response status code is **200** then you have successfully changed password.
 >- If response status code is **406** then you have errors with changing Profile like `Username does not exists.` or 'Email does not exists' .
->- If there are errors like a required field response status code will be **409**.
 
 -------
 
