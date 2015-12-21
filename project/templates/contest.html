@@ -429,6 +429,7 @@ var myVar =setInterval(function () {
 		 	
 	}
 	else{
+		//$("#titlePage").text("Your contests");
 		$('#contestinfoforusers').show();
 		var id = '{{user_id }}'; 
 		
@@ -451,8 +452,12 @@ var myVar =setInterval(function () {
             type: "GET",
             url : "/user/"+id+"/teams/",
             dataType: "html", 				
-            success: function (data) {			
+            success: function (data) {	
+						
 		        var data=(JSON.parse(data)).teams;
+		        if(data==""){
+					$('#contestinfo').html("You are not in any contest right now, please create a team and join to contests!");
+				}
 		        for (var i = 0; i < data.length; i++) {
 					var teamname=data[i].name;
 					var teamitem=data[i].contests;	

@@ -306,6 +306,9 @@
 					dataType: "html",
 					success: function (data) {
 						$myDataTeam = (JSON.parse(data)).teams;
+						 if($myDataTeam==""){
+							$('#teamPage').html("You are not in any team right now, please create a team and join to contests!");
+						}
 						for (var counter = 0; counter < $myDataTeam.length; counter++)
 						{
 							var contestHtml = "";
