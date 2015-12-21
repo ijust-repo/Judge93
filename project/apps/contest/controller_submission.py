@@ -11,7 +11,7 @@ from project.apps.contest import contest
 
 from project.utils.access import logged_in_user
 from project.utils.Methods_Blacklist import python_methods_blacklist, java_methods_blacklist, cpp_methods_blacklist
-from project.utils.Get_OS import get_os
+from project.utils.os_funcs import get_os
 
 #models import
 from project.apps.user.models import User
