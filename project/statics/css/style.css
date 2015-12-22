@@ -688,6 +688,18 @@ background: #fff;
 border-color:#fff;
 color: #1B325F;
 }
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+    color: #FFF;
+    background-color:#1B325F;
+}
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    color: #1B325F;
+    background-color: transparent;
+}
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+   color: #1B325F;
+    background-color: transparent;
+}
 .tabs {
     /*width:100%;*/
     display:inline-block;
@@ -728,10 +740,10 @@ color: #1B325F;
             text-decoration:none;
         }*/
  
-   /* li.active a, li.active a:hover {
+    li.active a, li a:hover {
        background-color:#1B325F;
         color:#fff;
-    }*/
+    }
    .nav-tabs > li.active >  a {
     color:#1B325F;
     background-color:#fff;
@@ -747,9 +759,11 @@ color: #1B325F;
     }
     /*----- Content of Tabs -----*/
     .tab-content {
-        padding-top:10px ;
+        padding-top:20px ;
+       
         padding-bottom:30px ;
-        padding-left:40px;
+       /* padding-left:40px;*/
+        text-align: center;
         border-radius:3px;
         box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
         background:#fff;

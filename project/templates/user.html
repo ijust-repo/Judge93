@@ -25,39 +25,41 @@
 <div class=" user">
 	
 	<div class="row top-menu" >
-		 <nav class="navbar navbar-inverse  shadow">
-  <div class="container-fluid">
-    <div class="navbar-header">
-		<div >
-			<p class="navbar-brand">  Welcome to IUST JUDGE :) </p> 
-      
-    </div>
-   </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a data-toggle="tab" href="#login">Login</a></li>
-			<li><a data-toggle="tab" href="#register">Sign up</a></li>
-			<li><a data-toggle="tab" href="#aboutus">About us</a></li>
-      </ul>
-   
-  </div>
-</nav>
-	
+		<nav class="navbar navbar-inverse  shadow">
+		  <div class="container-fluid">
+			<div class="navbar-header">
+				<div class="navbar-brand">
+					<p >  Welcome to IUST JUDGE :) </p> 
+				</div>			  
+		   </div>
+			  <ul class="nav navbar-nav navbar-right">
+				<li class="active"><a data-toggle="tab" href="#login">Login</a></li>
+				<li><a data-toggle="tab" href="#register">Sign up</a></li>
+				<li><a data-toggle="tab" href="#aboutus">About us</a></li>
+			  </ul>		   
+		  </div>
+		</nav>	
 	</div>
 	<div class="row col-xs-offset=1 col-md-offset-1 content">
 	<div class="left col-xs-10 col-md-6" >	
          	
 	</div>
 	<div class="right">
-		
 
 		<div class="tab-content  col-xs-12 col-md-12">
 			
-    <div id="login" class="tab-pane fade in active">
+    <div id="login" class="tab-pane fade in active ">
+		<div style=" border-bottom: 1px solid #1B325F;">
+		<p >Login</p>
+		</div>
 		<input type="text" name="username_login" id="username_login" placeholder="Username" required /><br>             
         <input type="password" name="password_login" id="password_login" placeholder="Password" required /><br>                
         <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br>
      </div>
-    <div id="register" class="tab-pane fade">	        
+    <div id="register" class="tab-pane fade">
+		<div style=" border-bottom: 1px solid #1B325F;">
+		<p >Sign up</p>
+		</div>	        
 		<input type="text" name="username" id="username_signup" placeholder="Username" required /><br>             
         <input type="password" name="password" id="password_signup" placeholder="Password" required /><br>    
         <input type="password" name="password" id="re-password_signup" placeholder="re-Enter Password" required /><br>
@@ -65,14 +67,15 @@
         <input type="button" name="signup" id="signupbtn" class="btn btn-primary "value="register" /><br>
     </div>
     <div id="aboutus" class="tab-pane fade">
-		
+		<div style=" border-bottom: 1px solid #1B325F;">
+		<p >About us</p>
+		</div>
 		fdgdfg
       
     </div>
     </div>
 	</div>    
-	</div>
-		
+	</div>		
 	<div class="footer">Copyright © 2015 by JUST team </div>
  </div>
 
@@ -89,8 +92,8 @@
     });
 
             
-            var jssor_1_SlideshowTransitions = [
-              {$Duration:1200,$Opacity:2}
+            /*  var jssor_1_SlideshowTransitions = [
+            {$Duration:1200,$Opacity:2}
             ];
             
             var jssor_1_options = {
@@ -126,7 +129,7 @@
             $(window).bind("load", ScaleSlider);
             $(window).bind("resize", ScaleSlider);
             $(window).bind("orientationchange", ScaleSlider);
-            //responsive code end
+            //responsive code end*/
         
 	//sign up
 $("#signupbtn").click(function() { 
