@@ -688,6 +688,10 @@ background: #fff;
 border-color:#fff;
 color: #1B325F;
 }
+.navbar-inverse .navbar-nav > li > a {
+    color: #1B325F;
+}
+
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
     color: #FFF;
     background-color:#1B325F;
@@ -734,12 +738,6 @@ color: #1B325F;
   
         }
  
-      /*  .tab-links a:hover {
-       
-            background:#a7cce5;
-            text-decoration:none;
-        }*/
- 
     li.active a, li a:hover {
        background-color:#1B325F;
         color:#fff;
@@ -748,11 +746,7 @@ color: #1B325F;
     color:#1B325F;
     background-color:#fff;
     }
-   
-   /* .nav-tabs > li.active > a:focus{
-     color:#fff;
-    background-color:#1B325F;
-    }*/
+
 	.nav-tabs > li >  a {
     color:#1B325F;
    /* background-color:#E9E9E9;*/
