@@ -18,7 +18,7 @@
 </head>
 
 <body>
-	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
+	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" style="display:none">
 		
 		<li class=" usernameitem " id="usernameitem">
 			
@@ -51,12 +51,12 @@
 		</li>
 		</ul>
 
-    <div class="col-xs-offset-3 col-md-offset-2 row">
+    <div id="class1" class="col-xs-offset-3 col-md-offset-2 row" style="display:none">
 		<div class="col-xs-12 col-md-12 maintitr">
 			<p id="titlePage"> Contest list</p>          
 		</div>
 	</div>
-	<div class="col-xs-offset-3 col-md-offset-2 row">
+	<div id="class2" class="col-xs-offset-3 col-md-offset-2 row" style="display:none">
       	<div id="contents" class="contents " >
 			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">							
 				<table id="contestinfo">
@@ -81,10 +81,15 @@
 			</div>
 		</div>
    	</div>
-   
+   <div id="loading">loading</div>
 
 </body>
 <script>
+	$('#loading').hide();
+	$('#leftmenu').show();
+	$('#class1').show();
+	$('#class2').show();
+	
 	$(document).ready(function () {
 	     var id = '{{user_id }}'; 
 	     var username=null;
