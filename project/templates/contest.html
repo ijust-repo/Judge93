@@ -331,41 +331,6 @@
 				 contestadmin=(JSON.parse(data)).owner.username;
 				checkifadmin(contestadmin);
 				 changecontestpage(contestname);
-				 	$("#jointocontestbtn").click(function() {
-		alert("hello");
-		swal({
-	  title: " ",
-	  text: "Please wirte your team name",
-	  type: "input",
-	  showCancelButton: true,
-	  closeOnConfirm: false,
-	  animation: "slide-from-top",
-	  inputPlaceholder: "Team name"
-	},
-	function(inputValue){
-	  if (inputValue === false) return false;
-	  
-	  if (inputValue === "") {
-		swal.showInputError("You need to write something!");
-		return false;
-	  }
-	  //alert('{"contest_id": "' + contestid + '", "team_name" : "' + inputValue + '"}');
-	  $.ajax({
-				type: "POST",
-				url :'/team/join_request/',
-				data: '{"contest_id": "' + contestid + '", "team_name" : "' + inputValue + '"}',
-				dataType: "html",
-				contentType: "application/json",
-				success: function (data) {
-					swal("Good!","Your request submit successfully" , "success") ; 
-				} ,
-			  error: function (request, status, error) { 
-			   
-					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
-			   }  
-		});
-	});		
- });
 				  				
             },
            error: function (request) {                
@@ -631,7 +596,7 @@
 			document.getElementById('logout').style.display = 'none';
 			document.getElementById('users').style.display = 'none';
 			document.getElementById('setting').style.display = 'none';			
-			document.getElementById('createcontestdiv').style.display = 'block';		
+			document.getElementById('createcontestdiv').style.display = 'none';		
 					 
 }
 	function checkprofile(username){
@@ -744,9 +709,9 @@
 		$( '#getcontestname ' ).append(contestname);
 		$('#contestleftmenu').show();
 		$('#contestinformation').show();
-		$('#leftmenu').style.display = 'none';
-		$('#contestinfoforusers').style.display = 'none';
-		$('#createcontestdiv').style.display = 'none';
+		$('#leftmenu').hide();
+		$('#contestinfoforusers').hide();
+		$('#createcontestdiv').hide();
 		document.getElementById('titlePage').innerHTML="Details" ;
 		$('#questions').css('background-color', '#1B325F');
 		$('#rank').css('background-color', '#1B325F');
@@ -1137,7 +1102,41 @@ if(canedit==="no"){
 	$("#getusername").click(function() {
 				window.location.replace("/user/"+username+"/");
 			});
-
+	$("#jointocontestbtn").click(function() {
+	
+		swal({
+	  title: " ",
+	  text: "Please wirte your team name",
+	  type: "input",
+	  showCancelButton: true,
+	  closeOnConfirm: false,
+	  animation: "slide-from-top",
+	  inputPlaceholder: "Team name"
+	},
+	function(inputValue){
+	  if (inputValue === false) return false;
+	  
+	  if (inputValue === "") {
+		swal.showInputError("You need to write something!");
+		return false;
+	  }
+	  //alert('{"contest_id": "' + contestid + '", "team_name" : "' + inputValue + '"}');
+	  $.ajax({
+				type: "POST",
+				url :'/team/join_request/',
+				data: '{"contest_id": "' + contestid + '", "team_name" : "' + inputValue + '"}',
+				dataType: "html",
+				contentType: "application/json",
+				success: function (data) {
+					swal("Good!","Your request submit successfully" , "success") ; 
+				} ,
+			  error: function (request, status, error) { 
+			   
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
+			   }  
+		});
+	});		
+ });
 	$("#backtoproblemlistbtn").click(function() {
 		 backtocontestpage();
 	});	
