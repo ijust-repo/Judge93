@@ -1070,7 +1070,7 @@ if(canedit==="no"){
 				url : "/contest/"+contestid+"/problem/",
 			   contentType: "application/json",
 				dataType: "html",			
-				data: JSON.stringify( obj),
+				data: obj,
 				success: function (data) {
 					swal({
 						  title: "Good!",
