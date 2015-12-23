@@ -1154,6 +1154,7 @@ if(canedit==="no"){
 				success: function (data) {
 				window.history.pushState("", "title", "/contest/"+contestname+"/");
 				reset();//added by milad
+				 $('#contestteams').show();
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
 					 if(flagteamlist==false){
