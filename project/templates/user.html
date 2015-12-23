@@ -107,6 +107,9 @@ if (password===password2) {
             contentType: "application/json",
             dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
+             beforeSend: function() {
+				$('#register').append('please wait...');
+			},
             success: function (data) {
 				swal({
 					  title: "Good!",
@@ -154,8 +157,8 @@ var password = $("input#password_login").val();
             dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '"}',
              beforeSend: function() {
-        $('#login').append('please wait...');
-    },
+				$('#login').append('please wait...');
+			},
             success: function (data) {
                 window.location.replace("/user/"+username+"/");
             },
