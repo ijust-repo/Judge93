@@ -489,8 +489,8 @@
 		if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
 				$('#rank').css('background-color', '#355C7D');
 				reset();
-		$("#contestrank").show(1000);
-		$("#titlePage").text("Ranking");
+				$("#contestrank").show(1000);
+				$("#titlePage").text("Ranking");
 				$.ajax({
 					type : "GET",
 					url : "/contest/" + contestid + "/details/",
@@ -1170,7 +1170,7 @@ if(canedit==="no"){
 						for (var i = 0; i < data.length; i++) {
 							//alert(data[i].members.length);
 							tr = '<tr id="'+data[i].id+'">';								
-							tr+="<td>" + data[i].name + "</td>";
+							tr+='<td><a href="#" id="p'+data[i].name+'">' + data[i].name + '</a></td>';
 							
 							
 							if(data[i].members.length ==3){	
@@ -1182,10 +1182,12 @@ if(canedit==="no"){
 							else {	
 								tr+="<td>" + data[i].members[0].username + "</td>";		
 							}
-							tr+="<td>" + data[i].owner.username + "</td>";
+							tr+='<td><a href="#" id="u'+data[i].owner.username+'">' + data[i].owner.username + '</a></td>';
 							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
 							
 							$('#contestteamstbl').append(tr);
+							$(("#p"+data[i].name)).attr("href",("/team/"+data[i].name+"/"))	;
+							$(("#u"+data[i].owner.username)).attr("href",("/user/"+data[i].owner.username+"/"))	;
 						}
 						$('.rejectteam').click(function(){
 						id = $(this).closest('tr').attr('id');
@@ -1196,7 +1198,9 @@ if(canedit==="no"){
 						id = $(this).closest('tr').attr('id');
 						acceptorrejectteam(id,true);
 										
-						});			
+						});	
+						
+						//alert(tr);	
 						flagteamlist=true;
 				}	
 					
