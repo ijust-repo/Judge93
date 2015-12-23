@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = ['AminHP','SALAR','Aref']
+__author__ = ['AminHP','SALAR','Aref','narges']
 
 # flask imports
 from flask.ext.wtf import Form
@@ -25,3 +25,8 @@ class ChangeProfile(Form):
 class ChangePassword(Form):
     old_password = PasswordField(validators=[validators.DataRequired()])
     new_password = PasswordField(validators=[validators.DataRequired()])
+
+class ForgotPassword(Form):
+    username = StringField()
+    email = StringField()
+
