@@ -341,6 +341,7 @@
 	}
 	else{
 		//$("#titlePage").text("Your contests");
+		$('#createcontestdiv').show();
 		$('#contestinfoforusers').show();
 		var id = '{{user_id }}'; 
 		
@@ -1103,8 +1104,8 @@ if(canedit==="no"){
 				window.location.replace("/user/"+username+"/");
 			});
 	$("#jointocontestbtn").click(function() {
-	
-		swal({
+	alert("hello");
+	/*	swal({
 	  title: " ",
 	  text: "Please wirte your team name",
 	  type: "input",
@@ -1135,7 +1136,7 @@ if(canedit==="no"){
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   }  
 		});
-	});		
+	});	*/	
  });
 	$("#backtoproblemlistbtn").click(function() {
 		 backtocontestpage();
