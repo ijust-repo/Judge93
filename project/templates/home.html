@@ -72,7 +72,7 @@
 					</tr>
                 </table>
              </div>		
-			<div id="info">
+			<div id="info" style="display:none">
 				<label for="usernamecontact">Username:</label>
 				<h4 id="usernamecontact" name="usernamecontact"></h4>
 				<hr>
@@ -88,10 +88,7 @@
 	
 	
 	$(document).ready(function () {
-		$('#loading').hide();
-	$('#leftmenu').show();
-	$('#class1').show();
-	$('#class2').show();
+
 	     var id = '{{user_id }}'; 
 	     var username=null;
 	 
@@ -255,6 +252,10 @@ $("#contest").click(function() {
 $("#team").click(function() {
 	window.location.replace("/user/"+username+"/team/");
   });
+  		$('#loading').hide();
+	$('#leftmenu').show();
+	$('#class1').show();
+	$('#class2').show();
   });
   
   
