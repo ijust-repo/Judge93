@@ -325,7 +325,7 @@
              async: false,				
             success: function (data) {
 				$myData = (JSON.parse(data));
-				$('#contestinformation').append('<div class="open-page info-contest" ><div class="row header-team"><div class="col-sm-3"><button  id="cancelContestButton" onclick="$cancelContest();" class="hover-button" style="display: none">Cancel</button></div><div class="col-sm-6"><div><p class="editable">' + $myData.name + '</p></div></div><div class="col-sm-3"><button id="editContestButton" onclick="$editContest();" style="display:none"; class="hover-button">Edit</button></div></div><div class="body-team"><div class="sector-block-contest"><div class="title">owner</div><p>' + $myData.owner.username + '</p></div><div class="sector-block-contest"><div class="title">created on</div><p>' + convertUTCDateToLocalDate($myData.created_on )+ '</p></div><div class="sector-block-contest"><div class="title">starts on</div><p>' + convertUTCDateToLocalDate($myData.starts_on) + '</p></div><div class="sector-block-contest"><div class="title">ends on</div><p>' + convertUTCDateToLocalDate($myData.ends_on) + '</p></div></div><input class="contest-id" type="hidden" value="' + $myData.id + '"></div><input type="button" id="joinbtn" class="btn btn-primary" value="Join to this contest" style="display:none"/>');
+				$('#contestinformation').append('<div class="open-page info-contest" ><div class="row header-team"><div class="col-sm-3"><button  id="cancelContestButton" onclick="$cancelContest();" class="hover-button" style="display: none">Cancel</button></div><div class="col-sm-6"><div><p class="editable">' + $myData.name + '</p></div></div><div class="col-sm-3"><button id="editContestButton" onclick="$editContest();" style="display:none"; class="hover-button">Edit</button></div></div><div class="body-team"><div class="sector-block-contest"><div class="title">owner</div><p>' + $myData.owner.username + '</p></div><div class="sector-block-contest"><div class="title">created on</div><p>' + convertUTCDateToLocalDate($myData.created_on )+ '</p></div><div class="sector-block-contest"><div class="title">starts on</div><p>' + convertUTCDateToLocalDate($myData.starts_on) + '</p></div><div class="sector-block-contest"><div class="title">ends on</div><p>' + convertUTCDateToLocalDate($myData.ends_on) + '</p></div></div><input class="contest-id" type="hidden" value="' + $myData.id + '"></div><input type="button" id="joinbtn" class="btn btn-primary joinbtn" value="Join to this contest" style="display:none"/>');
 				 countdown($myData.ends_on);
 				 contestname=(JSON.parse(data)).name;
 				 contestadmin=(JSON.parse(data)).owner.username;
@@ -1103,7 +1103,7 @@ if(canedit==="no"){
 	$("#getusername").click(function() {
 				window.location.replace("/user/"+username+"/");
 			});
-	$("#joinbtn").click(function() {
+	$(".joinbtn").click(function() {
 	alert("hello");
 	/*	swal({
 	  title: " ",
