@@ -1168,11 +1168,11 @@ if(canedit==="no"){
 						 var tr;
 						for (var i = 0; i < data.length; i++) {
 							
-							tr = '<tr id="'+data[i].id+'">';								
+							tr = '<tr >';								
 							tr+="<td>" + data[i].name + "</td>";
 							tr+="<td>" + data[i].owner.username + "</td>";	
 							tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>";		
-							//tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
+							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
 							//tr.append("<td>" + data[i].name + "</td>");
 							alert(tr);
 							$('#contestteamstbl').append(tr);
