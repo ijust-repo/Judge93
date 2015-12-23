@@ -1157,10 +1157,10 @@ if(canedit==="no"){
 				 $('#contestteams').show();
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
-					alert(data);
+					//alert(data);
 					 if(flagteamlist==false){
 						var data=(JSON.parse(data)).teams;
-						alert(data+","+data.length);
+						//alert(data[]+","+data.length);
 						 var tr;
 						for (var i = 0; i < data.length; i++) {
 							
@@ -1170,7 +1170,7 @@ if(canedit==="no"){
 							tr.append("<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>");		
 							tr.append('<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>');
 							//tr.append("<td>" + data[i].name + "</td>");
-							$('#contestteams').append(tr);
+							$('#contestteamstbl').append(tr);
 						}
 						$('.rejectteam').click(function(){
 						id = $(this).closest('tr').attr('id');
