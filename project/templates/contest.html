@@ -1057,18 +1057,20 @@ if(canedit==="no"){
 		var datawotestcase='{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}';
 		var datawtestcase='{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '","testcases": [ { "input":"'+problemtestcaseinput+'" ,"output":"'+problemtestcaseoutput+'" } ]}';
 		if(problemtestcaseinput=="" && problemtestcaseoutput==""){
+			
 			var obj = datawotestcase;
 
 		}
 		else{	
 			var obj = datawtestcase;
-		}		
+		}
+			
 		$.ajax({
 				type: "POST",
 				url : "/contest/"+contestid+"/problem/",
 			   contentType: "application/json",
 				dataType: "html",			
-				data: obj,
+				data: JSON.stringify( obj),
 				success: function (data) {
 					swal({
 						  title: "Good!",
