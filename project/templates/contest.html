@@ -1,5 +1,6 @@
 <html  lang="en">
 <head>
+	<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
@@ -16,13 +17,15 @@
     <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>   	
 	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}" /></script>	    
-	<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
+	
 
 </head>
  
 
 
 <body>
+	<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
+<div id="body" style="display:none">
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 		
 		<li class=" usernameitem " id="usernameitem">
@@ -152,7 +155,7 @@
 	</div>
 </div>
    
-	<div class="col-xs-offset-3 col-md-offset-2 row">
+<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents  " >
 			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">					
 				<table id="contestinfo">
@@ -279,10 +282,12 @@
 			</div>						 
 	    </div>	  
    	</div>  
+</div>
 </body>
 
 <script>
-
+	
+	
 	var problemnumber=0;
 	var canedit="no";
 	var contestid =null;
@@ -315,7 +320,7 @@
 		
 		});
 		
-/**************************************************************************************************/
+//  ///////////////////////////////////
 	if(getAbsolutePath()==="/contest/"){
 	  contestid = '{{contest_id }}';
 	  //alert(contestid);
@@ -396,7 +401,7 @@
  
  $('#contest').css('background-color', '#355C7D');
  }
- /************************************************************************************/
+// ////////////////////////////////////////////////////////////////////
 	$('.edit-order').click(function(){
 
 		if ($(this).find('button').html() == 'Edit Order')
@@ -540,6 +545,8 @@
 					}
 			});
 	}
+	$('#loading').hide();
+	$('#body').show();
 	});
 	function countdown(time){
 		var target_date =moment(convertUTCDateToLocalDate(time));
@@ -611,7 +618,8 @@
 			 userlogin=(JSON.parse(data)).username;
            if(username===userlogin){
 			   
-          /* document.getElementById('info').style.display = 'none';*/	}
+         // document.getElementById('info').style.display = 'none';
+         	}
            else{
 			  changeprofile(username);
 			   
@@ -1139,10 +1147,6 @@ if(canedit==="no"){
 		});
 	});	
 	});	
-	/*$("#joinbtn").click(function() {
-	alert("hello");
-		
- });*/
 	$("#backtoproblemlistbtn").click(function() {
 		 backtocontestpage();
 	});	
@@ -1311,5 +1315,6 @@ if(canedit==="no"){
 		});
 		document.getElementById("cancelContestButton").style.display = 'none';
 	}
+
 </script>
 </html>
