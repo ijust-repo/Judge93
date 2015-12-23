@@ -596,7 +596,7 @@
 			document.getElementById('logout').style.display = 'none';
 			document.getElementById('users').style.display = 'none';
 			document.getElementById('setting').style.display = 'none';			
-			document.getElementById('createcontestdiv').style.display = 'none';		
+			document.getElementById('createcontestdiv').style.display = 'block';		
 					 
 }
 	function checkprofile(username){
@@ -1103,6 +1103,7 @@ if(canedit==="no"){
 				window.location.replace("/user/"+username+"/");
 			});
 	$("#jointocontestbtn").click(function() {
+		alert("hello");
 		swal({
 	  title: " ",
 	  text: "Please wirte your team name",
