@@ -297,6 +297,9 @@
 	var contestadmin=null;
 	$(document).ready(function () {
 		reset();
+		$("#joinbtn").click(function() {
+		alert("hello");
+	});	
 	//get userlogin
 		$.ajax({
             type: "GET",
@@ -1103,9 +1106,7 @@ if(canedit==="no"){
 	$("#getusername").click(function() {
 				window.location.replace("/user/"+username+"/");
 			});
-	$("#joinbtn").click(function() {
-		alert("hello");
-	});	
+	
 	/*$("#joinbtn").click(function() {
 	alert("hello");
 		swal({
