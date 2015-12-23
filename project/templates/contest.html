@@ -895,7 +895,7 @@ if(canedit==="no"){
 					  type: "success",
 					 
 					  closeOnConfirm: false,
-					  showLoaderOnConfirm: true,
+					  //showLoaderOnConfirm: true,
 					},
 					function(){
 					  
@@ -1213,8 +1213,7 @@ if(canedit==="no"){
 		
 	});
 	$("#rank").click(function( ){
-			window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");
-			rankPage();
+			window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");			
 		});		
 	$("#team").click(function() {
 		window.location.replace("/user/"+username+"/team/");
