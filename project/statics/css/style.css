@@ -209,7 +209,7 @@ z-index: 2;
     margin: 2% 50px 20px 2%;
     padding: 2%;
 	width: 96%;
-	overflow-x:hidden;
+	overflow-x:scroll;
 	top:60px;
 	z-index: 1;
 
