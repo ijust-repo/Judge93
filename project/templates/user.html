@@ -153,6 +153,9 @@ var password = $("input#password_login").val();
             contentType: "application/json",
             dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '"}',
+             beforeSend: function() {
+        $('#login').append('please wait...');
+    },
             success: function (data) {
                 window.location.replace("/user/"+username+"/");
             },
