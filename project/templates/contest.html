@@ -1157,12 +1157,13 @@ if(canedit==="no"){
 				 $('#contestteams').show();
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
-					 alert(flagteamlist);
+					
 					 if(flagteamlist==false){
 						var data=(JSON.parse(data)).teams;
-						
+						alert(data);
 						 var tr;
 						for (var i = 0; i < data.length; i++) {
+							alert(i);
 							tr = $('<tr id="'+data[i].id+'">');								
 							tr.append("<td>" + data[i].name + "</td>");
 							tr.append("<td>" + data[i].owner.username + "</td>");	
