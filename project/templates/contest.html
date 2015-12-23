@@ -1054,7 +1054,7 @@ if(canedit==="no"){
 		var problemtestcaseoutput = $("#problemtestcaseoutput").val();  
 		var problemtestcaseinput = $("#problemtestcaseinput").val();
 		var problemtestcaseoutput = $("#problemtestcaseoutput").val();
-		var datawotestcase='{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}';
+		var datawotestcase={"title": problemtitle, "time_limit" :  problemtimelimit , "space_limit" :  problemspacelimit , "header" : problemheader , "body" :  problembody , "footer" :  problemfooter };
 		var datawtestcase='{"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '","testcases": [ { "input":"'+problemtestcaseinput+'" ,"output":"'+problemtestcaseoutput+'" } ]}';
 		if(problemtestcaseinput=="" && problemtestcaseoutput==""){
 			
@@ -1070,7 +1070,7 @@ if(canedit==="no"){
 				url : "/contest/"+contestid+"/problem/",
 			   contentType: "application/json",
 				dataType: "html",			
-				data: obj,
+				data:obj,
 				success: function (data) {
 					swal({
 						  title: "Good!",
