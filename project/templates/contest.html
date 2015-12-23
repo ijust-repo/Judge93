@@ -274,8 +274,9 @@
 				<table id="contestteamstbl">
 					<tr>						  
 						<td > Team name </td>
-						<td > Admin </td>
+						
 						<td > Members </td>
+						<td > Admin </td>
 						<td> Accept or Reject </td>	
 					</tr>
 				</table>
@@ -1167,13 +1168,23 @@ if(canedit==="no"){
 						//alert(data[0].name+","+data.length);
 						 var tr;
 						for (var i = 0; i < data.length; i++) {
-							
+							//alert(data[i].members.length);
 							tr = '<tr id="'+data[i].id+'">';								
 							tr+="<td>" + data[i].name + "</td>";
-							tr+="<td>" + data[i].owner.username + "</td>";	
-							//tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>";		
+							
+							
+							if(data[i].members.length ==3){	
+								tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username +","+data[i].members[2].username + "</td>";		
+							}
+							else if(data[i].members.length ==2){	
+								tr+="<td>" + data[i].members[0].username + ","+data[i].members[1].username +"</td>";	
+							}
+							else {	
+								tr+="<td>" + data[i].members[0].username + "</td>";		
+							}
+							tr+="<td>" + data[i].owner.username + "</td>";
 							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
-							alert(tr);
+							
 							$('#contestteamstbl').append(tr);
 						}
 						$('.rejectteam').click(function(){
