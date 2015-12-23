@@ -1103,9 +1103,12 @@ if(canedit==="no"){
 	$("#getusername").click(function() {
 				window.location.replace("/user/"+username+"/");
 			});
-	$(".joinbtn").click(function() {
+	$("#joinbtn").click(function() {
+		alert("hello");
+	});	
+	/*$("#joinbtn").click(function() {
 	alert("hello");
-	/*	swal({
+		swal({
 	  title: " ",
 	  text: "Please wirte your team name",
 	  type: "input",
@@ -1136,8 +1139,8 @@ if(canedit==="no"){
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   }  
 		});
-	});	*/	
- });
+	});	
+ });*/
 	$("#backtoproblemlistbtn").click(function() {
 		 backtocontestpage();
 	});	
