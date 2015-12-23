@@ -1160,15 +1160,15 @@ if(canedit==="no"){
 					//alert(data);
 					 if(flagteamlist==false){
 						var data=(JSON.parse(data)).teams;
-						alert(data[0].name+","+data.length);
+						//alert(data[0].name+","+data.length);
 						 var tr;
 						for (var i = 0; i < data.length; i++) {
 							
-							tr = $('<tr id="'+data[i].id+'">');								
-							tr.append("<td>" + data[i].name + "</td>");
-							tr.append("<td>" + data[i].owner.username + "</td>");	
-							tr.append("<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>");		
-							tr.append('<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>');
+							tr = '<tr id="'+data[i].id+'">';								
+							tr+="<td>" + data[i].name + "</td>";
+							tr+="<td>" + data[i].owner.username + "</td>";	
+							tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>";		
+							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
 							//tr.append("<td>" + data[i].name + "</td>");
 							$('#contestteamstbl').append(tr);
 						}
