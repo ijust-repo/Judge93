@@ -56,7 +56,7 @@
 </ul>
 <div class="col-xs-offset-3 col-md-offset-2 row">
 	<div class="col-xs-9 col-md-10 maintitr">
-		<p id="titlePage">Teams</p>
+		<p id="titlePage">Your teams</p>
 		<div><a href="#createTeam"><button class="hover-button close-page">Create Team</button></a></div>
 	</div>
 </div>
@@ -223,12 +223,13 @@
 		$myId = '{{user_id }}';
 		var username;
 		function changeprofile(username){
+			$('#titlePage').text(username+"'s teams"); 
 			document.title = username;
 			document.getElementById('backtoprofile').style.display = 'block';
 			document.getElementById('logout').style.display = 'none';
 			document.getElementById('users').style.display = 'none';
 			document.getElementById('setting').style.display = 'none';
-			document.getElementById('titlePage').innerHTML="Teams" ;
+			
 		}
 		$.ajax({
 			type: "GET",

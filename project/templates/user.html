@@ -45,7 +45,8 @@
 	</div>
 	<div class="row col-xs-offset=1 col-md-offset-1 content">
 	<div class="left col-xs-10 col-md-6" >	
-         	
+		<img src="{{ url_for('static', filename='../statics/img/Icon.png') }}" height="80%"/>  
+        	
 	</div>
 	<div class="right">
 
@@ -57,7 +58,12 @@
 		</div>
 		<input type="text" name="username_login" id="username_login" placeholder="Username" required /><br>             
         <input type="password" name="password_login" id="password_login" placeholder="Password" required /><br>                
-        <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br>
+        <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br><br>
+        <a id="forgot" href="#forgot">Forgot your password?</a>
+        <div id="passoruser"  style="display:none">
+        <a id="forgotbyemail" href="#forgot">Reset password by email</a><br>
+         <a id="forgotbyuser" href="#forgot">Reset password by username</a>
+        </div>
      </div>
     <div id="register" class="tab-pane fade">
 		<div style=" border-bottom: 1px solid #1B325F;">
@@ -173,6 +179,84 @@ var password = $("input#password_login").val();
 		 $("#password_login").val('');                
                 
   });
+
+//forgot
+$("#forgot").click(function() { 
+	$('#passoruser').show();
+	$('#forgot').hide();
+	});
+
+$("#forgotbyemail").click(function() { 
+	swal({
+	  title: " ",
+	  text: "Please wirte your email",
+	  type: "input",
+	  showCancelButton: true,
+	  closeOnConfirm: false,
+	  animation: "slide-from-top",
+	  showLoaderOnConfirm: true,
+	  inputPlaceholder: "email"
+	},
+	function(inputValue){
+	  if (inputValue === false) return false;
+	  
+	  if (inputValue === "") {
+		swal.showInputError("You need to write your email!");
+		return false;
+	  }
+	  $.ajax({
+				type: "POST",
+				url :'/user/forgot_password/',
+				data: '{"email" : "' + inputValue + '"}',
+				dataType: "html",
+				contentType: "application/json",
+				
+				success: function (data) {
+					swal("Good!","Your password changed successfully " , "success") ; 
+				} ,
+			  error: function (request, status, error) { 
+			   
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
+			   }  
+		});
+	});	
+	});	
+	$("#forgotbyuser").click(function() { 
+	swal({
+	  title: " ",
+	  text: "Please wirte your username",
+	  type: "input",
+	  showCancelButton: true,
+	  closeOnConfirm: false,
+	  animation: "slide-from-top",
+	  showLoaderOnConfirm: true,
+	  inputPlaceholder: "username"
+	},
+	function(inputValue){
+	  if (inputValue === false) return false;
+	  
+	  if (inputValue === "") {
+		swal.showInputError("You need to write your username!");
+		return false;
+	  }
+	  $.ajax({
+				type: "POST",
+				url :'/user/forgot_password/',
+				data: '{"username" : "' + inputValue + '"}',
+				dataType: "html",
+				contentType: "application/json",
+				
+				success: function (data) {
+					swal("Good!","Your password changed successfully " , "success") ; 
+				} ,
+			  error: function (request, status, error) { 
+			   
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
+			   }  
+		});
+	});	
+	});
+
 $('#loading').hide();
 	$('#body').show();
 });

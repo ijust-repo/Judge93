@@ -137,7 +137,7 @@
     
 <div class="col-xs-offset-3 col-md-offset-2 row">
 	<div id="maintitr" class="col-xs-9 col-md-10 maintitr">
-		<p id="titlePage">Contests</p>
+		<p id="titlePage">Your contests</p>
 		<div id="createcontestdiv" ><a href="#createContest"><button class="hover-button close-page">Create  Contest</button></a></div>
 		<div id="addproblemdiv" style="display:none"><a href="#addProblem"><button id="addproblembtn" class="hover-button close-page">Add problem</button></a></div>
 	</div>
@@ -188,9 +188,9 @@
 				<label class="labelcss" for="problemtitle">Title: </label>
 				<input type="text" name="problemtitle" id="problemtitle" style="width:85%"/><br><br>
 				<div class="row"> 
-					<label class="labelcss" for="problemtimelimit">Time limit: </label>
+					<label class="labelcss" for="problemtimelimit">Time limit(ms): </label>
 					<input type="text" name="problemtimelimit" id="problemtimelimit" style="margin-right:3%; width:35.5%"/>
-					<label class="labelcss" for="problemspacelimit">Space limit: </label>
+					<label class="labelcss" for="problemspacelimit">Space limit(kb): </label>
 					<input type="text" name="problemspacelimit" id="problemspacelimit" style="width:35.5%"/><br>
 				</div>
 				<label class="labelcss" for="problemheader">Header: </label>
@@ -220,10 +220,15 @@
 			</div>
 			<div id="contestquestion"  style="display:none">
 				<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
-					<p  >: محدودیت حافظه</p>
-					<div id="contestspacelimitdiv" class="row  "></div><hr>
-					<p  >: محدودیت زمانی</p>
-					<div id="contesttimelimitdiv" class="row  "></div><hr>
+					<div class="row">
+					
+					<div class="col-lg-6"><span id="contestspacelimitdiv" ></span><span>:(kb)</span><span>محدودیت حافظه</span>
+					
+					</div>
+					<div class="col-lg-6"><span id="contesttimelimitdiv" ></span><span>:(ms)</span><span>محدودیت زمانی</span>
+					
+					</div>
+					</div><hr>
 					<div id="contestheaderdiv" class="row  "></div><hr>
 					<div id="contestbodydiv" class="row"></div><hr>
 					<div id="contestfooterdiv" class="row"></div><hr>
@@ -250,12 +255,12 @@
 
 				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
 					
-					<input id="input-2" name="kartik-input-2[]"  type="file" class=" file-loading">	        
+					<input id="input-2" name="input2[]"  type="file" class="file-loading inputs">	        
 				</div>
 
 				<div id="addtestcase" class="col-xs-12 col-md-11  row" style="display:none">
 						<p style="text-align:left;">Add testcase file for this problem. Please upload your ZIP file </p>
-					<input id="input-1" name="kartik-input-1[]" type="file"  class="file-loading">	
+					<input id="input-1" name="input1[]" type="file"  class="file-loading inputs">	
 				
 					</div>	
 				<div id="contesteditproblems" class="col-xs-12 col-md-11  row" style="display:none">
@@ -359,6 +364,7 @@
 		        username=(JSON.parse(data)).username;
 				checkprofile(username);
 				$( '#getusername ' ).append(username);
+			
 				$( '#getidprof ' ).html(id);	
             },
            error: function (request) { 
@@ -599,6 +605,7 @@
 			   }		 
 	}
 	function changeprofile(username){
+			$('#titlePage').text(username+"'s contests");
 			document.title = username;
 			document.getElementById('backtoprofile').style.display = 'block';
 			document.getElementById('logout').style.display = 'none';
@@ -608,6 +615,7 @@
 					 
 }
 	function checkprofile(username){
+		
 		 $.ajax({
             type: "GET",
             url : '/user/get_profile/',
@@ -756,8 +764,8 @@
 			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
 			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);		
 			problemid=((JSON.parse(data)).id);
-			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
-			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit );
+			$("#contestspacelimitdiv").append((JSON.parse(data)).space_limit);
+			$("#contesttimelimitdiv").append((JSON.parse(data)).time_limit );
 			$("#contestheaderdiv").html((JSON.parse(data)).header);
 			$("#contestbodydiv").html((JSON.parse(data)).body);
 			$("#contestfooterdiv").html((JSON.parse(data)).footer);
@@ -793,8 +801,30 @@ if(canedit==="no"){
 						showUpload: true,
 						uploadUrl:  " ",
 						//uploadAsync: false,
-						maxFileCount: 1,														
-					}); 	       
+						maxFileCount: 1,
+						layoutTemplates: {
+							preview: '<div class="file-preview {class}">\n' +
+								'    {close}\n' +
+								'    <div class="close fileinput-remove">×</div>\n' +
+								'    <div class="file-preview-thumbnails">\n' +
+								'    </div>\n' +
+								'    <div class="clearfix"></div>' +
+								'    <div class="file-preview-status text-center text-success"></div>\n' +
+								'    </div>\n' +
+								'</div>',
+
+							footer: '<div class="file-thumbnail-footer">\n' +
+								'    <div class="file-caption-name" style="width:{width}">{caption}</div>\n' +
+								'    {progress} {actions}\n' +
+								'</div>',
+							actions: '<div class="file-actions">\n' +
+								'    <div class="file-footer-buttons">\n' +
+								'        {delete}' +
+								'    </div>\n' +
+								'    <div class="clearfix"></div>\n' +
+								'</div>',     
+					}	 														
+				}); 	       
 			$('#input-2').on('filebatchpreupload', function(event, data, previewId, index, jqXHR) {
 			var filetype= $('.nav-pills > li.active a').attr("id");
 			$('#input-2').fileinput('enable');
@@ -839,10 +869,31 @@ if(canedit==="no"){
   $("#input-1").fileinput({
 			
 		showUpload: true,
-		uploadUrl:  " ",
+		uploadUrl: " ",
 		uploadAsync: false,
 		maxFileCount: 1,
-			 
+		layoutTemplates: {
+			preview: '<div class="file-preview {class}">\n' +
+				'    {close}\n' +
+				'    <div class="close fileinput-remove">×</div>\n' +
+				'    <div class="file-preview-thumbnails">\n' +
+				'    </div>\n' +
+				'    <div class="clearfix"></div>' +
+				'    <div class="file-preview-status text-center text-success"></div>\n' +
+				'    </div>\n' +
+				'</div>',
+
+			footer: '<div class="file-thumbnail-footer">\n' +
+				'    <div class="file-caption-name" style="width:{width}">{caption}</div>\n' +
+				'    {progress} {actions}\n' +
+				'</div>',
+			actions: '<div class="file-actions">\n' +
+				'    <div class="file-footer-buttons">\n' +
+				'        {delete}' +
+				'    </div>\n' +
+				'    <div class="clearfix"></div>\n' +
+				'</div>',     
+    }	 
 													
 	}); 
 	       
@@ -870,9 +921,7 @@ if(canedit==="no"){
 							
 		});	
 		$('#input-1').fileinput('enable');
-
-
-			
+		
    
 }
 }
@@ -1136,7 +1185,7 @@ if(canedit==="no"){
 				dataType: "html",
 				contentType: "application/json",
 				success: function (data) {
-					swal("Good!","Your request submit successfully" , "success") ; 
+					swal("Good!","Your request submited successfully" , "success") ; 
 				} ,
 			  error: function (request, status, error) { 
 			   
@@ -1277,7 +1326,7 @@ if(canedit==="no"){
 				var myDate;
 				myDate = new Date;
 				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth(myRawData[0].split('/')[0]);
+				myDate.setMonth((myRawData[0].split('/')[0])-1);
 				myDate.setDate(myRawData[0].split('/')[1]);
 				if (myRawData[2] == 'PM')
 				{
