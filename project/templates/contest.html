@@ -335,6 +335,7 @@
              async: false,				
             success: function (data) {
 				$myData = (JSON.parse(data));
+				//alert($myData.ends_on);
 				$('#contestinformation').append('<div class="open-page info-contest" ><div class="row header-team"><div class="col-sm-3"><button  id="cancelContestButton" onclick="$cancelContest();" class="hover-button" style="display: none">Cancel</button></div><div class="col-sm-6"><div><p class="editable">' + $myData.name + '</p></div></div><div class="col-sm-3"><button id="editContestButton" onclick="$editContest();" style="display:none"; class="hover-button">Edit</button></div></div><div class="body-team"><div class="sector-block-contest"><div class="title">owner</div><p>' + $myData.owner.username + '</p></div><div class="sector-block-contest"><div class="title">created on</div><p>' + convertUTCDateToLocalDate($myData.created_on )+ '</p></div><div class="sector-block-contest"><div class="title">starts on</div><p>' + convertUTCDateToLocalDate($myData.starts_on) + '</p></div><div class="sector-block-contest"><div class="title">ends on</div><p>' + convertUTCDateToLocalDate($myData.ends_on) + '</p></div></div><input class="contest-id" type="hidden" value="' + $myData.id + '"></div>');
 				 countdown($myData.ends_on);
 				 contestname=(JSON.parse(data)).name;
@@ -1305,7 +1306,7 @@ if(canedit==="no"){
 				var myDate;
 				myDate = new Date;
 				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth(myRawData[0].split('/')[0]);
+				myDate.setMonth(myRawData[0].split('/')[0]-1);
 				myDate.setDate(myRawData[0].split('/')[1]);
 				if (myRawData[2] == 'PM')
 				{
@@ -1315,9 +1316,10 @@ if(canedit==="no"){
 				{
 					myDate.setHours(myRawData[1].split(':')[0]);
 				}
-				myDate.setMinutes(myRawData[1].split(':')[1]);
+				myDate.setMinutes((myRawData[1].split(':')[1])+21);
 				myDate = new Date(myDate.toUTCString());
 				myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				//alert(myDate);
 				isSend = true;
 			}
 			if ($("#datetimepicker2").parent().data('data') != $("#datetimepicker2").val() && $("#datetimepicker2").val() != "")
@@ -1328,6 +1330,7 @@ if(canedit==="no"){
 				myDate.setYear(myRawData[0].split('/')[2]);
 				myDate.setMonth((myRawData[0].split('/')[0])-1);
 				myDate.setDate(myRawData[0].split('/')[1]);
+				
 				if (myRawData[2] == 'PM')
 				{
 					myDate.setHours(myRawData[1].split(':')[0] + 12);
@@ -1336,9 +1339,10 @@ if(canedit==="no"){
 				{
 					myDate.setHours(myRawData[1].split(':')[0]);
 				}
-				myDate.setMinutes(myRawData[1].split(':')[1]);
+				myDate.setMinutes(myRawData[1].split(':')[1]+21);
 				myDate = new Date(myDate.toUTCString());
 				myData["ends_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				
 				isSend = true;
 			}
 			if ($(".editable").val() != $("#editContestButton").data('name'))
@@ -1376,6 +1380,7 @@ if(canedit==="no"){
 			}
 		});
 		document.getElementById("cancelContestButton").style.display = 'none';
+		$("#editContestButton").html("Edit");
 	}
 
 </script>
