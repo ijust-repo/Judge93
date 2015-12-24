@@ -7,9 +7,10 @@
 	<title>Teams</title>
 	<link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" >
 	<link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} " rel="stylesheet" />
-	<link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
-    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
+	<link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />  
 	<script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
+	 <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
+	 <script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/bootstrap.js') }}" /></script>
 	<link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 	
@@ -218,7 +219,7 @@
 
 	/************************************************************************************************************/
 	$(document).ready(function () {
-
+$(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 		var id = '{{user_id }}';
 		$myId = '{{user_id }}';
 		var username;

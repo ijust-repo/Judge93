@@ -126,7 +126,7 @@ text-align: center;
 	float:left;	
  	height: 100%;
 	padding: 0;
-	overflow-y: hidden; 
+	overflow-y: scroll; 
 	font-size: 2vh;
 }
 .leftmenuitem
@@ -209,7 +209,7 @@ z-index: 2;
     margin: 2% 50px 20px 2%;
     padding: 2%;
 	width: 96%;
-	overflow-x:scroll;
+	/*overflow-x:scroll;*/
 	top:60px;
 	z-index: 1;
 
