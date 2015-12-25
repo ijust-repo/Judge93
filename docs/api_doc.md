@@ -683,13 +683,31 @@ Resource Information
 Example Result
 ```
 {
-  "contests": [],
-  "members": [],
-  "name": "team2",
+  "name": "new_team",
+  "contests": [
+                [
+                  "new_contest",
+                  "accepted"
+                ],
+                [
+                  "new_contest3",
+                  "pending"
+                ]
+              ],
+  "members": [
+              {
+                "id": "567cbce123e3c00ba43aff99",
+                "username": "admin4"
+              },
+              {
+                "id": "567cbcf223e3c00ba43aff9a",
+                "username": "admin3"
+              }
+             ],
   "owner": {
-    "id": "563e43527431e9113e479849",
-    "username": "admin"
-  }
+            "id": "567cbcf923e3c00ba43aff9b",
+            "username": "admin2"
+           }
 }
 ```
 
@@ -697,6 +715,7 @@ Example Result
 > **NOTE:**
 
 >- `team_id` is the Id of the team in database.
+>- "contests" is a list of contests with acception condition and conditions are from {"accepted" , "pending" , "rejected"}.
 >- If response status code is **406** then the team does not exist.
 
 ------- 
@@ -730,7 +749,7 @@ Example Request
 >- If join request has been sent before and waites for owner's answer, response code is **406** and you will have errors like **'please wait for checking your join request'**
 >- If the team  already exists in contest, status code will be **409** and you will have errors like **'team already exists in contest!'**.
 >- If join request has been sent for rejected team,join request will send again and status code will be **409** and you will have errors like **'join request not accepted -> Re_sent'**.
->- If there are errors like a required field response status code will be **406**.
+>- If there are errors like a required field response status code will be **406** and you will have errors like "Contest or Team does not exist!".
 >- If response status code is **201** then the join request sent successfully.
 
 --------
@@ -1183,7 +1202,7 @@ Example Response
 
 > **NOTE:**
 >- If response status code is **200** then the contest details returned successfully.
->- If there are errors like contest does not exists response status code will be **406**.
+>- If there are errors like contest does not exists response status code will be **406** and you will have errors like "Contest does not exist!".
 >- response is sorted.
 
 --------
@@ -1401,5 +1420,6 @@ Example Request
 >- If team rejected,response status code is** 409** and you will have errors like **'this team was rejected before!'**. 
 >- If the requested contest or team does not exist in data base, status code will be **406** and you will have errors like **'Team or Contest does not exist!'**. .
 >- If loged in user is not contest owner, status code will be **403** and you will have errors like **User is not owner'**.
+>- If team does not in contest, status code will be **406** and you will have errors like "this team does not exists in contest".
 
 --------
