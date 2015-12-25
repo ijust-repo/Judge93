@@ -280,6 +280,7 @@
 $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 		var id = '{{user_id }}';
 		$myId = '{{user_id }}';
+		var userlogin;
 		var username;
 		function changeprofile(username){
 			$('#titlePage').text(username+"'s teams"); 
@@ -380,51 +381,67 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 					dataType: "html",
 					success: function (data) {
 						$myDataTeam = (JSON.parse(data)).teams;
-						 if($myDataTeam==""){
-							$('#teamPage').html("You are not in any team right now, please create a team and join to contests!");
-						}
-						for (var counter = 0; counter < $myDataTeam.length; counter++)
-						{
-							var contestHtml = "";
-							for (var i = 0; i < $myDataTeam[counter].contests.length; i++)
-							{
-								contestHtml += '<div class="subset"><a href="/contest/' + $myDataTeam[counter].contests[i].name + '/">' + $myDataTeam[counter].contests[i].name + '</a></div>';
+						$.ajax({
+							type: "GET",
+							url : '/user/get_profile/',
+							dataType: "html",
+							success: function (data) {
+								userlogin = (JSON.parse(data)).username;
+								if($myDataTeam==""){
+									 if(username==userlogin){
+										$('#teamPage').html("You are not in any team right now, please create a team and join to contests!");
+									}else{
+										$('#teamPage').html("This user is not in any team right now!");
+									}
+								}
+								for (var counter = 0; counter < $myDataTeam.length; counter++){
+									var contestHtml = "";
+									for (var i = 0; i < $myDataTeam[counter].contests.length; i++)
+									{
+										contestHtml += '<div class="subset"><a href="/contest/' + $myDataTeam[counter].contests[i].name + '/">' + $myDataTeam[counter].contests[i].name + '</a></div>';
+									}
+									if ($myDataTeam[counter]["members"].length == 2)
+									{
+										if ($myDataTeam[counter].owner.id == $myId && $isYourProfile)
+										{
+											$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[0].username + '/">' + $myDataTeam[counter].members[0].username + '</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[1].username + '/">' + $myDataTeam[counter].members[1].username + '</a></div></div><div class="sector-block-team"><div class="title">Contest</div>' + contestHtml + '</div></div><input class="is-admin" type="hidden" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
+										}
+										else
+										{
+											$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[0].username + '/">' + $myDataTeam[counter].members[0].username + '</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[1].username + '/">' + $myDataTeam[counter].members[1].username + '</a></div></div><div class="sector-block-team"><div class="title">Contest</div> ' + contestHtml + '</div></div><input type="hidden" value="0"></div>';
+										}
+									}
+									else if ($myDataTeam[counter]["members"].length == 1)
+									{
+										if ($myDataTeam[counter].owner.id == $myId && $isYourProfile)
+										{
+											$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[0].username + '/">' + $myDataTeam[counter].members[0].username + '</a></div><div class="addable subset"></div></div><div class="sector-block-team"><div class="title">Contest</div> ' + contestHtml + '</div></div><input class="is-admin" type="hidden" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
+										}
+										else
+										{
+											$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[0].username + '/">' + $myDataTeam[counter].members[0].username + '</a></div></div><div class="sector-block-team"><div class="title">Contest</div> ' + contestHtml + '</div></div><input type="hidden" value="0"></div>';
+										}
+									}
+									else
+									{
+										if ($isYourProfile && $myDataTeam[counter].owner.username == username)
+										{
+											$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="addable subset"></div><div class="addable subset"></div></div><div class="sector-block-team"><div class="title">Contest</div> ' + contestHtml + '</div></div><input type="hidden" class="is-admin" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
+										}
+										else
+										{
+											$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="addable subset"></div><div class="addable subset"></div></div><div class="sector-block-team"><div class="title">Contest</div>' + contestHtml + '</div></div><input type="hidden" class="is-admin" value="0"></div>';
+										}
+									}
+									$("#teamPage").append($myHtml);
+								}							
+							},
+							error: function(request) {
+								window.location.replace("/user/");
 							}
-							if ($myDataTeam[counter]["members"].length == 2)
-							{
-								if ($myDataTeam[counter].owner.id == $myId && $isYourProfile)
-								{
-									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[0].username + '/">' + $myDataTeam[counter].members[0].username + '</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[1].username + '/">' + $myDataTeam[counter].members[1].username + '</a></div></div><div class="sector-block-team"><div class="title">Contest</div>' + contestHtml + '</div></div><input class="is-admin" type="hidden" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
-								}
-								else
-								{
-									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[0].username + '/">' + $myDataTeam[counter].members[0].username + '</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[1].username + '/">' + $myDataTeam[counter].members[1].username + '</a></div></div><div class="sector-block-team"><div class="title">Contest</div> ' + contestHtml + '</div></div><input type="hidden" value="0"></div>';
-								}
-							}
-							else if ($myDataTeam[counter]["members"].length == 1)
-							{
-								if ($myDataTeam[counter].owner.id == $myId && $isYourProfile)
-								{
-									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[0].username + '/">' + $myDataTeam[counter].members[0].username + '</a></div><div class="addable subset"></div></div><div class="sector-block-team"><div class="title">Contest</div> ' + contestHtml + '</div></div><input class="is-admin" type="hidden" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
-								}
-								else
-								{
-									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="removable subset"><a href="/user/' + $myDataTeam[counter].members[0].username + '/">' + $myDataTeam[counter].members[0].username + '</a></div></div><div class="sector-block-team"><div class="title">Contest</div> ' + contestHtml + '</div></div><input type="hidden" value="0"></div>';
-								}
-							}
-							else
-							{
-								if ($isYourProfile && $myDataTeam[counter].owner.username == username)
-								{
-									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="addable subset"></div><div class="addable subset"></div></div><div class="sector-block-team"><div class="title">Contest</div> ' + contestHtml + '</div></div><input type="hidden" class="is-admin" value="1"><input class="id-team" type="hidden" value="' + $myDataTeam[counter].id + '"></div>';
-								}
-								else
-								{
-									$myHtml = '<div class="open-page info-team"><div class="body-team"><div class="sector-block-team-middle"><a href="/team/' + $myDataTeam[counter].name + '/">' + $myDataTeam[counter].name + '</a></div><div class="sector-block-team"><div class="title">Users</div><div class="subset"><a href="/user/' + $myDataTeam[counter].owner.username + '/">' + $myDataTeam[counter].owner.username +' (Admin)</a></div><div class="addable subset"></div><div class="addable subset"></div></div><div class="sector-block-team"><div class="title">Contest</div>' + contestHtml + '</div></div><input type="hidden" class="is-admin" value="0"></div>';
-								}
-							}
-							$("#teamPage").append($myHtml);
-						}
+						});
+						 
+						
 						$(".info-team").click(function(){
 							window.location.replace("/team/"+$(this).closest("div").find(".sector-block-team-middle").text()+"/");
 						});
