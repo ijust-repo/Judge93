@@ -19,6 +19,7 @@ from project.apps.contest.models import Contest, TeamInfo
 #other
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
+from copy import copy
 
 def running_contests(team_obj):
 	started_contests=[]
@@ -201,7 +202,7 @@ def join_request():
 			team_obj = Team.objects().get(name=team_name)
 			if logged_in_user() != team_obj.owner.username:
 				return jsonify(errors = "user is not team owner") , 403
-			team_members_with_owner = team_obj.members
+			team_members_with_owner = copy(team_obj.members)
 			team_members_with_owner.append(team_obj.owner)
 
 			for info in contest_obj.teams:
