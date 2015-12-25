@@ -4,25 +4,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Home</title>
-    <link  href="{{ url_for('static', filename='../statics/img/J.png') }} " rel="icon" >
+    <link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
+    <link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" >
     <link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
-    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
+    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
+     <script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
+    <script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>   
     <script src="{{ url_for('static', filename='../statics/js/bootstrap.js') }}" /></script>	
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
-<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
+
     
    
 </head>
 
 <body>
+	<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
+<div id="body" style="display:none">
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 		
 		<li class=" usernameitem " id="usernameitem">
 			
-			<a href="#"><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>  </h4></a>
+			<a href="#"><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/j2.png') }}" height="100%"/>  </h4></a>
 			<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 		</li>	
 		
@@ -51,12 +55,12 @@
 		</li>
 		</ul>
 
-    <div class="col-xs-offset-3 col-md-offset-2 row">
+    <div  class="col-xs-offset-3 col-md-offset-2 row" >
 		<div class="col-xs-12 col-md-12 maintitr">
-			<p id="titlePage"> Contest list</p>          
+			<p id="titlePage"> All contest </p>          
 		</div>
 	</div>
-	<div class="col-xs-offset-3 col-md-offset-2 row">
+	<div  class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents " >
 			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">							
 				<table id="contestinfo">
@@ -72,7 +76,7 @@
 					</tr>
                 </table>
              </div>		
-			<div id="info">
+			<div id="info" style="display:none">
 				<label for="usernamecontact">Username:</label>
 				<h4 id="usernamecontact" name="usernamecontact"></h4>
 				<hr>
@@ -81,11 +85,14 @@
 			</div>
 		</div>
    	</div>
-   
-
+</div>
 </body>
 <script>
+	
+	
 	$(document).ready(function () {
+		$(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
+
 	     var id = '{{user_id }}'; 
 	     var username=null;
 	 
@@ -204,7 +211,10 @@ $("#backtoprofile").click(function() {
 					
 				});				
             },
-           error: function (request) {                
+           error: function (request) { 
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }               
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 	      	      		
       		}
 		});	
@@ -249,6 +259,8 @@ $("#contest").click(function() {
 $("#team").click(function() {
 	window.location.replace("/user/"+username+"/team/");
   });
+$('#loading').hide();
+	$('#body').show();
   });
   
   

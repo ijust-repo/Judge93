@@ -19,6 +19,7 @@ from project.apps.contest.models import Contest, TeamInfo
 #other
 from datetime import datetime
 from mongoengine import DoesNotExist, NotUniqueError
+from copy import copy
 
 def running_contests(team_obj):
 	started_contests=[]
@@ -172,7 +173,17 @@ def get_team_info(team_id):
 		res['name'] = team_obj.name
 		res['owner'] = team_obj.owner.to_json()
 		res['members'] = [member.to_json() for member in team_obj.members]
-		res['contests'] = [contest.name for contest in team_obj.contests]
+		res['contests'] = []
+
+		for accepted_contest in team_obj.contests:
+			res['contests'].append((accepted_contest.name,"accepted"))
+
+		for pending_contest in team_obj.pending_contests:
+			res['contests'].append((pending_contest.name,"pending"))
+
+		for rejected_contest in team_obj.rejected_contests:
+			res['contests'].append((rejected_contest.name,"rejected"))
+
 		return jsonify(res), 200
 
 	except DoesNotExist:
@@ -191,7 +202,7 @@ def join_request():
 			team_obj = Team.objects().get(name=team_name)
 			if logged_in_user() != team_obj.owner.username:
 				return jsonify(errors = "user is not team owner") , 403
-			team_members_with_owner = team_obj.members
+			team_members_with_owner = copy(team_obj.members)
 			team_members_with_owner.append(team_obj.owner)
 
 			for info in contest_obj.teams:
@@ -199,7 +210,10 @@ def join_request():
 
 					if (info.accepted == False):
 						info.accepted = None
+						team_obj.pending_contests.append(contest_obj)
+						team_obj.update(pull__rejected_contests=contest_obj)
 						contest_obj.save()
+						team_obj.save()
 						return jsonify(errors = "join request not accepted -> Re_sent") , 200
 
 					elif (info.accepted == True):
@@ -214,7 +228,7 @@ def join_request():
 					if (member in team_members_with_owner):
 						return jsonify(errors = 'user %s is in contest' %member.username), 409
 
-			team_obj.contests.append(contest_obj)
+			team_obj.pending_contests.append(contest_obj)
 			team_info = TeamInfo (team = team_obj)
 			contest_obj.teams.append(team_info)
 			contest_obj.save()
@@ -222,7 +236,7 @@ def join_request():
 			return "" , 200
 
 		except DoesNotExist:
-			return "" , 406
+			return jsonify(errors="Contest or Team does not exist!") , 406
 
 @team.route('<string:team_id>/member/<string:member_id>/', methods=['DELETE'])
 def remove_member(team_id, member_id):

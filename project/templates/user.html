@@ -3,12 +3,13 @@
 <meta charset="utf-8">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-        <link  href="{{ url_for('static', filename='../statics/img/J.png') }} " rel="icon" > 
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+     <link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" /> 
+        <link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" > 
     <title>JUST</title>
    
    
-    <link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
+    
     <link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} "rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
@@ -21,120 +22,88 @@
 </head>
 
 <body> 
+	<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
 
-<div class=" user">
+<div id="body" class=" user">
+	
 	<div class="row top-menu" >
-		<img src="{{ url_for('static', filename='../statics/img/J.png') }}" alt="JUST"  height="80%" style="float:left"> </img> 
-		<p style="margin-top:0.5%;">Welcome to IUST JUDGE :) </p>
+		<nav class="navbar navbar-inverse  shadow">
+		  <div class="container-fluid">
+			<div class="navbar-header">
+				<div class="navbar-brand">
+					
+					<span style="color:#1B325F"><img src="{{ url_for('static', filename='../statics/img/j1.png') }}" alt="JUST"  height="120%"></img> Just </span> 
+				</div>			  
+		   </div>
+			  <ul class="nav navbar-nav navbar-right">
+				<li class="active"><a data-toggle="tab" href="#login">Login</a></li>
+				<li><a data-toggle="tab" href="#register">Sign up</a></li>
+				<li><a data-toggle="tab" href="#aboutus">About us</a></li>
+			  </ul>		   
+		  </div>
+		</nav>	
 	</div>
 	<div class="row col-xs-offset=1 col-md-offset-1 content">
-	<div class="left col-xs-10 col-md-6" >
-		 <div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 600px; height: 300px; overflow: hidden; visibility: hidden;">
-        <!-- Loading Screen -->
-        <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
-            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
-            <div style="position:absolute;display:block;background:url('{{ url_for('static', filename='../statics/img/loading.gif') }}') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
-        </div>
-        <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 600px; height: 300px; overflow: hidden;">
-            <div data-p="112.50" style="display: none;">
-                <img data-u="image" src="{{ url_for('static', filename='../statics/img/Just.png') }}" />
-            </div>
-            <div data-p="112.50" style="display: none;">
-                <img data-u="image" src="{{ url_for('static', filename='../statics/img/ACM1.jpg') }}" />
-            </div>
-            <div data-p="112.50" style="display: none;">
-                <img data-u="image" src="{{ url_for('static', filename='../statics/img/ACM2.jpg') }}"/>
-            </div>
-            
-        </div>
-        <!-- Bullet Navigator -->
-        <div data-u="navigator" class="jssorb05" style="bottom:16px;right:16px;" data-autocenter="1">
-            <!-- bullet navigator item prototype -->
-            <div data-u="prototype" style="width:16px;height:16px;"></div>
-        </div>
-        <!-- Arrow Navigator -->
-        <span data-u="arrowleft" class="jssora12l" style="top:0px;left:0px;width:30px;height:46px;" data-autocenter="2"><i class="fa fa-chevron-left"></i></span>
-        <span data-u="arrowright" class="jssora12r" style="top:0px;right:0px;width:30px;height:46px;" data-autocenter="2"><i class="fa fa-chevron-right"></i></span>
-        <a href="http://www.jssor.com" style="display:none">Bootstrap Carousel</a>
-    </div>
+	<div class="left col-xs-10 col-md-6" >	
+		<img src="{{ url_for('static', filename='../statics/img/Icon.png') }}" height="80%"/>  
+        	
 	</div>
 	<div class="right">
-		<ul class="nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#login">Login</a></li>
-			<li><a data-toggle="tab" href="#register">Sign up</a></li>
-			<li><a data-toggle="tab" href="#forgetpassword">Forget password</a></li>
-		 </ul>
 
 		<div class="tab-content  col-xs-12 col-md-12">
 			
-    <div id="login" class="tab-pane fade in active">
+    <div id="login" class="tab-pane fade in active ">
+		<div style=" border-bottom: 1px solid #1B325F;">
+		<p >Login</p>
+		</div>
 		<input type="text" name="username_login" id="username_login" placeholder="Username" required /><br>             
         <input type="password" name="password_login" id="password_login" placeholder="Password" required /><br>                
-        <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br>
+        <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br><br>
+        <a id="forgot" href="#forgot">Forgot your password?</a>
+        <div id="passoruser"  style="display:none">
+        <a id="forgotbyemail" href="#forgot">Reset password by email</a><br>
+         <a id="forgotbyuser" href="#forgot">Reset password by username</a>
+        </div>
+        <div id="loginloading" style="display:none">Please wait...</div>
      </div>
-    <div id="register" class="tab-pane fade">	        
+    <div id="register" class="tab-pane fade">
+		<div style=" border-bottom: 1px solid #1B325F;">
+		<p >Sign up</p>
+		</div>	        
 		<input type="text" name="username" id="username_signup" placeholder="Username" required /><br>             
         <input type="password" name="password" id="password_signup" placeholder="Password" required /><br>    
         <input type="password" name="password" id="re-password_signup" placeholder="re-Enter Password" required /><br>
         <input type="email" name="username" id="email_signup" placeholder="Email" /><br>             
         <input type="button" name="signup" id="signupbtn" class="btn btn-primary "value="register" /><br>
+        <div id="signuploading" style="display:none">Please wait...</div>
     </div>
-    <div id="forgetpassword" class="tab-pane fade">
-		
+    <div id="aboutus" class="tab-pane fade">
+		<div style=" border-bottom: 1px solid #1B325F;">
+		<p >About us</p>
+		</div>
 		fdgdfg
       
     </div>
     </div>
 	</div>    
-	</div>
+	</div>		
 	<div class="footer">Copyright © 2015 by JUST team </div>
  </div>
 
 </body>
 <script language="javascript">
 	jQuery(document).ready(function() {
-
-
-            
-            var jssor_1_SlideshowTransitions = [
-              {$Duration:1200,$Opacity:2}
-            ];
-            
-            var jssor_1_options = {
-              $AutoPlay: true,
-              $SlideshowOptions: {
-                $Class: $JssorSlideshowRunner$,
-                $Transitions: jssor_1_SlideshowTransitions,
-                $TransitionsOrder: 1
-              },
-              $ArrowNavigatorOptions: {
-                $Class: $JssorArrowNavigator$
-              },
-              $BulletNavigatorOptions: {
-                $Class: $JssorBulletNavigator$
-              }
-            };
-            
-            var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
-            
-            //responsive code begin
-            //you can remove responsive code if you don't want the slider scales while window resizing
-            function ScaleSlider() {
-                var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
-                if (refSize) {
-                    refSize = Math.min(refSize, 600);
-                    jssor_1_slider.$ScaleWidth(refSize);
-                }
-                else {
-                    window.setTimeout(ScaleSlider, 30);
-                }
-            }
-            ScaleSlider();
-            $(window).bind("load", ScaleSlider);
-            $(window).bind("resize", ScaleSlider);
-            $(window).bind("orientationchange", ScaleSlider);
-            //responsive code end
-        
+		$('#signupbtn').prop('disabled', false);
+		$('#loginbtn').prop('disabled', false);
+	 $('#login').keypress(function(e){
+      if(e.keyCode==13)
+      $('#loginbtn').click();
+    });
+     $('#register').keypress(function(e){
+      if(e.keyCode==13)
+      $('#signupbtn').click();
+    });
+       
 	//sign up
 $("#signupbtn").click(function() { 
 var username = $("input#username_signup").val();
@@ -148,10 +117,14 @@ if (password===password2) {
             contentType: "application/json",
             dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
+             beforeSend: function() {
+				 $('#signupbtn').prop('disabled', true);
+				$('#signuploading').show();
+			},
             success: function (data) {
 				swal({
 					  title: "Good!",
-					  text: "Your account create successfully",
+					  text: "Account successfully created",
 					  type: "success",
 					 
 					  closeOnConfirm: false,
@@ -167,8 +140,12 @@ if (password===password2) {
 				swal("Sorry!", "Username or email alredy exists", "error") ; 
 				}else if(request.status===406){
 					swal("Sorry!", "Please fill required field", "error") ; 
+				}		
+          },
+            complete: function(){
+					$('#signuploading').hide();
+					 $('#signupbtn').prop('disabled', false);
 				}
-          }
               
 
           });
@@ -185,30 +162,119 @@ if (password===password2) {
 //login
 $("#loginbtn").click(function() { 
 
-var username = $("input#username_login").val();
-var password = $("input#password_login").val();  
+	var username = $("input#username_login").val();
+	var password = $("input#password_login").val();  
+	if(username=="" || password==""){
+		swal("Sorry!", "Please fill required field", "error") ; 
+	}else{
+		$.ajax({
+				type: "POST",
+				url : '/user/login/',
+				contentType: "application/json",
+				dataType: "html",
+				data: '{"username": "' + username + '", "password" : "' + password + '"}',
+				 beforeSend: function() {
+					 $('#loginbtn').prop('disabled', true);
+					$('#loginloading').show();
+				},
+				success: function (data) {
+					window.location.replace("/user/"+username+"/");
+				},
+				error: function (request, status, error) { 
+					if(request.status===406){
+						swal("Sorry!", "Please fill required field", "error") ; 
+					}								   
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
+				},
+				   complete: function(){
+					   $('#loginbtn').prop('disabled', false);
+					$('#loginloading').hide();
+				}
+		});
+		$("#username_login").val('');
+		$("#password_login").val('');                
+	}              
+});
 
-  $.ajax({
-            type: "POST",
-            url : '/user/login/',
-            contentType: "application/json",
-            dataType: "html",
-            data: '{"username": "' + username + '", "password" : "' + password + '"}',
-            success: function (data) {
-                window.location.replace("/user/"+username+"/");
-            },
-            error: function (request, status, error) {
-                    
-      		swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
-              
+//forgot
+$("#forgot").click(function() { 
+	$('#passoruser').show();
+	$('#forgot').hide();
+});
 
-            }
-                });
-  $("#username_login").val('');
-		 $("#password_login").val('');                
-                
-  });
+$("#forgotbyemail").click(function() { 
+	swal({
+	  title: " ",
+	  text: "Please wirte your email",
+	  type: "input",
+	  showCancelButton: true,
+	  closeOnConfirm: false,
+	  animation: "slide-from-top",
+	  showLoaderOnConfirm: true,
+	  inputPlaceholder: "email"
+	},
+	function(inputValue){
+	  if (inputValue === false) return false;
+	  
+	  if (inputValue === "") {
+		swal.showInputError("You need to write your email!");
+		return false;
+	  }
+	  $.ajax({
+				type: "POST",
+				url :'/user/forgot_password/',
+				data: '{"email" : "' + inputValue + '"}',
+				dataType: "html",
+				contentType: "application/json",
+				
+				success: function (data) {
+					swal("Good!","Your password changed successfully " , "success") ; 
+				} ,
+			  error: function (request, status, error) { 
+			   
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
+			   }  
+		});
+	});	
+});	
+	$("#forgotbyuser").click(function() { 
+	swal({
+	  title: " ",
+	  text: "Please wirte your username",
+	  type: "input",
+	  showCancelButton: true,
+	  closeOnConfirm: false,
+	  animation: "slide-from-top",
+	  showLoaderOnConfirm: true,
+	  inputPlaceholder: "username"
+	},
+	function(inputValue){
+	  if (inputValue === false) return false;
+	  
+	  if (inputValue === "") {
+		swal.showInputError("You need to write your username!");
+		return false;
+	  }
+	  $.ajax({
+				type: "POST",
+				url :'/user/forgot_password/',
+				data: '{"username" : "' + inputValue + '"}',
+				dataType: "html",
+				contentType: "application/json",
+				
+				success: function (data) {
+					swal("Good!","Your password changed successfully " , "success") ; 
+				} ,
+			  error: function (request, status, error) { 
+			   
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
+			   }  
+		});
+	});	
+});
 
+$('#loading').hide();
+	$('#body').show();
 });
 </script>
 </html>

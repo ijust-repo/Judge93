@@ -10,6 +10,8 @@ class Team(Document):
 	owner = ReferenceField('User', required=True)
 	members = ListField(ReferenceField('User'))
 	contests = ListField(ReferenceField('Contest'))
+	pending_contests = ListField(ReferenceField('Contest'))
+	rejected_contests = ListField(ReferenceField('Contest'))
 
 	def to_json(self):
 		return dict(

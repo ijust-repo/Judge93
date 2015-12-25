@@ -49,8 +49,9 @@ def run_test():
 			return redirect(url_for('user.user_home_page', Username=user))
 		return redirect(url_for('user.user_page'))
 
-	make_ssl_devcert('key', host='0.0.0.0')
-	app.run(host='0.0.0.0', debug=True, ssl_context=('key.crt','key.key'))
+	#make_ssl_devcert('key', host='0.0.0.0')
+	#app.run(host='0.0.0.0', debug=True, ssl_context=('key.crt','key.key'))
+	app.run(host='0.0.0.0', debug=True)
 
 
 def help():

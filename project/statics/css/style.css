@@ -19,21 +19,26 @@ width: 10% ;
 }
 
 .top-menu{
-width:100%;
+/*width:100%;
  height:10%;
-background-color:#1B325F;
-   /* height:55px;*/
+background-color:#fff;
+    height:55px;
     padding: 1% ;
-    color: white;
+    
+    border-bottom: 2px inset #BCBCBC;
  	 margin: 0 ;
- 	 
+ 
+ 	text-align: center;*/
+ 	
  	}
+
  	.footer{
  	width:100%;
 	height:8%;
-	background-color:#1B325F;
+	/*background-color:#1B325F;*/
     padding: 1% ;
-    color: white;
+    color: black;
+    border-top: 2px inset #BCBCBC;
  	 position:absolute;
  	  bottom: 0;
 text-align: center;
@@ -89,14 +94,14 @@ input{
 .user{
    min-height:100% ;
 	position:relative;
-  color:white;
+  background: #F6F6F6;
 }
 .left
 {
  
 	position: relative;
 	float:left;
-	margin-top:7% ;
+	/*margin-top:5% ;*/
 	margin-left:1% ;
 /*margin-top:7%;*/
 
@@ -121,7 +126,7 @@ text-align: center;
 	float:left;	
  	height: 100%;
 	padding: 0;
-	overflow-y: hidden; 
+	overflow-y: scroll; 
 	font-size: 2vh;
 }
 .leftmenuitem
@@ -204,7 +209,7 @@ z-index: 2;
     margin: 2% 50px 20px 2%;
     padding: 2%;
 	width: 96%;
-	overflow-x:hidden;
+	/*overflow-x:scroll;*/
 	top:60px;
 	z-index: 1;
 
@@ -678,11 +683,31 @@ tr.ui-sortable-handle td
     color: #E9F2F9;
 }
 /*----- Tabs -----*/
+.navbar{
+background: #fff; 
+border-color:#fff;
+color: #1B325F;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #1B325F;
+}
 
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+    color: #FFF;
+    background-color:#1B325F;
+}
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    color: #1B325F;
+    background-color: transparent;
+}
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+   color: #1B325F;
+    background-color: transparent;
+}
 .tabs {
     /*width:100%;*/
     display:inline-block;
-   
+  
 }
  
     /*----- Tab Links -----*/
@@ -690,7 +715,8 @@ tr.ui-sortable-handle td
     .tab-links:after {
         display:block;
         clear:both;
-        content:'';    
+        content:''; 
+           
     }
  
     .tab-links li {
@@ -703,30 +729,52 @@ tr.ui-sortable-handle td
         .tab-links a {
             padding:9px 15px;
             display:inline-block;
-            border-radius:3px 3px 0px 0px;
-            background:#7FB5DA;
+            /*border-radius:3px 3px 0px 0px;*/
+            /*background:#7FB5DA;*/
             font-size:16px;
             font-weight:600;
            color:#4c4c4c;
             transition:all linear 0.15s;
-  ;
+  
         }
  
-        .tab-links a:hover {
-       
-            background:#a7cce5;
-            text-decoration:none;
-        }
- 
-    li.active a, li.active a:hover {
+    li.active a, li a:hover {
        background-color:#1B325F;
         color:#fff;
     }
    .nav-tabs > li.active >  a {
-    color:#fff;
-    background-color:#1B325F;
+    color:#1B325F;
+    background-color:#fff;
     }
-    .nav-pills > li.active >  a {
+
+	.nav-tabs > li >  a {
+    color:#1B325F;
+   /* background-color:#E9E9E9;*/
+    }
+    /*----- Content of Tabs -----*/
+    .tab-content {
+        padding-top:20px ;
+       
+        padding-bottom:30px ;
+       /* padding-left:40px;*/
+        text-align: center;
+        border-radius:3px;
+        box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
+        background:#fff;
+        /*width:85%;*/
+    }
+ 
+        .tab {
+            display:none;
+      
+        }
+ 
+        .tab.active {
+            display:block;
+           
+        }
+        
+         .nav-pills > li.active >  a {
     color:#fff;
     background-color:#1B325F;
     }
@@ -743,34 +791,6 @@ tr.ui-sortable-handle td
     background-color:#1B325F;
     }
 
-    .nav-tabs > li.active > a:focus{
-     color:#fff;
-    background-color:#1B325F;
-    }
-	.nav-tabs > li >  a {
-    color:#1B325F;
-    background-color:#9CC4E4;
-    }
-    /*----- Content of Tabs -----*/
-    .tab-content {
-        padding-top:10px ;
-        padding-bottom:30px ;
-        padding-left:40px;
-        border-radius:3px;
-        box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
-        background:#1B325F;
-        /*width:85%;*/
-    }
- 
-        .tab {
-            display:none;
-      
-        }
- 
-        .tab.active {
-            display:block;
-           
-        }
 /****************************/
 
 .btn-file
@@ -922,59 +942,8 @@ padding: 12px;
         font-size: 4px;
     }
 }
-/******************************slideshow*************************/
-  /* jssor slider bullet navigator skin 05 css */
-        /*
-        .jssorb05 div           (normal)
-        .jssorb05 div:hover     (normal mouseover)
-        .jssorb05 .av           (active)
-        .jssorb05 .av:hover     (active mouseover)
-        .jssorb05 .dn           (mousedown)
-        */
-        .jssorb05 {
-            position: absolute;
-        }
-        .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
-            position: absolute;
-            /* size of bullet elment */
-            width: 16px;
-            height: 16px;
-            background: url('img/b05.png') no-repeat;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .jssorb05 div { background-position: -7px -7px; }
-        .jssorb05 div:hover, .jssorb05 .av:hover { background-position: -37px -7px; }
-        .jssorb05 .av { background-position: -67px -7px; }
-        .jssorb05 .dn, .jssorb05 .dn:hover { background-position: -97px -7px; }
+.inputs{
+padding: 0;
+margin: 0;
 
-        /* jssor slider arrow navigator skin 12 css */
-        /*
-        .jssora12l                  (normal)
-        .jssora12r                  (normal)
-        .jssora12l:hover            (normal mouseover)
-        .jssora12r:hover            (normal mouseover)
-        .jssora12l.jssora12ldn      (mousedown)
-        .jssora12r.jssora12rdn      (mousedown)
-        */
-        .jssora12l, .jssora12r {
-        text-align: center;
-            display: block;
-            position: absolute;
-            /* size of arrow element */
-            width: 30px;
-            height: 46px;
-            cursor: pointer;
-          
-            overflow: hidden;
-      
-        }
-        .jssora12l { background-position: -16px -37px; }
-        .jssora12r { background-position: -75px -37px; }
-        .jssora12l:hover { background-position: -136px -37px; }
-        .jssora12r:hover { background-position: -195px -37px; }
-        .jssora12l.jssora12ldn { background-position: -256px -37px; }
-        .jssora12r.jssora12rdn { background-position: -315px -37px; }
-        
-        
-/******************************slideshow*************************/
+}
