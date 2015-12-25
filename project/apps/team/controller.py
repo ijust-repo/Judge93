@@ -175,13 +175,13 @@ def get_team_info(team_id):
 		res['contests'] = []
 
 		for accepted_contest in team_obj.contests:
-			res['contests'].append((contest.name,accepted))
+			res['contests'].append((accepted_contest.name,"accepted"))
 
 		for pending_contest in team_obj.pending_contests:
-			res['contests'].append((pending_contest.name,pending))
+			res['contests'].append((pending_contest.name,"pending"))
 
 		for rejected_contest in team_obj.rejected_contests:
-			res['contests'].append((rejected_contests.name,rejected))
+			res['contests'].append((rejected_contest.name,"rejected"))
 
 		return jsonify(res), 200
 
@@ -212,6 +212,7 @@ def join_request():
 						team_obj.pending_contests.append(contest_obj)
 						team_obj.update(pull__rejected_contests=contest_obj)
 						contest_obj.save()
+						team_obj.save()
 						return jsonify(errors = "join request not accepted -> Re_sent") , 200
 
 					elif (info.accepted == True):
