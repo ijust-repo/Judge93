@@ -209,7 +209,10 @@ $("#backtoprofile").click(function() {
 					
 				});				
             },
-           error: function (request) {                
+           error: function (request) { 
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }               
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 	      	      		
       		}
 		});	

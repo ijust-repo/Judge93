@@ -217,7 +217,7 @@
 									
 					<button type="submit" id="editproblemsubmitbtn" class="btn btn-primary" style="width:15.5%"> Submit edit</button>
 				</div>
-				
+				<div id="addproblemloading" style="display:none">Please wait...</div>
 			</div>
 			<div id="contestquestion"  style="display:none">
 				<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
@@ -274,6 +274,7 @@
                 </table>
 				</div>
 			<div id="contestteams" class="CSSTableGenerator" style="display:none">
+				<div id="acceptorrejectloading" style="display:none">Please wait...</div>
 				<table id="contestteamstbl">
 					<tr>						  
 						<td > Team name </td>
@@ -306,6 +307,8 @@
 	var teamid=null;
 	var contestadmin=null;
 	$(document).ready(function () {
+		$('#editproblemsubmitbtn').prop('disabled', false);
+		$('#addproblemsubmitbtn').prop('disabled', false);
 		$("#contents").css('overflow-x', 'scroll');
 		$("#contents").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 		$(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
@@ -321,8 +324,11 @@
 			 userlogin=(JSON.parse(data)).username;
           	userloginid=(JSON.parse(data)).id;	
             },
-           error: function (request) {                
-				sswal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;        	      		
+           error: function (request) { 
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }                 
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;        	      		
       		}
 		
 		});
@@ -348,8 +354,11 @@
 				 changecontestpage(contestname);
 				  				
             },
-           error: function (request) {                
-				swal("Sorry", request.errors) ;  	      	      		
+           error: function (request) { 
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }                 
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  	      	      		
       		}
 		}); 
 		 	
@@ -373,7 +382,10 @@
 				$( '#getidprof ' ).html(id);	
             },
            error: function (request) { 
-			    swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
+			    swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 
+			     if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }                    	      		
       		}
 		});
 		 $.ajax({
@@ -404,6 +416,9 @@
 				}
             },
            error: function (request) { 
+			    if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 			    swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
       		}
 		});
@@ -448,6 +463,9 @@
 							});
 				},
 				error: function (request, status, error) {
+					 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 				}
 			});
@@ -489,6 +507,9 @@
 					});             		
           		},
           		error: function (request, status, error) {
+					 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 	
           		}
         	});			
@@ -549,7 +570,10 @@
 							$(("#" +data[i].team.name)).attr("href",("/team/"+data[i].team.name+"/"));
 						}
 					},
-					error : function(error ){
+					error : function(request ){
+						 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 						swal("Sorry!", "Contest does not exist!", "error") ; 
 					}
 			});
@@ -636,7 +660,10 @@
 			   
 			   }				
             },
-           error: function (request) {                
+           error: function (request) {  
+			    if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }              
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  	      	      		
       		}
 		
@@ -686,7 +713,10 @@
 			}
 
 				},
-			   error: function (request) {                
+			   error: function (request) {
+				    if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }                
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;       	      		
 				}
 			});
@@ -783,7 +813,10 @@
 			}
 			$("#idproblem").html((JSON.parse(data)).id);												
             },
-          error: function (request, status, error) { 			    
+          error: function (request, status, error) {
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   } 			    
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  			         
            }   
     });
@@ -861,7 +894,10 @@ if(canedit==="no"){
 		});	
 		$('#input-2').fileinput('enable');		
 			},
-          error: function (request, status, error) { 			  
+          error: function (request, status, error) { 
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }			  
 		   swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 	   }
 							                        
@@ -918,6 +954,9 @@ if(canedit==="no"){
 				  
             },
             error: function (request, status, error) {
+				 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 				 $('#input-1').fileinput('clear');
             }
@@ -939,6 +978,11 @@ if(canedit==="no"){
             contentType: "application/json",
             dataType: "html",			
             data: '{ "acceptation":"'+flag+'"}',
+            beforeSend: function() {
+					$('#acceptorrrejectloading').show();
+					 $('.rejectteam').prop('disabled', true);
+					   $('.acceptteam').prop('disabled',true);
+				},
             success: function (data) {
 				swal({
 					  title: "Good!",
@@ -956,9 +1000,17 @@ if(canedit==="no"){
               
             },
             error: function (request, status, error) {
+				 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
 				
-            }
+            },
+            complete: function(){
+					   $('.rejectteam').prop('disabled', false);
+					   $('.acceptteam').prop('disabled', false);
+					$('#acceptorrrejectloading').hide();
+				}
               });
 	
 
@@ -1001,6 +1053,9 @@ if(canedit==="no"){
 					}
 				},
 					error: function (request, status,error) {
+						 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 				  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 			   }
 		});
@@ -1037,8 +1092,8 @@ if(canedit==="no"){
 		var problemtestcaseinput = $("#problemtestcaseinput").val();  
 		var problemtestcaseoutput = $("#problemtestcaseoutput").val();
 		//var problemid=$("#idproblem").val();
-		var datawotestcase='{"problems": [{ "id":"'+problemid+'" ,"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}]}';
-		var datawtestcase='{"problems": [{"id":"'+problemid+'","title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '","testcases": [ {"id":"1" ,"order":"1" , "input":"'+problemtestcaseinput+'" ,"output":"'+problemtestcaseoutput+'" } ]}]}';
+		var datawotestcase={"problems": [{ "id":problemid ,"title":  problemtitle , "time_limit" : problemtimelimit , "space_limit" : problemspacelimit , "header" : problemheader, "body" :  problembody , "footer" : problemfooter }]};
+		var datawtestcase={"problems": [{"id":problemid,"title": problemtitle , "time_limit" : problemtimelimit , "space_limit" :  problemspacelimit , "header" :  problemheader, "body" : problembody , "footer" :  problemfooter ,"testcases": [ {"id":"1" ,"order":"1" , "input":problemtestcaseinput ,"output":problemtestcaseoutput } ]}]};
 		if(problemtestcaseinput=="" && problemtestcaseoutput==""){
 			var obj = datawotestcase;
 		}
@@ -1053,15 +1108,26 @@ if(canedit==="no"){
 				url : "/contest/"+contestid+"/",
 			   contentType: "application/json",
 				dataType: "html",			
-				data: obj,
+				data:JSON.stringify(obj),
+				 beforeSend: function() {
+					$('#addproblemloading').show();
+					 $('#editproblemsubmitbtn').prop('disabled', true);
+				},
 				success: function (data) {
 					swal("Sorry!","Edit problem successfully", "success") ; 
 					clearprobleminput();
 					backtocontestpage();
 				},
 				error: function (request, status, error) {
+					 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
 					
+				},
+				  complete: function(){
+					   $('#editproblemsubmitbtn').prop('disabled', false);
+					$('#addproblemloading').hide();
 				}
 				  });
 	  
@@ -1135,6 +1201,10 @@ if(canedit==="no"){
 			   contentType: "application/json",
 				dataType: "html",			
 				data: JSON.stringify(obj),
+				 beforeSend: function() {
+					 $('#addproblemsubmitbtn').prop('disabled',true);
+					$('#addproblemloading').show();
+				},
 				success: function (data) {
 					swal({
 						  title: "Good!",
@@ -1152,9 +1222,16 @@ if(canedit==="no"){
 					 
 				},
 				error: function (request, status, error) {
+					 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
 				
 				  
+				},
+				complete: function(){
+					   $('#addproblemsubmitbtn').prop('disabled', false);
+					$('#addproblemloading').hide();
 				}
 		 });
 	});	
@@ -1172,6 +1249,7 @@ if(canedit==="no"){
 	  type: "input",
 	  showCancelButton: true,
 	  closeOnConfirm: false,
+	  showLoaderOnConfirm: true,
 	  animation: "slide-from-top",
 	  inputPlaceholder: "Team name"
 	},
@@ -1193,7 +1271,9 @@ if(canedit==="no"){
 					swal("Good!","Your request submited successfully" , "success") ; 
 				} ,
 			  error: function (request, status, error) { 
-			   
+			    if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   }  
 		});
@@ -1202,7 +1282,9 @@ if(canedit==="no"){
 	$("#backtoproblemlistbtn").click(function() {
 		 backtocontestpage();
 	});	
-	$("#contestteam").click(function() { 		
+	$("#contestteam").click(function() { 
+		 $('.rejectteam').prop('disabled', false);
+		$('.acceptteam').prop('disabled', false);		
 		  $.ajax({
 				type: "GET",
 				url :"/contest/"+contestid+"/pending_teams/",
@@ -1260,7 +1342,9 @@ if(canedit==="no"){
 					
 				},
 			  error: function (request, status, error) { 
-			   
+			    if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   }  
 		});
@@ -1367,6 +1451,9 @@ if(canedit==="no"){
 						setTimeout(function(){ window.location = "/contest/" + $(".editable").val() + "/"; }, 2000);
 					},
 					error: function (request, status, error) {
+						 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 					}
 				});

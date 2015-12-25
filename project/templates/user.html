@@ -64,6 +64,7 @@
         <a id="forgotbyemail" href="#forgot">Reset password by email</a><br>
          <a id="forgotbyuser" href="#forgot">Reset password by username</a>
         </div>
+        <div id="loginloading" style="display:none">Please wait...</div>
      </div>
     <div id="register" class="tab-pane fade">
 		<div style=" border-bottom: 1px solid #1B325F;">
@@ -74,6 +75,7 @@
         <input type="password" name="password" id="re-password_signup" placeholder="re-Enter Password" required /><br>
         <input type="email" name="username" id="email_signup" placeholder="Email" /><br>             
         <input type="button" name="signup" id="signupbtn" class="btn btn-primary "value="register" /><br>
+        <div id="signuploading" style="display:none">Please wait...</div>
     </div>
     <div id="aboutus" class="tab-pane fade">
 		<div style=" border-bottom: 1px solid #1B325F;">
@@ -91,6 +93,8 @@
 </body>
 <script language="javascript">
 	jQuery(document).ready(function() {
+		$('#signupbtn').prop('disabled', false);
+		$('#loginbtn').prop('disabled', false);
 	 $('#login').keypress(function(e){
       if(e.keyCode==13)
       $('#loginbtn').click();
@@ -114,7 +118,8 @@ if (password===password2) {
             dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
              beforeSend: function() {
-				$('#register').append('please wait...');
+				 $('#signupbtn').prop('disabled', true);
+				$('#signuploading').show();
 			},
             success: function (data) {
 				swal({
@@ -135,8 +140,12 @@ if (password===password2) {
 				swal("Sorry!", "Username or email alredy exists", "error") ; 
 				}else if(request.status===406){
 					swal("Sorry!", "Please fill required field", "error") ; 
+				}		
+          },
+            complete: function(){
+					$('#signuploading').hide();
+					 $('#signupbtn').prop('disabled', false);
 				}
-          }
               
 
           });
@@ -153,38 +162,45 @@ if (password===password2) {
 //login
 $("#loginbtn").click(function() { 
 
-var username = $("input#username_login").val();
-var password = $("input#password_login").val();  
-
-  $.ajax({
-            type: "POST",
-            url : '/user/login/',
-            contentType: "application/json",
-            dataType: "html",
-            data: '{"username": "' + username + '", "password" : "' + password + '"}',
-             beforeSend: function() {
-				$('#login').append('please wait...');
-			},
-            success: function (data) {
-                window.location.replace("/user/"+username+"/");
-            },
-            error: function (request, status, error) {
-                    
-      		swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
-              
-
-            }
-                });
-  $("#username_login").val('');
-		 $("#password_login").val('');                
-                
-  });
+	var username = $("input#username_login").val();
+	var password = $("input#password_login").val();  
+	if(username=="" || password==""){
+		swal("Sorry!", "Please fill required field", "error") ; 
+	}else{
+		$.ajax({
+				type: "POST",
+				url : '/user/login/',
+				contentType: "application/json",
+				dataType: "html",
+				data: '{"username": "' + username + '", "password" : "' + password + '"}',
+				 beforeSend: function() {
+					 $('#loginbtn').prop('disabled', true);
+					$('#loginloading').show();
+				},
+				success: function (data) {
+					window.location.replace("/user/"+username+"/");
+				},
+				error: function (request, status, error) { 
+					if(request.status===406){
+						swal("Sorry!", "Please fill required field", "error") ; 
+					}								   
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
+				},
+				   complete: function(){
+					   $('#loginbtn').prop('disabled', false);
+					$('#loginloading').hide();
+				}
+		});
+		$("#username_login").val('');
+		$("#password_login").val('');                
+	}              
+});
 
 //forgot
 $("#forgot").click(function() { 
 	$('#passoruser').show();
 	$('#forgot').hide();
-	});
+});
 
 $("#forgotbyemail").click(function() { 
 	swal({
@@ -220,7 +236,7 @@ $("#forgotbyemail").click(function() {
 			   }  
 		});
 	});	
-	});	
+});	
 	$("#forgotbyuser").click(function() { 
 	swal({
 	  title: " ",
@@ -255,7 +271,7 @@ $("#forgotbyemail").click(function() {
 			   }  
 		});
 	});	
-	});
+});
 
 $('#loading').hide();
 	$('#body').show();
