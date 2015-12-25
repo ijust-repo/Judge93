@@ -317,7 +317,7 @@ def pending_teams (contest_id):
 				pending.append(info.team.to_json_complete())
 		return jsonify(teams = pending) , 200
 	except DoesNotExist:
-		return "" , 406
+		return jsonify(errors="Contest does not exist!") , 406
 
 
 @contest.route('<string:contest_id>/details/', methods=['GET'])
@@ -352,33 +352,34 @@ def contest_details(contest_id):
 		result_dict ={}
 
 		for team_info in contest_obj.teams:
-			details_dict["team"] = (team_info.team.to_json())
+			if (team_info.accepted):
+				details_dict["team"] = (team_info.team.to_json())
 
-			for result in team_info.problem_results:
-				result_dict["failed_tries"] = (result.failed_tries)
-				result_dict["solved"] = (result.solved)
-				result_dict["solved_on"] = (result.solved_on)
-				result_dict["problem_id"] = (result.problem_id)
-				for problem_obj in contest_obj.problems:
-					if problem_obj.id == result.problem_id:
-						result_dict["order"] = problem_obj.order
-						break
-				problems_list.append(result_dict)
-				result_dict={}
-			problems_list.sort(key = lambda resultdictionary :resultdictionary["order"])
-			details_dict["problems_list"] = problems_list
-			penalty = calculate_penalty(problems_list,start_time)
-			details_dict["penalty"] = penalty[0]
-			details_dict["solved_problem_counter"] = penalty[1] 
-			final_list.append(details_dict)
-			details_dict = {}
-			problems_list=[]
+				for result in team_info.problem_results:
+					result_dict["failed_tries"] = (result.failed_tries)
+					result_dict["solved"] = (result.solved)
+					result_dict["solved_on"] = (result.solved_on)
+					result_dict["problem_id"] = (result.problem_id)
+					for problem_obj in contest_obj.problems:
+						if problem_obj.id == result.problem_id:
+							result_dict["order"] = problem_obj.order
+							break
+					problems_list.append(result_dict)
+					result_dict={}
+				problems_list.sort(key = lambda resultdictionary :resultdictionary["order"])
+				details_dict["problems_list"] = problems_list
+				penalty = calculate_penalty(problems_list,start_time)
+				details_dict["penalty"] = penalty[0]
+				details_dict["solved_problem_counter"] = penalty[1] 
+				final_list.append(details_dict)
+				details_dict = {}
+				problems_list=[]
 		final_list.sort(key = lambda detailsdictionary :detailsdictionary["penalty"])
 		final_list.sort(key = lambda detailsdictionary :detailsdictionary["solved_problem_counter"] , reverse = True)
 
 		return jsonify(teams = final_list, problem_num=len(contest_obj.problems)) , 200
 	except DoesNotExist:
-		return "" , 406
+		return jsonify(errors="Contest does not exist!") , 406
 
 
 @contest.route('<string:contest_id>/problems/', methods=['GET'])
@@ -437,13 +438,28 @@ def accepting_rejecting (contest_id,team_id):
 						return jsonify(errors = "this team was accepted before!") , 409
 					else:
 						info.accepted = False
+						team_obj.update(pull__contests=contest_obj)
+						team_obj.rejected_contests.append(contest_obj)
+
 
 				elif (info.accepted == False):
 					return jsonify (errors = "this team was rejected before!") , 409
 
 				else:
-						info.accepted = accepted
+					if (accepted ==True):
+						info.accepted =True
+						team_obj.update(pull__pending_contests=contest_obj)
+						team_obj.contests.append(contest_obj)
+
+					elif (accepted == False):
+						info.accepted =False
+						team_obj.update(pull__pending_contests=contest_obj)
+						team_obj.rejected_contests.append(contest_obj)
+			else:
+				return jsonify(errors='this team does not exists in contest'), 406
+
 		contest_obj.save()
+		team_obj.save()
 		return "" , 200
 	except DoesNotExist:
 		return jsonify(errors='Team or Contest does not exist!'), 406
