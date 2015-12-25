@@ -354,6 +354,75 @@
 				 contestadmin=(JSON.parse(data)).owner.username;
 				checkifadmin(contestadmin);
 				 changecontestpage(contestname);
+				 if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
+			//alert("hello");
+				$('#rank').css('background-color', '#355C7D');
+				reset();
+				$("#contestrank").show(1000);
+				$("#titlePage").text("Ranking");
+				$.ajax({
+					type : "GET",
+					url : "/contest/" + contestid + "/details/",
+					dataType: "html",
+					contentType: "application/json",
+					success : function(data ){
+						var num=(JSON.parse(data)).problem_num;
+						var data=(JSON.parse(data)).teams;
+						if(data==""){
+							$('#contestrank').html("There is no rank list to show");
+						}else{
+						
+						
+						var tr;
+						tr = '<tr id="0"><td>Rank</td><td>Team name</td><td>Solved problem</td><td>Penalty</td>';
+						for(var j=1;j<=num;j++){						
+							tr+='<td >Problem '+j+'</td>';
+						}
+							tr+='</tr>';
+						$('#contestranklist').append(tr);
+						for (var i = 0; i < data.length; i++) {
+								tr = '<tr id="TR'+i+'">';
+								tr+='<td>' + (i+1) + '</td>';
+								tr+='<td> <a href="#"  id="'+data[i].team.name+'">' + data[i].team.name + "</a></td>";																
+								tr+="<td>" +data[i].solved_problem_counter+ "</td>";
+								tr+="<td>" +data[i].penalty+ "</td>";
+								var problemtry=data[i].problems_list;
+								var trk=[];
+								for(var j=1;j<=num;j++){
+									trk[j]='<td> </td>';
+								}																
+									for(var k=0;k<problemtry.length;k++){
+										for(var j=1;j<=num;j++){																	
+											if(problemtry[k].order==j){
+																							
+												if(problemtry[k].solved===true){
+												trk[j]='<td style="background-color:#88A65E;">Failed tries:  ' +problemtry[k].failed_tries + '</td>';
+												}else{
+														
+												trk[j]='<td style="background-color:#F26C4F;">Failed tries:   ' +problemtry[k].failed_tries + '</td>';
+												}
+											}
+										}
+									
+									
+									}
+								tr+=trk;	
+								tr+='</tr>';
+								$('#contestranklist').append(tr);
+								
+								
+							$(("#" +data[i].team.name)).attr("href",("/team/"+data[i].team.name+"/"));
+						}
+					}
+					},
+					error : function(request ){
+						 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
+						swal("Sorry!", "Contest does not exist!", "error") ; 
+					}
+			});
+	}
 				  				
             },
            error: function (request) { 
@@ -364,6 +433,9 @@
       		}
 		}); 
 		}, 0); 	
+	//alert($(location).attr('pathname'));
+	//alert("/contest/"+contestname+"/details_page/");
+	
 	}
 	else{
 		//$("#titlePage").text("Your contests");
@@ -517,69 +589,7 @@
         	});			
 		});
 
-		if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
-				$('#rank').css('background-color', '#355C7D');
-				reset();
-				$("#contestrank").show(1000);
-				$("#titlePage").text("Ranking");
-				$.ajax({
-					type : "GET",
-					url : "/contest/" + contestid + "/details/",
-					dataType: "html",
-					contentType: "application/json",
-					success : function(data ){
-						//alert(data);
-						var num=(JSON.parse(data)).problem_num;
-						var data=(JSON.parse(data)).teams;
-						var tr;
-						tr = '<tr id="0"><td>Rank</td><td>Team name</td><td>Solved problem</td><td>Penalty</td>';
-						for(var j=1;j<=num;j++){						
-							tr+='<td >Problem '+j+'</td>';
-						}
-							tr+='</tr>';
-						$('#contestranklist').append(tr);
-						for (var i = 0; i < data.length; i++) {
-								tr = '<tr id="TR'+i+'">';
-								tr+='<td>' + (i+1) + '</td>';
-								tr+='<td> <a href="#"  id="'+data[i].team.name+'">' + data[i].team.name + "</a></td>";																
-								tr+="<td>" +data[i].solved_problem_counter+ "</td>";
-								tr+="<td>" +data[i].penalty+ "</td>";
-								var problemtry=data[i].problems_list;
-								var trk=[];
-								for(var j=1;j<=num;j++){
-									trk[j]='<td> </td>';
-								}																
-									for(var k=0;k<problemtry.length;k++){
-										for(var j=1;j<=num;j++){																	
-											if(problemtry[k].order==j){
-																							
-												if(problemtry[k].solved===true){
-												trk[j]='<td style="background-color:#88A65E;">Failed tries:  ' +problemtry[k].failed_tries + '</td>';
-												}else{
-														
-												trk[j]='<td style="background-color:#F26C4F;">Failed tries:   ' +problemtry[k].failed_tries + '</td>';
-												}
-											}
-										}
-									
-									
-									}
-								tr+=trk;	
-								tr+='</tr>';
-								$('#contestranklist').append(tr);
-								
-								
-							$(("#" +data[i].team.name)).attr("href",("/team/"+data[i].team.name+"/"));
-						}
-					},
-					error : function(request ){
-						 if(request.status===405){
-				   window.location.replace("/user/"); 
-			   }
-						swal("Sorry!", "Contest does not exist!", "error") ; 
-					}
-			});
-	}
+		
 	$('#loading').hide();
 	$('#body').show();
 	});
@@ -796,7 +806,11 @@
 	 $.ajax({
             type: "GET",
             url :"/contest/"+contestid+"/problems/"+(parseInt(id)+1)+"/",
-            dataType: "html",  				
+            dataType: "html",
+            beforeSend: function() {
+				$('#loading').show();
+				$('#body').hide();
+			},  				
             success: function (data) {
 			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
 			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);		
@@ -820,7 +834,11 @@
 				   window.location.replace("/user/"); 
 			   } 			    
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  			         
-           }   
+           },
+           complete: function(){
+					$('#loading').hide();
+					$('#body').show();
+				}   
     });
    
 if(canedit==="no"){
@@ -912,7 +930,8 @@ if(canedit==="no"){
 	   }
 							                        
     });
-  }else{  
+  }
+  else{  
 	  showproblem();
 	 problemid=(parseInt(id)+1);
 	 $('#contestteam').css('background-color', '#1B325F');
@@ -1039,7 +1058,10 @@ if(canedit==="no"){
 				type: "GET",
 				url :"/contest/"+contestid+"/problems/",
 				dataType: "html",
-			   
+			   beforeSend: function() {
+					$('#loading').show();
+					$('#body').hide();
+				},
 				success: function (data) {
 				reset();//added by milad
 				document.getElementById('titlePage').innerHTML="Problems" ;
@@ -1075,7 +1097,11 @@ if(canedit==="no"){
 				   window.location.replace("/user/"); 
 			   }
 				  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
-			   }
+			   },
+			    complete: function(){
+					$('#loading').hide();
+					$('#body').show();
+				}
 		});
 
 	 });	 
