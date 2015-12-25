@@ -255,12 +255,13 @@
 
 
 				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
-					
+					<div id="submitloading" style="display:none;text-align:left;">Please wait...</div>
 					<input id="input-2" name="input2[]"  type="file" class="file-loading inputs">	        
 				</div>
 
 				<div id="addtestcase" class="col-xs-12 col-md-11  row" style="display:none">
 						<p style="text-align:left;">Add testcase file for this problem. Please upload your ZIP file </p>
+						<div id="testcaseloading" style="display:none">Please wait...</div>
 					<input id="input-1" name="input1[]" type="file"  class="file-loading inputs">	
 				
 					</div>	
@@ -875,6 +876,10 @@ if(canedit==="no"){
            processData: false,
             dataType: "html",			
             data:file1,
+            beforeSend: function() {
+				//$('#input-2').fileinput('disabled');
+					$('#submitloading').show();
+				},
             success: function (data) {
                 if((JSON.parse(data)).status !="Accepted"){
 								 swal("OoOops!!!", "You have:"+(JSON.parse(data)).status, "error");
@@ -888,11 +893,15 @@ if(canedit==="no"){
             error: function (request, status, error) {
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 				 $('#input-2').fileinput('clear');
-            }
+            },
+             complete: function(){
+					   $('#input-2').fileinput('enable');
+					$('#submitloading').hide();
+				}
               });	
 							
 		});	
-		$('#input-2').fileinput('enable');		
+			$('#input-2').fileinput('enable');	
 			},
           error: function (request, status, error) { 
 			   if(request.status===405){
@@ -948,6 +957,10 @@ if(canedit==="no"){
            processData: false,
             dataType: "html",			
             data:file,
+            beforeSend: function() {
+				
+					$('#testcaseloading').show();
+				},
             success: function (data) {
                 swal("Good!", "add testcase successfully", "success");
                 $('#input-1').fileinput('clear');
@@ -959,7 +972,11 @@ if(canedit==="no"){
 			   }
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 				 $('#input-1').fileinput('clear');
-            }
+            },
+             complete: function(){
+					   $('#input-1').fileinput('enable');
+					$('#testcaseloading').hide();
+				}
               });
 	
 							
