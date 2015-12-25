@@ -124,6 +124,8 @@ def change_profile():
 			if new_email:
 				obj.email = new_email
 			obj.save()
+			logout_user()
+			login_user(new_username)
 			return "", 200
 		except NotUniqueError, err:
 			err = err.args[0]
