@@ -86,6 +86,7 @@
 		</div>
 		<button id="submitCreateTeam" class="submit-button">Submit</button>
 		<div id="ifSuccessfully"></div>
+		<div id="createteamloading" style="display:none;">Please wait...</div>
 	</div>
 </div>
 
@@ -333,6 +334,10 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 									dataType: "html",
 									contentType: "application/json",
 									data: JSON.stringify(myData),
+									beforeSend: function() {
+										 $('#submitCreateTeam').prop('disabled', true);
+										$('#createteamloading').show();
+									},
 									success: function(data){
 										$("#teamName").val("");
 										$("#member1").val("");
@@ -347,6 +352,10 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 										}
 											
 										swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
+									},
+									 complete: function(){
+										$('#submitCreateTeam').prop('disabled', false);
+										$('#createteamloading').hide();
 									}
 								});
 							});
