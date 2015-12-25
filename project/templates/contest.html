@@ -339,6 +339,7 @@
 	  contestid = '{{contest_id }}';
 	  //alert(contestid);
 	 $( '#getidcontest ' ).html(contestid);	
+	 setTimeout(function(){
 	  $.ajax({
             type: "GET",
             url : "/contest/by_id/"+contestid+"/",
@@ -362,7 +363,7 @@
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  	      	      		
       		}
 		}); 
-		 	
+		}, 0); 	
 	}
 	else{
 		//$("#titlePage").text("Your contests");

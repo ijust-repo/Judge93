@@ -132,7 +132,17 @@
         dataType: "html",
         data: '{"new_username" : "' + username + '", "new_email" : "' + email + '"}',
         success: function (data) {
-			swal("Good!", "username and email changed successfully!", "success");
+			swal({
+				title: "Good!",
+				text: "username and email changed successfully!",
+				type: "success",							 
+				closeOnConfirm: true,
+				showLoaderOnConfirm: true,
+				},
+				function(){						  
+					window.location.reload();
+			});	
+			
           
         },
         error: function (request, status, error) {
