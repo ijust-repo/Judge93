@@ -4,6 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Home</title>
+    <link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
     <link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" >
     <link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
@@ -13,13 +14,15 @@
     <script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>   
     <script src="{{ url_for('static', filename='../statics/js/bootstrap.js') }}" /></script>	
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
-<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
+
     
    
 </head>
 
 <body>
-	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" style="display:none">
+	<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
+<div id="body" style="display:none">
+	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 		
 		<li class=" usernameitem " id="usernameitem">
 			
@@ -52,12 +55,12 @@
 		</li>
 		</ul>
 
-    <div id="class1" class="col-xs-offset-3 col-md-offset-2 row" style="display:none">
+    <div  class="col-xs-offset-3 col-md-offset-2 row" >
 		<div class="col-xs-12 col-md-12 maintitr">
 			<p id="titlePage"> All contest </p>          
 		</div>
 	</div>
-	<div id="class2" class="col-xs-offset-3 col-md-offset-2 row" style="display:none">
+	<div  class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents " >
 			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">							
 				<table id="contestinfo">
@@ -82,8 +85,7 @@
 			</div>
 		</div>
    	</div>
-		<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
-
+</div>
 </body>
 <script>
 	
@@ -257,10 +259,8 @@ $("#contest").click(function() {
 $("#team").click(function() {
 	window.location.replace("/user/"+username+"/team/");
   });
-  		$('#loading').hide();
-	$('#leftmenu').show();
-	$('#class1').show();
-	$('#class2').show();
+$('#loading').hide();
+	$('#body').show();
   });
   
   
