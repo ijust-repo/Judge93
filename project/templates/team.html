@@ -1,26 +1,31 @@
 <html  lang="en">
 <head>
+	<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Teams</title>
-	<link  href="{{ url_for('static', filename='../statics/img/J.png') }} " rel="icon" >
+	<link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" >
 	<link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} " rel="stylesheet" />
-	<link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
-    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
+	<link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />  
 	<script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
+	 <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
+	 <script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/bootstrap.js') }}" /></script>
 	<link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
-	<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
+	
 
 
 </head>
 
 <body>
+		<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
+<div id="body" style="display:none">
+
 <ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 
 	<li class=" usernameitem " id="usernameitem">
-		<a href="#" ><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>  </h4></a>
+		<a href="#" ><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/j2.png') }}" height="100%"/>  </h4></a>
 		<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 	</li>
 
@@ -52,7 +57,7 @@
 </ul>
 <div class="col-xs-offset-3 col-md-offset-2 row">
 	<div class="col-xs-9 col-md-10 maintitr">
-		<p id="titlePage">Teams</p>
+		<p id="titlePage">Your teams</p>
 		<div><a href="#createTeam"><button class="hover-button close-page">Create Team</button></a></div>
 	</div>
 </div>
@@ -84,9 +89,7 @@
 	</div>
 </div>
 
-
-
-
+</div>
 </body>
 
 <script>
@@ -216,17 +219,18 @@
 
 	/************************************************************************************************************/
 	$(document).ready(function () {
-
+$(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 		var id = '{{user_id }}';
 		$myId = '{{user_id }}';
 		var username;
 		function changeprofile(username){
+			$('#titlePage').text(username+"'s teams"); 
 			document.title = username;
 			document.getElementById('backtoprofile').style.display = 'block';
 			document.getElementById('logout').style.display = 'none';
 			document.getElementById('users').style.display = 'none';
 			document.getElementById('setting').style.display = 'none';
-			document.getElementById('titlePage').innerHTML="Teams" ;
+			
 		}
 		$.ajax({
 			type: "GET",
@@ -489,13 +493,11 @@ $("#backtoprofile").click(function() {
 		});
 });
 /**************************************************************************************************/
-
-
-
 		$("#loneTeamPage").hide();
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#team').css('background-color', '#355C7D');
-
+$('#loading').hide();
+	$('#body').show();
 	});
 
 </script>

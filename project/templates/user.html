@@ -3,12 +3,13 @@
 <meta charset="utf-8">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-        <link  href="{{ url_for('static', filename='../statics/img/J.png') }} " rel="icon" > 
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+     <link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" /> 
+        <link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" > 
     <title>JUST</title>
    
    
-    <link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
+    
     <link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} "rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
@@ -21,8 +22,9 @@
 </head>
 
 <body> 
+	<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
 
-<div class=" user">
+<div id="body" class=" user">
 	
 	<div class="row top-menu" >
 		<nav class="navbar navbar-inverse  shadow">
@@ -43,7 +45,8 @@
 	</div>
 	<div class="row col-xs-offset=1 col-md-offset-1 content">
 	<div class="left col-xs-10 col-md-6" >	
-         	
+		<img src="{{ url_for('static', filename='../statics/img/Icon.png') }}" height="80%"/>  
+        	
 	</div>
 	<div class="right">
 
@@ -55,7 +58,12 @@
 		</div>
 		<input type="text" name="username_login" id="username_login" placeholder="Username" required /><br>             
         <input type="password" name="password_login" id="password_login" placeholder="Password" required /><br>                
-        <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br>
+        <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br><br>
+        <a id="forgot" href="#forgot">Forgot your password?</a>
+        <div id="passoruser"  style="display:none">
+        <a id="forgotbyemail" href="#forgot">Reset password by email</a><br>
+         <a id="forgotbyuser" href="#forgot">Reset password by username</a>
+        </div>
      </div>
     <div id="register" class="tab-pane fade">
 		<div style=" border-bottom: 1px solid #1B325F;">
@@ -91,47 +99,7 @@
       if(e.keyCode==13)
       $('#signupbtn').click();
     });
-
-            
-            /*  var jssor_1_SlideshowTransitions = [
-            {$Duration:1200,$Opacity:2}
-            ];
-            
-            var jssor_1_options = {
-              $AutoPlay: true,
-              $SlideshowOptions: {
-                $Class: $JssorSlideshowRunner$,
-                $Transitions: jssor_1_SlideshowTransitions,
-                $TransitionsOrder: 1
-              },
-              $ArrowNavigatorOptions: {
-                $Class: $JssorArrowNavigator$
-              },
-              $BulletNavigatorOptions: {
-                $Class: $JssorBulletNavigator$
-              }
-            };
-            
-            var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
-            
-            //responsive code begin
-            //you can remove responsive code if you don't want the slider scales while window resizing
-            function ScaleSlider() {
-                var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
-                if (refSize) {
-                    refSize = Math.min(refSize, 600);
-                    jssor_1_slider.$ScaleWidth(refSize);
-                }
-                else {
-                    window.setTimeout(ScaleSlider, 30);
-                }
-            }
-            ScaleSlider();
-            $(window).bind("load", ScaleSlider);
-            $(window).bind("resize", ScaleSlider);
-            $(window).bind("orientationchange", ScaleSlider);
-            //responsive code end*/
-        
+       
 	//sign up
 $("#signupbtn").click(function() { 
 var username = $("input#username_signup").val();
@@ -145,6 +113,9 @@ if (password===password2) {
             contentType: "application/json",
             dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
+             beforeSend: function() {
+				$('#register').append('please wait...');
+			},
             success: function (data) {
 				swal({
 					  title: "Good!",
@@ -191,6 +162,9 @@ var password = $("input#password_login").val();
             contentType: "application/json",
             dataType: "html",
             data: '{"username": "' + username + '", "password" : "' + password + '"}',
+             beforeSend: function() {
+				$('#login').append('please wait...');
+			},
             success: function (data) {
                 window.location.replace("/user/"+username+"/");
             },
@@ -206,6 +180,85 @@ var password = $("input#password_login").val();
                 
   });
 
+//forgot
+$("#forgot").click(function() { 
+	$('#passoruser').show();
+	$('#forgot').hide();
+	});
+
+$("#forgotbyemail").click(function() { 
+	swal({
+	  title: " ",
+	  text: "Please wirte your email",
+	  type: "input",
+	  showCancelButton: true,
+	  closeOnConfirm: false,
+	  animation: "slide-from-top",
+	  showLoaderOnConfirm: true,
+	  inputPlaceholder: "email"
+	},
+	function(inputValue){
+	  if (inputValue === false) return false;
+	  
+	  if (inputValue === "") {
+		swal.showInputError("You need to write your email!");
+		return false;
+	  }
+	  $.ajax({
+				type: "POST",
+				url :'/user/forgot_password/',
+				data: '{"email" : "' + inputValue + '"}',
+				dataType: "html",
+				contentType: "application/json",
+				
+				success: function (data) {
+					swal("Good!","Your password changed successfully " , "success") ; 
+				} ,
+			  error: function (request, status, error) { 
+			   
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
+			   }  
+		});
+	});	
+	});	
+	$("#forgotbyuser").click(function() { 
+	swal({
+	  title: " ",
+	  text: "Please wirte your username",
+	  type: "input",
+	  showCancelButton: true,
+	  closeOnConfirm: false,
+	  animation: "slide-from-top",
+	  showLoaderOnConfirm: true,
+	  inputPlaceholder: "username"
+	},
+	function(inputValue){
+	  if (inputValue === false) return false;
+	  
+	  if (inputValue === "") {
+		swal.showInputError("You need to write your username!");
+		return false;
+	  }
+	  $.ajax({
+				type: "POST",
+				url :'/user/forgot_password/',
+				data: '{"username" : "' + inputValue + '"}',
+				dataType: "html",
+				contentType: "application/json",
+				
+				success: function (data) {
+					swal("Good!","Your password changed successfully " , "success") ; 
+				} ,
+			  error: function (request, status, error) { 
+			   
+					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
+			   }  
+		});
+	});	
+	});
+
+$('#loading').hide();
+	$('#body').show();
 });
 </script>
 </html>

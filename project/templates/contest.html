@@ -1,32 +1,36 @@
 <html  lang="en">
 <head>
+	<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Contests</title>
-	<link  href="{{ url_for('static', filename='../statics/img/J.png') }} " rel="icon" >
+	<link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" >
     <link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} " rel="stylesheet" />
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />     
     <link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }} " rel="stylesheet" />  
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />   
     <link href="{{ url_for('static', filename='../statics/css/fileinput.min.css') }}" rel="stylesheet" />
     <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
+    <script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/bootstrap.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/fileinput.min.js') }}" /></script>
     <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>   	
 	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
 	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}" /></script>	    
-	<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
+	
 
 </head>
  
 
 
 <body>
+	<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
+<div id="body" style="display:none">
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 		
 		<li class=" usernameitem " id="usernameitem">
-			<a href="#"><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>  </h4></a>
+			<a href="#"><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/j2.png') }}" height="100%"/>  </h4></a>
 			<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
 		</li>			
 		<li  id="contest"  >
@@ -58,11 +62,8 @@
 		
 		<li class=" usernameitem " id="contestnameitem">
 			<a href="" ><h4 id="getcontestname" class="leftmenuitem">
-				<img src="{{ url_for('static', filename='../statics/img/J.png') }}" height="100%"/>
-				
-				  </h4>
-				  
-				  </a>
+				<img src="{{ url_for('static', filename='../statics/img/j2.png') }}" height="100%"/></h4> 
+			</a>
 				  
 			<h4 id="getidcontest" style="display:none"></h4>
 		</li>			
@@ -137,7 +138,7 @@
     
 <div class="col-xs-offset-3 col-md-offset-2 row">
 	<div id="maintitr" class="col-xs-9 col-md-10 maintitr">
-		<p id="titlePage">Contests</p>
+		<p id="titlePage">Your contests</p>
 		<div id="createcontestdiv" ><a href="#createContest"><button class="hover-button close-page">Create  Contest</button></a></div>
 		<div id="addproblemdiv" style="display:none"><a href="#addProblem"><button id="addproblembtn" class="hover-button close-page">Add problem</button></a></div>
 	</div>
@@ -152,7 +153,7 @@
 	</div>
 </div>
    
-	<div class="col-xs-offset-3 col-md-offset-2 row">
+<div class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents  " >
 			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">					
 				<table id="contestinfo">
@@ -188,9 +189,9 @@
 				<label class="labelcss" for="problemtitle">Title: </label>
 				<input type="text" name="problemtitle" id="problemtitle" style="width:85%"/><br><br>
 				<div class="row"> 
-					<label class="labelcss" for="problemtimelimit">Time limit: </label>
+					<label class="labelcss" for="problemtimelimit">Time limit(ms): </label>
 					<input type="text" name="problemtimelimit" id="problemtimelimit" style="margin-right:3%; width:35.5%"/>
-					<label class="labelcss" for="problemspacelimit">Space limit: </label>
+					<label class="labelcss" for="problemspacelimit">Space limit(kb): </label>
 					<input type="text" name="problemspacelimit" id="problemspacelimit" style="width:35.5%"/><br>
 				</div>
 				<label class="labelcss" for="problemheader">Header: </label>
@@ -220,10 +221,15 @@
 			</div>
 			<div id="contestquestion"  style="display:none">
 				<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
-					<p  >: محدودیت حافظه</p>
-					<div id="contestspacelimitdiv" class="row  "></div><hr>
-					<p  >: محدودیت زمانی</p>
-					<div id="contesttimelimitdiv" class="row  "></div><hr>
+					<div class="row">
+					
+					<div class="col-lg-6"><span id="contestspacelimitdiv" ></span><span>:(kb)</span><span>محدودیت حافظه</span>
+					
+					</div>
+					<div class="col-lg-6"><span id="contesttimelimitdiv" ></span><span>:(ms)</span><span>محدودیت زمانی</span>
+					
+					</div>
+					</div><hr>
 					<div id="contestheaderdiv" class="row  "></div><hr>
 					<div id="contestbodydiv" class="row"></div><hr>
 					<div id="contestfooterdiv" class="row"></div><hr>
@@ -250,12 +256,12 @@
 
 				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
 					
-					<input id="input-2" name="kartik-input-2[]"  type="file" class=" file-loading">	        
+					<input id="input-2" name="input2[]"  type="file" class="file-loading inputs">	        
 				</div>
 
 				<div id="addtestcase" class="col-xs-12 col-md-11  row" style="display:none">
 						<p style="text-align:left;">Add testcase file for this problem. Please upload your ZIP file </p>
-					<input id="input-1" name="kartik-input-1[]" type="file"  class="file-loading">	
+					<input id="input-1" name="input1[]" type="file"  class="file-loading inputs">	
 				
 					</div>	
 				<div id="contesteditproblems" class="col-xs-12 col-md-11  row" style="display:none">
@@ -271,18 +277,21 @@
 				<table id="contestteamstbl">
 					<tr>						  
 						<td > Team name </td>
-						<td > Admin </td>
+						
 						<td > Members </td>
+						<td > Admin </td>
 						<td> Accept or Reject </td>	
 					</tr>
 				</table>
 			</div>						 
 	    </div>	  
    	</div>  
+</div>
 </body>
 
 <script>
-
+	
+	
 	var problemnumber=0;
 	var canedit="no";
 	var contestid =null;
@@ -297,6 +306,9 @@
 	var teamid=null;
 	var contestadmin=null;
 	$(document).ready(function () {
+		$("#contents").css('overflow-x', 'scroll');
+		$("#contents").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
+		$(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 		reset();
 	
 	//get userlogin
@@ -315,7 +327,7 @@
 		
 		});
 		
-/**************************************************************************************************/
+//  ///////////////////////////////////
 	if(getAbsolutePath()==="/contest/"){
 	  contestid = '{{contest_id }}';
 	  //alert(contestid);
@@ -327,6 +339,7 @@
              async: false,				
             success: function (data) {
 				$myData = (JSON.parse(data));
+				//alert($myData.ends_on);
 				$('#contestinformation').append('<div class="open-page info-contest" ><div class="row header-team"><div class="col-sm-3"><button  id="cancelContestButton" onclick="$cancelContest();" class="hover-button" style="display: none">Cancel</button></div><div class="col-sm-6"><div><p class="editable">' + $myData.name + '</p></div></div><div class="col-sm-3"><button id="editContestButton" onclick="$editContest();" style="display:none"; class="hover-button">Edit</button></div></div><div class="body-team"><div class="sector-block-contest"><div class="title">owner</div><p>' + $myData.owner.username + '</p></div><div class="sector-block-contest"><div class="title">created on</div><p>' + convertUTCDateToLocalDate($myData.created_on )+ '</p></div><div class="sector-block-contest"><div class="title">starts on</div><p>' + convertUTCDateToLocalDate($myData.starts_on) + '</p></div><div class="sector-block-contest"><div class="title">ends on</div><p>' + convertUTCDateToLocalDate($myData.ends_on) + '</p></div></div><input class="contest-id" type="hidden" value="' + $myData.id + '"></div>');
 				 countdown($myData.ends_on);
 				 contestname=(JSON.parse(data)).name;
@@ -356,6 +369,7 @@
 		        username=(JSON.parse(data)).username;
 				checkprofile(username);
 				$( '#getusername ' ).append(username);
+			
 				$( '#getidprof ' ).html(id);	
             },
            error: function (request) { 
@@ -396,7 +410,7 @@
  
  $('#contest').css('background-color', '#355C7D');
  }
- /************************************************************************************/
+// ////////////////////////////////////////////////////////////////////
 	$('.edit-order').click(function(){
 
 		if ($(this).find('button').html() == 'Edit Order')
@@ -483,8 +497,8 @@
 		if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
 				$('#rank').css('background-color', '#355C7D');
 				reset();
-		$("#contestrank").show(1000);
-		$("#titlePage").text("Ranking");
+				$("#contestrank").show(1000);
+				$("#titlePage").text("Ranking");
 				$.ajax({
 					type : "GET",
 					url : "/contest/" + contestid + "/details/",
@@ -540,6 +554,8 @@
 					}
 			});
 	}
+	$('#loading').hide();
+	$('#body').show();
 	});
 	function countdown(time){
 		var target_date =moment(convertUTCDateToLocalDate(time));
@@ -594,6 +610,7 @@
 			   }		 
 	}
 	function changeprofile(username){
+			$('#titlePage').text(username+"'s contests");
 			document.title = username;
 			document.getElementById('backtoprofile').style.display = 'block';
 			document.getElementById('logout').style.display = 'none';
@@ -603,6 +620,7 @@
 					 
 }
 	function checkprofile(username){
+		
 		 $.ajax({
             type: "GET",
             url : '/user/get_profile/',
@@ -611,7 +629,8 @@
 			 userlogin=(JSON.parse(data)).username;
            if(username===userlogin){
 			   
-          /* document.getElementById('info').style.display = 'none';*/	}
+         // document.getElementById('info').style.display = 'none';
+         	}
            else{
 			  changeprofile(username);
 			   
@@ -750,8 +769,8 @@
 			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
 			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);		
 			problemid=((JSON.parse(data)).id);
-			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
-			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit );
+			$("#contestspacelimitdiv").append((JSON.parse(data)).space_limit);
+			$("#contesttimelimitdiv").append((JSON.parse(data)).time_limit );
 			$("#contestheaderdiv").html((JSON.parse(data)).header);
 			$("#contestbodydiv").html((JSON.parse(data)).body);
 			$("#contestfooterdiv").html((JSON.parse(data)).footer);
@@ -787,8 +806,30 @@ if(canedit==="no"){
 						showUpload: true,
 						uploadUrl:  " ",
 						//uploadAsync: false,
-						maxFileCount: 1,														
-					}); 	       
+						maxFileCount: 1,
+						layoutTemplates: {
+							preview: '<div class="file-preview {class}">\n' +
+								'    {close}\n' +
+								'    <div class="close fileinput-remove">×</div>\n' +
+								'    <div class="file-preview-thumbnails">\n' +
+								'    </div>\n' +
+								'    <div class="clearfix"></div>' +
+								'    <div class="file-preview-status text-center text-success"></div>\n' +
+								'    </div>\n' +
+								'</div>',
+
+							footer: '<div class="file-thumbnail-footer">\n' +
+								'    <div class="file-caption-name" style="width:{width}">{caption}</div>\n' +
+								'    {progress} {actions}\n' +
+								'</div>',
+							actions: '<div class="file-actions">\n' +
+								'    <div class="file-footer-buttons">\n' +
+								'        {delete}' +
+								'    </div>\n' +
+								'    <div class="clearfix"></div>\n' +
+								'</div>',     
+					}	 														
+				}); 	       
 			$('#input-2').on('filebatchpreupload', function(event, data, previewId, index, jqXHR) {
 			var filetype= $('.nav-pills > li.active a').attr("id");
 			$('#input-2').fileinput('enable');
@@ -833,10 +874,31 @@ if(canedit==="no"){
   $("#input-1").fileinput({
 			
 		showUpload: true,
-		uploadUrl:  " ",
+		uploadUrl: " ",
 		uploadAsync: false,
 		maxFileCount: 1,
-			 
+		layoutTemplates: {
+			preview: '<div class="file-preview {class}">\n' +
+				'    {close}\n' +
+				'    <div class="close fileinput-remove">×</div>\n' +
+				'    <div class="file-preview-thumbnails">\n' +
+				'    </div>\n' +
+				'    <div class="clearfix"></div>' +
+				'    <div class="file-preview-status text-center text-success"></div>\n' +
+				'    </div>\n' +
+				'</div>',
+
+			footer: '<div class="file-thumbnail-footer">\n' +
+				'    <div class="file-caption-name" style="width:{width}">{caption}</div>\n' +
+				'    {progress} {actions}\n' +
+				'</div>',
+			actions: '<div class="file-actions">\n' +
+				'    <div class="file-footer-buttons">\n' +
+				'        {delete}' +
+				'    </div>\n' +
+				'    <div class="clearfix"></div>\n' +
+				'</div>',     
+    }	 
 													
 	}); 
 	       
@@ -864,9 +926,7 @@ if(canedit==="no"){
 							
 		});	
 		$('#input-1').fileinput('enable');
-
-
-			
+		
    
 }
 }
@@ -885,12 +945,12 @@ if(canedit==="no"){
 					  text: "Your changes submited successfully",
 					  type: "success",
 					 
-					  closeOnConfirm: false,
-					  showLoaderOnConfirm: true,
+					  closeOnConfirm: true,
+					  //showLoaderOnConfirm: true,
 					},
 					function(){
 					  
-						backtocontestpage();
+						window.location.replace("/contest/"+contestname+"/");
 					});    
              
               
@@ -1130,7 +1190,7 @@ if(canedit==="no"){
 				dataType: "html",
 				contentType: "application/json",
 				success: function (data) {
-					swal("Good!","Your request submit successfully" , "success") ; 
+					swal("Good!","Your request submited successfully" , "success") ; 
 				} ,
 			  error: function (request, status, error) { 
 			   
@@ -1139,10 +1199,6 @@ if(canedit==="no"){
 		});
 	});	
 	});	
-	/*$("#joinbtn").click(function() {
-	alert("hello");
-		
- });*/
 	$("#backtoproblemlistbtn").click(function() {
 		 backtocontestpage();
 	});	
@@ -1160,18 +1216,32 @@ if(canedit==="no"){
 					//alert(data);
 					 if(flagteamlist==false){
 						var data=(JSON.parse(data)).teams;
+						if(data==""){
+							$('#contestteams').html("there is no pending request to show");
+						}
 						//alert(data[0].name+","+data.length);
 						 var tr;
 						for (var i = 0; i < data.length; i++) {
-							
+							//alert(data[i].members.length);
 							tr = '<tr id="'+data[i].id+'">';								
-							tr+="<td>" + data[i].name + "</td>";
-							tr+="<td>" + data[i].owner.username + "</td>";	
-							tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>";		
-							//tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
-							//tr.append("<td>" + data[i].name + "</td>");
-							alert(tr);
+							tr+='<td><a href="#" id="p'+data[i].name+'">' + data[i].name + '</a></td>';
+							
+							
+							if(data[i].members.length ==3){	
+								tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username +","+data[i].members[2].username + "</td>";		
+							}
+							else if(data[i].members.length ==2){	
+								tr+="<td>" + data[i].members[0].username + ","+data[i].members[1].username +"</td>";	
+							}
+							else {	
+								tr+="<td>" + data[i].members[0].username + "</td>";		
+							}
+							tr+='<td><a href="#" id="u'+data[i].owner.username+'">' + data[i].owner.username + '</a></td>';
+							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
+							
 							$('#contestteamstbl').append(tr);
+							$(("#p"+data[i].name)).attr("href",("/team/"+data[i].name+"/"))	;
+							$(("#u"+data[i].owner.username)).attr("href",("/user/"+data[i].owner.username+"/"))	;
 						}
 						$('.rejectteam').click(function(){
 						id = $(this).closest('tr').attr('id');
@@ -1182,7 +1252,9 @@ if(canedit==="no"){
 						id = $(this).closest('tr').attr('id');
 						acceptorrejectteam(id,true);
 										
-						});			
+						});	
+						
+						//alert(tr);	
 						flagteamlist=true;
 				}	
 					
@@ -1195,8 +1267,7 @@ if(canedit==="no"){
 		
 	});
 	$("#rank").click(function( ){
-			window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");
-			rankPage();
+			window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");			
 		});		
 	$("#team").click(function() {
 		window.location.replace("/user/"+username+"/team/");
@@ -1239,7 +1310,7 @@ if(canedit==="no"){
 				var myDate;
 				myDate = new Date;
 				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth(myRawData[0].split('/')[0]);
+				myDate.setMonth(myRawData[0].split('/')[0]-1);
 				myDate.setDate(myRawData[0].split('/')[1]);
 				if (myRawData[2] == 'PM')
 				{
@@ -1249,9 +1320,10 @@ if(canedit==="no"){
 				{
 					myDate.setHours(myRawData[1].split(':')[0]);
 				}
-				myDate.setMinutes(myRawData[1].split(':')[1]);
+				myDate.setMinutes((myRawData[1].split(':')[1])+21);
 				myDate = new Date(myDate.toUTCString());
 				myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				//alert(myDate);
 				isSend = true;
 			}
 			if ($("#datetimepicker2").parent().data('data') != $("#datetimepicker2").val() && $("#datetimepicker2").val() != "")
@@ -1260,8 +1332,9 @@ if(canedit==="no"){
 				var myDate;
 				myDate = new Date;
 				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth(myRawData[0].split('/')[0]);
+				myDate.setMonth((myRawData[0].split('/')[0])-1);
 				myDate.setDate(myRawData[0].split('/')[1]);
+				
 				if (myRawData[2] == 'PM')
 				{
 					myDate.setHours(myRawData[1].split(':')[0] + 12);
@@ -1270,9 +1343,10 @@ if(canedit==="no"){
 				{
 					myDate.setHours(myRawData[1].split(':')[0]);
 				}
-				myDate.setMinutes(myRawData[1].split(':')[1]);
+				myDate.setMinutes(myRawData[1].split(':')[1]+21);
 				myDate = new Date(myDate.toUTCString());
 				myData["ends_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				
 				isSend = true;
 			}
 			if ($(".editable").val() != $("#editContestButton").data('name'))
@@ -1310,6 +1384,8 @@ if(canedit==="no"){
 			}
 		});
 		document.getElementById("cancelContestButton").style.display = 'none';
+		$("#editContestButton").html("Edit");
 	}
+
 </script>
 </html>
