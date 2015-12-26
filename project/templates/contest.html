@@ -1450,7 +1450,7 @@ if(canedit==="no"){
 				var myDate;
 				myDate = new Date;
 				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth(myRawData[0].split('/')[0]-1);
+				myDate.setMonth(myRawData[0].split('/')[0]);
 				myDate.setDate(myRawData[0].split('/')[1]);
 				if (myRawData[2] == 'PM')
 				{
@@ -1460,7 +1460,7 @@ if(canedit==="no"){
 				{
 					myDate.setHours(myRawData[1].split(':')[0]);
 				}
-				myDate.setMinutes((myRawData[1].split(':')[1])+21);
+				myDate.setMinutes((myRawData[1].split(':')[1]));
 				myDate = new Date(myDate.toUTCString());
 				myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
 				//alert(myDate);
@@ -1472,7 +1472,7 @@ if(canedit==="no"){
 				var myDate;
 				myDate = new Date;
 				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth((myRawData[0].split('/')[0])-1);
+				myDate.setMonth((myRawData[0].split('/')[0]));
 				myDate.setDate(myRawData[0].split('/')[1]);
 				
 				if (myRawData[2] == 'PM')
@@ -1483,7 +1483,7 @@ if(canedit==="no"){
 				{
 					myDate.setHours(myRawData[1].split(':')[0]);
 				}
-				myDate.setMinutes(myRawData[1].split(':')[1]+21);
+				myDate.setMinutes(myRawData[1].split(':')[1]);
 				myDate = new Date(myDate.toUTCString());
 				myData["ends_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
 				
