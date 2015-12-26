@@ -456,6 +456,8 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 
 				$( '#getusername ' ).append(username);
 				$( '#getidprof ' ).html(id);
+				$('#loading').hide();
+			$('#body').show();
 			},
 			error: function (request) {
 				var teamId = '{{team_id}}';
@@ -507,8 +509,7 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 								$( '#getusername ' ).append('Team Info');
 								$( '#titlePage ' ).html($myDataTeam.name);
 								$("#teamPage").html(addHtml);
-								$('#loading').hide();
-								$('#body').show();
+								
 							},
 							error: function(request) {
 								window.location.replace("/user/");
