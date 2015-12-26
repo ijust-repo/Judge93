@@ -1351,7 +1351,7 @@ if(canedit==="no"){
 				 $('#contestteams').show();
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
-					alert(data);
+					//alert(data);
 					 if(flagteamlist==false){
 						var data=(JSON.parse(data)).teams;
 						if(data==""){
@@ -1366,13 +1366,13 @@ if(canedit==="no"){
 							
 							
 							if(data[i].members.length ==2){	
-								tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username +","+data[i].members[2].username + "</td>";		
+								tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>";		
 							}
 							else if(data[i].members.length ==1){	
-								tr+="<td>" + data[i].members[0].username + ","+data[i].members[1].username +"</td>";	
+								tr+="<td>" + data[i].members[0].username + "</td>";	
 							}
 							else {	
-								tr+="<td>" + data[i].members[0].username + "</td>";		
+								tr+="<td> -</td>";		
 							}
 							tr+='<td><a href="#" id="u'+data[i].owner.username+'">' + data[i].owner.username + '</a></td>';
 							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
