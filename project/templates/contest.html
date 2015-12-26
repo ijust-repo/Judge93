@@ -354,6 +354,8 @@
 				 contestadmin=(JSON.parse(data)).owner.username;
 				checkifadmin(contestadmin);
 				 changecontestpage(contestname);
+				 $('#loading').hide();
+				$('#body').show();
 				 if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
 			//alert("hello");
 				$('#rank').css('background-color', '#355C7D');
