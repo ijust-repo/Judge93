@@ -289,6 +289,8 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 			document.getElementById('logout').style.display = 'none';
 			document.getElementById('users').style.display = 'none';
 			document.getElementById('setting').style.display = 'none';
+			$('#loading').hide();
+			$('#body').show();
 			
 		}
 		$.ajax({
@@ -569,8 +571,7 @@ $("#backtoprofile").click(function() {
 		$("#loneTeamPage").hide();
 		$('.close-page').removeClass('close-page').addClass('open-page');
 		$('#team').css('background-color', '#355C7D');
-$('#loading').hide();
-	$('#body').show();
+
 	});
 
 </script>
