@@ -453,6 +453,8 @@
 				checkprofile(username);
 				$( '#getusername ' ).append(username);			
 				$( '#getidprof ' ).html(id);
+				$('#loading').hide();
+				$('#body').show();
 				$.ajax({
 					type: "GET",
 					url : "/user/"+id+"/teams/",
@@ -602,8 +604,7 @@
 		});
 
 		
-	$('#loading').hide();
-	$('#body').show();
+
 	});
 	function countdown(time){
 		var target_date =moment(convertUTCDateToLocalDate(time));
