@@ -277,6 +277,7 @@
 
 	/************************************************************************************************************/
 	$(document).ready(function () {
+		$('#createteamloading').hide();
 $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 		var id = '{{user_id }}';
 		$myId = '{{user_id }}';
@@ -316,7 +317,7 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 						{
 							$isYourProfile = true;
 							$('#submitCreateTeam').click(function(){
-								$('#createteamloading').hide();
+								
 								var teamName = $("#teamName").val();
 								var member1 = $("#member1").val();
 								var member2 = $("#member2").val();
@@ -348,8 +349,9 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 										$("#member2").val("");
 										$("#submitCreateTeam").hide();
 										$("#ifSuccessfully").html("Your team successfully created.");
-										setTimeout(function(){ window.location = "/user/" + username + "/team/"; }, 1000);
 										$('#createteamloading').hide();
+										setTimeout(function(){ window.location = "/user/" + username + "/team/"; }, 1000);
+										
 									},
 									error: function (request, status, error){
 										if(request.status===409){
