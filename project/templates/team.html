@@ -316,6 +316,7 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 						{
 							$isYourProfile = true;
 							$('#submitCreateTeam').click(function(){
+								$('#createteamloading').hide();
 								var teamName = $("#teamName").val();
 								var member1 = $("#member1").val();
 								var member2 = $("#member2").val();
@@ -348,6 +349,7 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 										$("#submitCreateTeam").hide();
 										$("#ifSuccessfully").html("Your team successfully created.");
 										setTimeout(function(){ window.location = "/user/" + username + "/team/"; }, 1000);
+										$('#createteamloading').hide();
 									},
 									error: function (request, status, error){
 										if(request.status===409){
@@ -355,10 +357,11 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 										}
 											
 										swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
+										$('#createteamloading').hide();
 									},
 									 complete: function(){
 										$('#submitCreateTeam').prop('disabled', false);
-										$('#createteamloading').hide();
+										
 									}
 								});
 							});
