@@ -388,44 +388,29 @@ Example Response:
 ```
  {
   "teams": [
-    {
-      "contests": [
-	{
-  	  "id": "5210e3923ac198af54156118",
-  	  "name": "mycontest",
-  	  "start_on": "2015-11-20 13:00:00",
-  	  "ends_on": "2015-11-20 17:00:00"
-	}
-      ], 
-      "id": "563bd59157040f0fcc0113b4", 
-      "members": [
-        {
-          "id": "563b9d2857040f1b6c805892", 
-          "username": "admin"
-        }
-      ], 
-      "name": "team2", 
-      "owner": {
-        "id": "563b9d2857040f1b6c805892", 
-        "username": "admin"
-      }
-    }, 
-    {
-      "contests": [], 
-      "id": "563bd74257040f10ed1134fb", 
-      "members": [
-        {
-          "id": "563b9d2857040f1b6c805892", 
-          "username": "admin"
-        }
-      ], 
-      "name": "myteam", 
-      "owner": {
-        "id": "563b9d2857040f1b6c805892", 
-        "username": "admin"
-      }
-    }
-  ]
+            {
+              "contests": {
+                            "new_contest": "rejected",
+                            "new_contest3": "pending"
+                          },
+              "id": "567cbe2823e3c00ba43affa1",
+              "members": [
+                          {
+                            "id": "567cbce123e3c00ba43aff99",
+                            "username": "admin4"
+                          },
+                          {
+                            "id": "567cbcf223e3c00ba43aff9a",
+                            "username": "admin3"
+                          }
+                         ],
+              "name": "new_team",
+              "owner": {
+                        "id": "567cbcf923e3c00ba43aff9b",
+                        "username": "admin2"
+                       }
+            }
+          ]
 }
 ```
 
