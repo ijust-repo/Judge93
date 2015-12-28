@@ -694,7 +694,7 @@ Example Result
 > **NOTE:**
 
 >- `team_id` is the Id of the team in database.
->- "contests" is a list of contests with acception condition and conditions are from {"accepted" , "pending" , "rejected"}.
+>- "contests"  is contests with acception condition and conditions are from {"accepted" , "pending" , "rejected"}.
 >- If response status code is **406** then the team does not exist.
 
 ------- 
