@@ -17,6 +17,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
 
+<script src='//www.google.com/recaptcha/api.js'></script>
         
 </head>
 
@@ -72,7 +73,8 @@
 		<input type="text" name="username" id="username_signup" placeholder="Username" required /><br>             
         <input type="password" name="password" id="password_signup" placeholder="Password" required /><br>    
         <input type="password" name="password" id="re-password_signup" placeholder="re-Enter Password" required /><br>
-        <input type="email" name="username" id="email_signup" placeholder="Email" /><br>             
+        <input type="email" name="username" id="email_signup" placeholder="Email" /><br>
+        <div class="g-recaptcha" data-sitekey={{ site_key }}></div>
         <input type="button" name="signup" id="signupbtn" class="btn btn-primary "value="register" /><br>
         <div id="signuploading" style="display:none">Please wait...</div>
     </div>
@@ -109,13 +111,14 @@ var username = $("input#username_signup").val();
 var password = $("input#password_signup").val();  
 var password2 = $("input#re-password_signup").val();  
 var email = $("input#email_signup").val(); 
+var recaptcha = $("#g-recaptcha-response").val();
 if (password===password2) {
   $.ajax({
             type: "POST",
             url : '/user/signup/',
             contentType: "application/json",
             dataType: "html",
-            data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '"}',
+            data: '{"username": "' + username + '", "password" : "' + password + '", "email" : "' + email + '", "recaptcha" : "' + recaptcha + '"}',
              beforeSend: function() {
 				 $('#signupbtn').prop('disabled', true);
 				$('#signuploading').show();
