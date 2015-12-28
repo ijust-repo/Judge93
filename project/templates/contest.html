@@ -704,10 +704,12 @@
 		});
 	}
 	function convertUTCDateToLocalDate(date) {
-		var n_date = new Date(date);
-		var t = n_date.getTime() + (n_date.getTimezoneOffset() * -60000);
-		var d1 = new Date(t);
-		return (moment(d1).format('YYYY-MM-DD HH:mm:ss'));
+		var d=moment(date);
+		var n_date=new Date(d);
+		var localOffset = n_date.getTimezoneOffset() * 60000;
+		var localTime = n_date.getTime();
+        date = localTime - localOffset;
+    return (moment(date).format('YYYY-MM-DD HH:mm:ss'));
 	}
 	function reset(){
 	//reset menu
