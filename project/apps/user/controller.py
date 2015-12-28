@@ -10,6 +10,8 @@ from project.apps.user import user
 from project.apps.user.forms import Login, Signup, ChangePassword, ChangeProfile ,ForgotPassword
 from project.utils.access import login_user, logout_user ,logged_in_user
 from project.utils.date import datetime_to_str
+import project.config as config
+
 
 #models import
 from project.apps.user.models import User
@@ -21,7 +23,7 @@ from mongoengine import DoesNotExist, NotUniqueError
 
 @user.route('/', methods=['GET'])
 def user_page():
-	return render_template('user.html')
+	return render_template('user.html', site_key=config.site_key)
 		
 @user.route('<string:Username>/', methods=['GET'])
 def user_home_page(Username):
@@ -88,7 +90,8 @@ def signup():
 		username = form.data['username']
 		email = form.data['email']
 		password = form.data['password']
-		if form.validate_on_submit():
+		recaptcha = form.data['recaptcha']
+		if form.verify_captcha(recaptcha):
 			try:
 				obj = User(username=username, email=email)
 				obj.set_password(password)
@@ -101,6 +104,8 @@ def signup():
 					form.email.errors.append(form.email.gettext('Email already exists.'))
 				return jsonify(errors=form.errors), 409
 			return "", 201
+        else:
+            return form.recaptcha.errors.append(form.recaptcha.gettext('Wrong captcha.')), 406
 	return "", 406
 
 
