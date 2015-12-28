@@ -1456,6 +1456,8 @@ if(canedit==="no"){
 			var isSend = false;
 			if($("#datetimepicker").parent().data('data') != $("#datetimepicker").val() && $("#datetimepicker").val() != "")
 			{
+				function convertDateToUTCMilliSeconds(date) {return (date.getTime()); }
+				/*
 				var myRawData = $("#datetimepicker").val().split(' ');
 				var myDate;
 				myDate = new Date;
@@ -1472,12 +1474,20 @@ if(canedit==="no"){
 				}
 				myDate.setMinutes((myRawData[1].split(':')[1]));
 				myDate = new Date(myDate.toUTCString());
-				myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				*/
+				var sd_input = $("#datetimepicker").val();
+				var sd = new Date(sd_input);
+				var start_d = convertDateToUTCMilliSeconds(sd)/1000;
+				//myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				myData["starts_on"] = start_d;
 				//alert(myDate);
 				isSend = true;
 			}
 			if ($("#datetimepicker2").parent().data('data') != $("#datetimepicker2").val() && $("#datetimepicker2").val() != "")
 			{
+
+				function convertDateToUTCMilliSeconds(date) {return (date.getTime()); }
+				/*
 				var myRawData = $("#datetimepicker2").val().split(' ');
 				var myDate;
 				myDate = new Date;
@@ -1496,6 +1506,11 @@ if(canedit==="no"){
 				myDate.setMinutes(myRawData[1].split(':')[1]);
 				myDate = new Date(myDate.toUTCString());
 				myData["ends_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				*/
+				var ed_input = $("#datetimepicker2").val();
+				var ed = new Date(ed_input);
+				var end_d = convertDateToUTCMilliSeconds(ed)/1000;
+				myData["ends_on"] = end_d;
 				
 				isSend = true;
 			}
