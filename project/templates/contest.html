@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Contests</title>
 	<link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" >
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -230,9 +231,9 @@
 					
 					</div>
 					</div><hr>
-					<div id="contestheaderdiv" class="row  "></div><hr>
-					<div id="contestbodydiv" class="row"></div><hr>
-					<div id="contestfooterdiv" class="row"></div><hr>
+					<div id="contestheaderdiv" style="direction:rtl" class="row  "></div><hr>
+					<div id="contestbodydiv" style="direction:rtl" class="row"></div><hr>
+					<div id="contestfooterdiv" style="direction:rtl" class="row"></div><hr>
 					<div class="row" id="contesttestcaseexamplediv" >
 						<hr>
 						<label class="labelcss" for="problemtestcaseinput">Input: </label>
@@ -837,8 +838,8 @@
 			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
 			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);		
 			problemid=((JSON.parse(data)).id);
-			$("#contestspacelimitdiv").append((JSON.parse(data)).space_limit);
-			$("#contesttimelimitdiv").append((JSON.parse(data)).time_limit );
+			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
+			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit );
 			$("#contestheaderdiv").html((JSON.parse(data)).header);
 			$("#contestbodydiv").html((JSON.parse(data)).body);
 			$("#contestfooterdiv").html((JSON.parse(data)).footer);
