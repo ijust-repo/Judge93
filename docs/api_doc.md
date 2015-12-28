@@ -389,10 +389,16 @@ Example Response:
  {
   "teams": [
             {
-              "contests": {
-                            "new_contest": "rejected",
-                            "new_contest3": "pending"
-                          },
+              "contests": [
+                            {
+                              "name": "new_contest3",
+                              "status": "pending"
+                            },
+                            {
+                              "name": "new_contest",
+                              "status": "rejected"
+                            }
+                          ],
               "id": "567cbe2823e3c00ba43affa1",
               "members": [
                           {
@@ -694,7 +700,7 @@ Example Result
 > **NOTE:**
 
 >- `team_id` is the Id of the team in database.
->- "contests"  is contests with acception condition and conditions are from {"accepted" , "pending" , "rejected"}.
+>- "contests"  is contests with acception status and they are from {"accepted" , "pending" , "rejected"}.
 >- If response status code is **406** then the team does not exist.
 
 ------- 
