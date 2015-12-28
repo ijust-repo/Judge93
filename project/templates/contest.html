@@ -568,21 +568,27 @@
 			var c_e = $("#contest_end").find("input").val();
 			var start_date = new Date(c_s);
 			var end_date = new Date(c_e);
-			
+			/*
 			function convertDateToUTC(date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
+			*/
+			function convertDateToUTCMilliSeconds(date) {return (date.getTime() + (date.getTimezoneOffset() * 60000)); }
 
+			/*
 			start_date = convertDateToUTC(start_date);
 			var startMillis = start_date.getTime()/1000;
 			
 			end_date = convertDateToUTC(end_date);
 			var endMillis = end_date.getTime()/1000;
-			
+			*/
+			var start_seconds = convertDateToUTCMilliSeconds(start_date)/1000;
+			var end_seconds   = convertDateToUTCMilliSeconds(end_date)/1000;
+
 			$.ajax({
           		type: "POST",
           		url : '/contest/',
           		contentType: "application/json",
           		dataType: "html",
-          		data: '{"name" : "' + name + '", "starts_on" : "' + startMillis + '", "ends_on" : "' + endMillis + '"}',
+          		data: '{"name" : "' + name + '", "starts_on" : "' + start_seconds + '", "ends_on" : "' + end_seconds + '"}',
           		success: function (data) {
 					swal({
 					  title: "Good!",
@@ -697,9 +703,10 @@
 		});
 	}
 	function convertUTCDateToLocalDate(date) {
-		var d=moment.utc(date).local();
-		var s = d.format("YYYY-MM-DD HH:mm:ss");	
-		return (s);   
+		var n_date = new Date(date);
+		var t = n_date.getTime() + (n_date.getTimezoneOffset() * -60000);
+		var d1 = new Date(t);
+		return (moment(d1).format('YYYY-MM-DD HH:mm:ss'));
 	}
 	function reset(){
 	//reset menu
