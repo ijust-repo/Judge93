@@ -186,30 +186,20 @@ def get_users_teams(user_id):
 		teams = obj.teams		
 		resp = []
 		
-		for team in teams:
-			contests = team.contests		
-			members = team.members
-			contests_list =[]	
-			team_info = {}
-			members_list = []
+		for team_obj in teams:		
+			team_info = team_obj.to_json_complete()
+			contests_dict={}
 			
-			for member in members:
-				members_list.append(member.to_json())
+			for accepted_contest in team_obj.contests:
+				contests_dict[accepted_contest.name]="accepted"
+
+			for pending_contest in team_obj.pending_contests:
+				contests_dict[pending_contest.name]="pending"
+
+			for rejected_contest in team_obj.rejected_contests:
+				contests_dict[rejected_contest.name]="rejected"
 			
-			for contest in contests:
-				contests_info = {}
-				contests_info ["name"] = contest.name
-				contests_info ["id"] = str(contest.pk)
-				contests_info ["starts_on"] = datetime_to_str(contest.starts_on)
-				contests_info ["ends_on"] = datetime_to_str(contest.ends_on)
-				contests_list.append(contests_info)
-			
-			team_info["contests"] = contests_list
-			team_info["id"]= str(team.pk)	
-			team_info["name"]= team.name
-			team_info["owner"] = team.owner.to_json()	
-			team_info["members"] = members_list			
-			
+			team_info["contests"] = contests_dict
 			resp.append(team_info)
 
 		return jsonify(teams=resp),200
