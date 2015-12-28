@@ -195,18 +195,26 @@ def get_users_teams(user_id):
 		
 		for team_obj in teams:		
 			team_info = team_obj.to_json_complete()
-			contests_dict={}
+			team_info["contests"]=[]
 			
 			for accepted_contest in team_obj.contests:
-				contests_dict[accepted_contest.name]="accepted"
+				temp_dict ={}
+				temp_dict["name"]=accepted_contest.name
+				temp_dict["status"]="accepted"
+				team_info["contests"].append(temp_dict)
 
 			for pending_contest in team_obj.pending_contests:
-				contests_dict[pending_contest.name]="pending"
+				temp_dict ={}
+				temp_dict["name"]=pending_contest.name
+				temp_dict["status"]="pending"
+				team_info["contests"].append(temp_dict)
 
 			for rejected_contest in team_obj.rejected_contests:
-				contests_dict[rejected_contest.name]="rejected"
+				temp_dict ={}
+				temp_dict["name"]=rejected_contest.name
+				temp_dict["status"]="rejected"
+				team_info["contests"].append(temp_dict)
 			
-			team_info["contests"] = contests_dict
 			resp.append(team_info)
 
 		return jsonify(teams=resp),200
