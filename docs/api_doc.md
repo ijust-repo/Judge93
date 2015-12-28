@@ -669,16 +669,10 @@ Example Result
 ```
 {
   "name": "new_team",
-  "contests": [
-                [
-                  "new_contest",
-                  "accepted"
-                ],
-                [
-                  "new_contest3",
-                  "pending"
-                ]
-              ],
+  "contests": {
+                "new_contest": "rejected",
+                "new_contest3": "pending"
+              },
   "members": [
               {
                 "id": "567cbce123e3c00ba43aff99",
