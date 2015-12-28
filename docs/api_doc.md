@@ -675,10 +675,16 @@ Example Result
 ```
 {
   "name": "new_team",
-  "contests": {
-                "new_contest": "rejected",
-                "new_contest3": "pending"
-              },
+  "contests": [
+                {
+                  "name": "new_contest3",
+                  "status": "accepted"
+                },
+                {
+                  "name": "new_contest",
+                  "status": "rejected"
+                }
+              ],
   "members": [
               {
                 "id": "567cbce123e3c00ba43aff99",
