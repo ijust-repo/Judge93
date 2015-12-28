@@ -15,12 +15,16 @@ class User(Document):
 
 
 	def set_password(self, password):
+		password = password.encode('UTF-8')
 		self.password = sha384(password).hexdigest()
 
 	def verify_password(self, password):
+		password = password.encode('UTF-8')
 		return sha384(password).hexdigest() == self.password
 
 	def change_password(self, old_password, new_password):
+		old_password = old_password.encode('UTF-8')
+		new_password = new_password.encode('UTF-8')
 		if self.verify_password(old_password):
 			self.password = sha384(new_password).hexdigest()
 			return True

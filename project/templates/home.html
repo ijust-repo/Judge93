@@ -4,22 +4,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Home</title>
+    <link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
     <link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" >
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} " rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />
-    <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}"  /></script>
      <script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>   
-    <script src="{{ url_for('static', filename='../statics/js/bootstrap.js') }}" /></script>	
+    <script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}"  /></script>   
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />
-<link href="{{ url_for('static', filename='../statics/css/font-awesome.min.css') }} "rel="stylesheet" />
+
     
    
 </head>
 
 <body>
-	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" style="display:none">
+	<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
+<div id="body" style="display:none">
+	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
 		
 		<li class=" usernameitem " id="usernameitem">
 			
@@ -52,12 +55,12 @@
 		</li>
 		</ul>
 
-    <div id="class1" class="col-xs-offset-3 col-md-offset-2 row" style="display:none">
+    <div  class="col-xs-offset-3 col-md-offset-2 row" >
 		<div class="col-xs-12 col-md-12 maintitr">
 			<p id="titlePage"> All contest </p>          
 		</div>
 	</div>
-	<div id="class2" class="col-xs-offset-3 col-md-offset-2 row" style="display:none">
+	<div  class="col-xs-offset-3 col-md-offset-2 row">
       	<div id="contents" class="contents " >
 			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">							
 				<table id="contestinfo">
@@ -82,8 +85,7 @@
 			</div>
 		</div>
    	</div>
-		<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
-
+</div>
 </body>
 <script>
 	
@@ -147,7 +149,9 @@ function checkprofile(username){
 				$( '#getusername ' ).append(username);
 				$( '#getidprof ' ).html(id);  
 				$('#usernamecontact').html((JSON.parse(data)).username);
-				$('#emailcontact').html((JSON.parse(data)).email);	
+				$('#emailcontact').html((JSON.parse(data)).email);
+				$('#loading').hide();
+				$('#body').show();	
 					
             },
            error: function (request) {                
@@ -209,7 +213,10 @@ $("#backtoprofile").click(function() {
 					
 				});				
             },
-           error: function (request) {                
+           error: function (request) { 
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }               
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 	      	      		
       		}
 		});	
@@ -254,10 +261,7 @@ $("#contest").click(function() {
 $("#team").click(function() {
 	window.location.replace("/user/"+username+"/team/");
   });
-  		$('#loading').hide();
-	$('#leftmenu').show();
-	$('#class1').show();
-	$('#class2').show();
+
   });
   
   

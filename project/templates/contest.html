@@ -4,20 +4,21 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Contests</title>
 	<link  href="{{ url_for('static', filename='../statics/img/jicon.png') }} " rel="icon" >
-    <link href="{{ url_for('static', filename='../statics/css/bootstrap.css') }} " rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="{{ url_for('static', filename='../statics/css/sweetalert.css') }} " rel="stylesheet" />     
     <link href="{{ url_for('static', filename='../statics/css/bootstrap-datetimepicker.min.css') }} " rel="stylesheet" />  
     <link href="{{ url_for('static', filename='../statics/css/style.css') }}" rel="stylesheet" />   
     <link href="{{ url_for('static', filename='../statics/css/fileinput.min.css') }}" rel="stylesheet" />
-    <script src="{{ url_for('static', filename='../statics/js/jquery-2.1.3.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/bootstrap.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/fileinput.min.js') }}" /></script>
-    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}" /></script>   	
-	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}" /></script>
-	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}" /></script>	    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='../statics/js/jquery.nicescroll.min.js') }}"  /></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='../statics/js/fileinput.min.js') }}"  /></script>
+    <script src="{{ url_for('static', filename='../statics/js/sweetalert.min.js') }}"  /></script>   	
+	<script src="{{ url_for('static', filename='../statics/js/moment.min.js') }}"/></script>
+	<script src="{{ url_for('static', filename='../statics/js/bootstrap-datetimepicker.min.js') }}"  /></script>	    
 	
 
 </head>
@@ -217,7 +218,7 @@
 									
 					<button type="submit" id="editproblemsubmitbtn" class="btn btn-primary" style="width:15.5%"> Submit edit</button>
 				</div>
-				
+				<div id="addproblemloading" style="display:none">Please wait...</div>
 			</div>
 			<div id="contestquestion"  style="display:none">
 				<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
@@ -230,9 +231,9 @@
 					
 					</div>
 					</div><hr>
-					<div id="contestheaderdiv" class="row  "></div><hr>
-					<div id="contestbodydiv" class="row"></div><hr>
-					<div id="contestfooterdiv" class="row"></div><hr>
+					<div id="contestheaderdiv" style="direction:rtl" class="row  "></div><hr>
+					<div id="contestbodydiv" style="direction:rtl" class="row"></div><hr>
+					<div id="contestfooterdiv" style="direction:rtl" class="row"></div><hr>
 					<div class="row" id="contesttestcaseexamplediv" >
 						<hr>
 						<label class="labelcss" for="problemtestcaseinput">Input: </label>
@@ -255,12 +256,13 @@
 
 
 				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
-					
+					<div id="submitloading" style="display:none;text-align:left;">Please wait...</div>
 					<input id="input-2" name="input2[]"  type="file" class="file-loading inputs">	        
 				</div>
 
 				<div id="addtestcase" class="col-xs-12 col-md-11  row" style="display:none">
 						<p style="text-align:left;">Add testcase file for this problem. Please upload your ZIP file </p>
+						<div id="testcaseloading" style="display:none">Please wait...</div>
 					<input id="input-1" name="input1[]" type="file"  class="file-loading inputs">	
 				
 					</div>	
@@ -274,6 +276,7 @@
                 </table>
 				</div>
 			<div id="contestteams" class="CSSTableGenerator" style="display:none">
+				<div id="acceptorrejectloading" style="display:none">Please wait...</div>
 				<table id="contestteamstbl">
 					<tr>						  
 						<td > Team name </td>
@@ -306,6 +309,8 @@
 	var teamid=null;
 	var contestadmin=null;
 	$(document).ready(function () {
+		$('#editproblemsubmitbtn').prop('disabled', false);
+		$('#addproblemsubmitbtn').prop('disabled', false);
 		$("#contents").css('overflow-x', 'scroll');
 		$("#contents").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 		$(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
@@ -321,8 +326,11 @@
 			 userlogin=(JSON.parse(data)).username;
           	userloginid=(JSON.parse(data)).id;	
             },
-           error: function (request) {                
-				sswal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;        	      		
+           error: function (request) { 
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }                 
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;        	      		
       		}
 		
 		});
@@ -332,6 +340,7 @@
 	  contestid = '{{contest_id }}';
 	  //alert(contestid);
 	 $( '#getidcontest ' ).html(contestid);	
+	 setTimeout(function(){
 	  $.ajax({
             type: "GET",
             url : "/contest/by_id/"+contestid+"/",
@@ -346,13 +355,90 @@
 				 contestadmin=(JSON.parse(data)).owner.username;
 				checkifadmin(contestadmin);
 				 changecontestpage(contestname);
+				 $('#loading').hide();
+				$('#body').show();
+				 if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
+			//alert("hello");
+				$('#rank').css('background-color', '#355C7D');
+				reset();
+				$("#contestrank").show(1000);
+				$("#titlePage").text("Ranking");
+				$.ajax({
+					type : "GET",
+					url : "/contest/" + contestid + "/details/",
+					dataType: "html",
+					contentType: "application/json",
+					success : function(data ){
+						var num=(JSON.parse(data)).problem_num;
+						var data=(JSON.parse(data)).teams;
+						if(data==""){
+							$('#contestrank').html("There is no rank list to show");
+						}else{
+						
+						
+						var tr;
+						tr = '<tr id="0"><td>Rank</td><td>Team name</td><td>Solved problem</td><td>Penalty</td>';
+						for(var j=1;j<=num;j++){						
+							tr+='<td >Problem '+j+'</td>';
+						}
+							tr+='</tr>';
+						$('#contestranklist').append(tr);
+						for (var i = 0; i < data.length; i++) {
+								tr = '<tr id="TR'+i+'">';
+								tr+='<td>' + (i+1) + '</td>';
+								tr+='<td> <a href="#"  id="'+data[i].team.name+'">' + data[i].team.name + "</a></td>";																
+								tr+="<td>" +data[i].solved_problem_counter+ "</td>";
+								tr+="<td>" +data[i].penalty+ "</td>";
+								var problemtry=data[i].problems_list;
+								var trk=[];
+								for(var j=1;j<=num;j++){
+									trk[j]='<td> </td>';
+								}																
+									for(var k=0;k<problemtry.length;k++){
+										for(var j=1;j<=num;j++){																	
+											if(problemtry[k].order==j){
+																							
+												if(problemtry[k].solved===true){
+												trk[j]='<td style="background-color:#88A65E;">Failed tries:  ' +problemtry[k].failed_tries + '</td>';
+												}else{
+														
+												trk[j]='<td style="background-color:#F26C4F;">Failed tries:   ' +problemtry[k].failed_tries + '</td>';
+												}
+											}
+										}
+									
+									
+									}
+								tr+=trk;	
+								tr+='</tr>';
+								$('#contestranklist').append(tr);
+								
+								
+							$(("#" +data[i].team.name)).attr("href",("/team/"+data[i].team.name+"/"));
+						}
+					}
+					},
+					error : function(request ){
+						 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
+						swal("Sorry!", "Contest does not exist!", "error") ; 
+					}
+			});
+	}
 				  				
             },
-           error: function (request) {                
-				swal("Sorry", request.errors) ;  	      	      		
+           error: function (request) { 
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }                 
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  	      	      		
       		}
 		}); 
-		 	
+		}, 0); 	
+	//alert($(location).attr('pathname'));
+	//alert("/contest/"+contestname+"/details_page/");
+	
 	}
 	else{
 		//$("#titlePage").text("Your contests");
@@ -368,45 +454,65 @@
             success: function (data) {
 		        username=(JSON.parse(data)).username;
 				checkprofile(username);
-				$( '#getusername ' ).append(username);
-			
-				$( '#getidprof ' ).html(id);	
-            },
-           error: function (request) { 
-			    swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
-      		}
-		});
-		 $.ajax({
-            type: "GET",
-            url : "/user/"+id+"/teams/",
-            dataType: "html", 				
-            success: function (data) {	
-						
-		        var data=(JSON.parse(data)).teams;
-		        if(data==""){
-					$('#contestinfo').html("You are not in any contest right now, please create a team and join to contests!");
-				}
-		        for (var i = 0; i < data.length; i++) {
-					var teamname=data[i].name;
-					var teamitem=data[i].contests;	
-					for (var j = 0;j < teamitem.length; j++) {				
-						tr = $('<tr id="Q'+i+'">');		
-						tr.append('<td  style="display:none">' + data[i].id + "</td>");
-						tr.append('<td> <a href="#"  id="'+teamitem[j].name+'">' + teamitem[j].name + "</a></td>");
-						tr.append("<td>" +convertUTCDateToLocalDate(teamitem[j].starts_on) + "</td>");
-						tr.append("<td>" + convertUTCDateToLocalDate(teamitem[j].ends_on) + "</td>");
-						tr.append('<td><a href="#" id="'+teamname+'">' + teamname + '</a></td></tr>');
-						$('#contestinfo').append(tr);
-					$(("#" + teamname)).attr("href",("/team/"+teamname+"/"));
-					$(("#" + teamitem[j].name)).attr("href",("/contest/"+teamitem[j].name+"/"));
+				$( '#getusername ' ).append(username);			
+				$( '#getidprof ' ).html(id);
+				$('#loading').hide();
+				$('#body').show();
+				$.ajax({
+					type: "GET",
+					url : "/user/"+id+"/teams/",
+					dataType: "html", 				
+					success: function (data) {								
+						var data=(JSON.parse(data)).teams;
+					    var contestlist=null;
+						for (var i = 0; i < data.length; i++) {
+							var teamname=data[i].name;
+							var teamitem=data[i].contests;
+							//alert(checkprofile(username));
+							 if(teamitem==""){
+								 
+								 if(username==userlogin){
+									$('#contestinfo').html("You are not in any contest right now, please create a team and join to contests!");
+								}else{
+									$('#contestinfo').html("This user is not in any contest right now!");									
+								}
+							}	
+							for (var j = 0;j < teamitem.length; j++) {	
+								contestlist+=teamitem[j].name;			
+								tr = $('<tr id="Q'+i+'">');		
+								tr.append('<td  style="display:none">' + data[i].id + "</td>");
+								tr.append('<td> <a href="#"  id="'+teamitem[j].name+'">' + teamitem[j].name + "</a></td>");
+								tr.append("<td>" +convertUTCDateToLocalDate(teamitem[j].starts_on) + "</td>");
+								tr.append("<td>" + convertUTCDateToLocalDate(teamitem[j].ends_on) + "</td>");
+								tr.append('<td><a href="#" id="'+teamname+'">' + teamname + '</a></td></tr>');
+								$('#contestinfo').append(tr);
+								$(("#" + teamname)).attr("href",("/team/"+teamname+"/"));
+								$(("#" + teamitem[j].name)).attr("href",("/contest/"+teamitem[j].name+"/"));
+							}							
+						}
+						if(contestlist=null){
+							if(username==userlogin){
+									$('#contestinfo').html("You are not in any contest right now, please create a team and join to contests!");
+								}else{
+									$('#contestinfo').html("This user is not in any contest right now!");									
+								}						}
+					},
+				   error: function (request) { 
+						if(request.status===405){
+						   window.location.replace("/user/"); 
+					   }
+						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
 					}
-					
-				}
-            },
-           error: function (request) { 
-			    swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
+				});	
+			},
+			 error: function (request) { 
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 
+					if(request.status===405){
+						  window.location.replace("/user/"); 
+					}                    	      		
       		}
 		});
+		 
  
  $('#contest').css('background-color', '#355C7D');
  }
@@ -448,6 +554,9 @@
 							});
 				},
 				error: function (request, status, error) {
+					 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 				}
 			});
@@ -460,21 +569,27 @@
 			var c_e = $("#contest_end").find("input").val();
 			var start_date = new Date(c_s);
 			var end_date = new Date(c_e);
-			
+			/*
 			function convertDateToUTC(date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
+			*/
+			function convertDateToUTCMilliSeconds(date) {return (date.getTime() + (date.getTimezoneOffset() * 60000)); }
 
+			/*
 			start_date = convertDateToUTC(start_date);
 			var startMillis = start_date.getTime()/1000;
 			
 			end_date = convertDateToUTC(end_date);
 			var endMillis = end_date.getTime()/1000;
-			
+			*/
+			var start_seconds = convertDateToUTCMilliSeconds(start_date)/1000;
+			var end_seconds   = convertDateToUTCMilliSeconds(end_date)/1000;
+
 			$.ajax({
           		type: "POST",
           		url : '/contest/',
           		contentType: "application/json",
           		dataType: "html",
-          		data: '{"name" : "' + name + '", "starts_on" : "' + startMillis + '", "ends_on" : "' + endMillis + '"}',
+          		data: '{"name" : "' + name + '", "starts_on" : "' + start_seconds + '", "ends_on" : "' + end_seconds + '"}',
           		success: function (data) {
 					swal({
 					  title: "Good!",
@@ -489,73 +604,16 @@
 					});             		
           		},
           		error: function (request, status, error) {
+					 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 	
           		}
         	});			
 		});
 
-		if($(location).attr('pathname') == "/contest/"+contestname+"/details_page/"){
-				$('#rank').css('background-color', '#355C7D');
-				reset();
-				$("#contestrank").show(1000);
-				$("#titlePage").text("Ranking");
-				$.ajax({
-					type : "GET",
-					url : "/contest/" + contestid + "/details/",
-					dataType: "html",
-					contentType: "application/json",
-					success : function(data ){
-						//alert(data);
-						var num=(JSON.parse(data)).problem_num;
-						var data=(JSON.parse(data)).teams;
-						var tr;
-						tr = '<tr id="0"><td>Rank</td><td>Team name</td><td>Solved problem</td><td>Penalty</td>';
-						for(var j=1;j<=num;j++){						
-							tr+='<td >Problem '+j+'</td>';
-						}
-							tr+='</tr>';
-						$('#contestranklist').append(tr);
-						for (var i = 0; i < data.length; i++) {
-								tr = '<tr id="TR'+i+'">';
-								tr+='<td>' + (i+1) + '</td>';
-								tr+='<td> <a href="#"  id="'+data[i].team.name+'">' + data[i].team.name + "</a></td>";																
-								tr+="<td>" +data[i].solved_problem_counter+ "</td>";
-								tr+="<td>" +data[i].penalty+ "</td>";
-								var problemtry=data[i].problems_list;
-								var trk=[];
-								for(var j=1;j<=num;j++){
-									trk[j]='<td> </td>';
-								}																
-									for(var k=0;k<problemtry.length;k++){
-										for(var j=1;j<=num;j++){																	
-											if(problemtry[k].order==j){
-																							
-												if(problemtry[k].solved===true){
-												trk[j]='<td style="background-color:#88A65E;">Failed tries:  ' +problemtry[k].failed_tries + '</td>';
-												}else{
-														
-												trk[j]='<td style="background-color:#F26C4F;">Failed tries:   ' +problemtry[k].failed_tries + '</td>';
-												}
-											}
-										}
-									
-									
-									}
-								tr+=trk;	
-								tr+='</tr>';
-								$('#contestranklist').append(tr);
-								
-								
-							$(("#" +data[i].team.name)).attr("href",("/team/"+data[i].team.name+"/"));
-						}
-					},
-					error : function(error ){
-						swal("Sorry!", "Contest does not exist!", "error") ; 
-					}
-			});
-	}
-	$('#loading').hide();
-	$('#body').show();
+		
+
 	});
 	function countdown(time){
 		var target_date =moment(convertUTCDateToLocalDate(time));
@@ -628,24 +686,30 @@
             success: function (data) {
 			 userlogin=(JSON.parse(data)).username;
            if(username===userlogin){
-			   
-         // document.getElementById('info').style.display = 'none';
+				return true;
          	}
            else{
 			  changeprofile(username);
-			   
+			   return false
 			   }				
             },
-           error: function (request) {                
-				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  	      	      		
+           error: function (request) {  
+			    if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }              
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
+				return false; 	      	      		
       		}
 		
 		});
 	}
 	function convertUTCDateToLocalDate(date) {
-		var d=moment.utc(date).local();
-		var s = d.format("YYYY-MM-DD HH:mm:ss");	
-		return (s);   
+		var d=moment(date);
+		var n_date=new Date(d);
+		var localOffset = n_date.getTimezoneOffset() * 60000;
+		var localTime = n_date.getTime();
+        date = localTime - localOffset;
+    return (moment(date).format('YYYY-MM-DD HH:mm:ss'));
 	}
 	function reset(){
 	//reset menu
@@ -686,7 +750,10 @@
 			}
 
 				},
-			   error: function (request) {                
+			   error: function (request) {
+				    if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }                
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;       	      		
 				}
 			});
@@ -764,13 +831,17 @@
 	 $.ajax({
             type: "GET",
             url :"/contest/"+contestid+"/problems/"+(parseInt(id)+1)+"/",
-            dataType: "html",  				
+            dataType: "html",
+            beforeSend: function() {
+				$('#loading').show();
+				$('#body').hide();
+			},  				
             success: function (data) {
 			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
 			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);		
 			problemid=((JSON.parse(data)).id);
-			$("#contestspacelimitdiv").append((JSON.parse(data)).space_limit);
-			$("#contesttimelimitdiv").append((JSON.parse(data)).time_limit );
+			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
+			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit );
 			$("#contestheaderdiv").html((JSON.parse(data)).header);
 			$("#contestbodydiv").html((JSON.parse(data)).body);
 			$("#contestfooterdiv").html((JSON.parse(data)).footer);
@@ -783,9 +854,16 @@
 			}
 			$("#idproblem").html((JSON.parse(data)).id);												
             },
-          error: function (request, status, error) { 			    
+          error: function (request, status, error) {
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   } 			    
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;  			         
-           }   
+           },
+           complete: function(){
+					$('#loading').hide();
+					$('#body').show();
+				}   
     });
    
 if(canedit==="no"){
@@ -842,6 +920,10 @@ if(canedit==="no"){
            processData: false,
             dataType: "html",			
             data:file1,
+            beforeSend: function() {
+				//$('#input-2').fileinput('disabled');
+					$('#submitloading').show();
+				},
             success: function (data) {
                 if((JSON.parse(data)).status !="Accepted"){
 								 swal("OoOops!!!", "You have:"+(JSON.parse(data)).status, "error");
@@ -855,18 +937,26 @@ if(canedit==="no"){
             error: function (request, status, error) {
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 				 $('#input-2').fileinput('clear');
-            }
+            },
+             complete: function(){
+					   $('#input-2').fileinput('enable');
+					$('#submitloading').hide();
+				}
               });	
 							
 		});	
-		$('#input-2').fileinput('enable');		
+			$('#input-2').fileinput('enable');	
 			},
-          error: function (request, status, error) { 			  
+          error: function (request, status, error) { 
+			   if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }			  
 		   swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 	   }
 							                        
     });
-  }else{  
+  }
+  else{  
 	  showproblem();
 	 problemid=(parseInt(id)+1);
 	 $('#contestteam').css('background-color', '#1B325F');
@@ -912,15 +1002,26 @@ if(canedit==="no"){
            processData: false,
             dataType: "html",			
             data:file,
+            beforeSend: function() {
+				
+					$('#testcaseloading').show();
+				},
             success: function (data) {
                 swal("Good!", "add testcase successfully", "success");
                 $('#input-1').fileinput('clear');
 				  
             },
             error: function (request, status, error) {
+				 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
 				 $('#input-1').fileinput('clear');
-            }
+            },
+             complete: function(){
+					   $('#input-1').fileinput('enable');
+					$('#testcaseloading').hide();
+				}
               });
 	
 							
@@ -939,6 +1040,11 @@ if(canedit==="no"){
             contentType: "application/json",
             dataType: "html",			
             data: '{ "acceptation":"'+flag+'"}',
+            beforeSend: function() {
+					$('#acceptorrrejectloading').show();
+					 $('.rejectteam').prop('disabled', true);
+					   $('.acceptteam').prop('disabled',true);
+				},
             success: function (data) {
 				swal({
 					  title: "Good!",
@@ -956,9 +1062,17 @@ if(canedit==="no"){
               
             },
             error: function (request, status, error) {
+				 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
 				
-            }
+            },
+            complete: function(){
+					   $('.rejectteam').prop('disabled', false);
+					   $('.acceptteam').prop('disabled', false);
+					$('#acceptorrrejectloading').hide();
+				}
               });
 	
 
@@ -969,7 +1083,10 @@ if(canedit==="no"){
 				type: "GET",
 				url :"/contest/"+contestid+"/problems/",
 				dataType: "html",
-			   
+			   beforeSend: function() {
+					$('#loading').show();
+					$('#body').hide();
+				},
 				success: function (data) {
 				reset();//added by milad
 				document.getElementById('titlePage').innerHTML="Problems" ;
@@ -1001,8 +1118,15 @@ if(canedit==="no"){
 					}
 				},
 					error: function (request, status,error) {
-				  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+						 if(request.status===405){
+				   window.location.replace("/user/"); 
 			   }
+				  swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+			   },
+			    complete: function(){
+					$('#loading').hide();
+					$('#body').show();
+				}
 		});
 
 	 });	 
@@ -1037,8 +1161,8 @@ if(canedit==="no"){
 		var problemtestcaseinput = $("#problemtestcaseinput").val();  
 		var problemtestcaseoutput = $("#problemtestcaseoutput").val();
 		//var problemid=$("#idproblem").val();
-		var datawotestcase='{"problems": [{ "id":"'+problemid+'" ,"title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '"}]}';
-		var datawtestcase='{"problems": [{"id":"'+problemid+'","title": "' + problemtitle + '", "time_limit" : "' + problemtimelimit + '", "space_limit" : "' + problemspacelimit + '", "header" : "' + problemheader + '", "body" : "' + problembody + '", "footer" : "' + problemfooter + '","testcases": [ {"id":"1" ,"order":"1" , "input":"'+problemtestcaseinput+'" ,"output":"'+problemtestcaseoutput+'" } ]}]}';
+		var datawotestcase={"problems": [{ "id":problemid ,"title":  problemtitle , "time_limit" : problemtimelimit , "space_limit" : problemspacelimit , "header" : problemheader, "body" :  problembody , "footer" : problemfooter }]};
+		var datawtestcase={"problems": [{"id":problemid,"title": problemtitle , "time_limit" : problemtimelimit , "space_limit" :  problemspacelimit , "header" :  problemheader, "body" : problembody , "footer" :  problemfooter ,"testcases": [ {"id":"1" ,"order":"1" , "input":problemtestcaseinput ,"output":problemtestcaseoutput } ]}]};
 		if(problemtestcaseinput=="" && problemtestcaseoutput==""){
 			var obj = datawotestcase;
 		}
@@ -1053,15 +1177,26 @@ if(canedit==="no"){
 				url : "/contest/"+contestid+"/",
 			   contentType: "application/json",
 				dataType: "html",			
-				data: obj,
+				data:JSON.stringify(obj),
+				 beforeSend: function() {
+					$('#addproblemloading').show();
+					 $('#editproblemsubmitbtn').prop('disabled', true);
+				},
 				success: function (data) {
 					swal("Sorry!","Edit problem successfully", "success") ; 
 					clearprobleminput();
 					backtocontestpage();
 				},
 				error: function (request, status, error) {
+					 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
 					
+				},
+				  complete: function(){
+					   $('#editproblemsubmitbtn').prop('disabled', false);
+					$('#addproblemloading').hide();
 				}
 				  });
 	  
@@ -1135,6 +1270,10 @@ if(canedit==="no"){
 			   contentType: "application/json",
 				dataType: "html",			
 				data: JSON.stringify(obj),
+				 beforeSend: function() {
+					 $('#addproblemsubmitbtn').prop('disabled',true);
+					$('#addproblemloading').show();
+				},
 				success: function (data) {
 					swal({
 						  title: "Good!",
@@ -1152,9 +1291,16 @@ if(canedit==="no"){
 					 
 				},
 				error: function (request, status, error) {
+					 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ; 
 				
 				  
+				},
+				complete: function(){
+					   $('#addproblemsubmitbtn').prop('disabled', false);
+					$('#addproblemloading').hide();
 				}
 		 });
 	});	
@@ -1172,6 +1318,7 @@ if(canedit==="no"){
 	  type: "input",
 	  showCancelButton: true,
 	  closeOnConfirm: false,
+	  showLoaderOnConfirm: true,
 	  animation: "slide-from-top",
 	  inputPlaceholder: "Team name"
 	},
@@ -1193,7 +1340,9 @@ if(canedit==="no"){
 					swal("Good!","Your request submited successfully" , "success") ; 
 				} ,
 			  error: function (request, status, error) { 
-			   
+			    if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   }  
 		});
@@ -1202,7 +1351,9 @@ if(canedit==="no"){
 	$("#backtoproblemlistbtn").click(function() {
 		 backtocontestpage();
 	});	
-	$("#contestteam").click(function() { 		
+	$("#contestteam").click(function() { 
+		 $('.rejectteam').prop('disabled', false);
+		$('.acceptteam').prop('disabled', false);		
 		  $.ajax({
 				type: "GET",
 				url :"/contest/"+contestid+"/pending_teams/",
@@ -1227,14 +1378,14 @@ if(canedit==="no"){
 							tr+='<td><a href="#" id="p'+data[i].name+'">' + data[i].name + '</a></td>';
 							
 							
-							if(data[i].members.length ==3){	
-								tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username +","+data[i].members[2].username + "</td>";		
+							if(data[i].members.length ==2){	
+								tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>";		
 							}
-							else if(data[i].members.length ==2){	
-								tr+="<td>" + data[i].members[0].username + ","+data[i].members[1].username +"</td>";	
+							else if(data[i].members.length ==1){	
+								tr+="<td>" + data[i].members[0].username + "</td>";	
 							}
 							else {	
-								tr+="<td>" + data[i].members[0].username + "</td>";		
+								tr+="<td> -</td>";		
 							}
 							tr+='<td><a href="#" id="u'+data[i].owner.username+'">' + data[i].owner.username + '</a></td>';
 							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
@@ -1260,7 +1411,9 @@ if(canedit==="no"){
 					
 				},
 			  error: function (request, status, error) { 
-			   
+			    if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   }  
 		});
@@ -1306,11 +1459,13 @@ if(canedit==="no"){
 			var isSend = false;
 			if($("#datetimepicker").parent().data('data') != $("#datetimepicker").val() && $("#datetimepicker").val() != "")
 			{
+				function convertDateToUTCMilliSeconds(date) {return (date.getTime()); }
+				/*
 				var myRawData = $("#datetimepicker").val().split(' ');
 				var myDate;
 				myDate = new Date;
 				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth(myRawData[0].split('/')[0]-1);
+				myDate.setMonth(myRawData[0].split('/')[0]);
 				myDate.setDate(myRawData[0].split('/')[1]);
 				if (myRawData[2] == 'PM')
 				{
@@ -1320,19 +1475,27 @@ if(canedit==="no"){
 				{
 					myDate.setHours(myRawData[1].split(':')[0]);
 				}
-				myDate.setMinutes((myRawData[1].split(':')[1])+21);
+				myDate.setMinutes((myRawData[1].split(':')[1]));
 				myDate = new Date(myDate.toUTCString());
-				myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				*/
+				var sd_input = $("#datetimepicker").val();
+				var sd = new Date(sd_input);
+				var start_d = convertDateToUTCMilliSeconds(sd)/1000;
+				//myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				myData["starts_on"] = start_d;
 				//alert(myDate);
 				isSend = true;
 			}
 			if ($("#datetimepicker2").parent().data('data') != $("#datetimepicker2").val() && $("#datetimepicker2").val() != "")
 			{
+
+				function convertDateToUTCMilliSeconds(date) {return (date.getTime()); }
+				/*
 				var myRawData = $("#datetimepicker2").val().split(' ');
 				var myDate;
 				myDate = new Date;
 				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth((myRawData[0].split('/')[0])-1);
+				myDate.setMonth((myRawData[0].split('/')[0]));
 				myDate.setDate(myRawData[0].split('/')[1]);
 				
 				if (myRawData[2] == 'PM')
@@ -1343,9 +1506,14 @@ if(canedit==="no"){
 				{
 					myDate.setHours(myRawData[1].split(':')[0]);
 				}
-				myDate.setMinutes(myRawData[1].split(':')[1]+21);
+				myDate.setMinutes(myRawData[1].split(':')[1]);
 				myDate = new Date(myDate.toUTCString());
 				myData["ends_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
+				*/
+				var ed_input = $("#datetimepicker2").val();
+				var ed = new Date(ed_input);
+				var end_d = convertDateToUTCMilliSeconds(ed)/1000;
+				myData["ends_on"] = end_d;
 				
 				isSend = true;
 			}
@@ -1367,6 +1535,9 @@ if(canedit==="no"){
 						setTimeout(function(){ window.location = "/contest/" + $(".editable").val() + "/"; }, 2000);
 					},
 					error: function (request, status, error) {
+						 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
 					}
 				});
