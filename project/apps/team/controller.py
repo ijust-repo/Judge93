@@ -176,13 +176,22 @@ def get_team_info(team_id):
 		res['contests'] = []
 
 		for accepted_contest in team_obj.contests:
-			res['contests'].append((accepted_contest.name,"accepted"))
+			temp_dict ={}
+			temp_dict["name"]=accepted_contest.name
+			temp_dict["status"]="accepted"
+			res["contests"].append(temp_dict)
 
 		for pending_contest in team_obj.pending_contests:
-			res['contests'].append((pending_contest.name,"pending"))
+			temp_dict ={}
+			temp_dict["name"]=pending_contest.name
+			temp_dict["status"]="pending"
+			res["contests"].append(temp_dict)
 
 		for rejected_contest in team_obj.rejected_contests:
-			res['contests'].append((rejected_contest.name,"rejected"))
+			temp_dict ={}
+			temp_dict["name"]=rejected_contest.name
+			temp_dict["status"]="rejected"
+			res["contests"].append(temp_dict)
 
 		return jsonify(res), 200
 

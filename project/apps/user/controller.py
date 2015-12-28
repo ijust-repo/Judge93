@@ -193,29 +193,27 @@ def get_users_teams(user_id):
 		teams = obj.teams		
 		resp = []
 		
-		for team in teams:
-			contests = team.contests		
-			members = team.members
-			contests_list =[]	
-			team_info = {}
-			members_list = []
+		for team_obj in teams:		
+			team_info = team_obj.to_json_complete()
+			team_info["contests"]=[]
 			
-			for member in members:
-				members_list.append(member.to_json())
-			
-			for contest in contests:
-				contests_info = {}
-				contests_info ["name"] = contest.name
-				contests_info ["id"] = str(contest.pk)
-				contests_info ["starts_on"] = datetime_to_str(contest.starts_on)
-				contests_info ["ends_on"] = datetime_to_str(contest.ends_on)
-				contests_list.append(contests_info)
-			
-			team_info["contests"] = contests_list
-			team_info["id"]= str(team.pk)	
-			team_info["name"]= team.name
-			team_info["owner"] = team.owner.to_json()	
-			team_info["members"] = members_list			
+			for accepted_contest in team_obj.contests:
+				temp_dict ={}
+				temp_dict["name"]=accepted_contest.name
+				temp_dict["status"]="accepted"
+				team_info["contests"].append(temp_dict)
+
+			for pending_contest in team_obj.pending_contests:
+				temp_dict ={}
+				temp_dict["name"]=pending_contest.name
+				temp_dict["status"]="pending"
+				team_info["contests"].append(temp_dict)
+
+			for rejected_contest in team_obj.rejected_contests:
+				temp_dict ={}
+				temp_dict["name"]=rejected_contest.name
+				temp_dict["status"]="rejected"
+				team_info["contests"].append(temp_dict)
 			
 			resp.append(team_info)
 
