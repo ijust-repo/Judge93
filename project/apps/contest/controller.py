@@ -394,20 +394,20 @@ def get_problems (contest_id, team_id):
 			members_list.append(team.owner.username)
 			for i in team.members :
 				members_list.append(i.username)
-	                if logged_in_user() not in members_list:
-	                        return jsonify(errors="You Are Not A Member Of This Team"), 406
+					if logged_in_user() not in members_list:
+							return jsonify(errors="You Are Not A Member Of This Team"), 406
 		except DoesNotExist:
 			return jsonify(errors="Team does not exist!"), 406
-        is_team_in_contest = False
+		is_team_in_contest = False
 		contest_name = contest_obj.name
-                for t in contest_obj.teams:
-                        if(team == t.team):
-                                is_team_in_contest = True
-                                if( t.accepted != True ):
-                                        return jsonify(errors="You are not allowed to see problems"), 406
-                                break
-                if not is_team_in_contest:
-                        return jsonify(errors="You are not allowed to submit"), 406
+				for t in contest_obj.teams:
+						if(team == t.team):
+								is_team_in_contest = True
+								if( t.accepted != True ):
+										return jsonify(errors="You are not allowed to see problems"), 406
+								break
+				if not is_team_in_contest:
+						return jsonify(errors="You are not allowed to submit"), 406
 
 
 		if contest_obj.owner.username != logged_in_user() and contest_obj.starts_on > datetime.utcnow():
@@ -428,20 +428,20 @@ def get_problem (contest_id, team_id, number):
 			members_list.append(team.owner.username)
 			for i in team.members :
 				members_list.append(i.username)
-	                if logged_in_user() not in members_list:
-	                        return jsonify(errors="You Are Not A Member Of This Team"), 406
+					if logged_in_user() not in members_list:
+							return jsonify(errors="You Are Not A Member Of This Team"), 406
 		except DoesNotExist:
 			return jsonify(errors="Team does not exist!"), 406
-        is_team_in_contest = False
+		is_team_in_contest = False
 		contest_name = contest_obj.name
-                for t in contest_obj.teams:
-                        if(team == t.team):
-                                is_team_in_contest = True
-                                if( t.accepted != True ):
-                                        return jsonify(errors="You are not allowed to see problems"), 406
-                                break
-                if not is_team_in_contest:
-                        return jsonify(errors="You are not allowed to submit"), 406
+				for t in contest_obj.teams:
+						if(team == t.team):
+								is_team_in_contest = True
+								if( t.accepted != True ):
+										return jsonify(errors="You are not allowed to see problems"), 406
+								break
+				if not is_team_in_contest:
+						return jsonify(errors="You are not allowed to submit"), 406
 
 		if contest_obj.owner.username != logged_in_user() and contest_obj.starts_on > datetime.utcnow():
 			return jsonify(errors="You can not see problems right now!"), 403
