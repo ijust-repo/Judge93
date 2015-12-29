@@ -382,10 +382,34 @@ def contest_details(contest_id):
 		return jsonify(errors="Contest does not exist!") , 406
 
 
-@contest.route('<string:contest_id>/problems/', methods=['GET'])
-def get_problems (contest_id):
+@contest.route('<string:contest_id>/<string:team_id>/problems/', methods=['GET'])
+def get_problems (contest_id, team_id):
 	try:
 		contest_obj = Contest.objects().get(pk=contest_id)
+
+		try:
+			team = Team.objects().get(pk = team_id)
+			team_name = team.name
+			members_list=[]
+			members_list.append(team.owner.username)
+			for i in team.members :
+				members_list.append(i.username)
+	                if logged_in_user() not in members_list:
+	                        return jsonify(errors="You Are Not A Member Of This Team"), 406
+		except DoesNotExist:
+			return jsonify(errors="Team does not exist!"), 406
+        is_team_in_contest = False
+		contest_name = contest_obj.name
+                for t in contest_obj.teams:
+                        if(team == t.team):
+                                is_team_in_contest = True
+                                if( t.accepted != True ):
+                                        return jsonify(errors="You are not allowed to see problems"), 406
+                                break
+                if not is_team_in_contest:
+                        return jsonify(errors="You are not allowed to submit"), 406
+
+
 		if contest_obj.owner.username != logged_in_user() and contest_obj.starts_on > datetime.utcnow():
 			return jsonify(errors="You can not see problems right now!"), 403
 
@@ -393,10 +417,32 @@ def get_problems (contest_id):
 	except DoesNotExist:
 		return jsonify(errors="Contest does not exist!"), 406
 
-@contest.route('<string:contest_id>/problems/<int:number>/', methods=['GET'])
-def get_problem (contest_id, number):
+@contest.route('<string:contest_id>/<string:team_id>/problems/<int:number>/', methods=['GET'])
+def get_problem (contest_id, team_id, number):
 	try:
 		contest_obj = Contest.objects().get(pk=contest_id)
+		try:
+			team = Team.objects().get(pk = team_id)
+			team_name = team.name
+			members_list=[]
+			members_list.append(team.owner.username)
+			for i in team.members :
+				members_list.append(i.username)
+	                if logged_in_user() not in members_list:
+	                        return jsonify(errors="You Are Not A Member Of This Team"), 406
+		except DoesNotExist:
+			return jsonify(errors="Team does not exist!"), 406
+        is_team_in_contest = False
+		contest_name = contest_obj.name
+                for t in contest_obj.teams:
+                        if(team == t.team):
+                                is_team_in_contest = True
+                                if( t.accepted != True ):
+                                        return jsonify(errors="You are not allowed to see problems"), 406
+                                break
+                if not is_team_in_contest:
+                        return jsonify(errors="You are not allowed to submit"), 406
+
 		if contest_obj.owner.username != logged_in_user() and contest_obj.starts_on > datetime.utcnow():
 			return jsonify(errors="You can not see problems right now!"), 403
 
