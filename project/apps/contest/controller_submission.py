@@ -41,12 +41,6 @@ def submit (contest_id, team_id ,number, file_type):
 	if( file_type not in allowed_filetypes ):
                 Update_Result(contest_id, team_id, number ,"Extension Error", False)
                 return jsonify(errors="Extension Error"), 406
-        
-	try:
-		contest = Contest.objects().get(pk = contest_id)
-		contest_name = contest.name
-	except DoesNotExist:
-		return jsonify(errors="Contest does not exist!"), 406
 
 	try:
 		team = Team.objects().get(pk = team_id)
@@ -59,6 +53,21 @@ def submit (contest_id, team_id ,number, file_type):
                         return jsonify(errors="You Are Not A Member Of This Team"), 406
 	except DoesNotExist:
 		return jsonify(errors="Team does not exist!"), 406
+
+        try:
+                is_team_in_contest = False
+		contest = Contest.objects().get(pk = contest_id)
+		contest_name = contest.name
+                for t in contest.teams:
+                        if(team == t.team):
+                                is_team_in_contest = True
+                                if( t.accepted != True ):
+                                        return jsonify(errors="You are not allowed to submit"), 406
+                                break
+                if not is_team_in_contest:
+                        return jsonify(errors="You are not allowed to submit"), 406
+	except DoesNotExist:
+		return jsonify(errors="Contest does not exist!"), 406
 
 	max_num = len(contest.problems)
 	if number < 1 or number > max_num:
