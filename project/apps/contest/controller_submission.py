@@ -226,6 +226,7 @@ def submit (contest_id, team_id ,number, file_type):
                 expected_out_file.close()
 
                 out = "".join( out.split('\r') )
+                expected_out = "".join( expected_out.split('\r') )
                 #print out
                 #print expected_out
                 
