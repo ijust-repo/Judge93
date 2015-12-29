@@ -1228,7 +1228,7 @@ Contest problem
 
 Resource URL
 >GET
-> **/contest/<string:contest_id>/problems/<int:problem_id>/**
+> **/contest/<string:contest_id>/<string:team_id>/problems/<int:problem_id>/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -1272,6 +1272,9 @@ Example Response
 >- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
 >- If the requested prolem does not exist in data base, status code will be **406** and you will have errors like  **'Problem does not exist!' ** .
 >- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
+>- You can not see a problem if you are not a member of an accepted team, in that case response status code will be **406** and you will have errors like **"You Are Not A Member Of This Team"**
+>- If there is no team with given id, status code will be **406** and you will have errors like **"Team does not exist!"**
+>- If your team is not accepted in contest, status code will be **406** and you will have errors like **"You are not allowed to see problems"**
 
 --------
 
@@ -1281,7 +1284,7 @@ All contest problems
 
 Resource URL
 >GET
-> **/contest/<string:contest_id>/problems/**
+> **/contest/<string:contest_id>/<string:team_id>/problems/**
 
 Resource Information
 >|Response formats|Requires authentication?|
@@ -1324,6 +1327,9 @@ Example Response
 >- If everything goes well, response status code is **200**.
 >- If the requested contest does not exist in data base, status code will be **406** and you will have errors like  **'Contest does not exist!' ** .
 >- Just owner can see problems befor contest starts, and if request is from someone else there will be errors like **'You can not see problems right now!'** and respons status code will be **403** .
+>- You can not see a problem if you are not a member of an accepted team, in that case response status code will be **406** and you will have errors like **"You Are Not A Member Of This Team"**
+>- If there is no team with given id, status code will be **406** and you will have errors like **"Team does not exist!"**
+>- If your team is not accepted in contest, status code will be **406** and you will have errors like **"You are not allowed to see problems"**
 
 --------
 
