@@ -1026,7 +1026,7 @@ if(canedit==="no"){
 					$('#testcaseloading').show();
 				},
             success: function (data) {
-                swal("Good!", "add testcase successfully", "success");
+                swal("Good!", " testcase added successfully", "success");
                 $('#input-1').fileinput('clear');
 				  
             },
@@ -1239,7 +1239,7 @@ if(canedit==="no"){
 					 $('#editproblemsubmitbtn').prop('disabled', true);
 				},
 				success: function (data) {
-					swal("Sorry!","Edit problem successfully", "success") ; 
+					swal("Good!"," problem edited successfully", "success") ; 
 					clearprobleminput();
 					backtocontestpage();
 				},
@@ -1333,7 +1333,7 @@ if(canedit==="no"){
 				success: function (data) {
 					swal({
 						  title: "Good!",
-						  text: "add problem successfully",
+						  text: "problem added successfully",
 						  type: "success",
 						 
 						  closeOnConfirm: false,
