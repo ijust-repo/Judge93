@@ -116,8 +116,13 @@ def submit (contest_id, team_id ,number, file_type):
                         for i in range(len(code)):
                                 if "public class" in code[i]:
                                         code[i] = code[i].split()
-                                        code[i][2] = filename[:-5]
-                                        code[i] = ' '.join(code[i])
+                                        if('{' not in code[i][2]):
+                                                code[i][2] = filename[:-5]
+                                                code[i] = ' '.join(code[i])
+                                        else:
+                                                code[i][2] = filename[:-5]
+                                                code[i] = ' '.join(code[i])
+                                                code[i] += '{'
                                         break
                         code_file.close()
                         code_file = open(os.path.join(upload_path, filename), 'w')
@@ -137,7 +142,7 @@ def submit (contest_id, team_id ,number, file_type):
                 delete_compile_files(upload_path, filename, file_type)
                 return jsonify(errors="Problem does not have time limit!"), 406
         ### Run & Check...
-        for testcase in [ i for i in os.listdir(testcases_folder) if i[-2:]=="in" ]:
+        for testcase in sorted([ i for i in os.listdir(testcases_folder) if i[-2:]=="in" ]):
                 if(file_type == "py"):
                         problem_time_limit *= 5
                         try:
@@ -157,7 +162,7 @@ def submit (contest_id, team_id ,number, file_type):
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
                                 out, err = p.communicate()
-                                out = out[:-2]
+                                out = out[:-1]
                         except:
                                 delete_compile_files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
@@ -168,8 +173,8 @@ def submit (contest_id, team_id ,number, file_type):
                                 if( __OS__ == "Windows" ):
                                         p = subprocess.Popen("%s.exe <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
                                 elif( __OS__ == "Linux" ):
-                                        subprocess.check_output("chmod +x ./%s.out" %(filename[:-4]), shell=True,stderr=subprocess.STDOUT)
-                                        p = subprocess.Popen("./%s.out <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                                        #subprocess.check_output("chmod +x ./%s.out" %(filename[:-4]), shell=True,stderr=subprocess.STDOUT)
+                                        p = subprocess.Popen("./%s <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
                                 start_time = time.time()
                                 while p.poll() is None:
                                         if(time.time() - start_time > problem_time_limit):
@@ -214,7 +219,7 @@ def submit (contest_id, team_id ,number, file_type):
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
                                 out, err = p.communicate()
-                                out = out[:-2]
+                                out = out[:-1]
                         except:
                                 delete_compile_files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
@@ -226,6 +231,7 @@ def submit (contest_id, team_id ,number, file_type):
                 expected_out_file.close()
 
                 out = "".join( out.split('\r') )
+                expected_out = "".join( expected_out.split('\r') )
                 #print out
                 #print expected_out
                 
@@ -246,13 +252,15 @@ def delete_compile_files(upload_path, filename, file_type, isExceeded = False):
                 except:
                         pass
 		if(file_type == "cpp"):
-                        if(isExceeded):
-                                try:
-                                        subprocess.check_output("taskkill /IM %s.exe /T /F" %filename[:-4],shell=True,stderr=subprocess.STDOUT)
-                                except:
-                                        pass
-                                time.sleep(0.2)
-			os.remove(filename[:-4] + '.exe')
+                        __OS__ = get_os()
+                        if (__OS__ == "Windows"):
+                                if(isExceeded):
+                                        try:
+                                                subprocess.check_output("taskkill /IM %s.exe /T /F" %filename[:-4],shell=True,stderr=subprocess.STDOUT)
+                                        except:
+                                                pass
+                                        time.sleep(0.2)
+                                os.remove(filename[:-4] + '.exe')
 		if(file_type == "java"):
 			os.remove( os.path.join(upload_path, filename[:-5]) + '.class' )
         except:
@@ -290,15 +298,16 @@ def Update_Result(contest_id, team_id, problem_number ,status, solved):
                                 break
                         else:
                                 result = [problem_result for problem_result in problem_results_list if( problem_result.problem_id == problem_number )][0]
-                                result.status = status
-                                result.solved = solved
-                                if not solved:
-                                        result.failed_tries += 1
-                                if solved:
-                                        result.solved_on = datetime.utcnow()
-                                problem_results_list[problem_results_list.index(result)] = result
-                                complete_team_info.problem_results = problem_results_list
-                                contest_obj.save()
+                                if not result.solved:
+                                        result.status = status
+                                        result.solved = solved
+                                        if not solved:
+                                                result.failed_tries += 1
+                                        if solved:
+                                                result.solved_on = datetime.utcnow()
+                                        problem_results_list[problem_results_list.index(result)] = result
+                                        complete_team_info.problem_results = problem_results_list
+                                        contest_obj.save()
                                 break
 
 def get_problem_time_limit(contest_id, problem_number):
