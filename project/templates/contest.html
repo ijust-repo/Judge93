@@ -1537,7 +1537,7 @@ if(canedit==="no"){
 				*/
 				var sd_input = $("#datetimepicker").val();
 				var sd = new Date(sd_input);
-				var start_d = convertDateToUTCMilliSeconds(sd)/1000;
+				var start_d = (convertDateToUTCMilliSeconds(sd)/1000)+30600;
 				//myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
 				myData["starts_on"] = start_d;
 				//alert(myDate);
@@ -1569,7 +1569,7 @@ if(canedit==="no"){
 				*/
 				var ed_input = $("#datetimepicker2").val();
 				var ed = new Date(ed_input);
-				var end_d = convertDateToUTCMilliSeconds(ed)/1000;
+				var end_d = (convertDateToUTCMilliSeconds(ed)/1000)+30600;
 				myData["ends_on"] = end_d;
 				
 				isSend = true;
