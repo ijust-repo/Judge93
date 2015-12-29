@@ -218,7 +218,7 @@ def submit (contest_id, team_id ,number, file_type):
                                                                 except OSError:
                                                                         pass
                                                 elif( __OS__ == "Linux" ):
-                                                        subprocess.check_output("killall -9 %s" %(filename[:-5]), shell=True,stderr=subprocess.STDOUT)
+                                                        subprocess.check_output("killall -9 java", shell=True,stderr=subprocess.STDOUT)
                                                 delete_compile_files(upload_path, filename, file_type, True)
                                                 Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
                                                 return jsonify(status="Time Exceeded"), 200
