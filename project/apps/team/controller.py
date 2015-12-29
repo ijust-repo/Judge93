@@ -54,6 +54,9 @@ def create():
 			return jsonify(errors='Number of members must be under three!'), 406
 		try:
 			user_obj = User.objects().get(username=logged_in_user())
+			if len(user_obj.teams) > 1:
+				return jsonify(errors='You cannot create more teams!'), 406
+
 			team_obj = Team(name=name)
 			team_obj.owner = user_obj
 			members_list = []
