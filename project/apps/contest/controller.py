@@ -458,8 +458,8 @@ def accepting_rejecting (contest_id,team_id):
 						team_obj.update(pull__pending_contests=contest_obj)
 						team_obj.rejected_contests.append(contest_obj)
 
-        if not flag:
-            return jsonify(errors='this team does not exists in contest'), 406
+		if not flag:
+			return jsonify(errors='this team does not exists in contest'), 406
 
 		contest_obj.save()
 		team_obj.save()
