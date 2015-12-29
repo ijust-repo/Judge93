@@ -708,7 +708,7 @@
 	}
 	function convertlocaltoUCP(date){
 		var d=moment(date);
-		var n_date=new Date(d);
+		var n_date=new Date(date);
 		var localOffset = n_date.getTimezoneOffset() * 60000;
 		var localTime = n_date.getTime();
         date = localTime + localOffset;
