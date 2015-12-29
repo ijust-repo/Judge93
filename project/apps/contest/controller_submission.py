@@ -252,13 +252,15 @@ def delete_compile_files(upload_path, filename, file_type, isExceeded = False):
                 except:
                         pass
 		if(file_type == "cpp"):
-                        if(isExceeded):
-                                try:
-                                        subprocess.check_output("taskkill /IM %s.exe /T /F" %filename[:-4],shell=True,stderr=subprocess.STDOUT)
-                                except:
-                                        pass
-                                time.sleep(0.2)
-			os.remove(filename[:-4] + '.exe')
+                        __OS__ = get_os()
+                        if (__OS__ == "Windows"):
+                                if(isExceeded):
+                                        try:
+                                                subprocess.check_output("taskkill /IM %s.exe /T /F" %filename[:-4],shell=True,stderr=subprocess.STDOUT)
+                                        except:
+                                                pass
+                                        time.sleep(0.2)
+                                os.remove(filename[:-4] + '.exe')
 		if(file_type == "java"):
 			os.remove( os.path.join(upload_path, filename[:-5]) + '.class' )
         except:
@@ -296,15 +298,16 @@ def Update_Result(contest_id, team_id, problem_number ,status, solved):
                                 break
                         else:
                                 result = [problem_result for problem_result in problem_results_list if( problem_result.problem_id == problem_number )][0]
-                                result.status = status
-                                result.solved = solved
-                                if not solved:
-                                        result.failed_tries += 1
-                                if solved:
-                                        result.solved_on = datetime.utcnow()
-                                problem_results_list[problem_results_list.index(result)] = result
-                                complete_team_info.problem_results = problem_results_list
-                                contest_obj.save()
+                                if not result.solved:
+                                        result.status = status
+                                        result.solved = solved
+                                        if not solved:
+                                                result.failed_tries += 1
+                                        if solved:
+                                                result.solved_on = datetime.utcnow()
+                                        problem_results_list[problem_results_list.index(result)] = result
+                                        complete_team_info.problem_results = problem_results_list
+                                        contest_obj.save()
                                 break
 
 def get_problem_time_limit(contest_id, problem_number):
