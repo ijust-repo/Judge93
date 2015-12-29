@@ -116,8 +116,13 @@ def submit (contest_id, team_id ,number, file_type):
                         for i in range(len(code)):
                                 if "public class" in code[i]:
                                         code[i] = code[i].split()
-                                        code[i][2] = filename[:-5]
-                                        code[i] = ' '.join(code[i])
+                                        if('{' not in code[i][2]):
+                                                code[i][2] = filename[:-5]
+                                                code[i] = ' '.join(code[i])
+                                        else:
+                                                code[i][2] = filename[:-5]
+                                                code[i] = ' '.join(code[i])
+                                                code[i] += '{'
                                         break
                         code_file.close()
                         code_file = open(os.path.join(upload_path, filename), 'w')
@@ -157,7 +162,7 @@ def submit (contest_id, team_id ,number, file_type):
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
                                 out, err = p.communicate()
-                                out = out[:-2]
+                                out = out[:-1]
                         except:
                                 delete_compile_files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
@@ -168,8 +173,8 @@ def submit (contest_id, team_id ,number, file_type):
                                 if( __OS__ == "Windows" ):
                                         p = subprocess.Popen("%s.exe <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
                                 elif( __OS__ == "Linux" ):
-                                        subprocess.check_output("chmod +x ./%s.out" %(filename[:-4]), shell=True,stderr=subprocess.STDOUT)
-                                        p = subprocess.Popen("./%s.out <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                                        #subprocess.check_output("chmod +x ./%s.out" %(filename[:-4]), shell=True,stderr=subprocess.STDOUT)
+                                        p = subprocess.Popen("./%s <%s " %(filename[:-4], os.path.join(testcases_folder, testcase)),shell=True,stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
                                 start_time = time.time()
                                 while p.poll() is None:
                                         if(time.time() - start_time > problem_time_limit):
@@ -214,7 +219,7 @@ def submit (contest_id, team_id ,number, file_type):
                                                 return jsonify(status="Time Exceeded"), 200
                                         time.sleep(0.1)
                                 out, err = p.communicate()
-                                out = out[:-2]
+                                out = out[:-1]
                         except:
                                 delete_compile_files(upload_path, filename, file_type)
                                 Update_Result(contest_id, team_id, number ,"Runtime Error", False)
