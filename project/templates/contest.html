@@ -575,7 +575,7 @@
 			function convertDateToUTC(date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
 			*/
 			function convertDateToUTCMilliSeconds(date) {return (date.getTime() + (date.getTimezoneOffset() * 60000)); }
-
+			
 			/*
 			start_date = convertDateToUTC(start_date);
 			var startMillis = start_date.getTime()/1000;
@@ -584,8 +584,8 @@
 			var endMillis = end_date.getTime()/1000;
 			*/
 			//alert(moment(start_date));
-			var start_seconds = convertlocaltoUCP(start_date)/1000;
-			var end_seconds   = convertlocaltoUCP(end_date)/1000;
+			var start_seconds = convertlocaltoUCP(c_s)/1000;
+			var end_seconds   = convertlocaltoUCP(c_e)/1000;
 			//alert('{"name" : "' + name + '", "starts_on" : "' + start_seconds + '", "ends_on" : "' + end_seconds + '"}');
 			$.ajax({
           		type: "POST",
@@ -712,7 +712,7 @@
 		var localOffset = n_date.getTimezoneOffset() * 60000;
 		var localTime = n_date.getTime();
         date = localTime + localOffset;
-       
+		//alert("localOffset"+localOffset+"localTime");
     return (date);
 	}
 	function convertUTCDateToLocalDate(date) {
