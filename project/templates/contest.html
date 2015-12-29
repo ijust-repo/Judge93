@@ -487,12 +487,13 @@
 								$(("#" + teamitem[j].name)).attr("href",("/contest/"+teamitem[j].name+"/"));
 							}							
 						}
-						if(contestlist=null){
+						if(contestlist==null){
 							if(username==userlogin){
 									$('#contestinfo').html("You are not in any contest right now, please create a team and join to contests!");
 								}else{
 									$('#contestinfo').html("This user is not in any contest right now!");									
-								}						}
+								}						
+						}
 					},
 				   error: function (request) { 
 						if(request.status===405){

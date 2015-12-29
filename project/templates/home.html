@@ -191,8 +191,11 @@ $("#backtoprofile").click(function() {
             url : "/contest/",
             dataType: "html", 				
             success: function (data) {
-				
+			
            	var data=(JSON.parse(data)).contests;
+           	if(data==""){
+				$('#contestinfo').html("There is no contest to show!");
+			}	
 				 var tr;
 			for (var i = 1; i < data.length+1; i++) {
 				tr = $('<tr id="'+i+'">');
