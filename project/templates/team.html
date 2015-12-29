@@ -299,6 +299,7 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 			url : "/user/get_profile/by_id/"+id+"/",
 			dataType: "html",
 			success: function (data) {
+				
 				username = (JSON.parse(data)).username;
 				$("#contest").click(function() {
 					window.location.replace("/user/"+username+"/contest/");
@@ -312,10 +313,12 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 					url : '/user/get_profile/',
 					dataType: "html",
 					success: function (data) {
+						
 						var userlogin=(JSON.parse(data)).username;
 						if(username===userlogin)
 						{
 							$isYourProfile = true;
+							
 							$('#submitCreateTeam').click(function(){
 								
 								var teamName = $("#teamName").val();
@@ -389,12 +392,15 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 					url : '/user/' + $myId + '/teams/',
 					dataType: "html",
 					success: function (data) {
+						//alert(data);
 						$myDataTeam = (JSON.parse(data)).teams;
+						
 						$.ajax({
 							type: "GET",
 							url : '/user/get_profile/',
 							dataType: "html",
 							success: function (data) {
+								
 								userlogin = (JSON.parse(data)).username;
 								if($myDataTeam==""){
 									 if(username==userlogin){
@@ -407,7 +413,7 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 									var contestHtml = "";
 									for (var i = 0; i < $myDataTeam[counter].contests.length; i++)
 									{
-										contestHtml += '<div class="subset"><a href="/contest/' + $myDataTeam[counter].contests[i].name + '/">' + $myDataTeam[counter].contests[i].name + '</a></div>';
+										contestHtml += '<div class="subset"><a href="/contest/' + $myDataTeam[counter].contests[i].name + '/">' + $myDataTeam[counter].contests[i].name +'('+$myDataTeam[counter].contests[i].status+')'+ '</a></div>';
 									}
 									if ($myDataTeam[counter]["members"].length == 2)
 									{
@@ -496,7 +502,7 @@ $(".leftmenu").niceScroll({ cursorheight: 50,cursorcolor:"#BCBCBC"});
 								var teamContests = '<div class="sector-block-team2"><div class="title">Contest</div>';
 								for (var i = 0; i < $myDataTeam.contests.length; i++)
 								{
-									teamContests += '<div class="subset"><a href="/contest/' + $myDataTeam.contests[i] + '/">' + $myDataTeam.contests[i] + '</a></div>';
+									teamContests += '<div class="subset"><a href="/contest/' + $myDataTeam.contests[i].name + '/">' + $myDataTeam.contests[i].name +"("+$myDataTeam.contests[i].status+")"+ '</a></div>';
 								}
 								teamContests += '</div>';
 								var addHtml = "";

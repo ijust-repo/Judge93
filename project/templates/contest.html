@@ -222,46 +222,43 @@
 			</div>
 			<div id="contestquestion"  style="display:none">
 				<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
-					<div class="row">
-					
-					<div class="col-lg-6"><span id="contestspacelimitdiv" ></span><span>:(kb)</span><span>محدودیت حافظه</span>
-					
-					</div>
-					<div class="col-lg-6"><span id="contesttimelimitdiv" ></span><span>:(ms)</span><span>محدودیت زمانی</span>
-					
-					</div>
+					<div class="row">					
+					<div class="col-lg-6"><span id="contestspacelimitdiv" ></span><span>:(kb)</span><span>محدودیت حافظه</span></div>
+					<div class="col-lg-6"><span id="contesttimelimitdiv" ></span><span>:(ms)</span><span>محدودیت زمانی</span></div>
 					</div><hr>
-					<div id="contestheaderdiv" style="direction:rtl" class="row  "></div><hr>
-					<div id="contestbodydiv" style="direction:rtl" class="row"></div><hr>
-					<div id="contestfooterdiv" style="direction:rtl" class="row"></div><hr>
-					<div class="row" id="contesttestcaseexamplediv" >
+					<div style="margin-left:1%;">
+					<div id="contestheaderdiv" style="direction:rtl" class="row  "></div><br>
+					<div id="contestbodydiv" style="direction:rtl" class="row "></div><br>
+					<div id="contestfooterdiv" style="direction:rtl" class="row "></div><br>
+					</div>
+																					
+				</div>
+				<hr>
+				<div class="row" id="contesttestcaseexamplediv" style="margin-left:1%;width:92%" >
 						<hr>
 						<label class="labelcss" for="problemtestcaseinput">Input: </label>
-						<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput" ></textarea><br>
+						<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput"  ></textarea><br>
 						<label class="labelcss" for="problemtestcaseoutput">Output: </label>
 						<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput" ></textarea><br>
 					</div>
-					<div id="contestlanguageproblem"  class="row">
-						
+
+				<div id="contestlanguageproblem"  style="margin-left:1%" class="row">
+						<br><br>
 					 <ul class="nav nav-pills">
 						 
 						  <li class="active" data-toggle="pill" ><a id="cpp" href="#">C++</a></li>
 						  <li  data-toggle="pill" ><a id="py" href="#">PYTHON</a></li>
 						  <li  data-toggle="pill"><a id="java" href="#">JAVA</a></li>
 						</ul>
-						
-					</div>											
-				</div>
-				<hr>
-
-
+						<br><br>
+					</div>
 				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
 					<div id="submitloading" style="display:none;text-align:left;">Please wait...</div>
 					<input id="input-2" name="input2[]"  type="file" class="file-loading inputs">	        
 				</div>
 
 				<div id="addtestcase" class="col-xs-12 col-md-11  row" style="display:none">
-						<p style="text-align:left;">Add testcase file for this problem. Please upload your ZIP file </p>
+						<p style="text-align:left;"> Add testcase file for this problem. Please upload your ZIP file </p>
 						<div id="testcaseloading" style="display:none">Please wait...</div>
 					<input id="input-1" name="input1[]" type="file"  class="file-loading inputs">	
 				
@@ -481,7 +478,7 @@
 								contestlist+=teamitem[j].name;			
 								tr = $('<tr id="Q'+i+'">');		
 								tr.append('<td  style="display:none">' + data[i].id + "</td>");
-								tr.append('<td> <a href="#"  id="'+teamitem[j].name+'">' + teamitem[j].name + "</a></td>");
+								tr.append('<td> <a href="#"  id="'+teamitem[j].name+'">' + teamitem[j].name  +"("+teamitem[j].status+")" + "</a></td>");
 								tr.append("<td>" +convertUTCDateToLocalDate(teamitem[j].starts_on) + "</td>");
 								tr.append("<td>" + convertUTCDateToLocalDate(teamitem[j].ends_on) + "</td>");
 								tr.append('<td><a href="#" id="'+teamname+'">' + teamname + '</a></td></tr>');
@@ -825,12 +822,12 @@
 			$('#contestaddquestions').hide()
 			$('#addproblemdiv').hide()
 	}
-	function loadquestiondiv(id){	
+	function loadquestiondiv(id,team){	
 
 	 //show problem
 	 $.ajax({
             type: "GET",
-            url :"/contest/"+contestid+"/problems/"+(parseInt(id)+1)+"/",
+            url :"/contest/"+contestid+"/"+team+"/problems/"+(parseInt(id)+1)+"/",
             dataType: "html",
             beforeSend: function() {
 				$('#loading').show();
@@ -845,7 +842,9 @@
 			$("#contestheaderdiv").html((JSON.parse(data)).header);
 			$("#contestbodydiv").html((JSON.parse(data)).body);
 			$("#contestfooterdiv").html((JSON.parse(data)).footer);
+			//alert((JSON.parse(data)).testcases[0].input);
 			if(((JSON.parse(data)).testcases)!=""){		
+				$("#contesttestcaseexamplediv").show();
 				$("#testcaseinput").html(((JSON.parse(data)).testcases[0]).input);
 				$("#testcaseoutput").html(((JSON.parse(data)).testcases[0]).output);
 			}
@@ -1077,11 +1076,10 @@ if(canedit==="no"){
 	
 
 }	
-	$("#questions").click(function() {
-	window.history.pushState("", "title", "/contest/"+contestname+"/");
-	  $.ajax({
+	function getproblem(team){
+		  $.ajax({
 				type: "GET",
-				url :"/contest/"+contestid+"/problems/",
+				url :"/contest/"+contestid+"/"+team+"/problems/",
 				dataType: "html",
 			   beforeSend: function() {
 					$('#loading').show();
@@ -1112,7 +1110,7 @@ if(canedit==="no"){
 					$('.viewproblem').click(function(){
 						
 						id = $(this).attr('id');
-						loadquestiondiv(id);
+						loadquestiondiv(id,team);
 					});
 					flagproblemlist=true;
 					}
@@ -1128,7 +1126,45 @@ if(canedit==="no"){
 					$('#body').show();
 				}
 		});
-
+	}
+	$("#questions").click(function() {
+	window.history.pushState("", "title", "/contest/"+contestname+"/");
+	$.ajax({
+            type: "GET",
+            url :"/user/"+userloginid+"/contest/"+contestid+"/",
+            dataType: "html",
+            contentType: "application/json",		 				
+            success: function (data) {
+			getproblem((JSON.parse(data)).id);
+	
+		},
+		error: function (request, status,error) {
+						 if(request.status===405){
+				   window.location.replace("/user/"); 
+			   }
+			   
+		 $.ajax({
+            type: "GET",
+            url : '/user/get_profile/',
+            dataType: "html", 
+            async:false,				
+            success: function (data) {
+			userlogin=(JSON.parse(data)).username;
+			if(contestadmin==userlogin){
+				getproblem("admin");
+			}else{
+				swal("Sorry!","You can't see problems", "error");
+			}
+            },
+           error: function (request) { 
+				   window.location.replace("/user/"); 
+	       	      		
+      		}
+		
+		});
+				  
+			   }
+	});
 	 });	 
 	 $("#editproblemtbtn").click(function() {
 		$('#maintitr').show();
@@ -1314,7 +1350,7 @@ if(canedit==="no"){
 	$("#joinbtn").click(function() {
 		swal({
 	  title: " ",
-	  text: "Please wirte your team name",
+	  text: "Please write your team name",
 	  type: "input",
 	  showCancelButton: true,
 	  closeOnConfirm: false,
@@ -1375,7 +1411,7 @@ if(canedit==="no"){
 						for (var i = 0; i < data.length; i++) {
 							//alert(data[i].members.length);
 							tr = '<tr id="'+data[i].id+'">';								
-							tr+='<td><a href="#" id="p'+data[i].name+'">' + data[i].name +','+data[i].id+ '</a></td>';
+							tr+='<td><a href="#" id="p'+data[i].name+'">' + data[i].name + '</a></td>';
 							
 							
 							if(data[i].members.length ==2){	
