@@ -137,7 +137,7 @@ def submit (contest_id, team_id ,number, file_type):
                 delete_compile_files(upload_path, filename, file_type)
                 return jsonify(errors="Problem does not have time limit!"), 406
         ### Run & Check...
-        for testcase in [ i for i in os.listdir(testcases_folder) if i[-2:]=="in" ]:
+        for testcase in sorted([ i for i in os.listdir(testcases_folder) if i[-2:]=="in" ]):
                 if(file_type == "py"):
                         problem_time_limit *= 5
                         try:
