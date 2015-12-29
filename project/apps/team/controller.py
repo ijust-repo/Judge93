@@ -212,7 +212,7 @@ def join_request():
 			if logged_in_user() != team_obj.owner.username:
 				return jsonify(errors = "user is not team owner") , 403
 				
-			if contest_obj.ends_on()<datetime.utcnow():
+			if contest_obj.ends_on < datetime.utcnow():
 				return jsonify(errors = "this contest has been finished") , 403
 
 			team_members_with_owner = copy(team_obj.members)
