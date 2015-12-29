@@ -114,15 +114,20 @@ def submit (contest_id, team_id ,number, file_type):
                         code_file = open(os.path.join(upload_path, filename), 'r')
                         code = code_file.readlines()
                         for i in range(len(code)):
-                                if "public class" in code[i]:
+                                if "public" in code[i] and "class" in code[i]:
+                                        line = code[i]
                                         code[i] = code[i].split()
-                                        if('{' not in code[i][2]):
-                                                code[i][2] = filename[:-5]
-                                                code[i] = ' '.join(code[i])
+                                        if '{' in line:
+                                                if('{' not in code[i][2]):
+                                                        code[i][2] = filename[:-5]
+                                                        code[i] = ' '.join(code[i])
+                                                else:
+                                                        code[i][2] = filename[:-5]
+                                                        code[i] = ' '.join(code[i])
+                                                        code[i] += '{'
                                         else:
                                                 code[i][2] = filename[:-5]
                                                 code[i] = ' '.join(code[i])
-                                                code[i] += '{'
                                         break
                         code_file.close()
                         code_file = open(os.path.join(upload_path, filename), 'w')
