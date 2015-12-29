@@ -85,6 +85,9 @@
 		<li  id="backtoprofile" class="backtoprofile" >
 		 	<a href="#back" ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i> Back to profile</h4></a>
 		</li>
+		<li  id="backtoproblemlistbtn" class="backtocontest" style="display:none">
+		 	<a href="#back" ><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i> Back to list</h4></a>
+		</li>
 
 	</ul>
 
@@ -144,7 +147,7 @@
 		<div id="addproblemdiv" style="display:none"><a href="#addProblem"><button id="addproblembtn" class="hover-button close-page">Add problem</button></a></div>
 	</div>
 	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none ;text-align:center ">
-		<input type="button" id="backtoproblemlistbtn" style="float:left;" class="hover-button " value="Back to contest"/>
+		
 		
 		<span id="titleproblem"style="direction:rtl" ></span><span id="orderproblem" style="display:none"></span>
 		
@@ -788,6 +791,8 @@
 		window.history.pushState("", "title", "/contest/"+contestname+"/");
 		checkifadmin(contestadmin);
 		reset();
+		$("#backtoproblemlistbtn").hide();
+		$(".backtoprofile").show();
 		$('#titlePage').html("Details") ;	
 		$('#contestinformation').show(1000);
 	}
@@ -840,6 +845,8 @@
 			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);		
 			problemid=((JSON.parse(data)).id);
 			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
+			$("#backtoproblemlistbtn").show();
+			$(".backtoprofile").hide();
 			$("#contesttimelimitdiv").html((JSON.parse(data)).time_limit );
 			$("#contestheaderdiv").html((JSON.parse(data)).header);
 			$("#contestbodydiv").html((JSON.parse(data)).body);
@@ -1388,6 +1395,7 @@ if(canedit==="no"){
 	});	
 	$("#backtoproblemlistbtn").click(function() {
 		 backtocontestpage();
+		 $('#questions').click();
 	});	
 	$("#contestteam").click(function() { 
 		 $('.rejectteam').prop('disabled', false);
