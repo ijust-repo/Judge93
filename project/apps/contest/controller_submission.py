@@ -114,7 +114,7 @@ def submit (contest_id, team_id ,number, file_type):
                         code_file = open(os.path.join(upload_path, filename), 'r')
                         code = code_file.readlines()
                         for i in range(len(code)):
-                                if "public class" in code[i]:
+                                if "public" in code[i] and "class" in code[i]:
                                         line = code[i]
                                         code[i] = code[i].split()
                                         if '{' in line:
