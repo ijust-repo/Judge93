@@ -570,6 +570,7 @@
 			var c_e = $("#contest_end").find("input").val();
 			var start_date = new Date(c_s);
 			var end_date = new Date(c_e);
+			
 			/*
 			function convertDateToUTC(date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
 			*/
@@ -582,9 +583,10 @@
 			end_date = convertDateToUTC(end_date);
 			var endMillis = end_date.getTime()/1000;
 			*/
-			var start_seconds = convertDateToUTCMilliSeconds(start_date)/1000;
-			var end_seconds   = convertDateToUTCMilliSeconds(end_date)/1000;
-
+			//alert(moment(start_date));
+			var start_seconds = convertlocaltoUCP(start_date)/1000;
+			var end_seconds   = convertlocaltoUCP(end_date)/1000;
+			//alert('{"name" : "' + name + '", "starts_on" : "' + start_seconds + '", "ends_on" : "' + end_seconds + '"}');
 			$.ajax({
           		type: "POST",
           		url : '/contest/',
@@ -703,6 +705,15 @@
       		}
 		
 		});
+	}
+	function convertlocaltoUCP(date){
+		var d=moment(date);
+		var n_date=new Date(d);
+		var localOffset = n_date.getTimezoneOffset() * 60000;
+		var localTime = n_date.getTime();
+        date = localTime + localOffset;
+       
+    return (date);
 	}
 	function convertUTCDateToLocalDate(date) {
 		var d=moment(date);
