@@ -430,12 +430,14 @@ def accepting_rejecting (contest_id,team_id):
 			return jsonify(errors="User is not owner"), 403
 		team_obj = Team.objects().get(pk=team_id)
 
+        flag = False
 		for info in contest_obj.teams:
 
 			if (info.team == team_obj):
+                flag = True
 				if (info.accepted == True):
 					if (accepted):
-						return jsonify(errors = "this team was accepted before!") , 409
+						return jsonify(errors = "this team was accepted before!") , 406
 					else:
 						info.accepted = False
 						team_obj.update(pull__contests=contest_obj)
@@ -443,7 +445,7 @@ def accepting_rejecting (contest_id,team_id):
 
 
 				elif (info.accepted == False):
-					return jsonify (errors = "this team was rejected before!") , 409
+					return jsonify (errors = "this team was rejected before!") , 406
 
 				else:
 					if (accepted ==True):
@@ -455,7 +457,8 @@ def accepting_rejecting (contest_id,team_id):
 						info.accepted =False
 						team_obj.update(pull__pending_contests=contest_obj)
 						team_obj.rejected_contests.append(contest_obj)
-			else:
+
+			if not flag:
 				return jsonify(errors='this team does not exists in contest'), 406
 
 		contest_obj.save()
