@@ -430,11 +430,11 @@ def accepting_rejecting (contest_id,team_id):
 			return jsonify(errors="User is not owner"), 403
 		team_obj = Team.objects().get(pk=team_id)
 
-        flag = False
+		flag = False
 		for info in contest_obj.teams:
 
 			if (info.team == team_obj):
-                flag = True
+				flag = True
 				if (info.accepted == True):
 					if (accepted):
 						return jsonify(errors = "this team was accepted before!") , 406
