@@ -143,11 +143,11 @@
 		<div id="createcontestdiv" ><a href="#createContest"><button class="hover-button close-page">Create  Contest</button></a></div>
 		<div id="addproblemdiv" style="display:none"><a href="#addProblem"><button id="addproblembtn" class="hover-button close-page">Add problem</button></a></div>
 	</div>
-	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none ; ">
-		<input type="button" id="backtoproblemlistbtn" class="hover-button " value="Back to contest"/>
+	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none ;text-align:center ">
+		<input type="button" id="backtoproblemlistbtn" style="float:left;" class="hover-button " value="Back to contest"/>
 		
-		<p id="orderproblem" class="contestproblem " ></p>
-		<p id="titleproblem" class="contestproblem "></p>
+		<span id="titleproblem"style="direction:rtl" ></span><span id="orderproblem" style="display:none"></span>
+		
 		<p id="idproblem" class="contestproblem " style="display:none"></p>
 		<p id="idteam" class="contestproblem " style="display:none"></p>
 		
@@ -237,9 +237,9 @@
 				<div class="row" id="contesttestcaseexamplediv" style="margin-left:1%;width:92%" >
 						<hr>
 						<label class="labelcss" for="problemtestcaseinput">Input: </label>
-						<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput"  ></textarea><br>
+						<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput" readonly  ></textarea><br>
 						<label class="labelcss" for="problemtestcaseoutput">Output: </label>
-						<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput" ></textarea><br>
+						<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput"  readonly></textarea><br>
 					</div>
 
 				<div id="contestlanguageproblem"  style="margin-left:1%" class="row">
@@ -835,7 +835,8 @@
 				$('#body').hide();
 			},  				
             success: function (data) {
-			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;	
+			document.getElementById('titleproblem').innerHTML=((JSON.parse(data)).title) ;
+			//$('#problemhead').css("text-align","center");	
 			document.getElementById('orderproblem').innerHTML=((JSON.parse(data)).order);		
 			problemid=((JSON.parse(data)).id);
 			$("#contestspacelimitdiv").html((JSON.parse(data)).space_limit);
