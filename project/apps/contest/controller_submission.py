@@ -164,13 +164,16 @@ def submit (contest_id, team_id ,number, file_type):
                                 start_time = time.time()
                                 while p.poll() is None:
                                         if(time.time() - start_time > problem_time_limit):
-                                                pids = [p.pid]
-                                                for pid in pids:
-                                                        pids.extend(get_process_children(p.pid))
-                                                        try: 
-                                                                os.kill(pid, SIGTERM)
-                                                        except OSError:
-                                                                pass
+                                                if( __OS__ == "Windows" ):
+                                                        pids = [p.pid]
+                                                        for pid in pids:
+                                                                pids.extend(get_process_children(p.pid))
+                                                                try: 
+                                                                        os.kill(pid, SIGTERM)
+                                                                except OSError:
+                                                                        pass
+                                                elif( __OS__ == "Linux" ):
+                                                        subprocess.check_output("killall -9 %s" %(filename[:-4]), shell=True,stderr=subprocess.STDOUT)
                                                 delete_compile_files(upload_path, filename, file_type , True)
                                                 Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
                                                 return jsonify(status="Time Exceeded"), 200
@@ -187,13 +190,16 @@ def submit (contest_id, team_id ,number, file_type):
                                 start_time = time.time()
                                 while p.poll() is None:
                                         if(time.time() - start_time > problem_time_limit):
-                                                pids = [p.pid]
-                                                for pid in pids:
-                                                        pids.extend(get_process_children(p.pid))
-                                                        try: 
-                                                                os.kill(pid, SIGTERM)
-                                                        except OSError:
-                                                                pass
+                                                if( __OS__ == "Windows" ):
+                                                        pids = [p.pid]
+                                                        for pid in pids:
+                                                                pids.extend(get_process_children(p.pid))
+                                                                try: 
+                                                                        os.kill(pid, SIGTERM)
+                                                                except OSError:
+                                                                        pass
+                                                elif( __OS__ == "Linux" ):
+                                                        subprocess.check_output("killall -9 %s" %(filename[:-5]), shell=True,stderr=subprocess.STDOUT)
                                                 delete_compile_files(upload_path, filename, file_type, True)
                                                 Update_Result(contest_id, team_id, number ,"Time Exceeded", False)
                                                 return jsonify(status="Time Exceeded"), 200
