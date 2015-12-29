@@ -20,7 +20,7 @@ class Signup(Form):
     username = StringField(validators=[validators.DataRequired()])
     email = StringField(validators=[validators.DataRequired(), validators.Email()])
     password = PasswordField(validators=[validators.DataRequired()])
-    #recaptcha = StringField(validators=[validators.DataRequired()])
+    recaptcha = StringField(validators=[validators.DataRequired()])
 
     @staticmethod
     def verify_captcha(recaptcha):
