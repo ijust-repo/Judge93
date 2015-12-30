@@ -1419,7 +1419,7 @@ if(canedit==="no"){
 				contentType: "application/json", 
 				async:false,				
 				success: function (data) {
-					alert(data);
+					//alert(data);
 				window.history.pushState("", "title", "/contest/"+contestname+"/");
 				$('#questions').css('background-color', '#1B325F');
 				$('#rank').css('background-color', '#1B325F');
@@ -1436,11 +1436,12 @@ if(canedit==="no"){
 				$("#problemhead").hide();
 				$("#maintitr").show();
 				 $('#contestteams').show();
-				 $('#contestteamstbl').html(" ");
+				 $('#contestteamstbl').html("<tr><td > Team name </td><td > Members </td><td > Admin </td><td> Accept or Reject </td></tr> ");
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
 					//alert(data);
 					 if(flagteamlist==false){
+						 alert(data);
 						 flagteamlist=true;
 						var data=(JSON.parse(data)).teams;
 						if(data==""){
