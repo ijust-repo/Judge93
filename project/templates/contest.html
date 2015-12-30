@@ -1420,8 +1420,21 @@ if(canedit==="no"){
 				async:false,				
 				success: function (data) {
 					alert(data);
-				//window.history.pushState("", "title", "/contest/"+contestname+"/");
-				reset();//added by milad
+				window.history.pushState("", "title", "/contest/"+contestname+"/");
+				$('#questions').css('background-color', '#1B325F');
+				$('#rank').css('background-color', '#1B325F');
+			//reset main div
+				$("#contestrank").hide();
+				$("#contestinformation").hide();
+				$("#addproblemdiv").hide();
+				$("#contestquestions").hide();
+				$("#contestteams").hide();
+				$("#contestaddquestions").hide();
+				$("#contestquestion").hide();
+				$("#createcontestdiv").hide();
+				
+				$("#problemhead").hide();
+				$("#maintitr").show();
 				 $('#contestteams').show();
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
