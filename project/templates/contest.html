@@ -1479,9 +1479,10 @@ if(canedit==="no"){
 			  error: function (request, status, error) { 
 			    if(request.status===405){
 				   window.location.replace("/user/"); 
-			   }
+			   	}
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   }
+		});
 		
 	});
 	$("#rank").click(function( ){
