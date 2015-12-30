@@ -1481,11 +1481,7 @@ if(canedit==="no"){
 				   window.location.replace("/user/"); 
 			   }
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
-			   },
-			   complete: function(data){
-					alert("in complete");
-				} 
-		});
+			   }
 		
 	});
 	$("#rank").click(function( ){
