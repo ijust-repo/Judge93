@@ -1424,6 +1424,7 @@ if(canedit==="no"){
 					 $('#contestteam').css('background-color', '#355C7D');
 					//alert(data);
 					 if(flagteamlist==false){
+						 flagteamlist=true;
 						var data=(JSON.parse(data)).teams;
 						if(data==""){
 							$('#contestteams').html("there is no pending request to show");
@@ -1464,7 +1465,7 @@ if(canedit==="no"){
 						});	
 						
 						//alert(tr);	
-						flagteamlist=true;
+						
 				}	
 					
 				},
