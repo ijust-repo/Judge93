@@ -1416,7 +1416,8 @@ if(canedit==="no"){
 				type: "GET",
 				url :"/contest/"+contestid+"/pending_teams/",
 				dataType: "html",
-				contentType: "application/json", 				
+				contentType: "application/json", 
+				async:false,				
 				success: function (data) {
 				window.history.pushState("", "title", "/contest/"+contestname+"/");
 				reset();//added by milad
