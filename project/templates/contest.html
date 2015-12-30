@@ -1470,8 +1470,11 @@ if(canedit==="no"){
 							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
 							
 							$('#contestteamstbl').append(tr);
+							alert("ghable team link");
 							$(("#p"+data[i].name)).attr("href",("/team/"+data[i].name+"/"))	;
+							alert("ghable user link");
 							$(("#u"+data[i].owner.username)).attr("href",("/user/"+data[i].owner.username+"/"))	;
+							alert("akhare for");
 						}
 						$('.rejectteam').click(function(){
 						id = $(this).closest('tr').attr('id');
