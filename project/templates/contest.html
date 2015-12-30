@@ -1419,12 +1419,12 @@ if(canedit==="no"){
 				success: function (data) {
 				window.history.pushState("", "title", "/contest/"+contestname+"/");
 				reset();//added by milad
+				$('#contestteams').html(" ");
 				 $('#contestteams').show();
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
 					//alert(data);
-					 if(flagteamlist==false){
-						 flagteamlist=true;
+					
 						var data=(JSON.parse(data)).teams;
 						if(data==""){
 							$('#contestteams').html("there is no pending request to show");
@@ -1466,7 +1466,7 @@ if(canedit==="no"){
 						
 						//alert(tr);	
 						
-				}	
+					
 					
 				},
 			  error: function (request, status, error) { 
