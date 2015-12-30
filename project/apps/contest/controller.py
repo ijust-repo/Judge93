@@ -136,7 +136,7 @@ def edit(contest_id):
 	ends_on = main_form.data['ends_on']
 	name = main_form.data['name']
 
-	if contest_obj.starts_on < datetime.utcnow():
+	if contest_obj.ends_on < datetime.utcnow():
 		return jsonify(errors="Contest can not be edited at this time!"), 406
 	
 	if starts_on and ends_on:
