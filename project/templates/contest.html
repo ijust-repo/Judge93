@@ -1441,17 +1441,19 @@ if(canedit==="no"){
 					 $('#contestteam').css('background-color', '#355C7D');
 					//alert(data);
 					 if(flagteamlist==false){
-						 alert(data);
+						 
 						 flagteamlist=true;
 						var data=(JSON.parse(data)).teams;
 						if(data==""){
 							$('#contestteams').html("there is no pending request to show");
 						}
+						alert(data.length);
 						//alert(data[0].name+","+data.length);
 						 var tr;
 						for (var i = 0; i < data.length; i++) {
 							//alert(data[i].members.length);
-							tr = '<tr id="'+data[i].id+'">';								
+							tr = '<tr id="'+data[i].id+'">';
+							alert("team"+i);								
 							tr+='<td><a href="#" id="p'+data[i].name+'">' + data[i].name + '</a></td>';
 							
 							
