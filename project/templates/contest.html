@@ -1421,22 +1421,9 @@ if(canedit==="no"){
 				success: function (data) {
 					//alert(data);
 				window.history.pushState("", "title", "/contest/"+contestname+"/");
-				$('#questions').css('background-color', '#1B325F');
-				$('#rank').css('background-color', '#1B325F');
-			//reset main div
-				$("#contestrank").hide();
-				$("#contestinformation").hide();
-				$("#addproblemdiv").hide();
-				$("#contestquestions").hide();
-				$("#contestteams").hide();
-				$("#contestaddquestions").hide();
-				$("#contestquestion").hide();
-				$("#createcontestdiv").hide();
-				
-				$("#problemhead").hide();
-				$("#maintitr").show();
+					reset();
 				 $('#contestteams').show();
-				 $('#contestteamstbl').html("<tr><td > Team name </td><td > Members </td><td > Admin </td><td> Accept or Reject </td></tr> ");
+				// $('#contestteamstbl').html("<tr><td > Team name </td><td > Members </td><td > Admin </td><td> Accept or Reject </td></tr> ");
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
 					//alert(data);
@@ -1447,13 +1434,13 @@ if(canedit==="no"){
 						if(data==""){
 							$('#contestteams').html("there is no pending request to show");
 						}
-						alert(data.length);
+						//alert(data.length);
 						//alert(data[0].name+","+data.length);
 						 var tr;
 						for (var i = 0; i < data.length; i++) {
 							//alert(data[i].members.length);
 							tr = '<tr id="'+data[i].id+'">';
-							alert("team"+i);								
+							//alert("team"+i);								
 							tr+='<td><a href="#" id="p'+data[i].name+'">' + data[i].name + '</a></td>';
 							
 							
@@ -1470,11 +1457,8 @@ if(canedit==="no"){
 							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
 							
 							$('#contestteamstbl').append(tr);
-							alert("ghable team link");
-							$(("#p"+data[i].name)).attr("href",("/team/"+data[i].name+"/"))	;
-							alert("ghable user link");
-							$(("#u"+data[i].owner.username)).attr("href",("/user/"+data[i].owner.username+"/"))	;
-							alert("akhare for");
+							//$(("#p"+data[i].name)).attr("href",("/team/"+data[i].name+"/"))	;
+							//$(("#u"+data[i].owner.username)).attr("href",("/user/"+data[i].owner.username+"/"))	;
 						}
 						$('.rejectteam').click(function(){
 						id = $(this).closest('tr').attr('id');
