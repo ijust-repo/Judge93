@@ -20,6 +20,7 @@ def run_test():
 	# flask import
 	from flask import Flask, session, request, redirect, url_for
 	import wtforms_json
+	from flask_limiter import Limiter
 
 
 	def authenticate():
@@ -34,6 +35,8 @@ def run_test():
 	connect('judge93')
 	app = Flask('ElmosJudge93', static_folder='project/statics', 
 			template_folder='project/templates')
+	limiter = Limiter(app, global_limits=["30 per minute", "1 per second"])
+
 	app.register_blueprint(user)
 	app.register_blueprint(team)
 	app.register_blueprint(contest)
