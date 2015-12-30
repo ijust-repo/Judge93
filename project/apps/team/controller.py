@@ -54,6 +54,9 @@ def create():
 			return jsonify(errors='Number of members must be under three!'), 406
 		try:
 			user_obj = User.objects().get(username=logged_in_user())
+			if len(user_obj.teams) > 1:
+				return jsonify(errors='You cannot create more teams!'), 406
+
 			team_obj = Team(name=name)
 			team_obj.owner = user_obj
 			members_list = []
@@ -108,11 +111,9 @@ def add_member():
 			try:
 				user_obj = User.objects.get(username=member)
 			except DoesNotExist:
-				form.members.errors.append(form.members.gettext('User does not exist!'))
-				return jsonify(errors=form.errors), 406
+				return jsonify(errors='User does not exist!'), 406
 			if user_obj in team_obj.members:
-				form.members.errors.append(form.members.gettext('No one can be added twice!'))
-				return jsonify(errors=form.errors), 406
+				return jsonify(errors='No one can be added twice!'), 406
 			else:
 				team_obj.members.append(user_obj)
 				user_obj.teams.append(team_obj)

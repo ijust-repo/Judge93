@@ -515,6 +515,7 @@ Example Request
 >- The team creator will be the owner of the team.
 >- If response status code is **201** then new team is successfully created.
 >- If there are more than two members in the request, response status code will be **406** and you will have errors with creating team like  **'Number of members must be under three!' ** .
+>- If you have created two teams before, status code will be **406** and you will have errors with creating team like  **'You cannot create more teams!' ** .
 >- If owner is found in the members of the request, status code will be **406** and and you will have errors with creating team like  **'Owner can not be added to the team!' ** .
 >- If the members in the request are the same, status code will be **406** and you will have errors with creating team like **'No one can be added twice!' ** .
 >- If the requested members do not exist in data base, status code will be **406** and you will have errors with creating team like  **'User does not exist!' ** .
