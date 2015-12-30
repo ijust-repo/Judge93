@@ -386,7 +386,7 @@
 						for (var i = 0; i < data.length; i++) {
 								tr = '<tr id="TR'+i+'">';
 								tr+='<td>' + (i+1) + '</td>';
-								tr+='<td> <a href="#" class="rankteam">' + data[i].team.name + "</a></td>";																
+								tr+='<td> <a href="#" id="rank'+i+'">' + data[i].team.name + "</a></td>";																
 								tr+="<td>" +data[i].solved_problem_counter+ "</td>";
 								tr+="<td>" +data[i].penalty+ "</td>";
 								var problemtry=data[i].problems_list;
@@ -414,7 +414,7 @@
 								$('#contestranklist').append(tr);
 								
 								
-							$('.rankteam').attr("href",("/team/"+data[i].team.name+"/"))	;
+							$('#rank'+i).attr("href",("/team/"+data[i].team.name+"/"))	;
 						}
 					}
 					},
