@@ -1445,9 +1445,9 @@ if(canedit==="no"){
 							else {	
 								tr+="<td> -</td>";		
 							}
-							tr+='<td><a href="#" id="u'+data[i].owner.username+'">' + data[i].owner.username + '</a></td>';
+							/*tr+='<td><a href="#" id="u'+data[i].owner.username+'">' + data[i].owner.username + '</a></td>';
 							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
-							
+							*/
 							$('#contestteamstbl').append(tr);
 							$(("#p"+data[i].name)).attr("href",("/team/"+data[i].name+"/"))	;
 							$(("#u"+data[i].owner.username)).attr("href",("/user/"+data[i].owner.username+"/"))	;
