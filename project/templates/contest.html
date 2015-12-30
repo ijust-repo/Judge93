@@ -50,13 +50,13 @@
 		<li  id="setting"  >
 		 	<a href="/user/setting/"><h4 class="leftmenuitem"><i class="fa fa-gears" style=" width:20px; height:20px; "></i> Settings</h4></a>
 		</li>
-		
+		<li  id="backtoprofile" class="backtoprofile">
+		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to home</h4></a>
+		</li>
 		<li  id="logout"   >
 		 	<a href="#logout"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
 		</li>
-		<li  id="backtoprofile" class="backtoprofile" style="display:none" >
-		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to profile</h4></a>
-		</li>
+		
 
 	</ul>
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="contestleftmenu" style="display:none">
@@ -1423,13 +1423,11 @@ if(canedit==="no"){
 				window.history.pushState("", "title", "/contest/"+contestname+"/");
 					reset();
 				 $('#contestteams').show();
-				// $('#contestteamstbl').html("<tr><td > Team name </td><td > Members </td><td > Admin </td><td> Accept or Reject </td></tr> ");
+				 $('#contestteamstbl').html("<tr><td > Team name </td><td > Members </td><td > Admin </td><td> Accept or Reject </td></tr> ");
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
 					//alert(data);
-					 if(flagteamlist==false){
-						 
-						 flagteamlist=true;
+					 
 						var data=(JSON.parse(data)).teams;
 						if(data==""){
 							$('#contestteams').html("there is no pending request to show");
@@ -1441,7 +1439,7 @@ if(canedit==="no"){
 							//alert(data[i].members.length);
 							tr = '<tr id="'+data[i].id+'">';
 							//alert("team"+i);								
-							tr+='<td><a href="#" id="p'+data[i].name+'">' + data[i].name + '</a></td>';
+							tr+='<td><a href="#" class="reqteam">' + data[i].name + '</a></td>';
 							
 							
 							if(data[i].members.length ==2){	
@@ -1457,8 +1455,9 @@ if(canedit==="no"){
 							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
 							
 							$('#contestteamstbl').append(tr);
-							//$(("#p"+data[i].name)).attr("href",("/team/"+data[i].name+"/"))	;
-							//$(("#u"+data[i].owner.username)).attr("href",("/user/"+data[i].owner.username+"/"))	;
+							
+							$('.reqteam').attr("href",("/team/"+data[i].name+"/"))	;
+							$(("#u"+data[i].owner.username)).attr("href",("/user/"+data[i].owner.username+"/"))	;
 						}
 						$('.rejectteam').click(function(){
 						id = $(this).closest('tr').attr('id');
@@ -1469,11 +1468,7 @@ if(canedit==="no"){
 						id = $(this).closest('tr').attr('id');
 						acceptorrejectteam(id,true);
 										
-						});	
-						
-						//alert(tr);	
-						
-				}	
+						});		
 					
 				},
 			  error: function (request, status, error) { 
@@ -1483,6 +1478,7 @@ if(canedit==="no"){
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   }
 		
+	});
 	});
 	$("#rank").click(function( ){
 			window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");			
