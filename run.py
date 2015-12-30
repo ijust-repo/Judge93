@@ -40,7 +40,7 @@ def run_test():
 	connect('judge93')
 	app = Flask('ElmosJudge93', static_folder='project/statics', 
 			template_folder='project/templates')
-	limiter = Limiter(app, global_limits=["30 per minute", "2 per second"])
+	limiter = Limiter(app, global_limits=["30 per minute", "3 per second"])
 
 	app.register_blueprint(user)
 	app.register_blueprint(team)
