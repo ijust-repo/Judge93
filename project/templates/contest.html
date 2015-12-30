@@ -1419,7 +1419,7 @@ if(canedit==="no"){
 				success: function (data) {
 				window.history.pushState("", "title", "/contest/"+contestname+"/");
 				reset();//added by milad
-				$('#contestteams').html(" ");
+				$('#contestteamstbl').html("<tr></tr><td > Team name </td><td > Members </td><td > Admin </td><td> Accept or Reject </td>	</tr> ");
 				 $('#contestteams').show();
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
