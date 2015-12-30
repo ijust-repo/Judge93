@@ -18,7 +18,7 @@ def run_test():
 	from mongoengine import connect
 
 	# flask import
-	from flask import Flask, session, request, redirect, url_for
+	from flask import Flask, session, request, redirect, url_for, abort
 	import wtforms_json
 	from flask_limiter import Limiter
 
@@ -30,6 +30,11 @@ def run_test():
 		if request.endpoint not in without_login_url_list:
 			if not logged_in_user():
 				return "ERROR 405", 405
+
+	def limit_remote_addr():
+		blocked_addr = []
+		if request.remote_addr in blocked_addr:
+			abort(403)  # Forbidden
 
 	wtforms_json.init()
 	connect('judge93')
@@ -44,6 +49,7 @@ def run_test():
 	app.config['WTF_CSRF_ENABLED'] = False
 	app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 	app.before_request(authenticate)
+	app.before_request(limit_remote_addr)
 
 	@app.route('/')
 	def index():
@@ -58,18 +64,18 @@ def run_test():
 
 
 def help():
-    print('''
+	print('''
 Judge93 Project
 python run.py [COMMAND]
 COMMAND:
-    test
-        run judge93 app in test and debug mode.
+	test
+		run judge93 app in test and debug mode.
 
-    update_packages
-        update project packages using python pip.
+	update_packages
+		update project packages using python pip.
 
-        '''
-          )
+		'''
+		  )
 
 
 if __name__ == '__main__':
