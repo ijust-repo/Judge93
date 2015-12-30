@@ -1415,7 +1415,8 @@ if(canedit==="no"){
 		  $.ajax({
 				type: "GET",
 				url :"/contest/"+contestid+"/pending_teams/",
-				dataType: "html",  				
+				dataType: "html",
+				contentType: "application/json", 				
 				success: function (data) {
 				window.history.pushState("", "title", "/contest/"+contestname+"/");
 				reset();//added by milad
@@ -1423,7 +1424,8 @@ if(canedit==="no"){
 					document.getElementById('titlePage').innerHTML="Teams request" ;
 					 $('#contestteam').css('background-color', '#355C7D');
 					//alert(data);
-					 
+					 if(flagteamlist==false){
+						 flagteamlist=true;
 						var data=(JSON.parse(data)).teams;
 						if(data==""){
 							$('#contestteams').html("there is no pending request to show");
@@ -1464,14 +1466,19 @@ if(canedit==="no"){
 						});	
 						
 						//alert(tr);	
-		
+						
+				}	
+					
 				},
 			  error: function (request, status, error) { 
 			    if(request.status===405){
 				   window.location.replace("/user/"); 
 			   }
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
-			   }  
+			   }
+			   /*complete: function(){
+					alert("fuuuuuuuuuuuuuuuuuuuuuuuck");
+				} */ 
 		});
 		
 	});
