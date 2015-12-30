@@ -1477,8 +1477,8 @@ if(canedit==="no"){
 			   }
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   },
-			   complete: function(){
-					alert("fuuuuuuuuuuuuuuuuuuuuuuuck");
+			   complete: function(data){
+					alert(data);
 				} 
 		});
 		
