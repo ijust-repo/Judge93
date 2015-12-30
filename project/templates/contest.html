@@ -1476,10 +1476,10 @@ if(canedit==="no"){
 				   window.location.replace("/user/"); 
 			   }
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
-			   }
-			   /*complete: function(){
+			   },
+			   complete: function(){
 					alert("fuuuuuuuuuuuuuuuuuuuuuuuck");
-				} */ 
+				} 
 		});
 		
 	});
