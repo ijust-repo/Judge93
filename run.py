@@ -47,7 +47,7 @@ def run_test():
 	app.register_blueprint(contest)
 	app.secret_key = '.g2He35T9TQhTxth3IPj75KP5zQDAmXaZWiVz1FwCKAWs3Oi'
 	app.config['WTF_CSRF_ENABLED'] = False
-	app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+	app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 	app.before_request(authenticate)
 	app.before_request(limit_remote_addr)
 
