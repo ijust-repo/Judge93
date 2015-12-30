@@ -1478,7 +1478,7 @@ if(canedit==="no"){
 						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
 			   },
 			   complete: function(data){
-					alert(data);
+					alert((JSON.parse(data)).teams);
 				} 
 		});
 		
