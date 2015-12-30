@@ -52,6 +52,7 @@ def details_page(contestName):
 
 @contest.route('/', methods=['POST'])
 def create():
+	return jsonify(errors='You dont have permission to create contests!'), 406
 	form = CreateContest.from_json(request.json)
 	if form.validate():
 		name = form.data['name']
