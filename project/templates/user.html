@@ -24,9 +24,9 @@
 <body> 
 	<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
 
-<div id="body" class=" user">
+<div id="body1" class=" user" >
 	
-	<div class="row top-menu" >
+	<div class="top-menu" >
 		<nav class="navbar navbar-inverse  shadow">
 		  <div class="container-fluid">
 			<div class="navbar-header">
@@ -43,12 +43,12 @@
 		  </div>
 		</nav>	
 	</div>
-	<div class="row col-xs-offset=1 col-md-offset-1 content">
+	<div class="col-xs-offset-1 col-md-offset-1 content">
 	<div class="left col-xs-10 col-md-6" >	
 		<img src="{{ url_for('static', filename='../statics/img/Icon.png') }}" height="80%"/>  
         	
 	</div>
-	<div class="right">
+	<div class="right ">
 
 		<div class="tab-content  col-xs-12 col-md-12">
 			
@@ -284,7 +284,7 @@ $("#forgotbyemail").click(function() {
 });
 
 $('#loading').hide();
-	$('#body').show();
+	$('#body1').show();
 });
 </script>
 </html>
