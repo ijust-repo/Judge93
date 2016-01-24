@@ -52,7 +52,7 @@ def details_page(contestName):
 
 @contest.route('/', methods=['POST'])
 def create():
-	return jsonify(errors='You dont have permission to create contests!'), 406
+	#return jsonify(errors='You dont have permission to create contests!'), 406
 	form = CreateContest.from_json(request.json)
 	if form.validate():
 		name = form.data['name']
@@ -136,7 +136,7 @@ def edit(contest_id):
 	ends_on = main_form.data['ends_on']
 	name = main_form.data['name']
 
-	if contest_obj.starts_on < datetime.utcnow():
+	if contest_obj.ends_on < datetime.utcnow():
 		return jsonify(errors="Contest can not be edited at this time!"), 406
 	
 	if starts_on and ends_on:
@@ -357,16 +357,17 @@ def contest_details(contest_id):
 				details_dict["team"] = (team_info.team.to_json())
 
 				for result in team_info.problem_results:
-					result_dict["failed_tries"] = (result.failed_tries)
-					result_dict["solved"] = (result.solved)
-					result_dict["solved_on"] = (result.solved_on)
-					result_dict["problem_id"] = (result.problem_id)
-					for problem_obj in contest_obj.problems:
-						if problem_obj.id == result.problem_id:
-							result_dict["order"] = problem_obj.order
-							break
-					problems_list.append(result_dict)
-					result_dict={}
+					if result.solved or result.failed_tries > 0:
+						result_dict["failed_tries"] = (result.failed_tries)
+						result_dict["solved"] = (result.solved)
+						result_dict["solved_on"] = (result.solved_on)
+						result_dict["problem_id"] = (result.problem_id)
+						for problem_obj in contest_obj.problems:
+							if problem_obj.id == result.problem_id:
+								result_dict["order"] = problem_obj.order
+								break
+						problems_list.append(result_dict)
+						result_dict={}
 				problems_list.sort(key = lambda resultdictionary :resultdictionary["order"])
 				details_dict["problems_list"] = problems_list
 				penalty = calculate_penalty(problems_list,start_time)
