@@ -350,7 +350,9 @@
 				$myData = (JSON.parse(data));
 				//alert($myData.ends_on);
 				$('#contestinformation').append('<div class="open-page info-contest" ><div class="row header-team"><div class="col-sm-3"><button  id="cancelContestButton" onclick="$cancelContest();" class="hover-button" style="display: none">Cancel</button></div><div class="col-sm-6"><div><p class="editable">' + $myData.name + '</p></div></div><div class="col-sm-3"><button id="editContestButton" onclick="$editContest();" style="display:none"; class="hover-button">Edit</button></div></div><div class="body-team"><div class="sector-block-contest"><div class="title">owner</div><p>' + $myData.owner.username + '</p></div><div class="sector-block-contest"><div class="title">created on</div><p>' + convertUTCDateToLocalDate($myData.created_on )+ '</p></div><div class="sector-block-contest"><div class="title">starts on</div><p>' + convertUTCDateToLocalDate($myData.starts_on) + '</p></div><div class="sector-block-contest"><div class="title">ends on</div><p>' + convertUTCDateToLocalDate($myData.ends_on) + '</p></div></div><input class="contest-id" type="hidden" value="' + $myData.id + '"></div>');
-				 countdown($myData.ends_on);
+			
+					countdown($myData.starts_on,$myData.ends_on);
+				
 				 contestname=(JSON.parse(data)).name;
 				 contestadmin=(JSON.parse(data)).owner.username;
 				checkifadmin(contestadmin);
@@ -618,11 +620,18 @@
 		
 
 	});
-	function countdown(time){
-		var target_date =moment(convertUTCDateToLocalDate(time));
+	function countdown(stime,etime){	
 		var days, hours, minutes, seconds;
 		var countdown = document.getElementById("countdown");
-		var myVar =setInterval(function () {
+		var timeinterval =setInterval(function () {
+			var d = moment(new Date());
+			var day=moment(convertUTCDateToLocalDate(stime));
+			var target_date=0;
+			if(d<day){
+				 target_date =moment(convertUTCDateToLocalDate(stime));			
+			}else if (d>day){				
+					target_date =moment(convertUTCDateToLocalDate(etime));				
+			}
 			var current_date = new Date().getTime();
 			var seconds_left = (target_date - current_date) / 1000;
 			days = parseInt(seconds_left / 86400);
@@ -632,19 +641,16 @@
 			minutes = parseInt(seconds_left / 60);
 			seconds = parseInt(seconds_left % 60);
 			countdown.innerHTML = days + "d," + hours + "h,"
-			+ minutes + "m," + seconds + "s"; 
-			if(days==0 && hours==0 && minutes==0 && seconds==0){
-				swal({
-		  title: "Time is over!",
-		  text: " ",
-		  timer: 2000,
-		  showConfirmButton: false
-		});
-
-			} 
+			+ minutes + "m," + seconds + "s"; 	 
+			if(days<=0 && hours<=0 && minutes<=0 && seconds<=0){
+				if(d<day){
+					countdown.innerHTML = "Start..."; 	
+				}else if (d>day){		
+					clearInterval(timeinterval);
+					countdown.innerHTML = "Finished"; 
+				}
+			}
 		}, 1000);
-
-
 	}
 	function checkifadmin(username){
 		 if(username===userlogin){
@@ -1479,8 +1485,7 @@ if(canedit==="no"){
 			   }
 		});
 		
-	});
-	
+	});	
 	$("#rank").click(function( ){
 			window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");			
 		});		
