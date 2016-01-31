@@ -198,7 +198,7 @@ $("#backtoprofile").click(function() {
 			}	
 				 var tr;
 			for (var i = 1; i < data.length+1; i++) {
-				tr = $('<tr id="'+i+'">');
+				tr = $('<tr data-href="#contests" id="'+i+'">');
 				tr.append('<td >' + i + "</td>");
 				tr.append('<td style="display:none">' + data[i-1].id + "</td>");
 				tr.append('<td>' + data[i-1].name + "</td>");			
