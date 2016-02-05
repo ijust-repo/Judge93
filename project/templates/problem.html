@@ -29,37 +29,6 @@
 <body>
 	<div id="loading" style="text-align:center;position:relative;top:40%"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> <p>Please wait...</p></div>
 <div id="body" style="display:none">
-	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="leftmenu" >
-		
-		<li class=" usernameitem " id="usernameitem">
-			<a href="#"><h4 id="getusername" class="leftmenuitem"><img src="{{ url_for('static', filename='../statics/img/j2.png') }}" height="100%"/>  </h4></a>
-			<a ><h4 id="getidprof" class="leftmenuitem" style="display:none"></h4></a>
-		</li>			
-		<li  id="contest"  >
-			
-		 	<a href="#" ><h4 class="leftmenuitem"><i  class="fa fa-laptop" style="width:20px; height:20px;"> </i> Contests</h4></a>
-		</li>
-		
-		<li  id="team"  >
-		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-group" style=" width:20px; height:20px; "></i> Teams</h4></a>
-		</li>
-		
-		<li  id="users"  style="display:none" >
-		 	<a href="#users"><h4 class="leftmenuitem"><i class="fa fa-user" style="width:20px; height:20px; "></i> Users</h4></a>
-		</li>
-		
-		<li  id="setting"  >
-		 	<a href="/user/setting/"><h4 class="leftmenuitem"><i class="fa fa-gears" style=" width:20px; height:20px; "></i> Settings</h4></a>
-		</li>
-		<li  id="backtoprofile" class="backtoprofile">
-		 	<a href="#"><h4 class="leftmenuitem"><i class="fa fa-mail-reply"style=" width:20px; height:20px; "></i>Back to home</h4></a>
-		</li>
-		<li  id="logout"   >
-		 	<a href="#logout"><h4 class="leftmenuitem"><i class="fa fa-sign-out" style=" width:20px; height:20px; "></i> Log out</h4></a>
-		</li>
-		
-
-	</ul>
 	<ul class=" col-xs-3 col-md-2 leftmenu shadow " id="contestleftmenu" style="display:none">
 		
 		<li class=" usernameitem " id="contestnameitem">
@@ -91,216 +60,114 @@
 		</li>
 
 	</ul>
-
-	<div id="createContest" class="form-dialog">
-        <div>
-            <a href="#" title="Close" class="close-button">X</a>
-            <form>
-                <div class="question">
-                    <input type="text" id="contest_name" required/>
-                    <label>Contest Name</label>
-                </div>
-                <label style="margin-top:10px;">starts</label>
-                <div class='input-group date' id='contest_start'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-		        <script type="text/javascript">
-		            $(function () {
-		                $('#contest_start').datetimepicker();
-		            });
-		        </script>
-                <!--
-                <input type="date" required id="contest_start_date" style="width:100%;margin-top:-8px;" />
-                <input type="time" required id="contest_start_time" style="width:100%;margin-top:2px;" />
-                
-                <input type="datetime-local" required id="contest_start" style="width:100%;margin-top:-8px;" />
-                -->
-                <label style="margin-top:10px;">ends</label>
-                <div class='input-group date' id='contest_end'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-		        <script type="text/javascript">
-		            $(function () {
-		                $('#contest_end').datetimepicker();
-		            });
-		        </script>
-                <!--
-                <input type="date" required id="contest_end_date" style="width:100%;margin-top:-8px;" />
-                <input type="time" required id="contest_end_time" style="width:100%;margin-top:2px;" />
-                
-                <input type="datetime-local" required id="contest_end" style="width:100%;margin-top:-8px;" />
-                -->
-                <button id="create_contest_button" type="submit" class="submit-button">Submit</button>
-            </form>
-        </div>
-    </div>
     
 <div class="col-xs-offset-3 col-md-offset-2 ">
-	<div id="maintitr" class="col-xs-9 col-md-10 maintitr">
-		<p id="titlePage">Your contests</p>
-		<div id="createcontestdiv" ><a href="#createContest"><button class="hover-button close-page">Create  Contest</button></a></div>
-		<div id="addproblemdiv" style="display:none"><a href="#addProblem"><button id="addproblembtn" class="hover-button close-page">Add problem</button></a></div>
-	</div>
-	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none ;text-align:center ">
-		
-		
-		<span id="titleproblem"style="direction:rtl" ></span><span id="orderproblem" style="display:none"></span>
-		
+	<div id="problemhead" class="col-xs-9 col-md-10 maintitr" style="display:none ;text-align:center ">	
+		<span id="titleproblem"style="direction:rtl" ></span><span id="orderproblem" style="display:none"></span>	
 		<p id="idproblem" class="contestproblem " style="display:none"></p>
-		<p id="idteam" class="contestproblem " style="display:none"></p>
-		
+		<p id="idteam" class="contestproblem " style="display:none"></p>		
 	</div>
 </div>
    
-<div class="col-xs-offset-3 col-md-offset-2">
-      	<div id="contents" class="contents  " >
-			<div id="contestinfoforusers"class="CSSTableGenerator" style="display:none">					
-				<table id="contestinfo">
-				   <tr>
-					   <td style="display:none"> id </td>
-					   <td > Name </td>
-					   <td > Sart on </td>
-					   <td> End on </td>
-					   <td >Team</td>				     
-					</tr>
-				</table>
-			</div>
-            <div id="contestinformation" class="CSSTableGenerator" style="display:none">
-				<button  id="joinbtn"  class="hover-button" style="display: none">Join</button>
-				</div>            
-            <div id="contestquestions" class="CSSTableGenerator" style="display:none">
-				
-				<div class="edit-order" style="display:none">
-					<button class="hover-button" >Edit Order</button>
-				</div>
-				<ul >
-					<li>
-						<div class="subset-question">Order</div>
-						<div class="subset-question">Title</div>
-
-					</li>
-				</ul>
-				<ul class="sortable"></ul>
-			</div>
-			<div id="contestaddquestions" style="display:none; margin:3%;">
-				Problem details:
-				<hr>
-				<label class="labelcss" for="problemtitle">Title: </label>
-				<input type="text" name="problemtitle" id="problemtitle" style="width:85%"/><br><br>
-				<div class="row"> 
-					<label class="labelcss" for="problemtimelimit">Time limit(ms): </label>
-					<input type="text" name="problemtimelimit" id="problemtimelimit" style="margin-right:3%; width:35.5%"/>
-					<label class="labelcss" for="problemspacelimit">Space limit(kb): </label>
-					<input type="text" name="problemspacelimit" id="problemspacelimit" style="width:35.5%"/><br>
-				</div>
-				<label class="labelcss" for="problemheader">Header: </label>
-				<textarea class="textareacss" name="problemheader"  id="problemheader"></textarea><br>
-				<label class="labelcss" for="problembody">Body: </label>
-				<textarea class="textareacss" name="problembody" id="problembody" ></textarea><br>
-				<label class="labelcss" for="problembody">Footer: </label>
-				<textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
-				<hr>
-				sample Testcase:<br>
-				
-				<div class="testcase" id="problemtestcase" >
+	<div class="col-xs-offset-3 col-md-offset-2">
+		<div id="contents" class="contents  " >		
+			<div id="contestquestions" class="CSSTableGenerator" style="display:none">
+				<div id="contestaddquestions" style="display:none; margin:3%;">
+					Problem details:
 					<hr>
-					<label class="labelcss" for="problemtestcaseinput">Input: </label>
-					<textarea class="textareacss" name="problemtestcaseinput" id="problemtestcaseinput" ></textarea><br>
-					<label class="labelcss" for="problemtestcaseoutput">Output: </label>
-					<textarea class="textareacss" name="problemtestcaseoutput" id="problemtestcaseoutput" ></textarea><br>
-				</div>
-				<hr>
-				<div>
-					<button type="submit" id="cancleproblemsubmitbtn" class="btn btn-primary" style="width:15.5%"> Cancle</button>
-					<button type="submit"id="addproblemsubmitbtn"  class="btn btn-primary" style="width:15.5%"> Add</button>
-									
-					<button type="submit" id="editproblemsubmitbtn" class="btn btn-primary" style="width:15.5%"> Submit edit</button>
-				</div>
-				<div id="addproblemloading" style="display:none">Please wait...</div>
-			</div>
-			<div id="contestquestion"  style="display:none">
-				<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
-					<div class="row">					
-					<div class="col-lg-6"><span id="contestspacelimitdiv" ></span><span>:(kb)</span><span>محدودیت حافظه</span></div>
-					<div class="col-lg-6"><span id="contesttimelimitdiv" ></span><span>:(ms)</span><span>محدودیت زمانی</span></div>
-					</div><hr>
-					<div style="margin-left:1%;">
-					<div id="contestheaderdiv" style="direction:rtl" class="row  "></div><br>
-					<div id="contestbodydiv" style="direction:rtl" class="row "></div><br>
-					<div id="contestfooterdiv" style="direction:rtl" class="row "></div><br>
+					<label class="labelcss" for="problemtitle">Title: </label>
+					<input type="text" name="problemtitle" id="problemtitle" style="width:85%"/><br><br>
+					<div class="row"> 
+						<label class="labelcss" for="problemtimelimit">Time limit(ms): </label>
+						<input type="text" name="problemtimelimit" id="problemtimelimit" style="margin-right:3%; width:35.5%"/>
+						<label class="labelcss" for="problemspacelimit">Space limit(kb): </label>
+						<input type="text" name="problemspacelimit" id="problemspacelimit" style="width:35.5%"/><br>
 					</div>
-																					
-				</div>
-				<hr>
-				<div class="row" id="contesttestcaseexamplediv" style="margin-left:1%;width:92%" >
+					<label class="labelcss" for="problemheader">Header: </label>
+					<textarea class="textareacss" name="problemheader"  id="problemheader"></textarea><br>
+					<label class="labelcss" for="problembody">Body: </label>
+					<textarea class="textareacss" name="problembody" id="problembody" ></textarea><br>
+					<label class="labelcss" for="problembody">Footer: </label>
+					<textarea class="textareacss" name="problemfooter" id="problemfooter" ></textarea><br>
+					<hr>
+					sample Testcase:<br>
+					
+					<div class="testcase" id="problemtestcase" >
 						<hr>
 						<label class="labelcss" for="problemtestcaseinput">Input: </label>
-						<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput" readonly  ></textarea><br>
+						<textarea class="textareacss" name="problemtestcaseinput" id="problemtestcaseinput" ></textarea><br>
 						<label class="labelcss" for="problemtestcaseoutput">Output: </label>
-						<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput"  readonly></textarea><br>
+						<textarea class="textareacss" name="problemtestcaseoutput" id="problemtestcaseoutput" ></textarea><br>
+					</div>
+					<hr>
+					<div>
+						<button type="submit" id="cancleproblemsubmitbtn" class="btn btn-primary" style="width:15.5%"> Cancle</button>
+						<button type="submit"id="addproblemsubmitbtn"  class="btn btn-primary" style="width:15.5%"> Add</button>
+										
+						<button type="submit" id="editproblemsubmitbtn" class="btn btn-primary" style="width:15.5%"> Submit edit</button>
+					</div>
+					<div id="addproblemloading" style="display:none">Please wait...</div>
+				</div>
+				<div id="contestquestion"  style="display:none">
+					<div id="contentproblem" class="col-xs-12 col-md-11  contestproblem row">
+						<div class="row">					
+						<div class="col-lg-6"><span id="contestspacelimitdiv" ></span><span>:(kb)</span><span>محدودیت حافظه</span></div>
+						<div class="col-lg-6"><span id="contesttimelimitdiv" ></span><span>:(ms)</span><span>محدودیت زمانی</span></div>
+						</div><hr>
+						<div style="margin-left:1%;">
+						<div id="contestheaderdiv" style="direction:rtl" class="row  "></div><br>
+						<div id="contestbodydiv" style="direction:rtl" class="row "></div><br>
+						<div id="contestfooterdiv" style="direction:rtl" class="row "></div><br>
+						</div>
+																						
+					</div>
+					<hr>
+					<div class="row" id="contesttestcaseexamplediv" style="margin-left:1%;width:92%" >
+							<hr>
+							<label class="labelcss" for="problemtestcaseinput">Input: </label>
+							<textarea class="textareacss" name="problemtestcaseinput" id="testcaseinput" readonly  ></textarea><br>
+							<label class="labelcss" for="problemtestcaseoutput">Output: </label>
+							<textarea class="textareacss" name="problemtestcaseoutput" id="testcaseoutput"  readonly></textarea><br>
+						</div>
+
+					
+					<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
+						<br><br>
+						<div class="box">
+							<div id="contestlanguageproblem"  style="margin-left:1%" class="row">
+								
+								 <ul class="nav nav-pills"> 
+									  <li class="active" data-toggle="pill" ><a id="cpp" href="#">C++</a></li>
+									  <li  data-toggle="pill" ><a id="py" href="#">PYTHON</a></li>
+									  <li  data-toggle="pill"><a id="java" href="#">JAVA</a></li>
+								</ul>
+								<br><br>
+							</div>
+							<div id="submitloading" style="display:none;">Please wait...</div>
+							<input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-5" data-multiple-caption="{count} files selected" multiple />
+							<label for="file-5"><figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg></figure> <span></span></label>
+							<br><input type="button" id="submitcode" class="btn btn-primary" value="submit your code"/>
+						</div>	        
 					</div>
 
-				
-				<div id="contestquestionsubmit" class="col-xs-12 col-md-11  row" style="display:none">
-					<br><br>
-					<div class="box">
-						<div id="contestlanguageproblem"  style="margin-left:1%" class="row">
+					<div id="addtestcase" class="col-xs-12 col-md-12  row" style="display:none">
 							
-							 <ul class="nav nav-pills"> 
-								  <li class="active" data-toggle="pill" ><a id="cpp" href="#">C++</a></li>
-								  <li  data-toggle="pill" ><a id="py" href="#">PYTHON</a></li>
-								  <li  data-toggle="pill"><a id="java" href="#">JAVA</a></li>
-							</ul>
-							<br><br>
-						</div>
-						<div id="submitloading" style="display:none;">Please wait...</div>
-						<input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-5" data-multiple-caption="{count} files selected" multiple />
-						<label for="file-5"><figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg></figure> <span></span></label>
-						<br><input type="button" id="submitcode" class="btn btn-primary" value="submit your code"/>
-					</div>	        
-				</div>
-
-				<div id="addtestcase" class="col-xs-12 col-md-12  row" style="display:none">
-						
-					<!--<input id="input-1" name="input1[]" type="file"  class="file-loading inputs">/-->	
-						<div class="box">
-							<p > Add testcase file for this problem. Please upload your ZIP file </p>
-							<div id="testcaseloading" style="display:none">Please wait...</div>
-							<input type="file" name="file-6[]" id="file-6" class="inputfile inputfile-5" />
-							<label for="file-6"><figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg></figure> <span></span></label>
-							<br><input type="button" id="submittestcase" class="btn btn-primary" value="Add testcase"/>
-						</div>
-					</div>	
-				<div id="contesteditproblems" class="col-xs-12 col-md-11  row" style="display:none">
-					<input type="button" id="editproblemtbtn" class="btn btn-primary" value="Edit problem"/>					        
-				</div>
-			</div>
-			<div id="contestrank" class="CSSTableGenerator" style="display:none">
-				<table id="contestranklist">
-                  
-                </table>
-				</div>
-			<div id="contestteams" class="CSSTableGenerator" style="display:none">
-				<div id="acceptorrejectloading" style="display:none">Please wait...</div>
-				<table id="contestteamstbl">
-					<tr>						  
-						<td > Team name </td>
-						
-						<td > Members </td>
-						<td > Admin </td>
-						<td> Accept or Reject </td>	
-					</tr>
-				</table>
-			</div>						 
-	    </div>	  
-   	</div>  
-</div>
+						<!--<input id="input-1" name="input1[]" type="file"  class="file-loading inputs">/-->	
+							<div class="box">
+								<p > Add testcase file for this problem. Please upload your ZIP file </p>
+								<div id="testcaseloading" style="display:none">Please wait...</div>
+								<input type="file" name="file-6[]" id="file-6" class="inputfile inputfile-5" />
+								<label for="file-6"><figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg></figure> <span></span></label>
+								<br><input type="button" id="submittestcase" class="btn btn-primary" value="Add testcase"/>
+							</div>
+						</div>	
+					<div id="contesteditproblems" class="col-xs-12 col-md-11  row" style="display:none">
+						<input type="button" id="editproblemtbtn" class="btn btn-primary" value="Edit problem"/>					        
+					</div>
+				</div>					 
+			</div>	  
+		</div>  
+	</div>
 </body>
 
 <script>
@@ -347,7 +214,7 @@
 		});
 		
 //  ///////////////////////////////////
-	if(getAbsolutePath()==="/contest/"){
+	if(loc.pathname==="/contest/"){
 	  contestid = '{{contest_id }}';
 	  //alert(contestid);
 	 $( '#getidcontest ' ).html(contestid);	
@@ -453,184 +320,9 @@
 	//alert("/contest/"+contestname+"/details_page/");
 	
 	}
-	else{
-		//$("#titlePage").text("Your contests");
-		$('#createcontestdiv').show();
-		$('#contestinfoforusers').show();
-		var id = '{{user_id }}'; 
-		
-		 $.ajax({
-            type: "GET",
-            url : "/user/get_profile/by_id/"+id+"/",
-            dataType: "html",
-            contentType: "application/json", 				
-            success: function (data) {
-		        username=(JSON.parse(data)).username;
-				checkprofile(username);
-				$( '#getusername ' ).append(username);			
-				$( '#getidprof ' ).html(id);
-				$('#loading').hide();
-				$('#body').show();
-				$.ajax({
-					type: "GET",
-					url : "/user/"+id+"/teams/",
-					dataType: "html", 				
-					success: function (data) {								
-						var data=(JSON.parse(data)).teams;
-					    var contestlist=null;
-						for (var i = 0; i < data.length; i++) {
-							var teamname=data[i].name;
-							var teamitem=data[i].contests;
-							//alert(checkprofile(username));
-							 if(teamitem==""){
-								 
-								 if(username==userlogin){
-									$('#contestinfo').html("You are not in any contest right now, please create a team and join to contests!");
-								}else{
-									$('#contestinfo').html("This user is not in any contest right now!");									
-								}
-							}	
-							for (var j = 0;j < teamitem.length; j++) {	
-								contestlist+=teamitem[j].name;			
-								tr = $('<tr id="Q'+i+'">');		
-								tr.append('<td  style="display:none">' + data[i].id + "</td>");
-								tr.append('<td> <a href="#"  id="'+teamitem[j].name+'">' + teamitem[j].name  +"("+teamitem[j].status+")" + "</a></td>");
-								tr.append("<td>" +convertUTCDateToLocalDate(teamitem[j].starts_on) + "</td>");
-								tr.append("<td>" + convertUTCDateToLocalDate(teamitem[j].ends_on) + "</td>");
-								tr.append('<td><a href="#" id="'+teamname+'">' + teamname + '</a></td></tr>');
-								$('#contestinfo').append(tr);
-								$(("#" + teamname)).attr("href",("/team/"+teamname+"/"));
-								$(("#" + teamitem[j].name)).attr("href",("/contest/"+teamitem[j].name+"/"));
-							}							
-						}
-						if(contestlist==null){
-							if(username==userlogin){
-									$('#contestinfo').html("You are not in any contest right now, please create a team and join to contests!");
-								}else{
-									$('#contestinfo').html("This user is not in any contest right now!");									
-								}						
-						}
-					},
-				   error: function (request) { 
-						if(request.status===405){
-						   window.location.replace("/user/"); 
-					   }
-						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");                     	      		
-					}
-				});	
-			},
-			 error: function (request) { 
-				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 
-					if(request.status===405){
-						  window.location.replace("/user/"); 
-					}                    	      		
-      		}
-		});
-		 
- 
- $('#contest').css('background-color', '#355C7D');
- }
+	
 // ////////////////////////////////////////////////////////////////////
-	$('.edit-order').click(function(){
 
-		if ($(this).find('button').html() == 'Edit Order')
-		{
-					//alert("in click");
-			$( ".sortable" ).sortable();
-			$( ".sortable" ).disableSelection();
-			$(this).find('button').html('Submit');
-		}
-		else
-		{
-			var myInfoList = [];
-			var counter = 1;
-			$('.sortable').find('li').each(function(){
-				myInfoList.push(JSON.stringify({"id": parseInt($(this).find('input').val()), "order": counter, "title": $(this).find('div.title').text()}));
-				counter += 1;
-			});
-			$.ajax({
-				type: "PUT",
-				url : '/contest/' + '{{contest_id}}' + '/',
-				contentType: "application/json",
-				dataType: "html",
-				data: JSON.stringify({"problems" : myInfoList}),
-				success: function (data) {
-					swal({
-								title: "Good!",
-								text: "Order successfully Edited",
-								type: "success",
-								showCancelButton: true,
-								closeOnConfirm: false,
-								showLoaderOnConfirm: true,
-							},
-							function(){
-								location.reload();
-							});
-				},
-				error: function (request, status, error) {
-					 if(request.status===405){
-				   window.location.replace("/user/"); 
-			   }
-					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
-				}
-			});
-		}
-	});
-		$('.close-page').removeClass('close-page').addClass('open-page');
-		$('#create_contest_button').click(function() {
-			var name = $("input#contest_name").val();
-			var c_s = $("#contest_start").find("input").val();
-			var c_e = $("#contest_end").find("input").val();
-			var start_date = new Date(c_s);
-			var end_date = new Date(c_e);
-			
-			/*
-			function convertDateToUTC(date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
-			*/
-			function convertDateToUTCMilliSeconds(date) {return (date.getTime() + (date.getTimezoneOffset() * 60000)); }
-			
-			/*
-			start_date = convertDateToUTC(start_date);
-			var startMillis = start_date.getTime()/1000;
-			
-			end_date = convertDateToUTC(end_date);
-			var endMillis = end_date.getTime()/1000;
-			*/
-			//alert(moment(start_date));
-			var start_seconds = (convertlocaltoUCP(c_s)/1000)+30600;
-			var end_seconds   = (convertlocaltoUCP(c_e)/1000)+30600;
-			//alert('{"name" : "' + name + '", "starts_on" : "' + start_seconds + '", "ends_on" : "' + end_seconds + '"}');
-			$.ajax({
-          		type: "POST",
-          		url : '/contest/',
-          		contentType: "application/json",
-          		dataType: "html",
-          		data: '{"name" : "' + name + '", "starts_on" : "' + start_seconds + '", "ends_on" : "' + end_seconds + '"}',
-          		success: function (data) {
-					swal({
-					  title: "Good!",
-					  text: "Contest successfully Created",
-					  type: "success",
-					 
-					  closeOnConfirm: false,
-					  showLoaderOnConfirm: true,
-					},
-					function(){
-					 window.location.replace("/contest/" + name + "/");
-					});             		
-          		},
-          		error: function (request, status, error) {
-					 if(request.status===405){
-				   window.location.replace("/user/"); 
-			   }
-					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error"); 	
-          		}
-        	});			
-		});
-
-		
-
-	});
 	function countdown(stime,etime){	
 		var days, hours, minutes, seconds;
 		var countdown = document.getElementById("countdown");
@@ -1366,44 +1058,7 @@ if(canedit==="no"){
 	});	
 	$("#getusername").click(function() {
 				window.location.replace("/user/"+username+"/");
-			});
-	$("#joinbtn").click(function() {
-		swal({
-	  title: " ",
-	  text: "Please write your team name",
-	  type: "input",
-	  showCancelButton: true,
-	  closeOnConfirm: false,
-	  showLoaderOnConfirm: true,
-	  animation: "slide-from-top",
-	  inputPlaceholder: "Team name"
-	},
-	function(inputValue){
-	  if (inputValue === false) return false;
-	  
-	  if (inputValue === "") {
-		swal.showInputError("You need to write something!");
-		return false;
-	  }
-	  //alert('{"contest_id": "' + contestid + '", "team_name" : "' + inputValue + '"}');
-	  $.ajax({
-				type: "POST",
-				url :'/team/join_request/',
-				data: '{"contest_id": "' + contestid + '", "team_name" : "' + inputValue + '"}',
-				dataType: "html",
-				contentType: "application/json",
-				success: function (data) {
-					swal("Good!","Your request submited successfully" , "success") ; 
-				} ,
-			  error: function (request, status, error) { 
-			    if(request.status===405){
-				   window.location.replace("/user/"); 
-			   }
-					swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
-			   }  
-		});
-	});	
-	});	
+			});	
 	$("#backtoproblemlistbtn").click(function() {			
 		 $("#backtoproblemlistbtn").hide();
 		 $(".backtoprofile").show();
@@ -1411,214 +1066,17 @@ if(canedit==="no"){
 		 
 	});	
 	$("#contestteam").click(function() { 
-		 $('.rejectteam').prop('disabled', false);
-		$('.acceptteam').prop('disabled', false);		
-		  $.ajax({
-				type: "GET",
-				url :"/contest/"+contestid+"/pending_teams/",
-				dataType: "html",
-				contentType: "application/json", 
-				async:false,				
-				success: function (data) {
-					//alert(data);
-				window.history.pushState("", "title", "/contest/"+contestname+"/");
-					reset();
-				 $('#contestteams').show();
-				 $('#contestteamstbl').html("<tr><td > Team name </td><td > Members </td><td > Admin </td><td> Accept or Reject </td></tr> ");
-					document.getElementById('titlePage').innerHTML="Teams request" ;
-					 $('#contestteam').css('background-color', '#355C7D');
-					//alert(data);
-					 
-						var data=(JSON.parse(data)).teams;
-						if(data==""){
-							$('#contestteams').html("there is no pending request to show");
-						}
-						//alert(data.length);
-						//alert(data[0].name+","+data.length);
-						 var tr;
-						for (var i = 0; i < data.length; i++) {
-							//alert(data[i].members.length);
-							tr = '<tr id="'+data[i].id+'">';
-							//alert("team"+i);								
-							tr+='<td><a href="#" class="reqteam">' + data[i].name + '</a></td>';
-							
-							
-							if(data[i].members.length ==2){	
-								tr+="<td>" + data[i].members[0].username +","+data[i].members[1].username + "</td>";		
-							}
-							else if(data[i].members.length ==1){	
-								tr+="<td>" + data[i].members[0].username + "</td>";	
-							}
-							else {	
-								tr+="<td> -</td>";		
-							}
-							tr+='<td><a href="#" id="u'+data[i].owner.username+'">' + data[i].owner.username + '</a></td>';
-							tr+='<td>  <button type="submit" class="btn btn-success submitteam" ><i class="fa fa-check"></i> Accept</button><button  type="submit" class="btn btn-danger rejectteam"><i class="fa fa-remove"></i> Reject</button> </td></tr>';
-							
-							$('#contestteamstbl').append(tr);
-							
-							$('.reqteam').attr("href",("/team/"+data[i].name+"/"))	;
-							$(("#u"+data[i].owner.username)).attr("href",("/user/"+data[i].owner.username+"/"))	;
-						}
-						$('.rejectteam').click(function(){
-						id = $(this).closest('tr').attr('id');
-						acceptorrejectteam(id,false);
-											
-						});
-						$('.submitteam').click(function(){
-						id = $(this).closest('tr').attr('id');
-						acceptorrejectteam(id,true);
-										
-						});		
-					
-				},
-			  error: function (request, status, error) { 
-			    if(request.status===405){
-				   window.location.replace("/user/"); 
-			   	}
-						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;		              
-			   }
-		});
+		
 		
 	});	
 	$("#rank").click(function( ){
 			window.history.pushState("SADASD", "title", "/contest/"+contestname+"/details_page/");			
 		});		
-	$("#team").click(function() {
-		window.location.replace("/user/"+username+"/team/");
-	  });	
+		
 	$('#contestnameitem').click(function( ){
 		backtocontestpage(); 
 	});
-	$editContest = function()
-	{
-		if ($("#editContestButton").html() == 'Edit')
-		{
-			$("#editContestButton").data('name', $('.editable').html());
-			$('.editable').replaceWith($('<input class="editable" value="' + $('.editable').html() + '">'));
-
-			$(".sector-block-contest").each(function()
-			{
-				if ($(this).find('div').html() == 'starts on')
-				{
-					$(this).data('data', $(this).find('p').html());
-					$(this).find('p').replaceWith($('<input type="text" class="form-control" id="datetimepicker" value="' + $(this).find('p').html() + '" />'));
-				}
-				else if ($(this).find('div').html() == 'ends on')
-				{
-					$(this).data('data', $(this).find('p').html());
-					$(this).find('p').replaceWith($('<input type="text" class="form-control" id="datetimepicker2" value="' + $(this).find('p').html() + '" />'));
-				}
-			});
-			$("#datetimepicker").datetimepicker();
-			$("#datetimepicker2").datetimepicker();
-			document.getElementById("cancelContestButton").style.display = 'block';
-			$("#editContestButton").html("Submit");
-		}
-		else
-		{
-			var myData = {};
-			var isSend = false;
-			if($("#datetimepicker").parent().data('data') != $("#datetimepicker").val() && $("#datetimepicker").val() != "")
-			{
-				function convertDateToUTCMilliSeconds(date) {return (date.getTime()); }
-				/*
-				var myRawData = $("#datetimepicker").val().split(' ');
-				var myDate;
-				myDate = new Date;
-				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth(myRawData[0].split('/')[0]);
-				myDate.setDate(myRawData[0].split('/')[1]);
-				if (myRawData[2] == 'PM')
-				{
-					myDate.setHours(myRawData[1].split(':')[0] + 12);
-				}
-				else
-				{
-					myDate.setHours(myRawData[1].split(':')[0]);
-				}
-				myDate.setMinutes((myRawData[1].split(':')[1]));
-				myDate = new Date(myDate.toUTCString());
-				*/
-				var sd_input = $("#datetimepicker").val();
-				var sd = new Date(sd_input);
-				var start_d = (convertlocaltoUCP(sd)/1000)+30600;
-				//myData["starts_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
-				myData["starts_on"] = start_d;
-				//alert(myDate);
-				isSend = true;
-			}
-			if ($("#datetimepicker2").parent().data('data') != $("#datetimepicker2").val() && $("#datetimepicker2").val() != "")
-			{
-
-				function convertDateToUTCMilliSeconds(date) {return (date.getTime()); }
-				/*
-				var myRawData = $("#datetimepicker2").val().split(' ');
-				var myDate;
-				myDate = new Date;
-				myDate.setYear(myRawData[0].split('/')[2]);
-				myDate.setMonth((myRawData[0].split('/')[0]));
-				myDate.setDate(myRawData[0].split('/')[1]);
-				
-				if (myRawData[2] == 'PM')
-				{
-					myDate.setHours(myRawData[1].split(':')[0] + 12);
-				}
-				else
-				{
-					myDate.setHours(myRawData[1].split(':')[0]);
-				}
-				myDate.setMinutes(myRawData[1].split(':')[1]);
-				myDate = new Date(myDate.toUTCString());
-				myData["ends_on"] = myDate.getTime()/1000 + (myDate.getTimezoneOffset() * 6);
-				*/
-				var ed_input = $("#datetimepicker2").val();
-				var ed = new Date(ed_input);
-				var end_d = (convertlocaltoUCP(ed)/1000)+30600;
-				myData["ends_on"] = end_d;
-				
-				isSend = true;
-			}
-			if ($(".editable").val() != $("#editContestButton").data('name'))
-			{
-				myData["name"] = $(".editable").val();
-				isSend = true;
-			}
-			if (isSend)
-			{
-				$.ajax({
-					type: "PUT",
-					url: '/contest/' + $(".contest-id").val() +'/',
-					dataType: "html",
-					contentType: "application/json",
-					data: JSON.stringify(myData),
-					success: function (data) {
-						swal("Good!","edited", "success");
-						setTimeout(function(){ window.location = "/contest/" + $(".editable").val() + "/"; }, 2000);
-					},
-					error: function (request, status, error) {
-						 if(request.status===405){
-				   window.location.replace("/user/"); 
-			   }
-						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error") ;
-					}
-				});
-			}
-		}
-	};
-
-	$cancelContest = function()
-	{
-		$('.editable').replaceWith($('<p class="editable">' + $('.editable').val() + '</p>'));
-		$(".sector-block-contest").each(function(){
-			if ($(this).find('div').html() == 'starts on' || $(this).find('div').html() == 'ends on')
-			{
-				$(this).find('input').replaceWith($('<p>' + $(this).data('data') + '</p>'));
-			}
-		});
-		document.getElementById("cancelContestButton").style.display = 'none';
-		$("#editContestButton").html("Edit");
-	}
+	
 
 </script>
 </html>

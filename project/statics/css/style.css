@@ -73,8 +73,35 @@ select {
   color: #4c4c4c;
   bottom:0;
 }
+.button{
+-webkit-border-radius: 0px 4px 4px 0px/5px 5px 4px 4px; 
+  -moz-border-radius: 0px 4px 4px 0px/0px 0px 4px 4px; 
+  border-radius: 4px; 
+  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  border: solid 1px #cbc9c9;
 
-input[type=text],input[type=email],input[type=password]{
+  margin-top: 20px; 
+  padding-left: 10px;
+width: 220px; 
+  height: 39px; 
+}
+.text{
+width: 220px; 
+  height: 39px; 
+  -webkit-border-radius: 0px 4px 4px 0px/5px 5px 4px 4px; 
+  -moz-border-radius: 0px 4px 4px 0px/0px 0px 4px 4px; 
+  border-radius: 4px; 
+  background-color: #fff; 
+  -webkit-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
+  border: solid 1px #cbc9c9;
+  margin-top: 20px; 
+  padding-left: 10px;
+}
+input[type=email],input[type=password]{
   width: 220px; 
   height: 39px; 
   -webkit-border-radius: 0px 4px 4px 0px/5px 5px 4px 4px; 
@@ -85,7 +112,6 @@ input[type=text],input[type=email],input[type=password]{
   -moz-box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
   box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
   border: solid 1px #cbc9c9;
-
   margin-top: 20px; 
   padding-left: 10px;
 }
@@ -867,7 +893,7 @@ color: #1B325F;
      color:#fff;
     background-color:#1B325F;
     }
-
+	
 /****************************/
 
 

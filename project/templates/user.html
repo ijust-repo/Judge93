@@ -56,9 +56,9 @@
 		<div style=" border-bottom: 1px solid #1B325F;">
 		<p >Login</p>
 		</div>
-		<input type="text" name="username_login" id="username_login" placeholder="Username" required /><br>             
+		<input type="text" class="text" name="username_login" id="username_login" placeholder="Username" required /><br>             
         <input type="password" name="password_login" id="password_login" placeholder="Password" required /><br>                
-        <input type="button" name="login" id="loginbtn" class="btn btn-primary "value="Login" /><br><br>
+        <input type="button" name="login" id="loginbtn" class="btn btn-primary button"value="Login" /><br><br>
         <a id="forgot" href="#forgot">Forgot your password?</a>
         <div id="passoruser"  style="display:none">
         <a id="forgotbyemail" href="#forgot">Reset password by email</a><br>
@@ -70,12 +70,12 @@
 		<div style=" border-bottom: 1px solid #1B325F;">
 		<p >Sign up</p>
 		</div>	        
-		<input type="text" name="username" id="username_signup" placeholder="Username" required /><br>             
+		<input type="text" name="username" class="text" id="username_signup" placeholder="Username" required /><br>             
         <input type="password" name="password" id="password_signup" placeholder="Password" required /><br>    
         <input type="password" name="password" id="re-password_signup" placeholder="re-Enter Password" required /><br>
         <input type="email" name="username" id="email_signup" placeholder="Email" /><br>
         <div class="g-recaptcha" data-sitekey={{ site_key }}></div>
-        <input type="button" name="signup" id="signupbtn" class="btn btn-primary "value="register" /><br>
+        <input type="button" name="signup" id="signupbtn" class="btn btn-primary button"value="register" /><br>
         <div id="signuploading" style="display:none">Please wait...</div>
     </div>
     <div id="aboutus" class="tab-pane fade">
