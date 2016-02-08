@@ -941,38 +941,7 @@ if(canedit==="no"){
 						.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
 						.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
 					});
-					 $("#submitcode").click(function() {
-						 alert("hello");
-						 var filetype= $('.nav-pills > li.active a').attr("id");
-						 var file1 = $("#file-5")[0].files[0];
-						 //alert("/contest/submit/"+contestid+"//"+(parseInt(id)+1)+"//");
-						 $.ajax({
-							type: "POST",
-							url : "/contest/submit/"+contestid+"/"+teamid+"/"+(parseInt(id)+1)+"/"+filetype+"/",
-							contentType: false,
-							processData: false,
-							dataType: "html",			
-							data:file1,
-							beforeSend: function() {
-								$('#submitloading').show();
-							},
-							success: function (data) {
-								if((JSON.parse(data)).status !="Accepted"){
-										swal("OoOops!!!", "You have:"+(JSON.parse(data)).status, "error");	 	
-								}else{
-										swal("Accepted!","Your answer submited successfully", "success");
-								}				  
-							},
-							error: function (request, status, error) {
-								swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
-							},
-							complete: function(){
-									$('#submitloading').hide();
-									$("#file-5").next('label').find( 'span' ).html(" ");
-									$("#file-5").value(" ");
-							}
-						});		
-					});
+					
 				},
 				 error: function (request, status, error) { 
 					if(request.status===405)
@@ -1009,37 +978,7 @@ if(canedit==="no"){
 		.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
 		.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
 	});
-	$("#submittestcase").click(function() {
-				var file = $("#file-6")[0].files[0];
-				   $.ajax({
-					type: "POST",
-					url : "/contest/" + contestid + "/testcase/" +problemid + "/",
-				   contentType: false,
-				   processData: false,
-					dataType: "html",			
-					data:file,
-					beforeSend: function() {
-						
-							$('#testcaseloading').show();
-						},
-					success: function (data) {
-						swal("Good!", " testcase added successfully", "success");
-						  
-					},
-					error: function (request, status, error) {
-						 if(request.status===405){
-						   window.location.replace("/user/"); 
-					   }
-						swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
-					},
-					 complete: function(){
-							$('#testcaseloading').hide();
-							$("#file-6").next('label').find( 'span' ).html(" ");
-							$("#file-6").value(" ");
-						}
-					  });
-
-			});
+	
 
 	
 }
@@ -1145,48 +1084,98 @@ if(canedit==="no"){
 				}
 		});
 	}
+	$("#submittestcase").click(function() {
+		var file = $("#file-6")[0].files[0];
+		$.ajax({
+			type: "POST",
+			url : "/contest/" + contestid + "/testcase/" +problemid + "/",
+			contentType: false,
+			processData: false,
+			dataType: "html",			
+			data:file,
+			beforeSend: function() {	
+				$('#testcaseloading').show();
+			},
+			success: function (data) {
+				swal("Good!", " testcase added successfully", "success");			  
+			},
+			error: function (request, status, error) {
+				if(request.status===405)
+					  window.location.replace("/user/");  
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+			},
+			complete: function(){
+				$('#testcaseloading').hide();
+				$("#file-6").next('label').find( 'span' ).html(" ");
+				$("#file-6").value(" ");
+			}
+		});
+	});
+	$("#submitcode").click(function() {
+		//alert("hello");
+		var filetype= $('.nav-pills > li.active a').attr("id");
+		var file1 = $("#file-5")[0].files[0];
+		//alert("/contest/submit/"+contestid+"//"+(parseInt(id)+1)+"//");
+		$.ajax({
+			type: "POST",
+			url : "/contest/submit/"+contestid+"/"+teamid+"/"+(parseInt(id)+1)+"/"+filetype+"/",
+			contentType: false,
+			processData: false,
+			dataType: "html",			
+			data:file1,
+			beforeSend: function() {
+				$('#submitloading').show();
+			},
+			success: function (data) {
+				if((JSON.parse(data)).status !="Accepted")
+					swal("OoOops!!!", "You have:"+(JSON.parse(data)).status, "error");	 	
+				else
+					swal("Accepted!","Your answer submited successfully", "success");
+								  
+			},
+			error: function (request, status, error) {
+				swal("Sorry!", (JSON.parse(request.responseText)).errors, "error");
+			},
+			complete: function(){
+				$('#submitloading').hide();
+				$("#file-5").next('label').find( 'span' ).html(" ");
+				$("#file-5").value(" ");
+			}
+		});		
+	});
 	$("#questions").click(function() {
 	window.history.pushState("", "title", "/contest/"+contestname+"/");
-	
-	$.ajax({
+		$.ajax({
             type: "GET",
             url :"/user/"+userloginid+"/contest/"+contestid+"/",
             dataType: "html",
             contentType: "application/json",		 				
             success: function (data) {
-			getproblem((JSON.parse(data)).id);
-			
-	
-		},
-		error: function (request, status,error) {
-						 if(request.status===405){
-				   window.location.replace("/user/"); 
-			   }
-			   
-		 $.ajax({
-            type: "GET",
-            url : '/user/get_profile/',
-            dataType: "html", 
-            async:false,				
-            success: function (data) {
-			userlogin=(JSON.parse(data)).username;
-			if(contestadmin==userlogin){
-				getproblem("admin");
-			}else{
-				swal("Sorry!","You can't see problems", "error");
+				getproblem((JSON.parse(data)).id);
+			},
+			error: function (request, status,error) {
+				if(request.status===405)
+					   window.location.replace("/user/"); 
+				 $.ajax({
+					type: "GET",
+					url : '/user/get_profile/',
+					dataType: "html", 
+					async:false,				
+					success: function (data) {
+					userlogin=(JSON.parse(data)).username;
+					if(contestadmin==userlogin)
+						getproblem("admin");
+					else
+						swal("Sorry!","You can't see problems", "error");
+					},
+					error: function (request) { 
+						window.location.replace("/user/"); 							
+					}
+				});				  
 			}
-            },
-           error: function (request) { 
-				   window.location.replace("/user/"); 
-	       	      		
-      		}
-		
 		});
-				  
-			   }
-	});
 	 });	 
-	 $("#editproblemtbtn").click(function() {
+	$("#editproblemtbtn").click(function() {
 		$('#maintitr').show();
 		reset();
 		 document.getElementById('problemhead').style.display = 'none';
@@ -1207,7 +1196,7 @@ if(canedit==="no"){
 		 $("#problemtestcaseoutput").val($("#testcaseoutput").text()); 			
 			 
 	 });
-	 $("#editproblemsubmitbtn").click(function() {
+	$("#editproblemsubmitbtn").click(function() {
 		var problemtitle = $("#problemtitle").val();
 		var problemtimelimit = $("#problemtimelimit").val();
 		var problemspacelimit = $("#problemspacelimit").val();
