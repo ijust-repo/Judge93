@@ -31,6 +31,12 @@ class Signup(Form):
             return False
         return True
 
+    def verify_username(self):
+        import re
+        if self.username.data == re.search('[\w.]*', self.username.data).group():
+            return True
+        return False
+
 
 class ChangeProfile(Form):
     new_username = StringField()

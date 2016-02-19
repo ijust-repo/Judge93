@@ -91,6 +91,8 @@ def signup():
 		email = form.data['email']
 		password = form.data['password']
 		recaptcha = form.data['recaptcha']
+		if not form.verify_username():
+			return jsonify(errors='Username may only contain alphanumeric characters, "_" or "."'), 406
 		if form.verify_captcha(recaptcha):
 			try:
 				obj = User(username=username, email=email)
@@ -99,13 +101,12 @@ def signup():
 			except NotUniqueError, err:
 				err = err.args[0]
 				if '$username' in err:
-					form.username.errors.append(form.username.gettext('Username already exists.'))
+					return jsonify(errors='Username already exists.'), 409
 				elif '$email' in err:
-					form.email.errors.append(form.email.gettext('Email already exists.'))
-				return jsonify(errors=form.errors), 409
+					return jsonify(errors='Email already exists.'), 409
 			return "", 201
-        else:
-            return form.recaptcha.errors.append(form.recaptcha.gettext('Wrong captcha.')), 406
+		else:
+			return jsonify(errors='Wrong captcha.'), 406
 	return "", 406
 
 
