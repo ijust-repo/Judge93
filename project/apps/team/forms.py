@@ -9,6 +9,13 @@ class CreateTeam(Form):
 	name = StringField(validators=[validators.DataRequired()])
 	members = FieldList(StringField())
 
+	def verify_name(self):
+        	import re
+        	if self.name.data == re.search('[\w.]*', self.name.data).group():
+            		return True
+        	return False
+
+
 class AddMember(Form):
         name    = StringField(validators=[validators.DataRequired()])
         members = FieldList(StringField())

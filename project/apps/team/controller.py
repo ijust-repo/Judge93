@@ -50,6 +50,8 @@ def create():
 	if form.validate():
 		name = form.data['name']
 		members = form.data ['members']
+		if not form.verify_name():
+			return jsonify(errors='Team name may only contain alphanumeric characters, "_" or "."'), 406
 		if (len(members) > 2) :
 			return jsonify(errors='Number of members must be under three!'), 406
 		try:
