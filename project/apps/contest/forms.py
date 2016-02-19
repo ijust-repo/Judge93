@@ -11,6 +11,12 @@ class CreateContest(Form):
 	starts_on = FloatField(validators=[validators.DataRequired()])
 	ends_on =  FloatField(validators=[validators.DataRequired()])
 
+	def verify_name(self):
+        	import re
+        	if self.name.data == re.search('[\w.]*', self.name.data).group():
+            		return True
+        	return False
+
 
 class TestCase (Form):
 	input = StringField(validators=[validators.DataRequired()])

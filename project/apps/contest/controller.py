@@ -58,6 +58,8 @@ def create():
 		name = form.data['name']
 		starts_on = form.data ['starts_on']
 		ends_on = form.data ['ends_on']
+		if not form.verify_name():
+			return jsonify(errors='Contest name may only contain alphanumeric characters, "_" or "."'), 406
 		if (starts_on > ends_on) :
 			return jsonify(errors='Start date must be earlier than end date!'), 406
 		if (datetime.utcnow() > datetime.fromtimestamp(starts_on) ) :
