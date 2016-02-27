@@ -1421,3 +1421,70 @@ Example Request
 >- If team does not in contest, status code will be **406** and you will have errors like "this team does not exists in contest".
 
 --------
+
+Get team results
+===============
+
+Resource URL
+>Get
+'<string:contest_id>/results/team/<string:team_id>/'
+> **/contest/<string:contest_id>/results/team/<string:team_id>/**
+
+Resource Information
+>|Response formats|Requires authentication?|
+|:-:|:-:|
+|JSON|YES (must be authenticated)|
+
+Example Request
+```
+{
+  "results" : [
+        {
+          "problem_id" : 2,
+          "status" : "Wrong Answer",
+          "failed_tries" : 15,
+          "solved" : false
+        },
+        {
+          "problem_id" : 3,
+          "status" : "Accepted",
+          "failed_tries" : 0,
+          "solved_on" : ISODate("2016-02-23T23:54:08.784Z"),
+          "solved" : true
+        },
+        {
+          "problem_id" : 4,
+          "status" : "Accepted",
+          "failed_tries" : 1,
+          "solved_on" : ISODate("2016-02-24T00:03:14.437Z"),
+          "solved" : true
+        },
+        {
+          "problem_id" : 5,
+          "status" : "Accepted",
+          "failed_tries" : 0,
+          "solved_on" : ISODate("2016-02-24T00:16:48.763Z"),
+          "solved" : true
+        },
+        {
+          "problem_id" : 6,
+          "status" : "Accepted",
+          "failed_tries" : 0,
+          "solved_on" : ISODate("2016-02-24T00:17:01.970Z"),
+          "solved" : true
+        },
+        {
+          "failed_tries" : 0,
+          "problem_id" : 1,
+          "solved" : true,
+          "solved_on" : ISODate("2016-02-24T00:19:28.218Z"),
+          "status" : "Accepted"
+        }
+      ]
+}
+```
+> **NOTE:**
+>- 
+
+--------
+

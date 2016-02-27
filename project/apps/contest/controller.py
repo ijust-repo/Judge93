@@ -3,6 +3,7 @@ __author__ = ['Kia' , 'SALAR', 'Mahnoosh' ,'F4RZ4N']
 
 #flask import
 from flask import jsonify, request, render_template
+from bson import ObjectId
 
 #project import
 from project.apps.user import user
@@ -23,7 +24,7 @@ from project.apps.contest.models import Contest, Problem, Testcase, TeamInfo, Re
 import os , zipfile, shutil
 from zipfile import BadZipfile
 from datetime import datetime
-from mongoengine import DoesNotExist, NotUniqueError
+from mongoengine import DoesNotExist, ValidationError, NotUniqueError, Q
 from werkzeug.exceptions import RequestEntityTooLarge
 
 import controller_submission
@@ -239,10 +240,10 @@ def contests_list():
 			start_date_to = datetime.fromtimestamp(start_date_to)
 
 		contests_list = []
-		for obj in (Contest.objects(created_on__gte = create_date_from) and
-					Contest.objects(starts_on__gte = start_date_from) and
-					Contest.objects(created_on__lte = create_date_to) and
-					Contest.objects(starts_on__lte = start_date_to)):
+		for obj in Contest.objects(Q(created_on__gte = create_date_from) &
+									Q(starts_on__gte = start_date_from) &
+									Q(created_on__lte = create_date_to) &
+									Q(starts_on__lte = start_date_to)):
 
 				contests_list.append(obj.to_json())
 		return jsonify(contests = contests_list) , 200
@@ -516,4 +517,23 @@ def accepting_rejecting (contest_id,team_id):
 	except DoesNotExist:
 		return jsonify(errors='Team or Contest does not exist!'), 406
 
+
+@contest.route('<string:contest_id>/results/team/<string:team_id>/', methods=['GET'])
+def get_team_results(contest_id, team_id):
+	try:
+		info = Contest.objects.get(pk=contest_id).teams
+		for i in info:
+			if str(i.team.pk) == team_id:
+				result_list = []
+				for result in i.problem_results:
+					result_dict = {}
+					result_dict["failed_tries"] = (result.failed_tries)
+					result_dict["solved"] = (result.solved)
+					result_dict["solved_on"] = (result.solved_on)
+					result_dict["problem_id"] = (result.problem_id)
+					result_dict["status"] = (result.status)
+					result_list.append(result_dict)
+				return jsonify(results=result_list), 200
+	except DoesNotExist, ValidationError:
+		return '', 406
 
