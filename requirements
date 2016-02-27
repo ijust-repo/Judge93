@@ -8,3 +8,4 @@ six==1.9.0
 WTForms==2.0.2
 WTForms-JSON==0.2.9
 flask-limiter==0.9
+celery==3.1.20
